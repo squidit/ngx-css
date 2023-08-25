@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NgxCssComponent } from './ngx-css.component';
+import { SrcComponent } from './src.component';
 
-describe('NgxCssComponent', () => {
-  let component: NgxCssComponent;
-  let fixture: ComponentFixture<NgxCssComponent>;
+describe('SrcComponent', () => {
+  let component: SrcComponent;
+  let fixture: ComponentFixture<SrcComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [NgxCssComponent]
+      declarations: [SrcComponent]
     });
-    fixture = TestBed.createComponent(NgxCssComponent);
+    fixture = TestBed.createComponent(SrcComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
