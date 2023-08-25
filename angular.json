@@ -17,6 +17,10 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": [
+              "lodash"
+            ],
+            "preserveSymlinks": true,
             "outputPath": "dist/docs",
             "index": "docs/src/index.html",
             "main": "docs/src/main.ts",
@@ -27,12 +31,19 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "docs/src/favicon.ico",
-              "docs/src/assets"
+              "docs/src/assets",
+              {
+                "glob": "**/*",
+                "input": "./node_modules/@squidit/css/dist/fonts",
+                "output": "docs/assets/fonts"
+              }
             ],
             "styles": [
               "docs/src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/@squidit/css/src/js/components/toast.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -90,12 +101,19 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "docs/src/favicon.ico",
-              "docs/src/assets"
+              "docs/src/assets",
+              {
+                "glob": "**/*",
+                "input": "./node_modules/@squidit/css/dist/fonts",
+                "output": "docs/assets/fonts"
+              }
             ],
             "styles": [
               "docs/src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/@squidit/css/src/js/components/toast.js"
+            ]
           }
         },
         "lint": {
@@ -106,7 +124,7 @@
         }
       }
     },
-    "src": {
+    "@squidit/ngx-css": {
       "projectType": "library",
       "root": "src",
       "sourceRoot": "src",

@@ -4,7 +4,8 @@
   "peerDependencies": {
     "@angular/common": "^16.2.0",
     "@angular/core": "^16.2.0",
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "@squidit/css": "latest"
   },
   "dependencies": {
     "tslib": "^2.3.0"

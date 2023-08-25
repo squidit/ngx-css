@@ -34,3 +34,4 @@ export class ColorsHelper {
     return `#${colorChannelRed}${colorChannelGreen}${colorChannelBlue}`
   }
 }
+

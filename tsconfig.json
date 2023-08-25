@@ -13,7 +13,7 @@
     "sourceMap": true,
     "paths": {
       "docs": ["dist/docs"],
-      "src": ["dist/src"]
+      "@squidit/ngx-css": ["dist/@squidit/ngx-css"]
     },
     "declaration": false,
     "downlevelIteration": true,

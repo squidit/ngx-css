@@ -1,11 +1,11 @@
 <button
   id="{{ id }}"
-  class="button button-{{ size }}"
+  class="button button-{{ color }} button-{{ size }}"
   [ngStyle]="{
     'font-size': fontSize,
-    color: hover ? setHoverText() : textColor,
-    'background-color': hover ? setHoverBg() : color,
-    'border-color': hover ? setHover(borderColor || textColor) : borderColor || textColor,
+    color: doHoverAction('text'),
+    'background-color': doHoverAction('background'),
+    'border-color': doHoverAction('border'),
     'border-style': borderStyle,
     'border-radius': borderRadius,
     'border-width': borderWidth,

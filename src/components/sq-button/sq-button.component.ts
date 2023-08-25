@@ -9,13 +9,13 @@ import { useMemo } from 'src/helpers/memo.helper'
 })
 export class SqButtonComponent {
   @Input() type = 'button'
-  @Input() color = 'var(--pink)'
-  @Input() textColor = 'var(--white-html)'
-  @Input() borderColor = 'transparent'
-  @Input() borderStyle = 'solid'
-  @Input() textTransform?: string = 'capitalize'
-  @Input() borderWidth = '1px'
-  @Input() borderRadius = '5px'
+  @Input() color = 'pink'
+  @Input() textColor = ''
+  @Input() borderColor = ''
+  @Input() borderStyle = ''
+  @Input() textTransform = ''
+  @Input() borderWidth = ''
+  @Input() borderRadius = ''
   @Input() size: 'sm' | 'md' | 'lg' | 'xl' = 'md'
   @Input() fontSize?: string
   @Input() loading?: boolean
@@ -38,6 +38,47 @@ export class SqButtonComponent {
   constructor(public element: ElementRef, public colorsHelper: ColorsHelper) {
     this.nativeElement = element.nativeElement
   }
+
+  validatePresetColors = () => {
+    return !!this.colorsHelper?.getCssVariableValue(this.color)
+  }
+
+  doHoverOnText = () => {
+    if (this.hover) {
+      return this.setHoverText()
+    }
+    return this.textColor
+  }
+
+  doHoverOnBackground = () => {
+    if (this.hover) {
+      return this.setHoverBg()
+    }
+    return this.color
+  }
+
+  doHoverOnBorder = () => {
+    if (this.hover) {
+      return this.setHover(this.borderColor || this.textColor || '')
+    }
+    return this.borderColor || this.textColor || ''
+  }
+
+  doHoverAction = useMemo((type: 'text' | 'background' | 'border') => {
+    if (this.validatePresetColors()) {
+      return ''
+    }
+    switch (type) {
+      case 'text':
+        return this.doHoverOnText()
+      case 'background':
+        return this.doHoverOnBackground()
+      case 'border':
+        return this.doHoverOnBorder()
+      default:
+        return ''
+    }
+  })
 
   setHover = useMemo((color: string) => {
     return this.colorsHelper?.lightenDarkenColor(this.colorsHelper?.getCssVariableValue(color), -25)
