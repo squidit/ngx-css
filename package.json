@@ -1,6 +1,6 @@
 {
-  "name": "ngx-css",
-  "version": "0.0.0",
+  "name": "@squidit/ngx-css",
+  "version": "0.0.1",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -8,7 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
-  "private": true,
+  "private": false,
   "dependencies": {
     "@angular/animations": "^16.2.0",
     "@angular/common": "^16.2.0",
@@ -23,6 +23,7 @@
     "zone.js": "~0.13.0"
   },
   "devDependencies": {
+    "@angular-devkit/build-angular": "^16.2.0",
     "@angular/cli": "~16.2.0",
     "@angular/compiler-cli": "^16.2.0",
     "@types/jasmine": "~4.3.0",
@@ -32,6 +33,29 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
+    "ng-packagr": "^16.2.0",
     "typescript": "~5.1.3"
-  }
+  },
+  "keywords": [
+    "css",
+    "sass",
+    "responsive",
+    "front-end",
+    "framework",
+    "web",
+    "angular"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/squidit/ngx-css.git"
+  },
+  "main": "dist/js/squid.min.js",
+  "style": "dist/css/squid.min.css",
+  "description": "Squid CSS Styleguide",
+  "bugs": {
+    "url": "https://github.com/squidit/ngx-css/issues"
+  },
+  "homepage": "https://squidit.github.io/css",
+  "author": "Squid <developers@squidit.com.br>",
+  "license": "MIT"
 }
