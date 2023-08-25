@@ -15,8 +15,8 @@ jobs:
           node-version: "18"
           registry-url: "https://registry.npmjs.org"
       - name: Install dependencies and build 🔧
-        run: npm install && npm run build:prod && cp -r dist/@squidit/ngx-css src/dist
+        run: npm install && npm run build:prod && cp -r dist/@squidit/ngx-css src/dist && cp README.md src/dist/README.md && cp src/package.json src/dist/package.json
       - name: Publish package on NPM 📦
-        run: cd src && npm publish --access public
+        run: cd src/dist && npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
