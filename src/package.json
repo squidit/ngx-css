@@ -10,5 +10,28 @@
   "dependencies": {
     "tslib": "^2.3.0"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "keywords": [
+    "css",
+    "sass",
+    "responsive",
+    "front-end",
+    "framework",
+    "web",
+    "angular"
+  ],
+  "files": [
+    "dist/@squidit/ngx-css/**/*.*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/squidit/ngx-css"
+  },
+  "description": "Squid CSS Styleguide",
+  "bugs": {
+    "url": "https://github.com/squidit/ngx-css/issues"
+  },
+  "homepage": "https://github.com/squidit/ngx-css",
+  "author": "Squid <developers@squidit.com.br>",
+  "license": "MIT"
 }

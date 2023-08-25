@@ -68,9 +68,7 @@
     "type": "git",
     "url": "git+https://github.com/squidit/ngx-css.git"
   },
-  "main": "dist/js/squid.min.js",
-  "style": "dist/css/squid.min.css",
-  "description": "Squid CSS Styleguide",
+  "description": "Squid NGX CSS Docs",
   "bugs": {
     "url": "https://github.com/squidit/ngx-css/issues"
   },
