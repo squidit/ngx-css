@@ -15,7 +15,9 @@ jobs:
           node-version: "18"
           registry-url: "https://registry.npmjs.org"
       - name: Install dependencies and build 🔧
-        run: npm install && npm run build:prod && cp -r dist/@squidit/ngx-css src/dist && cp README.md src/dist/README.md && cp src/package.json src/dist/package.json
+        run: npm install && npm run build:prod
+      - name: Organize Files 📁
+        run: cp -r dist/@squidit/ngx-css src/dist && cp README.md src/dist/README.md && cp src/package.json src/dist/package.json
       - name: Publish package on NPM 📦
         run: cd src/dist && npm publish --access public
         env:
