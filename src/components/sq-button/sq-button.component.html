@@ -1,0 +1,37 @@
+<button
+  id="{{ id }}"
+  class="button button-{{ size }}"
+  [ngStyle]="{
+    'font-size': fontSize,
+    color: hover ? setHoverText() : textColor,
+    'background-color': hover ? setHoverBg() : color,
+    'border-color': hover ? setHover(borderColor || textColor) : borderColor || textColor,
+    'border-style': borderStyle,
+    'border-radius': borderRadius,
+    'border-width': borderWidth,
+    'box-shadow': boxShadow,
+    width: width,
+    'text-transform': textTransform
+  }"
+  [ngClass]="{
+    disabled: disabled,
+    loading: loading,
+    block: block,
+    'p-0': noPadding,
+    'button-as-link': buttonAsLink,
+    'no-underline': noUnderline
+  }"
+  [type]="type || 'button'"
+  (click)="executeFunction($event)"
+  (mouseover)="hover = true"
+  (mouseleave)="hover = false"
+  [disabled]="disabled"
+>
+  <ng-content *ngIf="!hideOnLoading || (hideOnLoading && !loading)"></ng-content>
+  <sq-loader
+    class="{{ hideOnLoading ? 'hide-on-loading' : '' }}"
+    *ngIf="loading"
+    customSize="1rem"
+    color="{{ textColor }}"
+  ></sq-loader>
+</button>

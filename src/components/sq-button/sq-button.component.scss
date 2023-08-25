@@ -1,0 +1,19 @@
+.button {
+  &.p-0 {
+    padding: 0;
+  }
+  &.block {
+    width: 100%;
+  }
+  &.button-as-link {
+    border-style: none !important;
+    background-color: transparent !important;
+    text-decoration: underline;
+    color: var(--black-html) !important;
+    white-space: nowrap;
+    text-transform: none;
+  }
+  &.no-underline {
+    text-decoration: none;
+  }
+}
