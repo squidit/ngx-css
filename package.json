@@ -2,6 +2,7 @@
   "name": "ngx-css",
   "version": "0.0.1",
   "scripts": {
+    "postinstall": "npx husky install",
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
@@ -36,6 +37,7 @@
     "@typescript-eslint/eslint-plugin": "5.62.0",
     "@typescript-eslint/parser": "5.62.0",
     "eslint": "^8.47.0",
+    "husky": "^8.0.3",
     "jasmine-core": "~4.6.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
