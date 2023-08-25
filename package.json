@@ -4,11 +4,15 @@
   "scripts": {
     "postinstall": "npx husky install",
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test",
-    "lint": "ng lint"
+    "start:docs": "ng serve docs",
+    "build:docs": "ng build docs",
+    "build:prod": "ng build src --configuration production",
+    "build": "ng build src --configuration development",
+    "watch:docs": "ng build docs --watch --configuration development",
+    "test": "ng test src",
+    "test:docs": "ng test docs",
+    "lint": "ng lint src",
+    "lint:docs": "ng lint docs"
   },
   "private": false,
   "dependencies": {
