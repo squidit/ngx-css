@@ -4,6 +4,8 @@ on:
     workflows: ["Publish to NPM"]
     types:
       - completed
+  workflow_dispatch:
+
 jobs:
   deploy:
     permissions: write-all
@@ -38,11 +40,12 @@ jobs:
         run: |
           npm install
           npm run build:docs
-          cd dist/docs
+          mv dist/docs/* gh-pages/
+          cd gh-pages
           echo "ngx-css.squidit.com.br" > CNAME
-          cd ../..
+          cd ..
           echo "ngx-css.squidit.com.br" > CNAME
           git init
           git add -A
           git commit -m "🚀 Deploy id ${GITHUB_RUN_ID}" --no-verify
-          git push -f "https://github.com/${GITHUB_REPOSITORY}.git" HEAD:gh-pages
+          git push -f "https://github.com/${GITHUB_REPOSITORY}.git" HEAD:gh-pages --no-verify
