@@ -40,9 +40,10 @@ jobs:
         run: |
           npm install
           npm run build:docs
-          mkdir gh-pages
-          mv dist/docs/* gh-pages/
-          cd gh-pages
+          rm -rf docs
+          mkdir docs
+          mv dist/docs/* docs/
+          cd docs
           echo "ngx-css.squidit.com.br" > CNAME
           cd ..
           echo "ngx-css.squidit.com.br" > CNAME
