@@ -1,8 +1,9 @@
 name: Deploy to GitHub Pages on merge Master
 on:
-  push:
-    branches:
-      - master
+  workflow_run:
+    workflows: ["Publish to NPM"]
+    types:
+      - completed
 jobs:
   deploy:
     permissions: write-all
