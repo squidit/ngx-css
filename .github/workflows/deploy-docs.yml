@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages on merge Master
+name: Deploy to GitHub Pages on NPM Publish or Manual Trigger
 on:
   workflow_run:
     workflows: ["Publish to NPM"]
@@ -40,6 +40,7 @@ jobs:
         run: |
           npm install
           npm run build:docs
+          mkdir gh-pages
           mv dist/docs/* gh-pages/
           cd gh-pages
           echo "ngx-css.squidit.com.br" > CNAME
