@@ -8,6 +8,5 @@
     "inlineSources": true,
     "types": []
   },
-  "exclude": ["**/*.spec.ts"],
-  "include": ["**/helpers/*.ts"]
+  "exclude": ["**/*.spec.ts"]
 }

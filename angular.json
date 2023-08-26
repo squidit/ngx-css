@@ -20,7 +20,6 @@
             "allowedCommonJsDependencies": [
               "lodash.isequal"
             ],
-            "preserveSymlinks": true,
             "outputPath": "dist/docs",
             "index": "docs/src/index.html",
             "main": "docs/src/main.ts",
