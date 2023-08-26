@@ -1,6 +1,6 @@
 {
   "name": "@squidit/ngx-css",
-  "version": "0.0.49",
+  "version": "0.0.50",
   "peerDependencies": {
     "@angular/common": ">=15.0.0",
     "@angular/core": ">=15.0.0",
@@ -34,7 +34,7 @@
   },
   "module": "fesm2022/squidit-ngx-css.mjs",
   "es2022": "fesm2022/squidit-ngx-css.mjs",
-  "esm2022": "esm2022/ngx-translate-core.mjs",
+  "esm2022": "esm2022/squidit-ngx-css.mjs",
   "fesm2022": "fesm2022/squidit-ngx-css.mjs",
   "typings": "index.d.ts"
 }
