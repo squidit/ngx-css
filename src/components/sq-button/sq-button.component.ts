@@ -1,6 +1,6 @@
 import { Component, ElementRef, EventEmitter, Input, Output } from '@angular/core'
-import { ColorsHelper } from 'src/helpers/colors.helper'
-import { useMemo } from 'src/helpers/memo.helper'
+import { ColorsHelper } from '../../helpers/colors.helper'
+import { useMemo } from '../../helpers/memo.helper'
 
 @Component({
   selector: 'sq-button',
