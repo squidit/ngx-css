@@ -13,7 +13,8 @@
     "noFallthroughCasesInSwitch": true,
     "sourceMap": true,
     "paths": {
-      "docs": ["dist/docs"]
+      "docs": ["dist/docs"],
+      "@squidit/ngx-css": ["dist/@squidit/ngx-css"]
     },
     "declaration": false,
     "downlevelIteration": true,
