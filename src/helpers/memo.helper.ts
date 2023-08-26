@@ -1,11 +1,11 @@
-import * as _ from 'lodash'
+import isEqual from 'lodash.isequal'
 
 export function useMemo<T extends Function>(fnToMemoize: T): T {
   let prevArgs: unknown[] = [{}]
   let result: unknown
 
   return function (...newArgs: unknown[]) {
-    if (!_.isEqual(prevArgs, newArgs)) {
+    if (!isEqual(prevArgs, newArgs)) {
       result = fnToMemoize(...newArgs)
       prevArgs = newArgs
     }

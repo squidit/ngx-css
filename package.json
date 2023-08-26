@@ -1,6 +1,6 @@
 {
   "name": "@squidit/ngx-css-docs",
-  "version": "0.0.50",
+  "version": "0.0.6",
   "scripts": {
     "postinstall": "npx husky install",
     "ng": "ng",
@@ -27,7 +27,7 @@
     "@angular/router": "^16.2.0",
     "@squidit/css": "latest",
     "@squidit/ngx-css": "latest",
-    "lodash": "^4.17.21",
+    "lodash.isequal": ">=4.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.13.0"
@@ -42,7 +42,7 @@
     "@angular/cli": "~16.2.0",
     "@angular/compiler-cli": "^16.2.0",
     "@types/jasmine": "~4.3.0",
-    "@types/lodash": "^4.14.197",
+    "@types/lodash.isequal": "^4.5.6",
     "@typescript-eslint/eslint-plugin": "5.62.0",
     "@typescript-eslint/parser": "5.62.0",
     "eslint": "^8.47.0",
