@@ -1,6 +1,6 @@
 {
   "name": "@squidit/ngx-css-docs",
-  "version": "0.0.48",
+  "version": "0.0.49",
   "scripts": {
     "postinstall": "npx husky install",
     "ng": "ng",
