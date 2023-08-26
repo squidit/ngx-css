@@ -1,10 +1,10 @@
 {
   "name": "@squidit/ngx-css",
-  "version": "0.0.47",
+  "version": "0.0.48",
   "peerDependencies": {
-    "@angular/common": "^15.0.0",
-    "@angular/core": "^15.0.0",
-    "lodash": "^4.0.0",
+    "@angular/common": ">=15.0.0",
+    "@angular/core": ">=15.0.0",
+    "lodash": ">=4.0.0",
     "@squidit/css": "latest"
   },
   "dependencies": {
@@ -32,8 +32,9 @@
   "bugs": {
     "url": "https://github.com/squidit/ngx-css/issues"
   },
-  "homepage": "https://github.com/squidit/ngx-css",
-  "author": "Squid <developers@squidit.com.br>",
-  "license": "MIT",
-  "type": "module"
+  "module": "fesm2022/squidit-ngx-css.mjs",
+  "es2022": "fesm2022/squidit-ngx-css.mjs",
+  "esm2022": "esm2022/ngx-translate-core.mjs",
+  "fesm2022": "fesm2022/squidit-ngx-css.mjs",
+  "typings": "index.d.ts"
 }
