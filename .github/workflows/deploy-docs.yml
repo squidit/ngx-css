@@ -38,9 +38,9 @@ jobs:
           npm install
           npm run build:docs
           cd dist/docs
-          echo "css.squidit.com.br" > CNAME
+          echo "ngx-css.squidit.com.br" > CNAME
           cd ../..
-          echo "css.squidit.com.br" > CNAME
+          echo "ngx-css.squidit.com.br" > CNAME
           git init
           git add -A
           git commit -m "🚀 Deploy id ${GITHUB_RUN_ID}" --no-verify
