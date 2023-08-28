@@ -15,6 +15,7 @@ export * from './components/sq-modal/sq-modal.component'
 export * from './components/sq-accordion/sq-collapse/sq-collapse.component'
 export * from './components/sq-accordion/sq-accordion.component'
 export * from './components/sq-pagination/sq-pagination.component'
+export * from './components/sq-tag/sq-tag.component'
 
 export * from './directives/sq-tooltip/sq-tooltip.directive'
 
