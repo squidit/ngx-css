@@ -6,7 +6,6 @@
 
 - description: Color active
 - type: `string`
-- default: `#e83e8c`
 
 ### 2. click
 
@@ -21,10 +20,7 @@
 ### 4. steps
 
 - description: Array of steps, tip is a ngTooltip to do a short description
-- type: `Array<{
-    tip?: string,
-    status: string
-  }>`
+- type: `Step[]`
 
 ## Outputs
 

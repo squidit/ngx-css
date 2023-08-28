@@ -33,11 +33,6 @@
 - description: Button color text color
 - type: `string`
 
-### 5. textTransform (optional)
-
-- description: Text case
-- type: `string`
-
 ### 6. disabled (optional)
 
 - description: Input HTML attribute disabled and put a 'disabled' class
@@ -78,6 +73,11 @@
 ### 13. id (optional)
 
 - description: Input HTML attribute id
+- type: `string`
+
+### 14. textTransform (optional)
+
+- description: Text case
 - type: `string`
 
 ## Outputs

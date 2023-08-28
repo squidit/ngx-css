@@ -40,5 +40,5 @@
 ## Example
 
 ```html
-<sq-tooltip message="Oie" placement="left center" color="var(--pink)"></sq-tooltip>
+<sq-tooltip message="Hello" placement="left center" color="var(--pink)"></sq-tooltip>
 ```

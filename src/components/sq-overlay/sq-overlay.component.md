@@ -74,17 +74,17 @@
 ## Example
 
 ```html
-  <button (click)='overlay = true'>Open Overlay</button>
-  <sq-overlay
-    (overlayClose)='overlay = false'
-    [open]='overlay'
-  >
-    <ng-template #headerTemplate>
-      Header
-    </ng-template>
-    Content
-    <ng-template #footerTemplate>
-      Footer
-    </ng-template>
-  </sq-overlay>
+<button (click)='overlay = true'>Open Overlay</button>
+<sq-overlay
+  (overlayClose)='overlay = false'
+  [open]='overlay'
+>
+  <ng-template #headerTemplate>
+    Header
+  </ng-template>
+  Content
+  <ng-template #footerTemplate>
+    Footer
+  </ng-template>
+</sq-overlay>
 ```

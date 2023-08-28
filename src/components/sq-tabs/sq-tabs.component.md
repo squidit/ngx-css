@@ -35,5 +35,18 @@ Component that renders tabs
 ## Example
 
 ```html
-
+<sq-tabs>
+  <sq-tab title='Tab 1'>
+    <h2>Content Tab</h2>
+  </sq-tab>
+  <sq-tab title='Tab 2'>
+    <h2>Content Tab</h2>
+  </sq-tab>
+  <sq-tab title='Tab 3'>
+    <h2>Content Tab</h2>
+  </sq-tab>
+  <sq-tab title='Tab 4'>
+    <h2>Content Tab</h2>
+  </sq-tab>
+</sq-tabs>
 ```

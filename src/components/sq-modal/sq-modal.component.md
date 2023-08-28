@@ -49,23 +49,23 @@
 ## Example
 
 ```html
-  <button (click)='modal = true'>Open Modal</button>
-  <sq-modal
-    (modalClose)='modal = false'
-    [open]='modal'
-  >
-    <!-- Modal Header -->
-    <ng-template #headerModal>
-      Header
-    </ng-template>
-    <!-- Modal Header -->
-    <!-- Modal Body -->
-    Content
-    <!-- Modal Body -->
-    <!-- Modal Footer -->
-    <ng-template #footerModal>
-      Footer
-    </ng-template>
-    <!-- Modal Footer -->
-  </sq-modal>
+<button (click)='modal = true'>Open Modal</button>
+<sq-modal
+  (modalClose)='modal = false'
+  [open]='modal'
+>
+  <!-- Modal Header -->
+  <ng-template #headerModal>
+    Header
+  </ng-template>
+  <!-- Modal Header -->
+  <!-- Modal Body -->
+  Content
+  <!-- Modal Body -->
+  <!-- Modal Footer -->
+  <ng-template #footerModal>
+    Footer
+  </ng-template>
+  <!-- Modal Footer -->
+</sq-modal>
 ```

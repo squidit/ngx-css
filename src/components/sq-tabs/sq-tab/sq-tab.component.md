@@ -11,8 +11,8 @@ Component that render a tab
 
 ### 2. active (optional)
 
-    - description: Set if this tab should be an actived tab
-    - type: `boolean`
+- description: Set if this tab should be an actived tab
+- type: `boolean`
 
 ### 3. color (optional)
 
@@ -40,3 +40,7 @@ Component that render a tab
 
 - description: Function to be executed when opening the tab
 - type: `function`
+
+```html
+<sq-tab [title]='Tab1'>ContentTab</sq-tab>
+```
