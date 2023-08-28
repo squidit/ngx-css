@@ -12,6 +12,8 @@ export * from './components/sq-tabs/sq-tab/sq-tab.component'
 export * from './components/sq-infinity-scroll/sq-infinity-scroll.component'
 export * from './components/sq-overlay/sq-overlay.component'
 export * from './components/sq-modal/sq-modal.component'
+export * from './components/sq-accordion/sq-collapse/sq-collapse.component'
+export * from './components/sq-accordion/sq-accordion.component'
 
 export * from './directives/sq-tooltip/sq-tooltip.directive'
 
