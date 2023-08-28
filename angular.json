@@ -34,7 +34,7 @@
               {
                 "glob": "**/*",
                 "input": "./node_modules/@squidit/css/dist/fonts",
-                "output": "docs/assets/fonts"
+                "output": "./assets/fonts"
               }
             ],
             "styles": [

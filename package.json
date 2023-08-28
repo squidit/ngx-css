@@ -9,6 +9,7 @@
     "build:prod": "rm -rf dist/@squidit/ngx-css && ng build @squidit/ngx-css --configuration production",
     "build": "rm -rf dist/@squidit/ngx-css && ng build @squidit/ngx-css --configuration development",
     "watch": "rm -rf dist/@squidit/ngx-css && ng build @squidit/ngx-css --watch --configuration development",
+    "watch:prod": "rm -rf dist/@squidit/ngx-css && ng build @squidit/ngx-css --watch --configuration production",
     "watch:docs": "rm -rf dist/docs && ng build docs --watch --configuration development",
     "test": "ng test @squidit/ngx-css",
     "test:docs": "ng test docs",
