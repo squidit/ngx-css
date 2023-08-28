@@ -1,0 +1,45 @@
+
+<div class='pagination-wrapper {{ customClass }}'>
+  <ul class="pagination">
+    <li class='page-item' [ngClass]="{
+      'disabled': page === 1,
+    }">
+      <button (click)='handlePageChange(page - 1)'>
+        <i class="fa-solid fa-chevrons-left"></i>
+      </button>
+    </li>
+
+    <li class="disabled" *ngIf="showDotMin()">
+      <button>
+        <i class="fa-solid fa-ellipsis"></i>
+      </button>
+    </li>
+
+    <ng-container *ngFor="let p of pages">
+      <li
+        [ngClass]="{
+          'active': page === p,
+        }"
+        *ngIf="canShow(p)"
+      >
+        <button (click)='handlePageChange(p)'>
+          {{ p }}
+        </button>
+      </li>
+    </ng-container>
+
+    <li class="disabled" *ngIf="showDotMax()">
+      <button>
+        <i class="fa-solid fa-ellipsis"></i>
+      </button>
+    </li>
+
+    <li class='page-item' [ngClass]="{
+      'disabled': page >= totalPages,
+    }">
+      <button (click)='handlePageChange(page + 1)'>
+        <i class="fa-solid fa-chevrons-right"></i>
+      </button>
+    </li>
+  </ul>
+</div>

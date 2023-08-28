@@ -14,6 +14,7 @@ import { SqInfinityComponent } from './components/sq-infinity-scroll/sq-infinity
 import { SqOverlayComponent } from './components/sq-overlay/sq-overlay.component'
 import { SqModalComponent } from './components/sq-modal/sq-modal.component'
 import { SqCollapseComponent } from './components/sq-accordion/sq-collapse/sq-collapse.component'
+import { SqPaginationComponent } from './components/sq-pagination/sq-pagination.component'
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { SqCollapseComponent } from './components/sq-accordion/sq-collapse/sq-co
     SqInfinityComponent,
     SqOverlayComponent,
     SqModalComponent,
-    SqCollapseComponent
+    SqCollapseComponent,
+    SqPaginationComponent
   ],
   imports: [
     CommonModule
@@ -49,7 +51,8 @@ import { SqCollapseComponent } from './components/sq-accordion/sq-collapse/sq-co
     SqInfinityComponent,
     SqOverlayComponent,
     SqModalComponent,
-    SqCollapseComponent
+    SqCollapseComponent,
+    SqPaginationComponent
   ]
 })
 export class SquidCSSModule { }
