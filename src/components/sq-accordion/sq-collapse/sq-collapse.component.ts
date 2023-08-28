@@ -32,7 +32,7 @@ export class SqCollapseComponent {
   @ViewChild('content') content?: ElementRef
 
   opening: boolean | string = false
-  timeOut?: NodeJS.Timeout
+  timeOut?: ReturnType<typeof setTimeout>
   hoverHeder = false
   hoverIcon = false
 

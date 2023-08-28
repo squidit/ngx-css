@@ -13,7 +13,6 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core'
-import { Router } from '@angular/router'
 
 @Component({
   selector: 'sq-overlay',
@@ -48,7 +47,7 @@ export class SqOverlayComponent implements OnChanges, OnDestroy {
   styleId = ''
   opened = false
 
-  constructor(private router: Router, @Inject(DOCUMENT) public documentImported: Document) {
+  constructor(@Inject(DOCUMENT) public documentImported: Document) {
     this.onKeydown = this.onKeydown.bind(this)
     this.document = documentImported || document
   }
