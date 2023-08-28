@@ -1,0 +1,27 @@
+<div class="modal align-items-center {{ backdropClass }}" [ngClass]="{ open: open, 'need-priority': needPriority }" #modal>
+  <div class="modal-dialog modal-{{ modalSize }} {{ modalClass }}">
+    <div class="modal-content modal-sq">
+      <div
+        class="modal-header"
+        [ngClass]="{
+          'without-header': !hasHeader
+        }"
+      >
+        <ng-container *ngIf="headerTemplate">
+          <ng-container *ngTemplateOutlet="headerTemplate"></ng-container>
+        </ng-container>
+        <button type="button" class="close" aria-label="Close" (click)="modalClose.emit()">
+          <i class="fa-solid fa-xmark fa-lg"></i>
+        </button>
+      </div>
+
+      <div class="modal-body scrollbar p-3">
+        <ng-content></ng-content>
+      </div>
+
+      <div class="modal-footer" *ngIf="footerTemplate">
+        <ng-container *ngTemplateOutlet="footerTemplate"></ng-container>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,26 @@
+@import '../../styles/full.scss';
+
+.modal {
+  &.need-priority {
+    z-index: 1081;
+  }
+  .modal-sq {
+    border-radius: 4px;
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+    }
+    .without-header {
+      padding: 0 0.08rem;
+      border: none;
+      justify-content: flex-end;
+      button.close {
+        position: relative;
+        top: 5px;
+        left: -4px;
+        margin: 0;
+        padding: 0;
+      }
+    }
+  }
+}

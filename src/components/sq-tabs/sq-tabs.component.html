@@ -1,0 +1,46 @@
+<div class="tabs-squid">
+  <div class="tabs-container">
+    <div
+      class="wrapper"
+      [ngStyle]="{
+        'width': lineStyle && 'fit-content',
+      }"
+    >
+      <ul
+        class="tabs-header tabs-center tabs-width"
+        #tabsHeaderContainer
+        [ngClass]="{
+          'line-style': lineStyle
+        }"
+        [ngStyle]="{
+          'max-width': maxWidth,
+          margin: margin
+        }"
+      >
+        <li
+          *ngFor="let tab of tabs; let i = index"
+          (click)="!tab?.disabled ? selectTab(tab, i) : null"
+          [ngClass]="{
+            disabled: !tab?.title || tab?.disabled,
+            loading: tab?.title && tab.loading,
+            active: tab?.active
+          }"
+          [ngStyle]="{
+            background: tab?.active && !lineStyle ? tab?.color : null
+          }"
+          #thisTab
+        >
+          <span
+            *ngIf="!tab.loading"
+            [ngStyle]="{
+              color: tab?.active && !lineStyle ? tab?.textColor : null
+            }"
+            [innerHtml]="tab?.title || '' | universalSafe:'html'"
+          ></span>
+          <sq-loader *ngIf="tab.loading"></sq-loader>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <ng-content></ng-content>
+</div>

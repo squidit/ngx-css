@@ -1,0 +1,51 @@
+<div class="modal overlay {{ overlayDirection }}" [ngClass]="{ open: open }" #overlay>
+  <div class="modal-dialog {{ overlayDirection }}" [ngStyle]="{ 'background-color': headerColor }" [ngClass]="{ opened: opened }">
+    <div class="modal-content scrollbar">
+      <div
+        class="modal-header"
+        [ngClass]="{
+          'without-header': !hasHeader,
+          borderless: borderless
+        }"
+        [ngStyle]="{
+          'background-color': headerColor
+        }"
+      >
+        <ng-container *ngIf="headerTemplate">
+          <ng-container *ngTemplateOutlet="headerTemplate"></ng-container>
+        </ng-container>
+
+        <button *ngIf="showClose" id="close-button" type="button" class="close" aria-label="Close" (click)="overlayClose.emit()">
+          <i class="fa-solid fa-xmark" [ngStyle]="{ color: headerItemsColor }"></i>
+        </button>
+      </div>
+
+      <div
+        class="modal-body scrollbar"
+        [ngClass]="{
+          'without-footer': !hasFooter
+        }"
+        [ngStyle]="{
+          'background-color': bodyColor
+        }"
+      >
+        <ng-content></ng-content>
+      </div>
+
+      <div
+        class="modal-footer"
+        *ngIf="hasFooter"
+        [ngClass]="{
+          borderless: borderless
+        }"
+        [ngStyle]="{
+          'background-color': footerColor
+        }"
+      >
+        <ng-container *ngIf="footerTemplate">
+          <ng-container *ngTemplateOutlet="footerTemplate"></ng-container>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>

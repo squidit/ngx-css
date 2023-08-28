@@ -1,0 +1,120 @@
+@import '../../styles/full.scss';
+
+.wrapper-collapse {
+  display: block;
+  margin: 0.35rem auto;
+  .header-collapse {
+    display: flex;
+    align-items: stretch;
+    border-radius: 5px;
+    padding: 0.7rem 1.1rem;
+    background: var(--lilac_light);
+    transition: var(--transition);
+    &:hover,
+    &:focus {
+      background: var(--cian);
+    }
+    &.p-0 {
+      padding: 0;
+    }
+    span.html {
+      cursor: pointer;
+      display: inline-block;
+      width: calc(100% - 50px);
+      font-size: 1.1rem;
+      font-weight: 300;
+      transition: var(--transition);
+      margin: 0 1.1rem 0 0;
+      line-height: 25px;
+    }
+    .wrapper-icons {
+      cursor: pointer;
+      padding: 0;
+      margin: 0;
+      font-size: 1.1rem;
+      width: 45px;
+      height: 25px;
+      line-height: 25px;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      border-radius: 5px;
+      .icon {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: var(--transition);
+        &.spinner-border {
+          color: inherit;
+          position: relative;
+          top: -3px;
+          width: 17px;
+          height: 17px;
+        }
+      }
+    }
+    &.disabled,
+    &.disabled:hover,
+    &.disabled:focus {
+      color: var(--gray) !important;
+      border-color: var(--gray_light) !important;
+      background: var(--gray_light) !important;
+      span.html {
+        cursor: not-allowed;
+        color: var(--gray) !important;
+      }
+      .wrapper-icons {
+        cursor: not-allowed;
+        background: var(--gray_light) !important;
+      }
+    }
+    loader-squid {
+      display: inline-block;
+    }
+    &.loading {
+      .wrapper-icons,
+      span.html {
+        cursor: wait;
+      }
+    }
+    &.not-header {
+      width: 100%;
+      padding: 0.35rem;
+      display: inline-block;
+      text-align: center;
+      span.html {
+        width: calc(100% - 50px);
+      }
+      .wrapper-icons {
+        line-height: 35px;
+      }
+    }
+  }
+  .content {
+    border-radius: 5px;
+    margin: 0;
+    transition: all 0.5s ease;
+    height: 0;
+    overflow: hidden;
+    visibility: hidden;
+    position: relative;
+    &.opening {
+      visibility: visible;
+      margin: 0 auto;
+    }
+    &.open {
+      margin: 0 auto;
+      height: auto;
+      visibility: visible;
+    }
+    &.loading,
+    &.disabled {
+      max-height: 0;
+      opacity: 0;
+      margin: 0;
+      visibility: hidden;
+    }
+  }
+}

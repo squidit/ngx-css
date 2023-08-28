@@ -1,0 +1,20 @@
+<div class="progress" style="height: 14px">
+  <div
+    class="progress-bar background-{{ color }}"
+    role="progressbar"
+    aria-valuemin="0"
+    aria-valuemax="100"
+    [ngClass]="{
+      'progress-bar-striped': striped,
+      'progress-bar-animated': animated
+    }"
+    [ngStyle]="{
+      width: value + '%',
+      height: height,
+      'backgroud-color': color
+    }"
+    style="font-size: 0.86rem"
+  >
+    {{ hasLabel ? roundValue(value) + '%' : null }}
+  </div>
+</div>

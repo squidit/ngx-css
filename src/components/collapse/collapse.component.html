@@ -1,0 +1,62 @@
+<div [class]="'wrapper-collapse ' + class">
+  <header
+    #element
+    (click)="emit(element); toggleCollapse()"
+    class="header-collapse"
+    [ngStyle]="{
+      'background-color': hoverHeder ? setHover(color) : color,
+      'border-color': hoverHeder ? setHover(color) : color,
+    }"
+    [ngClass]="{
+      disabled: disabled,
+      loading: loading,
+      'not-header': !header,
+      opened: open,
+      'p-0': noPadding
+    }"
+    (mouseover)="hoverHeder = true"
+    (mouseleave)="hoverHeder = false"
+  >
+    <span class="html" *ngIf="header">
+      <ng-container *ngTemplateOutlet="headerTemplate"></ng-container>
+    </span>
+    <div
+      class="wrapper-icons"
+      [ngStyle]="{
+        color: colorIcons,
+        'background-color': hoverIcon ? setHover(colorBackgroundIcon) : colorBackgroundIcon,
+        'font-size': fontSizeIcon,
+        height: heightIcon,
+        'line-height': heightIcon
+      }"
+      (mouseover)="hoverIcon = true"
+      (mouseleave)="hoverIcon = false"
+    >
+      <i
+        class="fa-solid fa-chevron-down icon"
+        [ngClass]="{
+          'fa-rotate-180': !disabled && open
+        }"
+        *ngIf="!loading"
+      ></i>
+      <div *ngIf="loading" class="display-flex justify-content-center align-items-center" style="height: 100%">
+        <loader-squid color="inherit"></loader-squid>
+      </div>
+    </div>
+  </header>
+  <div
+    class="content animated"
+    [ngClass]="{
+      open: open && !disabled && !loading,
+      disabled: disabled,
+      loading: loading,
+      opening: opening
+    }"
+    [ngStyle]="{
+      height: getHeight()
+    }"
+    #content
+  >
+    <ng-content></ng-content>
+  </div>
+</div>

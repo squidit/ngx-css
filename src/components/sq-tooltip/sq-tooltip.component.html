@@ -1,0 +1,20 @@
+<ng-template #tooltip>
+  <div class="{{ textAlign }}" [innerHTML]="message"></div>
+</ng-template>
+<div
+  [class]="'wrapper-tooltip ' + (color ? color : '')"
+  [placement]="placement"
+  [tooltip]="message"
+  [ngStyle]="{
+    color: color
+  }"
+>
+  <div class="icon" *ngIf="icon" [innerHtml]="icon | universalSafe:'html'"></div>
+  <i
+    class="fa-solid fa-circle-question icon"
+    [ngClass]="{
+      'fa-rotate-180': inverted
+    }"
+    *ngIf="!icon"
+  ></i>
+</div>

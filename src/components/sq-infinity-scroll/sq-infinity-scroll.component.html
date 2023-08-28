@@ -1,0 +1,11 @@
+<div #scroll class="scroll">
+  <ng-content></ng-content>
+  <div *ngIf="loading" class="display-flex justify-content-center">
+    <sq-loader color="{{ loaderColor }}"></sq-loader>
+  </div>
+  <div class="wrapper-message" *ngIf="!hasMore && endMessage">
+    <p>
+      {{ endMessage || '' }}
+    </p>
+  </div>
+</div>

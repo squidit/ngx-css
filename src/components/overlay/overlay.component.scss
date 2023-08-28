@@ -1,0 +1,127 @@
+@import '../../styles/full.scss';
+
+::ng-deep {
+  .overlay {
+    &.left {
+      justify-content: flex-start;
+    }
+
+    &.right {
+      justify-content: flex-end;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 60px;
+      border-radius: 0;
+      overflow: hidden;
+      padding: 1rem 2rem;
+    }
+
+    .modal-footer {
+      height: 60px;
+      border-radius: 0;
+      overflow: hidden;
+      padding: 1rem 2rem;
+    }
+
+    .borderless {
+      border-color: transparent;
+    }
+
+    .modal-body {
+      height: calc(100vh - 120px);
+      padding: 2rem;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    .modal-dialog {
+      transition: opacity 0.3s linear, left 0.3s ease-out, right 0.3s ease-out, width 0.3s ease-out, height 0.3s ease-out !important;
+      position: fixed;
+      margin: auto;
+      width: 320px;
+      max-width: 100vw;
+      height: 100%;
+      transform: translate3d(0%, 0, 0) !important;
+    }
+
+    .modal-content {
+      height: 100%;
+      border-radius: 0;
+      overflow-y: auto;
+      border: none;
+      background-color: transparent;
+    }
+
+    .modal-footer > * {
+      margin: 0;
+    }
+
+    &.modal-static {
+      .modal-dialog {
+        transform: scale(1.02) !important;
+        transition: opacity 0.3s linear, left 0.3s ease-out, right 0.3s ease-out, width 0.3s ease-out, height 0.3s ease-out,
+          transform 0.3s ease-out !important;
+      }
+    }
+  }
+
+  .modal.overlay {
+    padding: 0;
+    border-radius: 0px;
+
+    button.close {
+      max-height: 30px;
+      line-height: 30px;
+      transition: var(--transition);
+      z-index: 1;
+
+      span {
+        font-size: 2.1rem;
+        font-weight: 300;
+        transition: var(--transition);
+      }
+
+      &:hover,
+      &:focus {
+        outline: none;
+
+        span {
+          font-weight: 500;
+        }
+      }
+    }
+
+    .without-footer {
+      height: calc(100vh - 60px);
+    }
+
+    .without-header {
+      padding: 0 0.08rem;
+      border: none;
+      justify-content: flex-end;
+
+      button.close {
+        margin: 0;
+        padding: 0;
+      }
+    }
+  }
+}
+
+#close-button {
+  opacity: 0.7 !important;
+  transition: var(--transition) !important;
+
+  &:hover,
+  &:focus {
+    outline: none !important;
+
+    span {
+      font-weight: 500;
+    }
+  }
+}
