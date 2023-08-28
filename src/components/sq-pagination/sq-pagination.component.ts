@@ -1,12 +1,14 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core'
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core'
 import { useMemo } from '../../helpers/memo.helper'
+import { ActivatedRoute, Router } from '@angular/router'
+import { Subscription } from 'rxjs'
 
 @Component({
   selector: 'sq-pagination',
   templateUrl: './sq-pagination.component.html',
   styleUrls: ['./sq-pagination.component.scss']
 })
-export class SqPaginationComponent implements OnChanges {
+export class SqPaginationComponent implements OnInit, OnChanges, OnDestroy {
   @Input() customClass = ''
   @Input() currentPage = 1
   @Input() totalPages = 1
@@ -14,8 +16,21 @@ export class SqPaginationComponent implements OnChanges {
 
   @Output() pageChange: EventEmitter<number> = new EventEmitter<number>()
 
+  constructor(private route: ActivatedRoute, private router: Router) { }
+
   page = this.currentPage
   pages = Array.from({ length: this.totalPages }, (_, i) => i + 1)
+  routeObservable!: Subscription
+
+  ngOnInit() {
+    this.routeObservable = this.route.queryParams.subscribe(search => {
+      const searchParams = new URLSearchParams(search)
+      const newPageQuery = parseInt(searchParams.get('page') || '1', 10)
+      if (newPageQuery !== this.currentPage) {
+        this.page = newPageQuery
+      }
+    })
+  }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['currentPage'] && changes['currentPage'].currentValue !== changes['currentPage'].previousValue) {
@@ -24,6 +39,13 @@ export class SqPaginationComponent implements OnChanges {
     if (changes['totalPages'] && changes['totalPages'].currentValue !== changes['totalPages'].previousValue) {
       this.pages = Array.from({ length: this.totalPages }, (_, i) => i + 1)
     }
+  }
+
+  ngOnDestroy() {
+    const searchParams = new URLSearchParams(window.location.search)
+    searchParams.delete('page')
+    this.router.navigate([], { relativeTo: this.route, queryParams: { page: null }, queryParamsHandling: 'merge' })
+    this.routeObservable.unsubscribe()
   }
 
   canShow = useMemo((actualPage: number) => {
@@ -48,7 +70,7 @@ export class SqPaginationComponent implements OnChanges {
     this.page = newPage
     const searchParams = new URLSearchParams(window.location.search)
     searchParams.set('page', newPage.toString())
-    window.location.search = searchParams.toString()
+    this.router.navigate([], { relativeTo: this.route, queryParams: { page: newPage }, queryParamsHandling: 'merge' })
     this.pageChange.emit(newPage)
   }
 }
