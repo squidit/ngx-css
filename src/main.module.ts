@@ -16,6 +16,7 @@ import { SqModalComponent } from './components/sq-modal/sq-modal.component'
 import { SqCollapseComponent } from './components/sq-accordion/sq-collapse/sq-collapse.component'
 import { SqPaginationComponent } from './components/sq-pagination/sq-pagination.component'
 import { SqTagsComponent } from './components/sq-tag/sq-tag.component'
+import { SqAccordionComponent } from './components/sq-accordion/sq-accordion.component'
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { SqTagsComponent } from './components/sq-tag/sq-tag.component'
     SqModalComponent,
     SqCollapseComponent,
     SqPaginationComponent,
-    SqTagsComponent
+    SqTagsComponent,
+    SqAccordionComponent
   ],
   imports: [
     CommonModule
@@ -55,7 +57,8 @@ import { SqTagsComponent } from './components/sq-tag/sq-tag.component'
     SqModalComponent,
     SqCollapseComponent,
     SqPaginationComponent,
-    SqTagsComponent
+    SqTagsComponent,
+    SqAccordionComponent
   ]
 })
 export class SquidCSSModule { }

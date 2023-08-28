@@ -13,7 +13,7 @@ import { SqCollapseComponent } from './sq-collapse/sq-collapse.component'
   templateUrl: './sq-accordion.component.html',
   styleUrls: ['./sq-accordion.component.scss']
 })
-export class AccordionComponent implements AfterContentInit, OnDestroy {
+export class SqAccordionComponent implements AfterContentInit, OnDestroy {
   @Input() onlyOne?: boolean
   @Input() openFirst?: boolean
   @ContentChildren(SqCollapseComponent)

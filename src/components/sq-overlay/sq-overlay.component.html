@@ -15,7 +15,7 @@
           <ng-container *ngTemplateOutlet="headerTemplate"></ng-container>
         </ng-container>
 
-        <button *ngIf="showClose" id="close-button" type="button" class="close" aria-label="Close" (click)="overlayClose.emit()">
+        <button *ngIf="showClose" id="close-button" type="button" class="close button-close" aria-label="Close" (click)="overlayClose.emit()">
           <i class="fa-solid fa-xmark" [ngStyle]="{ color: headerItemsColor }"></i>
         </button>
       </div>

@@ -7,4 +7,10 @@ import { Component } from '@angular/core'
 })
 export class AppComponent {
   title = 'docs'
+  modal = false
+  overlay = false
+
+  onScroll() {
+    console.log('scroll')
+  }
 }

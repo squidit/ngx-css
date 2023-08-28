@@ -24,13 +24,7 @@ export class SqPaginationComponent implements OnInit, OnChanges, OnDestroy {
   routeObservable!: Subscription
 
   ngOnInit() {
-    this.routeObservable = this.route.queryParams.subscribe(search => {
-      const searchParams = new URLSearchParams(search)
-      const newPageQuery = parseInt(searchParams.get('page') || '1', 10)
-      if (newPageQuery !== this.currentPage) {
-        this.page = newPageQuery
-      }
-    })
+    this.createOrDestroyQueryObservable()
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -41,11 +35,7 @@ export class SqPaginationComponent implements OnInit, OnChanges, OnDestroy {
       this.pages = Array.from({ length: this.totalPages }, (_, i) => i + 1)
     }
     if (changes['useQueryString'] && changes['useQueryString'].currentValue !== changes['useQueryString'].previousValue) {
-      if (this.useQueryString) {
-        this.mountQueryObservable()
-      } else {
-        this.destroyQueryObservable()
-      }
+      this.createOrDestroyQueryObservable()
     }
   }
 
@@ -53,11 +43,19 @@ export class SqPaginationComponent implements OnInit, OnChanges, OnDestroy {
     this.destroyQueryObservable()
   }
 
+  createOrDestroyQueryObservable() {
+    if (this.useQueryString) {
+      this.mountQueryObservable()
+    } else {
+      this.destroyQueryObservable()
+    }
+  }
+
   mountQueryObservable() {
     this.routeObservable = this.route.queryParams.subscribe(search => {
       const searchParams = new URLSearchParams(search)
       const newPageQuery = parseInt(searchParams.get('page') || '1', 10)
-      if (newPageQuery !== this.currentPage) {
+      if (newPageQuery !== this.page) {
         this.page = newPageQuery
       }
     })

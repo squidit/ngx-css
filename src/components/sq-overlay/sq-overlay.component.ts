@@ -24,10 +24,10 @@ export class SqOverlayComponent implements OnChanges, OnDestroy {
   @Input() overlayDirection: 'right' | 'left' = 'right'
   @Input() width = '475px'
   @Input() borderless = false
-  @Input() headerColor = 'var(--white-html)'
-  @Input() headerItemsColor = 'var(--gray_dark)'
-  @Input() footerColor = 'var(--white-html)'
-  @Input() bodyColor = 'var(--white-html)'
+  @Input() headerColor = 'var(--background_secondary)'
+  @Input() headerItemsColor = ''
+  @Input() footerColor = 'var(--background_secondary)'
+  @Input() bodyColor = 'var(--background_secondary)'
   @Input() showClose = true
 
   @Output() overlayClose: EventEmitter<void> = new EventEmitter()

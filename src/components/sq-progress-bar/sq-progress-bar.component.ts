@@ -12,7 +12,7 @@ export class SqProgressBarComponent {
   @Input() value: string | number = 0
   @Input() height = '1rem'
   @Input() striped = true
-  @Input() animated = true
+  @Input() animated = false
 
   roundValue = useMemo((value: string | number) => {
     return Math.round(Number(value))

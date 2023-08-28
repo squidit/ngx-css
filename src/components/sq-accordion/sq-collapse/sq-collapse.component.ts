@@ -41,7 +41,7 @@ export class SqCollapseComponent {
   public toggleCollapse(): void {
     const { disabled, loading } = this
     if (!disabled && !loading && !this.opening) {
-      this.opening = this.content?.nativeElement.children[0].offsetHeight + 'px'
+      this.opening = this.content?.nativeElement?.clientHeight + 'px'
       clearTimeout(this.timeOut)
       this.timeOut = setTimeout(() => {
         this.opening = false
@@ -57,9 +57,9 @@ export class SqCollapseComponent {
     })
   }
 
-  getHeight = useMemo(() => {
-    if (this.opening) {
-      return this.opening
+  getHeight = useMemo((opening: string | boolean) => {
+    if (opening) {
+      return opening
     } else if (this.open && !this.disabled && !this.loading) {
       return 'auto'
     } else {

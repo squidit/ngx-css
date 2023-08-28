@@ -1,11 +1,122 @@
 <router-outlet></router-outlet>
-
+<br/>
 <sq-button>teste</sq-button>
-
+<br/>
 <sq-loader></sq-loader>
-
+<br/>
+<sq-progress-bar
+  color='pink'
+  [value]='100'
+  [hasLabel]='true'
+  [striped]="true"
+></sq-progress-bar>
+<br/>
 <sq-pagination
   [totalPages]='18'
   [showPages]='5'
   [currentPage]='1'
-><sq-pagination>
+></sq-pagination>
+<br/>
+<sq-steps [steps]="[{status: '1'}, {status: '2'}, {status: '3'}]" [active]="1"></sq-steps>
+<br/>
+<sq-tag [rounded]="true">Tag</sq-tag>
+<br/>
+<sq-tooltip message="Hello" placement="right center" color="var(--pink)"></sq-tooltip>
+<br/>
+<sq-tabs>
+  <sq-tab title='Tab 1'>
+    <h2>Content Tab</h2>
+  </sq-tab>
+  <sq-tab title='Tab 2'>
+    <h2>Content Tab</h2>
+  </sq-tab>
+  <sq-tab title='Tab 3'>
+    <h2>Content Tab</h2>
+  </sq-tab>
+  <sq-tab title='Tab 4'>
+    <h2>Content Tab</h2>
+  </sq-tab>
+</sq-tabs>
+<br/>
+<sq-tabs [lineStyle]="true">
+  <sq-tab title='Tab 1'>
+    <h2>Content Tab</h2>
+  </sq-tab>
+  <sq-tab title='Tab 2'>
+    <h2>Content Tab</h2>
+  </sq-tab>
+  <sq-tab title='Tab 3'>
+    <h2>Content Tab</h2>
+  </sq-tab>
+  <sq-tab title='Tab 4'>
+    <h2>Content Tab</h2>
+  </sq-tab>
+</sq-tabs>
+<br/>
+<sq-accordion
+  [onlyOne]='true'
+  [openFirst]='true'
+>
+  <sq-collapse
+    [header]='true'
+    [loading]='false'
+    [disabled]='false'
+  >
+    <ng-template #header>
+      Header Collapse HTML
+    </ng-template>
+    Content Collapse Html
+  </sq-collapse>
+  <sq-collapse
+    [header]='true'
+  >
+    <ng-template #header>
+      <p>Another Template</p>
+    </ng-template>
+    <div class='test-collapse'>
+      Another Content
+    </div>
+  </sq-collapse>
+</sq-accordion>
+<br/>
+<sq-infinity-scroll
+  [length]='10'
+  [hasMore]='true'
+  (scrolledEmitter)='onScroll()'
+>
+  Content
+</sq-infinity-scroll>
+<br/>
+<button (click)='modal = true'>Open Modal</button>
+<sq-modal
+  (modalClose)='modal = false'
+  [open]='modal'
+>
+  <!-- Modal Header -->
+  <ng-template #headerModal>
+    Header
+  </ng-template>
+  <!-- Modal Header -->
+  <!-- Modal Body -->
+  Content
+  <!-- Modal Body -->
+  <!-- Modal Footer -->
+  <ng-template #footerModal>
+    Footer
+  </ng-template>
+  <!-- Modal Footer -->
+</sq-modal>
+<br/>
+<button (click)='overlay = true'>Open Overlay</button>
+<sq-overlay
+  (overlayClose)='overlay = false'
+  [open]='overlay'
+>
+  <ng-template #headerTemplate>
+    Header
+  </ng-template>
+  Content
+  <ng-template #footerTemplate>
+    Footer
+  </ng-template>
+</sq-overlay>
