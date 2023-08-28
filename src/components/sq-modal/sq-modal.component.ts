@@ -14,34 +14,34 @@ import {
 } from '@angular/core'
 
 @Component({
-  selector: 'modal-sq',
-  templateUrl: './modal.component.html',
-  styleUrls: ['./modal.component.scss'],
+  selector: 'sq-modal',
+  templateUrl: './sq-modal.component.html',
+  styleUrls: ['./sq-modal.component.scss'],
 })
-export class ModalComponent implements OnChanges {
+export class SqModalComponent implements OnChanges {
   @Input() open?: boolean
   @Input() modalSize: 'sm' | 'md' | 'lg' | string = 'md'
   @Input() modalClass?: string
   @Input() backdropClass?: string
   @Input() needPriority?: boolean
 
-  @Output() modalClose: EventEmitter<any> = new EventEmitter()
-  @Output() leftPress: EventEmitter<any> = new EventEmitter()
-  @Output() rightPress: EventEmitter<any> = new EventEmitter()
+  @Output() modalClose: EventEmitter<void> = new EventEmitter()
+  @Output() leftPress: EventEmitter<void> = new EventEmitter()
+  @Output() rightPress: EventEmitter<void> = new EventEmitter()
 
   @ViewChild('modal') modal: ElementRef | null = null
 
-  @ContentChild('headerModal') headerTemplate?: TemplateRef<any> | null = null
-  @ContentChild('footerModal') footerTemplate?: TemplateRef<any> | null = null
+  @ContentChild('headerModal') headerTemplate?: TemplateRef<ElementRef> | null = null
+  @ContentChild('footerModal') footerTemplate?: TemplateRef<ElementRef> | null = null
 
   modals: HTMLCollectionOf<Element> | undefined
   modalNumber = 0
   hasHeader = false
-  document: any = null
+  document: Document
 
   constructor(@Inject(DOCUMENT) public documentImported: Document) {
     this.onKeydown = this.onKeydown.bind(this)
-    this.document = documentImported || this.document
+    this.document = documentImported || document
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -80,7 +80,7 @@ export class ModalComponent implements OnChanges {
     }
   }
 
-  onKeydown(event: any) {
+  onKeydown(event: KeyboardEvent) {
     if (this.open) {
       this.modals = this.document.getElementsByClassName('modal')
       if (this.modals?.length === this.modalNumber) {

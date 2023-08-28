@@ -4,23 +4,26 @@
 
 ## Inputs/Props
 
-1. onlyOne (optional)
-  - description: Allows to open only one Collapse at a time
-  - type: `boolean`
+### 1. onlyOne (optional)
 
-2. openFirst (optional)
-  - description: Open the first Collapse
-  - type: `boolean`
+- description: Allows to open only one Collapse at a time
+- type: `boolean`
+
+### 2. openFirst (optional)
+
+- description: Open the first Collapse
+- type: `boolean`
 
 ## Outputs
 
 ## Example
+
 ```html
-<accordion
+<sq-accordion
   [onlyOne]='true'
   [openFirst]='true'
 >
-  <collapse
+  <sq-collapse
     [header]='true'
     [loading]='false'
     [disabled]='false'
@@ -29,8 +32,8 @@
       Header Collapse HTML
     </ng-template>
     Content Collapse Html
-  </collapse>
-  <collapse
+  </sq-collapse>
+  <sq-collapse
     [header]='true'
   >
     <ng-template #header>
@@ -39,6 +42,6 @@
     <div class='test-collapse'>
       Another Content
     </div>
-  </collapse>
-</accordion>
+  </sq-collapse>
+</sq-accordion>
 ```

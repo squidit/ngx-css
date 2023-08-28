@@ -6,18 +6,18 @@ import {
   AfterContentInit,
   OnDestroy
 } from '@angular/core'
-import { CollapseComponent } from '../collapse/collapse.component'
+import { SqCollapseComponent } from './sq-collapse/sq-collapse.component'
 
 @Component({
-  selector: 'accordion',
-  templateUrl: './accordion.component.html',
-  styleUrls: ['./accordion.component.scss']
+  selector: 'sq-accordion',
+  templateUrl: './sq-accordion.component.html',
+  styleUrls: ['./sq-accordion.component.scss']
 })
 export class AccordionComponent implements AfterContentInit, OnDestroy {
   @Input() onlyOne?: boolean
   @Input() openFirst?: boolean
-  @ContentChildren(CollapseComponent)
-  collapses: QueryList<CollapseComponent>
+  @ContentChildren(SqCollapseComponent)
+  collapses: QueryList<SqCollapseComponent> = [] as unknown as QueryList<SqCollapseComponent>
 
   ngAfterContentInit(): void {
     if (this.openFirst) {
@@ -47,7 +47,7 @@ export class AccordionComponent implements AfterContentInit, OnDestroy {
     }
   }
 
-  openCollapse(collapse: CollapseComponent): void {
+  openCollapse(collapse: SqCollapseComponent): void {
     if (this.onlyOne) {
       this.collapses.toArray().forEach((thisCollapse) => {
         if (thisCollapse.open) {

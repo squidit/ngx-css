@@ -1,12 +1,13 @@
 import { Component, ContentChild, ElementRef, EventEmitter, Input, Output, TemplateRef, ViewChild } from '@angular/core'
-import { ColorsHelper } from '../../helpers/colors.helper'
+import { ColorsHelper } from '../../../helpers/colors.helper'
+import { useMemo } from '../../../helpers/memo.helper'
 
 @Component({
-  selector: 'collapse',
-  templateUrl: './collapse.component.html',
-  styleUrls: ['./collapse.component.scss'],
+  selector: 'sq-collapse',
+  templateUrl: './sq-collapse.component.html',
+  styleUrls: ['./sq-collapse.component.scss'],
 })
-export class CollapseComponent {
+export class SqCollapseComponent {
   @Input() header?: boolean
   @Input() open = false
   @Input() loading?: boolean
@@ -19,26 +20,29 @@ export class CollapseComponent {
   @Input() class = ''
   @Input() noPadding = false
 
-  @Output() openedEmitter: EventEmitter<any> = new EventEmitter()
+  @Output() openedEmitter: EventEmitter<{
+    open: boolean
+    element: HTMLElement
+  }> = new EventEmitter()
 
-  @ContentChild('header', { static: true })
-  headerTemplate: TemplateRef<any>
+  @ContentChild('header')
+  headerTemplate: TemplateRef<HTMLElement> | null = null
 
-  @ViewChild('element', { static: true }) element: ElementRef
-  @ViewChild('content', { static: true }) content: ElementRef
+  @ViewChild('element') element?: ElementRef
+  @ViewChild('content') content?: ElementRef
 
-  opening: any = false
-  timeOut: any
+  opening: boolean | string = false
+  timeOut?: NodeJS.Timeout
   hoverHeder = false
   hoverIcon = false
 
-  constructor(public colorsHelper: ColorsHelper) {}
+  constructor(public colorsHelper: ColorsHelper) { }
 
   public toggleCollapse(): void {
     const { disabled, loading } = this
     if (!disabled && !loading && !this.opening) {
-      this.opening = this.content.nativeElement.children[0].offsetHeight + 'px'
-      this.timeOut = clearTimeout(this.timeOut)
+      this.opening = this.content?.nativeElement.children[0].offsetHeight + 'px'
+      clearTimeout(this.timeOut)
       this.timeOut = setTimeout(() => {
         this.opening = false
         this.open = !this.open
@@ -46,14 +50,14 @@ export class CollapseComponent {
     }
   }
 
-  emit(element: any): void {
+  emit(element: HTMLElement): void {
     this.openedEmitter.emit({
       open: !this.open,
       element,
     })
   }
 
-  getHeight() {
+  getHeight = useMemo(() => {
     if (this.opening) {
       return this.opening
     } else if (this.open && !this.disabled && !this.loading) {
@@ -61,9 +65,9 @@ export class CollapseComponent {
     } else {
       return '0'
     }
-  }
+  })
 
-  setHover(color: string): string {
+  setHover = useMemo((color: string) => {
     return this.colorsHelper?.lightenDarkenColor(this.colorsHelper?.getCssVariableValue(color), -25)
-  }
+  })
 }

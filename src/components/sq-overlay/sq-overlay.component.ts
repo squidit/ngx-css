@@ -16,11 +16,11 @@ import {
 import { Router } from '@angular/router'
 
 @Component({
-  selector: 'overlay-sq',
-  templateUrl: './overlay.component.html',
-  styleUrls: ['./overlay.component.scss'],
+  selector: 'sq-overlay',
+  templateUrl: './sq-overlay.component.html',
+  styleUrls: ['./sq-overlay.component.scss'],
 })
-export class OverlayComponent implements OnChanges, OnDestroy {
+export class SqOverlayComponent implements OnChanges, OnDestroy {
   @Input() open?: boolean
   @Input() overlayDirection: 'right' | 'left' = 'right'
   @Input() width = '475px'
@@ -31,20 +31,20 @@ export class OverlayComponent implements OnChanges, OnDestroy {
   @Input() bodyColor = 'var(--white-html)'
   @Input() showClose = true
 
-  @Output() overlayClose: EventEmitter<any> = new EventEmitter()
-  @Output() leftPress: EventEmitter<any> = new EventEmitter()
-  @Output() rightPress: EventEmitter<any> = new EventEmitter()
+  @Output() overlayClose: EventEmitter<void> = new EventEmitter()
+  @Output() leftPress: EventEmitter<void> = new EventEmitter()
+  @Output() rightPress: EventEmitter<void> = new EventEmitter()
 
   @ViewChild('overlay') overlay: ElementRef | null = null
 
-  @ContentChild('headerTemplate') headerTemplate?: TemplateRef<any> | null = null
-  @ContentChild('footerTemplate') footerTemplate?: TemplateRef<any> | null = null
+  @ContentChild('headerTemplate') headerTemplate?: TemplateRef<ElementRef> | null = null
+  @ContentChild('footerTemplate') footerTemplate?: TemplateRef<ElementRef> | null = null
 
   modals: HTMLCollectionOf<Element> | undefined
   modalNumber = 0
   hasHeader = false
   hasFooter = false
-  document: any = null
+  document: Document
   styleId = ''
   opened = false
 
@@ -130,7 +130,7 @@ export class OverlayComponent implements OnChanges, OnDestroy {
     }
   }
 
-  onKeydown(event: any) {
+  onKeydown(event: KeyboardEvent) {
     if (this.open) {
       this.modals = this.document.getElementsByClassName('modal open')
       if (this.modals?.length === this.modalNumber) {

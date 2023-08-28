@@ -9,10 +9,16 @@ export * from './components/sq-steps/sq-steps.component'
 export * from './components/sq-tooltip/sq-tooltip.component'
 export * from './components/sq-tabs/sq-tabs.component'
 export * from './components/sq-tabs/sq-tab/sq-tab.component'
-export * from './directives/sq-tooltip/sq-tooltip.directive'
 export * from './components/sq-infinity-scroll/sq-infinity-scroll.component'
+export * from './components/sq-overlay/sq-overlay.component'
+export * from './components/sq-modal/sq-modal.component'
+
+export * from './directives/sq-tooltip/sq-tooltip.directive'
+
 export * from './pipes/thousands/thousands.pipe'
 export * from './pipes/universal-safe/universal-safe.pipe'
+
 export * from './helpers/colors.helper'
 export * from './helpers/memo.helper'
+
 export * from './main.module'

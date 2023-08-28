@@ -11,6 +11,9 @@ import { ThousandSuffixesPipe } from './pipes/thousands/thousands.pipe'
 import { SqTabComponent } from './components/sq-tabs/sq-tab/sq-tab.component'
 import { SqTabsComponent } from './components/sq-tabs/sq-tabs.component'
 import { SqInfinityComponent } from './components/sq-infinity-scroll/sq-infinity-scroll.component'
+import { SqOverlayComponent } from './components/sq-overlay/sq-overlay.component'
+import { SqModalComponent } from './components/sq-modal/sq-modal.component'
+import { SqCollapseComponent } from './components/sq-accordion/sq-collapse/sq-collapse.component'
 
 @NgModule({
   declarations: [
@@ -24,7 +27,10 @@ import { SqInfinityComponent } from './components/sq-infinity-scroll/sq-infinity
     ThousandSuffixesPipe,
     SqTabComponent,
     SqTabsComponent,
-    SqInfinityComponent
+    SqInfinityComponent,
+    SqOverlayComponent,
+    SqModalComponent,
+    SqCollapseComponent
   ],
   imports: [
     CommonModule
@@ -40,7 +46,10 @@ import { SqInfinityComponent } from './components/sq-infinity-scroll/sq-infinity
     ThousandSuffixesPipe,
     SqTabComponent,
     SqTabsComponent,
-    SqInfinityComponent
+    SqInfinityComponent,
+    SqOverlayComponent,
+    SqModalComponent,
+    SqCollapseComponent
   ]
 })
 export class SquidCSSModule { }
