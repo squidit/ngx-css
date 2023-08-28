@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core'
 
-interface Step {
+export interface Step {
   tip?: string
   status: string
 }

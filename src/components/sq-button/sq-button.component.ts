@@ -39,25 +39,25 @@ export class SqButtonComponent {
     this.nativeElement = element.nativeElement
   }
 
-  validatePresetColors = () => {
+  validatePresetColors() {
     return !!this.colorsHelper?.getCssVariableValue(this.color)
   }
 
-  doHoverOnText = () => {
+  doHoverOnText() {
     if (this.hover) {
       return this.setHoverText()
     }
     return this.textColor
   }
 
-  doHoverOnBackground = () => {
+  doHoverOnBackground() {
     if (this.hover) {
       return this.setHoverBg()
     }
     return this.color
   }
 
-  doHoverOnBorder = () => {
+  doHoverOnBorder() {
     if (this.hover) {
       return this.setHover(this.borderColor || this.textColor || '')
     }
