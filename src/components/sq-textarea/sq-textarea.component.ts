@@ -15,9 +15,8 @@ export class SqTextAreaComponent {
   @Input() placeholder = ''
   @Input() externalError = ''
   @Input() externalIcon = ''
-  @Input() value?= ''
+  @Input() value = ''
 
-  @Input() validateIcons = true
   @Input() hasTimeout = false
   @Input() errorSpan = true
   @Input() disabled = false
@@ -28,11 +27,11 @@ export class SqTextAreaComponent {
   @Input() tooltipMessage = ''
   @Input() tooltipPlacement: 'center top' | 'center bottom' | 'left center' | 'right center' = 'right center'
   @Input() tooltipColor = 'inherit'
-  @Input() tooltipInverted = false
   @Input() tooltipIcon = ''
 
   @Input() backgroundColor = ''
-  @Input() hasBg = false
+  @Input() borderColor = ''
+  @Input() labelColor = ''
 
   @Input() maxLength: number | null = null
 

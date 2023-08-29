@@ -18,6 +18,7 @@ module.exports = {
         "plugin:@angular-eslint/template/process-inline-templates"
       ],
       "rules": {
+        "@typescript-eslint/no-explicit-any": "off",
         "no-underscore-dangle": "off",
         "no-prototype-builtins": "off",
         "semi": [2, "never"],

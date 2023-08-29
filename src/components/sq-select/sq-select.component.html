@@ -1,0 +1,73 @@
+<div class="wrapper-all-inside-input {{ customClass }}">
+  <label
+    class="display-flex"
+    *ngIf="label?.length || tooltipMessage"
+    [ngClass]="{
+      readonly: readonly
+    }"
+    [for]="id"
+  >
+    <div *ngIf="label" [ngStyle]="{ 'color': labelColor }" [innerHtml]="label | universalSafe:'html'"></div>
+    <sq-tooltip
+      *ngIf="tooltipMessage"
+      class="ml-1"
+      [message]="tooltipMessage"
+      [placement]="tooltipPlacement"
+      [color]="tooltipColor"
+      [icon]="tooltipIcon"
+    ></sq-tooltip>
+  </label>
+  <div
+    class="p-0 wrapper-input wrapper-input-squid"
+    [ngStyle]="{ 'border-color': color }"
+    [ngClass]="{
+      error: (externalError && externalError !== '') || (error && error !== ''),
+      readonly: readonly
+    }"
+  >
+    <span class="input-group-text m-0" *ngIf="leftLabel">
+      <ng-container *ngTemplateOutlet="leftLabel"></ng-container>
+    </span>
+    <select
+      class="select"
+      [ngClass]="{
+        disabled: disabled,
+        readonly: readonly
+      }"
+      [id]="id"
+      [name]="name"
+      [required]="required"
+      [disabled]="disabled || readonly || loading"
+      (blur)="validate(true)"
+      [value]="value"
+      (change)="change(select?.value)"
+      #select
+    >
+      <option *ngIf="placeholder" value="" [selected]="!value" disabled>{{ placeholder }}</option>
+      <optgroup *ngFor="let group of optionsWithGroups" [label]="group?.label">
+        <option
+          *ngFor="let option of group?.options"
+          [value]="option?.value"
+          [selected]="value === option?.value"
+          [disabled]="!!option?.disabled"
+        >
+          {{ option?.label }}
+        </option>
+      </optgroup>
+      <option *ngFor="let option of options" [value]="option?.value" [selected]="value === option?.value" [disabled]="!!option?.disabled">
+        {{ option?.label }}
+      </option>
+    </select>
+    <span class="input-group-text m-0" *ngIf="rightLabel">
+      <ng-container *ngTemplateOutlet="rightLabel"></ng-container>
+    </span>
+  </div>
+  <span *ngIf="externalIcon" class="icon icon-external" [innerHtml]="externalIcon || '' | universalSafe:'html'"></span>
+  <div class="box-validation box-invalid show" *ngIf="errorSpan">
+    <ng-container *ngIf="externalError || error">
+      <i class="fa-solid fa-triangle-exclamation"></i>
+    </ng-container>
+    {{ externalError ? externalError : '' }}
+    {{ error && !externalError ? error : '' }}
+  </div>
+</div>

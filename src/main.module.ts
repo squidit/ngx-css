@@ -19,6 +19,7 @@ import { SqTagsComponent } from './components/sq-tag/sq-tag.component'
 import { SqAccordionComponent } from './components/sq-accordion/sq-accordion.component'
 import { SqTextAreaComponent } from './components/sq-textarea/sq-textarea.component'
 import { FormsModule } from '@angular/forms'
+import { SqSelectComponent } from './components/sq-select/sq-select.component'
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { FormsModule } from '@angular/forms'
     SqPaginationComponent,
     SqTagsComponent,
     SqAccordionComponent,
-    SqTextAreaComponent
+    SqTextAreaComponent,
+    SqSelectComponent
   ],
   imports: [
     CommonModule,
@@ -63,7 +65,8 @@ import { FormsModule } from '@angular/forms'
     SqPaginationComponent,
     SqTagsComponent,
     SqAccordionComponent,
-    SqTextAreaComponent
+    SqTextAreaComponent,
+    SqSelectComponent
   ]
 })
 export class SquidCSSModule { }

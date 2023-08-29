@@ -4,16 +4,16 @@
 <br/>
 <sq-loader></sq-loader>
 <br/>
-<sq-textarea
+<sq-select
   [id]="'teste'"
   [name]="'teste'"
   [label]="'teste'"
   [placeholder]="'teste'"
   [value]="title"
   [required]="true"
+  [options]="[{value: 'teste', label: 'teste'}, {value: 'teste2', label: 'teste2'}]"
   (sharedValue)="title = $event"
-  [maxLength]="10"
-></sq-textarea>
+></sq-select>
 {{ title }}
 <!-- <sq-progress-bar
   color='pink'
