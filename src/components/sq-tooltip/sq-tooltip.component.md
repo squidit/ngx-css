@@ -7,10 +7,10 @@
 - description: Set the icon color, preset or hexadecimal
 - type: `string`
 
-### 2. inverted (optional)
+### 2. tooltipClass
 
-- description: Inverted the `?` icon
-- type: `boolean`
+- description: Set tooltip Class
+- type: `string`
 
 ### 3. placement (optional)
 
@@ -34,6 +34,11 @@
 - description: Text align tooltip Class
 - type: `string`
 - default: `text-center`
+
+### 4. fontSize
+
+- description: Set tooltip font size
+- type: `string`
 
 ## Outputs
 

@@ -1,0 +1,33 @@
+{
+  "formErrors": {
+    "fileSize": "Archivo demasiado grande",
+    "required": "Campo obligatorio",
+    "email": "E-mail inválido",
+    "url": "URL invalida. Atención: cada URL debe comenzar con https://",
+    "rangeDate:": "Fecha fuera del rango válido",
+    "selectIten": "Seleccione al menos {{value}} ítem",
+    "selectItens": "Seleccione al menos {{value}} ítems",
+    "date": "Fecha inválida",
+    "underAge": "¡Es necesario tener 18 años o más!",
+    "phone": "Teléfono inválido",
+    "internationalDocument": "Documento internacional inválido",
+    "cpf": "CPF inválido",
+    "cpfAlreadyRegistered": "CPF ya registrado",
+    "cnpj": "CNPJ inválido",
+    "name": "Nombre Completo inválido",
+    "address": "Dirección inválida",
+    "neighborhood": "Barrio inválido",
+    "city": "Ciudad inválida",
+    "state": "Estado inválido",
+    "recordEmployment": "PIS/NIS/PASEP inválido",
+    "recordEmploymentAlreadyRegistered": "PIS/NIS/PASEP ya registrado",
+    "nationalDocument": "RG inválido",
+    "agency": "Agencia inválida",
+    "agencyDigit": "Dígito de la agencia inválido",
+    "account": "Cuenta inválida",
+    "accountDigit": "Dígito de la cuenta inválido",
+    "dateWeekend": "Fin de semana no permitido",
+    "noPermissionRegistration": "You are not allowed to access this influencer's registration data",
+    "typeformError": "¡Atención! No ingreses el enlace de typeform en este campo"
+  }
+}

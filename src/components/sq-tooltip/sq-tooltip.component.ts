@@ -6,13 +6,11 @@ import { Component, Input } from '@angular/core'
   styleUrls: ['./sq-tooltip.component.scss'],
 })
 export class TooltipComponent {
-  @Input() color?: string
-  @Input() inverted?: boolean
-  @Input() icon?: string
+  @Input() color = ''
+  @Input() icon = ''
   @Input() placement = 'center top'
   @Input() message = ''
   @Input() tooltipClass = ''
-  @Input() container = 'body'
   @Input() textAlign = 'text-center'
   @Input() fontSize = '1rem'
 }

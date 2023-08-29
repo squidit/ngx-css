@@ -17,6 +17,8 @@ export * from './components/sq-accordion/sq-accordion.component'
 export * from './components/sq-pagination/sq-pagination.component'
 export * from './components/sq-tag/sq-tag.component'
 
+export * from './components/sq-textarea/sq-textarea.component'
+
 export * from './directives/sq-tooltip/sq-tooltip.directive'
 
 export * from './pipes/thousands/thousands.pipe'
@@ -24,5 +26,7 @@ export * from './pipes/universal-safe/universal-safe.pipe'
 
 export * from './helpers/colors.helper'
 export * from './helpers/memo.helper'
+export * from './helpers/toast.helper'
+export * from './helpers/validator.helper'
 
 export * from './main.module'

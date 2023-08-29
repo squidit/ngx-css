@@ -4,14 +4,25 @@
 <br/>
 <sq-loader></sq-loader>
 <br/>
-<sq-progress-bar
+<sq-textarea
+  [id]="'teste'"
+  [name]="'teste'"
+  [label]="'teste'"
+  [placeholder]="'teste'"
+  [value]="title"
+  [required]="true"
+  (sharedValue)="title = $event"
+  [maxLength]="10"
+></sq-textarea>
+{{ title }}
+<!-- <sq-progress-bar
   color='pink'
   [value]='100'
   [hasLabel]='true'
   [striped]="true"
 ></sq-progress-bar>
 <br/>
-<sq-pagination
+<sq-pagination 
   [totalPages]='18'
   [showPages]='5'
   [currentPage]='1'
@@ -92,19 +103,13 @@
   (modalClose)='modal = false'
   [open]='modal'
 >
-  <!-- Modal Header -->
   <ng-template #headerModal>
     Header
   </ng-template>
-  <!-- Modal Header -->
-  <!-- Modal Body -->
   Content
-  <!-- Modal Body -->
-  <!-- Modal Footer -->
   <ng-template #footerModal>
     Footer
   </ng-template>
-  <!-- Modal Footer -->
 </sq-modal>
 <br/>
 <button (click)='overlay = true'>Open Overlay</button>
@@ -119,4 +124,4 @@
   <ng-template #footerTemplate>
     Footer
   </ng-template>
-</sq-overlay>
+</sq-overlay> -->

@@ -1,0 +1,33 @@
+{
+  "formErrors": {
+    "fileSize": "File too large",
+    "required": "Required field",
+    "email": "Invalid email",
+    "url": "Invalid URL. Attention: URL must start with https://",
+    "selectIten": "Select at least {{value}} item",
+    "selectItens": "Select at least {{value}} items",
+    "date": "Invalid Date",
+    "rangeDate:": "Date outside valid range",
+    "underAge": "You must be 18 or over!",
+    "phone": "Invalid Phone number",
+    "internationalDocument": "Invalid document",
+    "cpf": "Invalid CPF",
+    "cnpj": "Invalid CNPJ",
+    "cpfAlreadyRegistered": "CPF already registered",
+    "name": "Invalid full name",
+    "address": "Invalid address",
+    "neighborhood": "Invalid neighborhood",
+    "city": "Invalid city",
+    "state": "Invalid state",
+    "recordEmployment": "Invalid record employement",
+    "recordEmploymentAlreadyRegistered": "Record Employment already registered",
+    "nationalDocument": "Invalid national document",
+    "agency": "Invalid agency number",
+    "agencyDigit": "Invalid agency digit",
+    "account": "Invalid account number",
+    "accountDigit": "Invalid account digit",
+    "dateWeekend": "Weekend not allowed",
+    "noPermissionRegistration": "You are not allowed to access this influencer's registration data",
+    "typeformError": "Attention! Do not enter the typeform link in this field"
+  }
+}
