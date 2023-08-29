@@ -9,11 +9,7 @@
 >
   <label [for]="id" *ngIf="leftLabel">
     <ng-container
-      [ngTemplateOutlet]="leftLabel"
-      [ngTemplateOutletContext]="{
-        checked: thisChecked,
-        value: value
-      }"
+      *ngTemplateOutlet="leftLabel; context: context"
     ></ng-container>
   </label>
   <input
@@ -21,12 +17,12 @@
     [name]="name"
     [attr.type]="type"
     (change)="change($event)"
+    [value]="value"
     [disabled]="disabled"
     [readonly]="readonly"
     [required]="required"
     [checked]="thisChecked"
     [indeterminate]="!(checked || thisChecked) ? indeterminate || thisIndeterminate : false"
-    #input
   />
   <label
     [for]="id"
@@ -39,12 +35,7 @@
   <label [for]="id" *ngIf="label" [innerHtml]="label | universalSafe:'html'"></label>
   <label [for]="id" *ngIf="rightLabel">
     <ng-container
-      [ngTemplateOutlet]="rightLabel"
-      [ngTemplateOutletContext]="{
-        checked: thisChecked,
-        indeterminate: !thisChecked ? thisIndeterminate : false,
-        value: value
-      }"
+      *ngTemplateOutlet="rightLabel; context: context"
     ></ng-container>
   </label>
 </div>

@@ -1,5 +1,4 @@
 import {
-  AfterContentInit,
   Component,
   ContentChild,
   EventEmitter,
@@ -8,7 +7,7 @@ import {
   Optional,
   Output,
   SimpleChanges,
-  TemplateRef,
+  TemplateRef
 } from '@angular/core'
 import { TranslateService } from '@ngx-translate/core'
 
@@ -17,11 +16,11 @@ import { TranslateService } from '@ngx-translate/core'
   templateUrl: './sq-selector.component.html',
   styleUrls: ['./sq-selector.component.scss'],
 })
-export class SqSelectorComponent implements AfterContentInit, OnChanges {
+export class SqSelectorComponent implements OnChanges {
   @Input() name = ''
   @Input() type: 'checkbox' | 'radio' = 'checkbox'
   @Input() id = ''
-  @Input() value?: any
+  @Input() value: any = ''
   @Input() checked = false
   @Input() indeterminate = false
   @Input() disabled?: boolean
@@ -38,36 +37,42 @@ export class SqSelectorComponent implements AfterContentInit, OnChanges {
 
   @Output() sharedValue: EventEmitter<any> = new EventEmitter()
 
-  @ContentChild('rightLabel', { static: true })
+  @ContentChild('rightLabel')
   rightLabel: TemplateRef<HTMLElement> | null = null
-  @ContentChild('leftLabel', { static: true })
+  @ContentChild('leftLabel')
   leftLabel: TemplateRef<HTMLElement> | null = null
 
   thisChecked = false
   thisIndeterminate = false
   error = ''
+  context: any = {
+    checked: this.thisChecked,
+    indeterminate: !this.thisChecked ? this.thisIndeterminate : false,
+    value: this.value
+  }
 
   constructor(
     @Optional() public translate: TranslateService
   ) { }
 
-  ngAfterContentInit(): void {
-    this.thisChecked = this.checked
-  }
-
   async ngOnChanges(changes: SimpleChanges) {
     if (changes.hasOwnProperty('checked')) {
       this.thisChecked = this.checked
+      this.context.checked = this.thisChecked
     }
     if (changes.hasOwnProperty('indeterminate')) {
       this.thisIndeterminate = this.indeterminate
+      this.context.indeterminate = !this.thisChecked ? this.thisIndeterminate : false
+    }
+    if (changes.hasOwnProperty('value')) {
+      this.context.value = this.value
     }
   }
 
   async validate() {
     if (this.externalError) {
       this.error = ''
-    } else if (this.required && !this.value && this.useFormErrors && this.translate) {
+    } else if (this.required && !this.thisChecked && this.useFormErrors && this.translate) {
       this.error = this.translate.instant('formErrors.required')
     } else {
       this.error = ''
@@ -76,19 +81,11 @@ export class SqSelectorComponent implements AfterContentInit, OnChanges {
 
   change(event: any): void {
     if (!this.readonly && !this.disabled) {
-      if (event.target.checked) {
-        this.sharedValue.emit({
-          value: this.value,
-          checked: true,
-        })
-        this.thisChecked = true
-      } else {
-        this.sharedValue.emit({
-          value: this.value,
-          checked: false,
-        })
-        this.thisChecked = false
-      }
+      this.sharedValue.emit({
+        value: this.value,
+        checked: event?.target?.checked,
+      })
+      this.thisChecked = event?.target?.checked
     }
     this.validate()
   }
