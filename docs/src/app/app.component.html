@@ -4,17 +4,22 @@
 <br/>
 <sq-loader></sq-loader>
 <br/>
-<sq-select
-  [id]="'teste'"
-  [name]="'teste'"
-  [label]="'teste'"
-  [placeholder]="'teste'"
-  [value]="title"
-  [required]="true"
-  [options]="[{value: 'teste', label: 'teste'}, {value: 'teste2', label: 'teste2'}]"
-  (sharedValue)="title = $event"
-></sq-select>
 {{ title }}
+<sq-selector
+  [id]="'teste-1'"
+  [name]="'teste-1'"
+  label="teste"
+  type="radio"
+></sq-selector>
+<sq-selector
+  [id]="'teste-2'"
+  [name]="'teste-1'"
+  label="teste"
+  type="radio"
+  [toggle]="true"
+>
+<ng-template let-checked="checked" let-value="value" #leftLabel> Label </ng-template>
+</sq-selector>
 <!-- <sq-progress-bar
   color='pink'
   [value]='100'

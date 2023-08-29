@@ -1,0 +1,60 @@
+<div
+  class="wrapper-selectors"
+  [ngClass]="{
+    toggle: toggle,
+    checked: thisChecked,
+    indeterminate: !thisChecked ? thisIndeterminate : false,
+    error: error
+  }"
+>
+  <label [for]="id" *ngIf="leftLabel">
+    <ng-container
+      [ngTemplateOutlet]="leftLabel"
+      [ngTemplateOutletContext]="{
+        checked: thisChecked,
+        value: value
+      }"
+    ></ng-container>
+  </label>
+  <input
+    [id]="id"
+    [name]="name"
+    [attr.type]="type"
+    (change)="change($event)"
+    [disabled]="disabled"
+    [readonly]="readonly"
+    [required]="required"
+    [checked]="thisChecked"
+    [indeterminate]="!(checked || thisChecked) ? indeterminate || thisIndeterminate : false"
+    #input
+  />
+  <label
+    [for]="id"
+    [ngClass]="{
+      disabled: disabled,
+      'hide-input': hideInput
+    }"
+    class="checkbox {{ type }}"
+  ></label>
+  <label [for]="id" *ngIf="label" [innerHtml]="label | universalSafe:'html'"></label>
+  <label [for]="id" *ngIf="rightLabel">
+    <ng-container
+      [ngTemplateOutlet]="rightLabel"
+      [ngTemplateOutletContext]="{
+        checked: thisChecked,
+        indeterminate: !thisChecked ? thisIndeterminate : false,
+        value: value
+      }"
+    ></ng-container>
+  </label>
+</div>
+<div
+  class="box-validation box-invalid show"
+  *ngIf="errorSpan"
+>
+  <ng-container *ngIf="externalError || error">
+    <i class="fa-solid fa-triangle-exclamation"></i>
+  </ng-container>
+  {{ externalError ? externalError : '' }}
+  {{ error && !externalError ? error : '' }}
+</div>
