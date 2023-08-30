@@ -1,0 +1,132 @@
+<div class="wrapper-all-inside-input {{ customClass }}">
+  <label
+    class="display-flex"
+    *ngIf="label?.length || tooltipMessage"
+    [ngClass]="{
+      readonly: readonly
+    }"
+    [for]="id"
+  >
+    <div *ngIf="label" [ngStyle]="{ 'color': labelColor }" [innerHtml]="label | universalSafe"></div>
+    <sq-tooltip
+      *ngIf="tooltipMessage"
+      class="ml-1"
+      [message]="tooltipMessage"
+      [placement]="tooltipPlacement"
+      [color]="tooltipColor"
+      [icon]="tooltipIcon"
+    ></sq-tooltip>
+  </label>
+  <div
+    class="wrapper-select-multi"
+    [ngClass]="{
+      error: (externalError && externalError !== '') || (error && error !== ''),
+      disabled: disabled,
+      readonly: readonly,
+      loading: loading
+    }"
+  >
+    <div
+      [class]="'input-fake col  border-' + borderColor"
+      style="min-height: auto"
+      [ngStyle]="{ 'border-color': borderColor }"
+      [ngClass]="{
+        'no-label': !(label && label.length > 0),
+        'has-icon': error || externalError,
+        disabled: disabled,
+        readonly: readonly
+      }"
+      [clickOutsideEnabled]="open"
+      (clickOutside)="closeDropdown()"
+    >
+      <div
+        class="input-fake-content"
+        [ngClass]="{
+          disabled: disabled
+        }"
+        (click)="open = !open; !open ? closeDropdown() : null"
+      >
+        <div class="loading-wrapper" *ngIf="loading">
+          <sq-loader></sq-loader>
+        </div>
+        <span *ngIf="!value?.length || !showInside">{{ placeholder }}</span>
+        <div class="input-fake-content-text" *ngIf="showInside && value?.length">
+          <span class="tag" *ngFor="let opt of value; let i = index" (click)="removeItem(opt)">
+            {{ opt?.label }} <i class="fas fa-times"></i>
+          </span>
+        </div>
+        <span *ngIf="value?.length" class="badge">{{ value!.length }}</span>
+        <i *ngIf="!loading" class="icon-down fas fa-chevron-down"></i>
+      </div>
+      <div
+        class="input-window scrollbar"
+        *ngIf="!disabled"
+        [ngClass]="{
+          open: open && !disabled && !loading
+        }"
+      >
+        <sq-input
+          [name]="name || timeStamp"
+          [id]="id || timeStamp"
+          [value]="searchText"
+          [placeholder]="placeholderSearch || (getTranslation('search') | async)"
+          (sharedValue)="searchText = $event"
+          [errorSpan]="false"
+          [externalIcon]="'<i class=\'fas fa-search\'></i>'"
+          class="input-search"
+          *ngIf="!hideSearch"
+        ></sq-input>
+        <ng-container *ngIf="open && !loading">
+          <ul class="list" *ngFor="let opt of options | search : getSearchValue(); let i = index">
+            <ng-container *ngTemplateOutlet="option; context: { opt: opt, i: i }"></ng-container>
+          </ul>
+        </ng-container>
+        <p *ngIf="!options?.length">
+          {{ getTranslation('seachSelectEmpty') | async }}
+        </p>
+      </div>
+    </div>
+  </div>
+  <div
+    class="box-validation box-invalid show"
+    *ngIf="errorSpan"
+    [ngClass]="{
+      'visibility-hidden-force': ((!externalError || externalError === '') && (!error || error === '')) || disabled || readonly
+    }"
+  >
+    <i [ngClass]="{
+      'visibility-hidden-force': !error || !externalError
+    }" class="fa-solid fa-triangle-exclamation"></i>
+    {{ externalError ? externalError : '' }}
+    {{ error && !externalError ? error : '' }}
+  </div>
+  <ng-template #option let-opt="opt" let-i="i">
+    <li>
+      <i
+        class="icon-collapse fas fa-chevron-down"
+        [ngClass]="{ 'fa-rotate-by': !opt.open }"
+        [ngStyle]="{ color: !opt?.children?.length || opt?.disabled ? 'transparent' : '' }"
+        (click)="handleCollapse(opt)"
+        style="--fa-rotate-angle: -90deg"
+        *ngIf="verifyIfOptionsHasChildren(options)"
+      ></i>
+      <sq-selector
+        [id]="(id || timeStamp) + '-checkbox-' + opt?.value + '-' + i"
+        [name]="(name || timeStamp) + '-checkbox'"
+        [value]="opt?.value"
+        [disabled]="opt?.disabled"
+        [checked]="findItemInValue(opt)"
+        [indeterminate]="verifyIfHasChildrenInValue(opt)"
+        (sharedValue)="emit(opt, $event.checked)"
+      ></sq-selector>
+      <span class="text m-0 display-inline-block" [ngClass]="{ 'cursor-pointer': opt?.children?.length }" (click)="handleCollapse(opt)">{{
+        opt?.label
+      }}</span>
+      <ul class="children" [ngClass]="{ open: opt.open && !opt?.disabled }" *ngIf="opt?.children?.length">
+        <ng-container *ngFor="let child of opt?.children | search : getSearchValue(); let j = index">
+          <ng-template *ngTemplateOutlet="option; context: { opt: child, i: j }"></ng-template>
+        </ng-container>
+      </ul>
+    </li>
+  </ng-template>
+</div>

@@ -7,6 +7,7 @@
     error: error
   }"
 >
+  {{ thisIndeterminate }}
   <label [for]="id" *ngIf="leftLabel">
     <ng-container
       *ngTemplateOutlet="leftLabel; context: context"
@@ -15,14 +16,17 @@
   <input
     [id]="id"
     [name]="name"
-    [attr.type]="type"
+    [type]="type"
     (change)="change($event)"
     [value]="value"
     [disabled]="disabled"
     [readonly]="readonly"
     [required]="required"
     [checked]="thisChecked"
-    [indeterminate]="!(checked || thisChecked) ? indeterminate || thisIndeterminate : false"
+    [ngClass]="{
+      indeterminate: !(checked || thisChecked) ? indeterminate || thisIndeterminate : null
+    }"
+    [indeterminate]="!(checked || thisChecked) ? indeterminate || thisIndeterminate : null"
   />
   <label
     [for]="id"

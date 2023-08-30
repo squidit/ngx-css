@@ -29,6 +29,7 @@ import { SqDropdownDirective } from './directives/sq-dropdown/sq-dropdown.direct
 import { SqSelectSearchComponent } from './components/sq-select-search/sq-select-search.component'
 import { SqClickOutsideDirective } from './directives/sq-click-outside/sq-click-outside.directive'
 import { SearchPipe } from './pipes/search/search.pipe'
+import { SqSelectMultiTagsComponent } from './components/sq-select-multi-tags/sq-select-multi-tags.component'
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import { SearchPipe } from './pipes/search/search.pipe'
     SqDropdownDirective,
     SqSelectSearchComponent,
     SqClickOutsideDirective,
-    SearchPipe
+    SearchPipe,
+    SqSelectMultiTagsComponent
   ],
   imports: [
     CommonModule,
@@ -93,7 +95,8 @@ import { SearchPipe } from './pipes/search/search.pipe'
     SqDropdownDirective,
     SqSelectSearchComponent,
     SqClickOutsideDirective,
-    SearchPipe
+    SearchPipe,
+    SqSelectMultiTagsComponent
   ]
 })
 export class SquidCSSModule { }

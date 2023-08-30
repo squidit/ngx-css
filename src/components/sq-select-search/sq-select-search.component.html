@@ -84,10 +84,16 @@
       </ng-container>
     </div>
   </div>
-  <div class="box-validation box-invalid show" *ngIf="errorSpan">
-    <ng-container *ngIf="externalError || error">
-      <i class="fa-solid fa-triangle-exclamation"></i>
-    </ng-container>
+  <div
+    class="box-validation box-invalid show"
+    *ngIf="errorSpan"
+    [ngClass]="{
+      'visibility-hidden-force': ((!externalError || externalError === '') && (!error || error === '')) || disabled || readonly
+    }"
+  >
+    <i [ngClass]="{
+      'visibility-hidden-force': !error || !externalError
+    }" class="fa-solid fa-triangle-exclamation"></i>
     {{ externalError ? externalError : '' }}
     {{ error && !externalError ? error : '' }}
   </div>

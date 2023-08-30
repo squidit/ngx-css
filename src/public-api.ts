@@ -25,6 +25,7 @@ export * from './components/sq-input-date/sq-input-date.component'
 export * from './components/sq-input-range/sq-input-range.component'
 export * from './components/sq-input-file/sq-input-file.component'
 export * from './components/sq-select-search/sq-select-search.component'
+export * from './components/sq-select-multi-tags/sq-select-multi-tags.component'
 
 export * from './directives/sq-tooltip/sq-tooltip.directive'
 export * from './directives/sq-dropdown/sq-dropdown.directive'

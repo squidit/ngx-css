@@ -47,6 +47,14 @@ tooltipPlacement="left center"
 [loading]="false"
 ></sq-select-search>
 {{ option | json }}
+<sq-select-multi-tags
+            [id]="'teste-5'"
+            [name]="'teste-5'"
+            label="teste-5"
+            [options]="multiOptions"
+            [(value)]="multiOption"
+          ></sq-select-multi-tags>
+          {{ multiOption | json }}
 <!-- <sq-selector
   [id]="'teste-1'"
   [name]="'teste-1'"
