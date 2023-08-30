@@ -1,4 +1,11 @@
-<div class="modal align-items-center {{ backdropClass }}" [ngClass]="{ open: open, 'need-priority': needPriority }" #modal>
+<div
+  class="modal align-items-center {{ backdropClass }}"
+  [id]="id"
+  [ngClass]="{
+    open: open,
+  }"
+  #modal
+>
   <div class="modal-dialog modal-{{ modalSize }} {{ modalClass }}">
     <div class="modal-content modal-sq">
       <div
@@ -15,7 +22,7 @@
         </button>
       </div>
 
-      <div class="modal-body scrollbar p-3">
+      <div class="modal-body scrollbar">
         <ng-content></ng-content>
       </div>
 

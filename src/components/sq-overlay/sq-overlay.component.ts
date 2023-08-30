@@ -4,6 +4,7 @@ import {
   ContentChild,
   ElementRef,
   EventEmitter,
+  HostListener,
   Inject,
   Input,
   OnChanges,
@@ -20,6 +21,7 @@ import {
   styleUrls: ['./sq-overlay.component.scss'],
 })
 export class SqOverlayComponent implements OnChanges, OnDestroy {
+  @Input() id = `random-id-${(1 + Date.now() + Math.random()).toString().replace('.', '')}`
   @Input() open?: boolean
   @Input() overlayDirection: 'right' | 'left' = 'right'
   @Input() width = '475px'
@@ -29,6 +31,7 @@ export class SqOverlayComponent implements OnChanges, OnDestroy {
   @Input() footerColor = 'var(--background_secondary)'
   @Input() bodyColor = 'var(--background_secondary)'
   @Input() showClose = true
+  @Input() backdrop = 'static'
 
   @Output() overlayClose: EventEmitter<void> = new EventEmitter()
   @Output() leftPress: EventEmitter<void> = new EventEmitter()
@@ -46,10 +49,23 @@ export class SqOverlayComponent implements OnChanges, OnDestroy {
   document: Document
   styleId = ''
   opened = false
+  enableBackdropClick = false
+  finishOpening = false
 
   constructor(@Inject(DOCUMENT) public documentImported: Document) {
     this.onKeydown = this.onKeydown.bind(this)
     this.document = documentImported || document
+  }
+
+  @HostListener('document:click', ['$event'])
+  backdropClick(event: any) {
+    if (this.backdrop === 'static' || !this.overlay || !this.open || !this.enableBackdropClick) {
+      return
+    }
+    const modalDialog = this.overlay.nativeElement.firstElementChild
+    if (!modalDialog?.contains(event.target)) {
+      this.toCloseOverlay()
+    }
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -76,11 +92,12 @@ export class SqOverlayComponent implements OnChanges, OnDestroy {
             backdrop.setAttribute('class', 'modal-backdrop show')
             body.appendChild(backdrop)
           }
-          this.opened = true
+          this.enableBackdropClick = true
+          this.finishOpening = true
         })
       } else if (this.overlay) {
         this.overlayClose.emit()
-        this.opened = false
+        this.finishOpening = false
         this.undoCssWidth()
         setTimeout(() => {
           if (this.overlay) {
@@ -91,6 +108,7 @@ export class SqOverlayComponent implements OnChanges, OnDestroy {
           backdrop.parentNode.removeChild(backdrop)
           body.classList.remove('block')
         }
+        this.enableBackdropClick = false
         window.removeEventListener('keydown', this.onKeydown)
       }
     }
@@ -129,7 +147,7 @@ export class SqOverlayComponent implements OnChanges, OnDestroy {
     }
   }
 
-  onKeydown(event: KeyboardEvent) {
+  onKeydown(event: any) {
     if (this.open) {
       this.modals = this.document.getElementsByClassName('modal open')
       if (this.modals?.length === this.modalNumber) {
@@ -149,6 +167,21 @@ export class SqOverlayComponent implements OnChanges, OnDestroy {
       case 39:
         this.rightPress.emit()
         break
+    }
+  }
+
+  toCloseOverlay() {
+    if (this.overlay && this.open) {
+      const body = this.document.getElementsByTagName('body')[0]
+      const backdrop = this.document.getElementById('modal-backdrop') || this.document.createElement('div')
+      this.overlayClose.emit()
+      this.overlay.nativeElement.style.display = 'none'
+      if (backdrop.parentNode && this.modalNumber === 1) {
+        backdrop.parentNode.removeChild(backdrop)
+        body.classList.remove('block')
+      }
+      window.removeEventListener('keydown', this.onKeydown)
+      this.enableBackdropClick = false
     }
   }
 }

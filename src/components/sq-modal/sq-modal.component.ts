@@ -4,6 +4,7 @@ import {
   ContentChild,
   ElementRef,
   EventEmitter,
+  HostListener,
   Inject,
   Input,
   OnChanges,
@@ -19,11 +20,12 @@ import {
   styleUrls: ['./sq-modal.component.scss'],
 })
 export class SqModalComponent implements OnChanges {
+  @Input() id = `random-id-${(1 + Date.now() + Math.random()).toString().replace('.', '')}`
   @Input() open?: boolean
   @Input() modalSize: 'sm' | 'md' | 'lg' | string = 'md'
   @Input() modalClass?: string
   @Input() backdropClass?: string
-  @Input() needPriority?: boolean
+  @Input() backdrop = 'static'
 
   @Output() modalClose: EventEmitter<void> = new EventEmitter()
   @Output() leftPress: EventEmitter<void> = new EventEmitter()
@@ -38,52 +40,78 @@ export class SqModalComponent implements OnChanges {
   modalNumber = 0
   hasHeader = false
   document: Document
+  enableBackdropClick = false
+  modalsLength = 0
 
   constructor(@Inject(DOCUMENT) public documentImported: Document) {
     this.onKeydown = this.onKeydown.bind(this)
     this.document = documentImported || document
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes.hasOwnProperty('open') || changes.hasOwnProperty('needPriority')) {
+  @HostListener('document:click', ['$event'])
+  backdropClick(event: any) {
+    if (this.backdrop === 'static' || !this.modal || !this.open || !this.enableBackdropClick) {
+      return
+    }
+    const modalDialog = this.modal.nativeElement.firstElementChild
+    if (!modalDialog?.contains(event.target)) {
       const body = this.document.getElementsByTagName('body')[0]
       const backdrop = this.document.getElementById('modal-backdrop') || this.document.createElement('div')
-      if (this.open && this.modal) {
+      this.modalClose.emit()
+      this.modal.nativeElement.style.display = 'none'
+      if (backdrop.parentNode && this.modalsLength === 1) {
+        backdrop.parentNode.removeChild(backdrop)
+        body.classList.remove('block')
+      }
+      window.removeEventListener('keydown', this.onKeydown)
+      this.enableBackdropClick = false
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.hasOwnProperty('open')) {
+      const body = this.document.getElementsByTagName('body')[0]
+      const backdrop = this.document.getElementById('modal-backdrop') || this.document.createElement('div')
+      const modal = this.modal
+      if (this.open && modal) {
         this.hasHeader = !!this.headerTemplate
-        this.modals = this.document.getElementsByClassName('modal open')
         body.classList.add('block')
-        this.modal.nativeElement.style.display = 'flex'
+        modal.nativeElement.style.display = 'flex'
         window.addEventListener('keydown', this.onKeydown)
+        this.modals = this.document.getElementsByClassName('modal open')
         setTimeout(() => {
-          this.modalNumber = this.modals?.length || 0
-          if (this.modalNumber === 1) {
+          this.modalsLength = this.modals?.length || 0
+          if (this.modalsLength === 1) {
             backdrop.setAttribute('id', 'modal-backdrop')
             backdrop.setAttribute('class', 'modal-backdrop show')
             body.appendChild(backdrop)
+          } else if (this.modalsLength > 1) {
+            modal.nativeElement.style.zIndex = 1060 + this.modalsLength + 1
+            setTimeout(() => {
+              backdrop.setAttribute('style', `z-index: ${1060 + this.modalsLength};`)
+            }, 200)
           }
+          this.enableBackdropClick = true
         })
-        if (this.needPriority) {
-          backdrop.setAttribute('style', 'z-index: 1080;')
-        }
-      } else if (this.modal) {
+      } else if (modal) {
         this.modalClose.emit()
-        this.modal.nativeElement.style.display = 'none'
-        if (backdrop.parentNode && this.modalNumber === 1) {
+        modal.nativeElement.style.display = 'none'
+        modal.nativeElement.style.zIndex = null
+        backdrop.removeAttribute('style')
+        if (backdrop.parentNode && this.modalsLength === 1) {
           backdrop.parentNode.removeChild(backdrop)
           body.classList.remove('block')
         }
+        this.enableBackdropClick = false
         window.removeEventListener('keydown', this.onKeydown)
-        if (this.needPriority) {
-          backdrop.removeAttribute('style')
-        }
       }
     }
   }
 
-  onKeydown(event: KeyboardEvent) {
+  onKeydown(event: any) {
     if (this.open) {
       this.modals = this.document.getElementsByClassName('modal')
-      if (this.modals?.length === this.modalNumber) {
+      if (this.modals?.length === this.modalsLength) {
         this.events(event.keyCode)
       }
     }
