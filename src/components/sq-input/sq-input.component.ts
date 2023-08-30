@@ -47,7 +47,7 @@ export class SqInputComponent {
   @Output() sharedEmail: EventEmitter<boolean> = new EventEmitter()
   @Output() sharedPhone: EventEmitter<boolean> = new EventEmitter()
   @Output() sharedLink: EventEmitter<boolean> = new EventEmitter()
-  @Output() sharedValue: EventEmitter<string> = new EventEmitter()
+  @Output() sharedValue: EventEmitter<any> = new EventEmitter()
 
   @ContentChild('leftLabel')
   leftLabel: TemplateRef<HTMLElement> | null = null
@@ -60,9 +60,9 @@ export class SqInputComponent {
   nativeElement: ElementRef
 
   constructor(
-    private validatorHelper: ValidatorHelper,
-    public element: ElementRef,
-    @Optional() private translate: TranslateService,
+    public validatorHelper: ValidatorHelper,
+    element: ElementRef,
+    @Optional() public translate: TranslateService,
   ) {
     this.nativeElement = element.nativeElement
   }

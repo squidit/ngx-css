@@ -1,0 +1,73 @@
+<div class="wrapper-all-inside-input {{ customClass }}">
+  <label
+    class="display-flex"
+    *ngIf="label?.length || tooltipMessage"
+    [ngClass]="{
+      readonly: readonly
+    }"
+    [for]="id"
+  >
+    <div *ngIf="label" [ngStyle]="{ 'color': labelColor }" [innerHtml]="label | universalSafe:'html'"></div>
+    <sq-tooltip
+      *ngIf="tooltipMessage"
+      class="ml-1"
+      [message]="tooltipMessage"
+      [placement]="tooltipPlacement"
+      [color]="tooltipColor"
+      [icon]="tooltipIcon"
+    ></sq-tooltip>
+  </label>
+  <div
+    class="p-0 wrapper-input wrapper-input-squid text-ellipsisarea"
+    [ngClass]="{
+      error: (externalError && externalError !== '') || (error && error !== ''),
+      readonly: readonly
+    }"
+  >
+    <span class="input-group-text m-0" *ngIf="leftLabel">
+      <ng-container *ngTemplateOutlet="leftLabel"></ng-container>
+    </span>
+    <input
+      class="col input"
+      [ngClass]="{
+        'has-icon': error || externalError,
+        disabled: disabled,
+        readonly: readonly
+      }"
+      [id]="id || timeStamp"
+      [type]="'date'"
+      [name]="name || timeStamp"
+      [placeholder]="placeholder || ''"
+      [required]="required"
+      [disabled]="disabled"
+      [readonly]="readonly"
+      (blur)="validate(true)"
+      [ngModel]="value"
+      (ngModelChange)="change($event)"
+      (keydown)="keyDown($event)"
+      (keyup)="keyUp($event)"
+      ngDefaultControl
+    />
+    <span class="input-group-text m-0" *ngIf="rightLabel">
+      <ng-container *ngTemplateOutlet="rightLabel"></ng-container>
+    </span>
+  </div>
+  <span
+    *ngIf="externalIcon"
+    class="icon icon-external textarea-icon"
+    [ngClass]="{
+      'no-label': !label?.length
+    }"
+    [innerHtml]="externalIcon || '' | universalSafe:'html'"
+  ></span>
+  <div
+    class="box-validation box-invalid show"
+    *ngIf="errorSpan"
+  >
+    <ng-container *ngIf="externalError || error">
+      <i class="fa-solid fa-triangle-exclamation"></i>
+    </ng-container>
+    {{ externalError ? externalError : '' }}
+    {{ error && !externalError ? error : '' }}
+  </div>
+</div>

@@ -22,6 +22,7 @@ import { FormsModule } from '@angular/forms'
 import { SqSelectComponent } from './components/sq-select/sq-select.component'
 import { SqSelectorComponent } from './components/sq-selector/sq-selector.component'
 import { SqInputComponent } from './components/sq-input/sq-input.component'
+import { SqInputDateComponent } from './components/sq-input-date/sq-input-date.component'
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { SqInputComponent } from './components/sq-input/sq-input.component'
     SqTextAreaComponent,
     SqSelectComponent,
     SqSelectorComponent,
-    SqInputComponent
+    SqInputComponent,
+    SqInputDateComponent
   ],
   imports: [
     CommonModule,
@@ -72,7 +74,8 @@ import { SqInputComponent } from './components/sq-input/sq-input.component'
     SqTextAreaComponent,
     SqSelectComponent,
     SqSelectorComponent,
-    SqInputComponent
+    SqInputComponent,
+    SqInputDateComponent
   ]
 })
 export class SquidCSSModule { }

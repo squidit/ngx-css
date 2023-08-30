@@ -15,6 +15,15 @@
   (sharedValue)="title = $event"
   [maxLength]="10"
 ></sq-input>
+<sq-input-date
+  [id]="'teste-2'"
+  [name]="'teste-2'"
+  label="date"
+  [required]="true"
+  [value]="date"
+  (sharedValue)="date = $event"
+></sq-input-date>
+{{ date }}
 <!-- <sq-selector
   [id]="'teste-1'"
   [name]="'teste-1'"
