@@ -35,7 +35,11 @@ export class SqSelectorComponent implements OnChanges {
   @Input() label = ''
   @Input() errorSpan = true
 
-  @Output() sharedValue: EventEmitter<any> = new EventEmitter()
+  @Output() sharedValue: EventEmitter<{
+    value: any
+    checked: boolean
+  }> = new EventEmitter()
+  @Output() sharedValid: EventEmitter<boolean> = new EventEmitter()
 
   @ContentChild('rightLabel')
   rightLabel: TemplateRef<HTMLElement> | null = null
@@ -72,10 +76,18 @@ export class SqSelectorComponent implements OnChanges {
   async validate() {
     if (this.externalError) {
       this.error = ''
-    } else if (this.required && !this.thisChecked && this.useFormErrors && this.translate) {
-      this.error = this.translate.instant('formErrors.required')
+    } else if (this.required && !this.thisChecked) {
+      this.sharedValid.emit(false)
+      this.error = await this.translate.instant('formErrors.required')
     } else {
+      this.sharedValid.emit(true)
       this.error = ''
+    }
+  }
+
+  async setError(key: string) {
+    if (this.useFormErrors && this.translate) {
+      this.error = await this.translate.instant(key)
     }
   }
 

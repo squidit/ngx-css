@@ -20,6 +20,7 @@ export * from './components/sq-tag/sq-tag.component'
 export * from './components/sq-textarea/sq-textarea.component'
 export * from './components/sq-select/sq-select.component'
 export * from './components/sq-selector/sq-selector.component'
+export * from './components/sq-input/sq-input.component'
 
 export * from './directives/sq-tooltip/sq-tooltip.directive'
 

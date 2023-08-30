@@ -1,13 +1,13 @@
-import { Component, ContentChild, ElementRef, EventEmitter, Input, Optional, Output, TemplateRef } from "@angular/core"
-import { ValidatorHelper } from '../../helpers/validator.helper'
+import { Component, ContentChild, ElementRef, EventEmitter, Input, Optional, Output, TemplateRef } from '@angular/core'
 import { TranslateService } from '@ngx-translate/core'
+import { ValidatorHelper } from '../../helpers/validator.helper'
 
 @Component({
-  selector: 'sq-textarea',
-  templateUrl: './sq-textarea.component.html',
-  styleUrls: ['./sq-textarea.component.scss']
+  selector: 'sq-input',
+  templateUrl: './sq-input.component.html',
+  styleUrls: ['./sq-input.component.scss']
 })
-export class SqTextAreaComponent {
+export class SqInputComponent {
   @Input() name = ''
   @Input() id = ''
   @Input() label?: string
@@ -34,12 +34,20 @@ export class SqTextAreaComponent {
   @Input() borderColor = ''
   @Input() labelColor = ''
 
-  @Input() maxLength: number | null = null
+  @Input() type: 'text' | 'email' | 'hidden' | 'password' | 'tel' | 'url' = 'text'
 
-  @Output() sharedValue: EventEmitter<string> = new EventEmitter()
+  @Input() maxLength: number | null = null
+  @Input() pattern = ''
+  @Input() inputMode = ''
+
   @Output() sharedKeyPress: EventEmitter<KeyboardEvent> = new EventEmitter()
-  @Output() sharedValid: EventEmitter<boolean> = new EventEmitter()
+  @Output() sharedKeyPressUp: EventEmitter<KeyboardEvent> = new EventEmitter()
   @Output() sharedFocus: EventEmitter<boolean> = new EventEmitter()
+  @Output() sharedValid: EventEmitter<boolean> = new EventEmitter()
+  @Output() sharedEmail: EventEmitter<boolean> = new EventEmitter()
+  @Output() sharedPhone: EventEmitter<boolean> = new EventEmitter()
+  @Output() sharedLink: EventEmitter<boolean> = new EventEmitter()
+  @Output() sharedValue: EventEmitter<string> = new EventEmitter()
 
   @ContentChild('leftLabel')
   leftLabel: TemplateRef<HTMLElement> | null = null
@@ -52,38 +60,50 @@ export class SqTextAreaComponent {
   nativeElement: ElementRef
 
   constructor(
-    public validatorHelper: ValidatorHelper,
+    private validatorHelper: ValidatorHelper,
     public element: ElementRef,
-    @Optional() public translate: TranslateService
+    @Optional() private translate: TranslateService,
   ) {
     this.nativeElement = element.nativeElement
   }
 
   async validate(isBlur = false) {
+    if (this.externalError) {
+      this.error = false
+    } else if (!!this.required && !this.value) {
+      this.sharedValid.emit(false)
+      this.setError('formErrors.required')
+    } else if (this.type === 'email' && !this.validatorHelper.email(this.value)) {
+      this.sharedEmail.emit(false)
+      this.setError('formErrors.email')
+    } else if (this.type === 'tel' && !this.validatorHelper.phone(this.value)) {
+      this.sharedPhone.emit(false)
+      this.setError('formErrors.phone')
+    } else if (this.type === 'url' && this.value && this.value.length && !this.validatorHelper.url(this.value)) {
+      this.sharedLink.emit(false)
+      this.setError('formErrors.url')
+    } else {
+      this.sharedValid.emit(true)
+      this.sharedLink.emit(true)
+      this.sharedLink.emit(true)
+      this.sharedPhone.emit(true)
+      this.error = ''
+    }
+
     if (isBlur) {
       this.sharedFocus.emit(false)
     }
-    if (this.externalError) {
-      this.error = false
-    } else if (this.required && !this.value) {
-      this.sharedValid.emit(false)
-      this.setError('formErrors.required')
-    } else {
-      this.sharedValid.emit(true)
-      this.error = ''
-    }
   }
 
-  change(event: string): void {
+  change(event: any): void {
     this.sharedFocus.emit(true)
+    this.value = event
     if (this.hasTimeout) {
-      this.value = event
       clearTimeout(this.timeoutInput)
       this.timeoutInput = setTimeout(() => {
         this.sharedValue.emit(event)
       }, this.timeOutInputTime)
     } else {
-      this.value = event
       this.sharedValue.emit(event)
     }
     this.validate()
@@ -97,5 +117,9 @@ export class SqTextAreaComponent {
 
   keyDown(event: KeyboardEvent) {
     this.sharedKeyPress.emit(event)
+  }
+
+  keyUp(event: KeyboardEvent) {
+    this.sharedKeyPressUp.emit(event)
   }
 }

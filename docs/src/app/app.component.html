@@ -5,7 +5,17 @@
 <sq-loader></sq-loader>
 <br/>
 {{ title }}
-<sq-selector
+<sq-input
+  [id]="'teste-1'"
+  [name]="'teste-1'"
+  label="teste"
+  [required]="true"
+  [tooltipMessage]="'teste'"
+  [value]="title"
+  (sharedValue)="title = $event"
+  [maxLength]="10"
+></sq-input>
+<!-- <sq-selector
   [id]="'teste-1'"
   [name]="'teste-1'"
   label="teste"
@@ -20,7 +30,7 @@
   [required]="true"
 >
 <ng-template let-checked="checked" let-value="value" #leftLabel> Label </ng-template>
-</sq-selector>
+</sq-selector> -->
 <!-- <sq-progress-bar
   color='pink'
   [value]='100'

@@ -51,6 +51,7 @@ export class SqSelectComponent {
 
   @Output() sharedValue: EventEmitter<any> = new EventEmitter()
   @Output() sharedFocus: EventEmitter<boolean> = new EventEmitter()
+  @Output() sharedValid: EventEmitter<boolean> = new EventEmitter()
 
   error: boolean | string = false
   timeoutInput!: ReturnType<typeof setTimeout>
@@ -65,14 +66,22 @@ export class SqSelectComponent {
   validate(isBlur = false) {
     if (this.externalError) {
       this.error = false
-    } else if (this.required && !this.value && this.useFormErrors && this.translate) {
-      this.error = this.translate.instant('formErrors.required')
+    } else if (this.required && !this.value) {
+      this.sharedValid.emit(false)
+      this.setError('formErrors.required')
     } else {
+      this.sharedValid.emit(true)
       this.error = ''
     }
 
     if (isBlur) {
       this.sharedFocus.emit(false)
+    }
+  }
+
+  async setError(key: string) {
+    if (this.useFormErrors && this.translate) {
+      this.error = await this.translate.instant(key)
     }
   }
 
