@@ -1,0 +1,63 @@
+<div class="wrapper-all-inside-input {{ customClass }}" [ngClass]="{
+  'no-label': !label.length
+}">
+  <label
+    class="display-flex"
+    *ngIf="label?.length"
+    [ngClass]="{
+      readonly: readonly
+    }"
+    [for]="id"
+  >
+    <div *ngIf="label?.length" [ngStyle]="{ 'color': labelColor }" [innerHtml]="label | universalSafe:'html'"></div>
+  </label>
+  <div
+    class="p-0 wrapper-input wrapper-input-squid"
+    [ngClass]="{
+      error: (externalError && externalError !== '') || (error && error !== ''),
+    }"
+  >
+    <!-- <span class="bar" #bar></span>
+    <span
+      class="bar-fully background-{{ color }}"
+      [ngStyle]="{ 'background-color': color }"
+      [ngClass]="{
+        readonly: readonly
+      }"
+      #barFully
+    ></span>
+    <span
+      class="circle background-{{ color }}"
+      [ngStyle]="{ 'background-color': color }"
+      [ngClass]="{
+        readonly: readonly
+      }"
+      #circle
+    ></span> -->
+    <div class="value-floating" #valueFloating>
+      {{ value }}
+    </div>
+    <input
+      [id]="id || timeStamp"
+      type="range"
+      class="range"
+      [name]="name || timeStamp"
+      [step]="step"
+      [required]="required"
+      [disabled]="readonly"
+      [min]="minNumber || ''"
+      [max]="maxNumber || ''"
+      (blur)="validate(true)"
+      [ngModel]="value"
+      (ngModelChange)="change($event)"
+      ngDefaultControl
+    />
+  </div>
+  <div class="box-validation box-invalid show" *ngIf="errorSpan">
+    <ng-container *ngIf="externalError || error">
+      <i class="fa-solid fa-triangle-exclamation"></i>
+    </ng-container>
+    {{ externalError ? externalError : '' }}
+    {{ error && !externalError ? error : '' }}
+  </div>
+</div>

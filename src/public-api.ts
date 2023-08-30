@@ -22,6 +22,7 @@ export * from './components/sq-select/sq-select.component'
 export * from './components/sq-selector/sq-selector.component'
 export * from './components/sq-input/sq-input.component'
 export * from './components/sq-input-date/sq-input-date.component'
+export * from './components/sq-input-range/sq-input-range.component'
 
 export * from './directives/sq-tooltip/sq-tooltip.directive'
 

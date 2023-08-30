@@ -1,0 +1,16 @@
+.wrapper-all-inside-input {
+  position: relative;
+  &.no-label{
+    margin-top: 2rem;
+  }
+  label {
+    margin: 0 auto 2.5rem;
+  }
+  .value-floating {
+    position: absolute;
+    bottom: 26px;
+    font-size: 0.86rem;
+    line-height: 1;
+    left: 6px;
+  }
+}

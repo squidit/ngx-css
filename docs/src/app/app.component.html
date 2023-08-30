@@ -24,6 +24,12 @@
   (sharedValue)="date = $event"
 ></sq-input-date>
 {{ date }}
+<sq-input-range
+[id]="'teste-3'"
+[name]="'teste-3'"
+[value]="val"
+(sharedValue)="val = $event"
+></sq-input-range>
 <!-- <sq-selector
   [id]="'teste-1'"
   [name]="'teste-1'"
