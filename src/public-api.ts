@@ -24,16 +24,21 @@ export * from './components/sq-input/sq-input.component'
 export * from './components/sq-input-date/sq-input-date.component'
 export * from './components/sq-input-range/sq-input-range.component'
 export * from './components/sq-input-file/sq-input-file.component'
+export * from './components/sq-select-search/sq-select-search.component'
 
 export * from './directives/sq-tooltip/sq-tooltip.directive'
 export * from './directives/sq-dropdown/sq-dropdown.directive'
+export * from './directives/sq-click-outside/sq-click-outside.directive'
 
 export * from './pipes/thousands/thousands.pipe'
 export * from './pipes/universal-safe/universal-safe.pipe'
+export * from './pipes/search/search.pipe'
 
 export * from './helpers/colors.helper'
 export * from './helpers/memo.helper'
 export * from './helpers/toast.helper'
 export * from './helpers/validator.helper'
+
+export * from './interfaces/option.interface'
 
 export * from './main.module'

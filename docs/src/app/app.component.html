@@ -35,6 +35,18 @@
 [name]="'teste-4'"
 placeholder="teste"
 ></sq-input-file>
+<sq-select-search
+[id]="'search-influencer-organization-filter'"
+[name]="'search-influencer-organization-filter'"
+[options]="[{label: 'teste', value: 'teste'}, {label: 'teste2', value: 'teste2'}, {label: 'teste3', value: 'teste3'}, {label: 'teste4', value: 'teste4'}]"
+label="teste4"
+tooltipMessage="teste"
+tooltipPlacement="left center"
+[readonly]="false"
+[(value)]="option"
+[loading]="false"
+></sq-select-search>
+{{ option | json }}
 <!-- <sq-selector
   [id]="'teste-1'"
   [name]="'teste-1'"

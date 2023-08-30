@@ -1,11 +1,6 @@
 import { Component, ContentChild, EventEmitter, Input, Output, TemplateRef, Optional, ElementRef } from '@angular/core'
 import { TranslateService } from '@ngx-translate/core'
-
-export interface Option {
-  value: any
-  label: string
-  disabled?: boolean
-}
+import { Option } from '../../interfaces/option.interface'
 
 @Component({
   selector: 'sq-select',

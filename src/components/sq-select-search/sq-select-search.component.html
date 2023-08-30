@@ -1,0 +1,99 @@
+<div
+  class="wrapper-all-inside-input wrapper-select-search {{ customClass }}"
+  [ngClass]="{
+    error: (externalError && externalError !== '') || (error && error !== ''),
+    readonly: readonly,
+    loading: loading
+  }"
+>
+  <label
+    class="display-flex"
+    *ngIf="label?.length || tooltipMessage"
+    [ngClass]="{
+      readonly: readonly
+    }"
+    [for]="id"
+  >
+    <div *ngIf="label" [ngStyle]="{ 'color': labelColor }" [innerHtml]="label | universalSafe"></div>
+    <sq-tooltip
+      *ngIf="tooltipMessage"
+      class="ml-1"
+      [message]="tooltipMessage"
+      [placement]="tooltipPlacement"
+      [color]="tooltipColor"
+      [icon]="tooltipIcon"
+    ></sq-tooltip>
+  </label>
+  <div
+    [class]="'input-fake col  border-' + borderColor"
+    style="min-height: auto"
+    [ngStyle]="{ 'border-color': borderColor }"
+    [ngClass]="{
+      'no-label': !label.length,
+      'has-icon': error || externalError,
+      disabled: disabled,
+      readonly: readonly
+    }"
+    (clickOutside)="closeDropdown()"
+    [clickOutsideEnabled]="open"
+  >
+    <div
+      class="input-fake-content"
+      [ngClass]="{
+        disabled: disabled
+      }"
+      (click)="open = !open; !open ? closeDropdown() : null"
+    >
+      <div class="loading-wrapper" *ngIf="loading">
+        <sq-loader></sq-loader>
+      </div>
+      <span *ngIf="!value">{{ placeholder }}</span>
+      <div class="input-fake-content-text" *ngIf="value">
+        <span class="text" *ngIf="value">
+          {{ value!.label }}
+        </span>
+      </div>
+      <i *ngIf="!loading" class="icon-down fas fa-chevron-down"></i>
+    </div>
+    <div
+      class="input-window scrollbar"
+      *ngIf="!disabled"
+      [ngClass]="{
+        open: open && !disabled
+      }"
+    >
+      <sq-input
+        [name]="name || timeStamp"
+        [id]="id || timeStamp"
+        [borderColor]="borderColor"
+        [value]="searchText"
+        [hasTimeout]="hasTimeout"
+        [placeholder]="placeholderSearch || (getTranslation('search') | async)"
+        (sharedValue)="onTipSearchChange($event)"
+        [errorSpan]="false"
+        [externalIcon]="'<i class=\'fa-solid fa-search\'></i>'"
+        class="input-search"
+      ></sq-input>
+      <ng-container *ngIf="open && !loading">
+        <ul class="list" *ngFor="let opt of options | search : getSearchValue(); let i = index">
+          <ng-container *ngTemplateOutlet="option; context: { opt: opt, i: i }"></ng-container>
+        </ul>
+        <p class="mb-0 mt-3" *ngIf="!options?.length">
+          {{ getTranslation('seachSelectEmpty') | async }}
+        </p>
+      </ng-container>
+    </div>
+  </div>
+  <div class="box-validation box-invalid show" *ngIf="errorSpan">
+    <ng-container *ngIf="externalError || error">
+      <i class="fa-solid fa-triangle-exclamation"></i>
+    </ng-container>
+    {{ externalError ? externalError : '' }}
+    {{ error && !externalError ? error : '' }}
+  </div>
+</div>
+<ng-template #option let-opt="opt" let-i="i">
+  <li (click)="emit(opt)">
+    <span class="text m-0 display-inline-block">{{ opt?.label }}</span>
+  </li>
+</ng-template>

@@ -1,5 +1,7 @@
 {
   "formErrors": {
+    "search": "Search",
+    "seachSelectEmpty": "There are no options to select",
     "fileSize": "File too large",
     "required": "Required field",
     "email": "Invalid email",

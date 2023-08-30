@@ -26,6 +26,9 @@ import { SqInputDateComponent } from './components/sq-input-date/sq-input-date.c
 import { SqInputRangeComponent } from './components/sq-input-range/sq-input-range.component'
 import { SqInputFileComponent } from './components/sq-input-file/sq-input-file.component'
 import { SqDropdownDirective } from './directives/sq-dropdown/sq-dropdown.directive'
+import { SqSelectSearchComponent } from './components/sq-select-search/sq-select-search.component'
+import { SqClickOutsideDirective } from './directives/sq-click-outside/sq-click-outside.directive'
+import { SearchPipe } from './pipes/search/search.pipe'
 
 @NgModule({
   declarations: [
@@ -53,7 +56,10 @@ import { SqDropdownDirective } from './directives/sq-dropdown/sq-dropdown.direct
     SqInputDateComponent,
     SqInputRangeComponent,
     SqInputFileComponent,
-    SqDropdownDirective
+    SqDropdownDirective,
+    SqSelectSearchComponent,
+    SqClickOutsideDirective,
+    SearchPipe
   ],
   imports: [
     CommonModule,
@@ -84,7 +90,10 @@ import { SqDropdownDirective } from './directives/sq-dropdown/sq-dropdown.direct
     SqInputDateComponent,
     SqInputRangeComponent,
     SqInputFileComponent,
-    SqDropdownDirective
+    SqDropdownDirective,
+    SqSelectSearchComponent,
+    SqClickOutsideDirective,
+    SearchPipe
   ]
 })
 export class SquidCSSModule { }

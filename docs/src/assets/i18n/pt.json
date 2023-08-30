@@ -1,5 +1,7 @@
 {
   "formErrors": {
+    "search": "Buscar",
+    "seachSelectEmpty": "Não há opções a serem selecionadas",
     "fileSize": "O arquivo enviado é muito grande, tente diminuir a qualidade ou fazer o upload novamente.",
     "required": "Campo obrigatório",
     "email": "E-mail inválido",
