@@ -5,7 +5,7 @@ import { Component, Input } from '@angular/core'
   templateUrl: './sq-tooltip.component.html',
   styleUrls: ['./sq-tooltip.component.scss'],
 })
-export class TooltipComponent {
+export class SqTooltipComponent {
   @Input() color = ''
   @Input() icon = ''
   @Input() placement = 'center top'

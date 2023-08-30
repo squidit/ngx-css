@@ -5,7 +5,7 @@ import { SqLoaderComponent } from './components/sq-loader/sq-loader.component'
 import { SqProgressBarComponent } from './components/sq-progress-bar/sq-progress-bar.component'
 import { SqStepsComponent } from './components/sq-steps/sq-steps.component'
 import { SqTooltipDirective } from './directives/sq-tooltip/sq-tooltip.directive'
-import { TooltipComponent } from './components/sq-tooltip/sq-tooltip.component'
+import { SqTooltipComponent } from './components/sq-tooltip/sq-tooltip.component'
 import { UniversalSafePipe } from './pipes/universal-safe/universal-safe.pipe'
 import { ThousandSuffixesPipe } from './pipes/thousands/thousands.pipe'
 import { SqTabComponent } from './components/sq-tabs/sq-tab/sq-tab.component'
@@ -25,6 +25,7 @@ import { SqInputComponent } from './components/sq-input/sq-input.component'
 import { SqInputDateComponent } from './components/sq-input-date/sq-input-date.component'
 import { SqInputRangeComponent } from './components/sq-input-range/sq-input-range.component'
 import { SqInputFileComponent } from './components/sq-input-file/sq-input-file.component'
+import { SqDropdownDirective } from './directives/sq-dropdown/sq-dropdown.directive'
 
 @NgModule({
   declarations: [
@@ -33,7 +34,7 @@ import { SqInputFileComponent } from './components/sq-input-file/sq-input-file.c
     SqProgressBarComponent,
     SqStepsComponent,
     SqTooltipDirective,
-    TooltipComponent,
+    SqTooltipComponent,
     UniversalSafePipe,
     ThousandSuffixesPipe,
     SqTabComponent,
@@ -51,7 +52,8 @@ import { SqInputFileComponent } from './components/sq-input-file/sq-input-file.c
     SqInputComponent,
     SqInputDateComponent,
     SqInputRangeComponent,
-    SqInputFileComponent
+    SqInputFileComponent,
+    SqDropdownDirective
   ],
   imports: [
     CommonModule,
@@ -63,7 +65,7 @@ import { SqInputFileComponent } from './components/sq-input-file/sq-input-file.c
     SqProgressBarComponent,
     SqStepsComponent,
     SqTooltipDirective,
-    TooltipComponent,
+    SqTooltipComponent,
     UniversalSafePipe,
     ThousandSuffixesPipe,
     SqTabComponent,
@@ -81,7 +83,8 @@ import { SqInputFileComponent } from './components/sq-input-file/sq-input-file.c
     SqInputComponent,
     SqInputDateComponent,
     SqInputRangeComponent,
-    SqInputFileComponent
+    SqInputFileComponent,
+    SqDropdownDirective
   ]
 })
 export class SquidCSSModule { }

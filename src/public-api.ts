@@ -26,6 +26,7 @@ export * from './components/sq-input-range/sq-input-range.component'
 export * from './components/sq-input-file/sq-input-file.component'
 
 export * from './directives/sq-tooltip/sq-tooltip.directive'
+export * from './directives/sq-dropdown/sq-dropdown.directive'
 
 export * from './pipes/thousands/thousands.pipe'
 export * from './pipes/universal-safe/universal-safe.pipe'
