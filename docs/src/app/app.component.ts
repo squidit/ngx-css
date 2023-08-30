@@ -9,7 +9,7 @@ export class AppComponent {
   title = ''
   modal = false
   overlay = false
-  date = new Date()
+  date = '2023-08-30T14:24:08.292Z'
 
   onScroll() {
     console.log('scroll')

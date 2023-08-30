@@ -15,7 +15,13 @@ export class SqInputComponent {
   @Input() placeholder = ''
   @Input() externalError = ''
   @Input() externalIcon = ''
-  @Input() value: any = ''
+  @Input()
+  public set value(value: any) {
+    this._value = value
+  }
+  public get value(): any {
+    return this._value
+  }
 
   @Input() timeOutInputTime = 800
   @Input() hasTimeout = false
@@ -54,6 +60,7 @@ export class SqInputComponent {
   @ContentChild('rightLabel')
   rightLabel: TemplateRef<HTMLElement> | null = null
 
+  _value: any = ''
   error: boolean | string = false
   timeoutInput!: ReturnType<typeof setTimeout>
   timeStamp = `random-id-${(1 + Date.now() + Math.random()).toString().replace('.', '')}`
@@ -85,7 +92,7 @@ export class SqInputComponent {
     } else {
       this.sharedValid.emit(true)
       this.sharedLink.emit(true)
-      this.sharedLink.emit(true)
+      this.sharedEmail.emit(true)
       this.sharedPhone.emit(true)
       this.error = ''
     }

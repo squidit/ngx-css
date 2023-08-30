@@ -11,6 +11,14 @@ import { SqInputComponent } from '../sq-input/sq-input.component'
 export class SqInputDateComponent extends SqInputComponent {
   @Input() minDate = '0001-01-01'
   @Input() maxDate = '9999-12-31'
+  @Input() override placeholder = 'dd-mm-yyyy'
+  @Input()
+  public override set value(value: any) {
+    this._value = new Date(value)
+  }
+  public override get value(): any {
+    return this._value.toISOString().split('T')[0]
+  }
 
   @Output() sharedDate: EventEmitter<boolean> = new EventEmitter()
 
@@ -26,43 +34,20 @@ export class SqInputDateComponent extends SqInputComponent {
   override async validate(isBlur = false) {
     if (this.externalError) {
       this.error = false
-    } else if (!!this.required && !this.value) {
+    } else if (!!this.required && !this._value) {
       this.sharedValid.emit(false)
       this.setError('formErrors.required')
-    } else if (!this.validatorHelper.date(this.value)) {
-      this.sharedDate.emit(false)
-    } else {
-      this.sharedValid.emit(true)
-      this.sharedLink.emit(true)
-      this.sharedLink.emit(true)
-      this.sharedPhone.emit(true)
-      this.error = ''
-    }
-
-    if (isBlur) {
-      this.sharedFocus.emit(false)
-    }
-
-
-    if (this.externalError) {
-      this.error = false
-    } else if (!!this.required && !this.value) {
-      this.sharedValid.emit(false)
-      this.setError('formErrors.required')
-    } else if (!this.validatorHelper.date(this.value)) {
+    } else if (!this.validatorHelper.date(this._value)) {
       this.sharedDate.emit(false)
       this.setError('formErrors.date')
-    } else if (this.formatDate(this.minDate) > this.formatDate(this.value)) {
+    } else if (this.formatDate(this.minDate) > this._value) {
       this.sharedDate.emit(false)
       this.setError('formErrors.rangeDate')
-    } else if (this.formatDate(this.maxDate) < this.formatDate(this.value)) {
+    } else if (this.formatDate(this.maxDate) < this._value) {
       this.sharedDate.emit(false)
       this.setError('formErrors.rangeDate')
     } else {
       this.sharedValid.emit(true)
-      this.sharedLink.emit(true)
-      this.sharedLink.emit(true)
-      this.sharedPhone.emit(true)
       this.sharedDate.emit(true)
       this.error = ''
     }
@@ -76,7 +61,8 @@ export class SqInputDateComponent extends SqInputComponent {
     event = event?.target?.valueAsDate ? event.target.valueAsDate : event?.target?.value || event
     if (!this.disabled && !this.readonly) {
       this.sharedFocus.emit(true)
-      this.value = event
+      this._value = event
+      event = this.getISOValidDate(event)
       if (this.hasTimeout) {
         clearTimeout(this.timeoutInput)
         this.timeoutInput = setTimeout(() => {
@@ -89,7 +75,29 @@ export class SqInputDateComponent extends SqInputComponent {
     }
   }
 
+  getISOValidDate(value: Date) {
+    try {
+      let isoDate = ''
+      if (value) {
+        isoDate = new Date(value)?.toISOString().split('T')[0] + 'T00:00:00.000Z'
+      }
+      if (isoDate === 'Invalid date') {
+        return ''
+      }
+      return isoDate
+    } catch (error) {
+      return ''
+    }
+  }
+
   formatDate(value: any) {
-    return (value && new Date(value).toISOString().split('T')[0]) || ''
+    if (!value) {
+      return ''
+    }
+    try {
+      return new Date(value).toISOString().split('T')[0]
+    } catch (error) {
+      return ''
+    }
   }
 }

@@ -42,7 +42,7 @@
       [disabled]="disabled"
       [readonly]="readonly"
       (blur)="validate(true)"
-      [ngModel]="value"
+      [ngModel]="_value"
       [maxlength]="maxLength"
       (ngModelChange)="change($event)"
       (keydown)="keyDown($event)"
