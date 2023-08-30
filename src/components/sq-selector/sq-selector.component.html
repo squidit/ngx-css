@@ -32,7 +32,7 @@
     }"
     class="checkbox {{ type }}"
   ></label>
-  <label [for]="id" *ngIf="label" [innerHtml]="label | universalSafe:'html'"></label>
+  <label [for]="id" *ngIf="label" [innerHtml]="label | universalSafe"></label>
   <label [for]="id" *ngIf="rightLabel">
     <ng-container
       *ngTemplateOutlet="rightLabel; context: context"

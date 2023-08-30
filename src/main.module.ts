@@ -24,6 +24,7 @@ import { SqSelectorComponent } from './components/sq-selector/sq-selector.compon
 import { SqInputComponent } from './components/sq-input/sq-input.component'
 import { SqInputDateComponent } from './components/sq-input-date/sq-input-date.component'
 import { SqInputRangeComponent } from './components/sq-input-range/sq-input-range.component'
+import { SqInputFileComponent } from './components/sq-input-file/sq-input-file.component'
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { SqInputRangeComponent } from './components/sq-input-range/sq-input-rang
     SqSelectorComponent,
     SqInputComponent,
     SqInputDateComponent,
-    SqInputRangeComponent
+    SqInputRangeComponent,
+    SqInputFileComponent
   ],
   imports: [
     CommonModule,
@@ -78,7 +80,8 @@ import { SqInputRangeComponent } from './components/sq-input-range/sq-input-rang
     SqSelectorComponent,
     SqInputComponent,
     SqInputDateComponent,
-    SqInputRangeComponent
+    SqInputRangeComponent,
+    SqInputFileComponent
   ]
 })
 export class SquidCSSModule { }

@@ -9,7 +9,7 @@
     color: color
   }"
 >
-  <div class="icon" *ngIf="icon" [innerHtml]="icon | universalSafe:'html'"></div>
+  <div class="icon" *ngIf="icon" [innerHtml]="icon | universalSafe"></div>
   <i
     class="fa-solid fa-circle-question icon"
     *ngIf="!icon"

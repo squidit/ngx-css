@@ -35,7 +35,7 @@
             [ngStyle]="{
               color: tab?.active && !lineStyle ? tab?.textColor : null
             }"
-            [innerHtml]="tab?.title || '' | universalSafe:'html'"
+            [innerHtml]="tab?.title || '' | universalSafe"
           ></span>
           <sq-loader *ngIf="tab.loading"></sq-loader>
         </li>

@@ -1,0 +1,69 @@
+<div
+  class="wrapper-input-file-squid"
+  [ngClass]="{
+    error: (externalError && externalError !== '') || (error && error !== '')
+  }"
+>
+  <label
+    *ngIf="label?.length"
+    class="label"
+    [ngClass]="{
+      loading: loading
+    }"
+  >
+    {{ label }}
+  </label>
+  <label *ngIf="customContent" [for]="id" class="label-custom">
+    <ng-container *ngTemplateOutlet="customContent"></ng-container>
+  </label>
+  <label
+    *ngIf="!customContent"
+    class="placeholder button"
+    [for]="id"
+    [ngStyle]="{
+      'font-size': fontSize,
+      color: textColor,
+      'background-color': color,
+      'border-color': borderColor || textColor
+    }"
+    [ngClass]="{
+      loading: loading,
+      'p-0': noPadding
+    }"
+  >
+    <span
+      [innerHtml]="placeholder || '' | universalSafe"
+      [ngStyle]="{
+        'font-size': fontSize
+      }"
+    ></span>
+    <sq-loader *ngIf="loading" color="{{ textColor }}"></sq-loader>
+  </label>
+  <input
+    #inputFile
+    type="file"
+    [id]="id"
+    [name]="name"
+    [required]="required"
+    [disabled]="disabled || loading"
+    [readonly]="disabled || loading"
+    [accept]="fileType"
+    (click)="inputFile.value = ''"
+    (change)="change($event)"
+    (keydown)="keyDown($event)"
+    [multiple]="multiple"
+  />
+  <div
+    class="box-validation box-invalid show"
+    *ngIf="errorSpan"
+    [ngClass]="{
+      'visibility-hidden-force': ((!externalError || externalError === '') && (!error || error === '')) || disabled || readonly
+    }"
+  >
+    <i [ngClass]="{
+      'visibility-hidden-force': !error || !externalError
+    }" class="fa-solid fa-triangle-exclamation"></i>
+    {{ externalError ? externalError : '' }}
+    {{ error && !externalError ? error : '' }}
+  </div>
+</div>

@@ -1,0 +1,99 @@
+.wrapper-input-file-squid {
+  display: inline-block;
+  &.block {
+    display: block;
+  }
+  label {
+    color: inherit;
+    width: 100%;
+    margin: 0;
+    font-size: 0.86rem;
+    line-height: 10px;
+    margin: 0 auto 0.35rem;
+    &.label-custom {
+      margin: 0;
+    }
+    &.placeholder {
+      line-height: initial;
+      width: initial;
+      display: inline-flex;
+      text-align: center;
+      position: relative;
+      text-transform: capitalize;
+      font-weight: 500;
+      font-size: 0.86rem;
+      border-radius: 7px;
+      overflow: hidden;
+      box-shadow: none;
+      border: 2px solid transparent;
+      transition: var(--transition);
+      opacity: 1;
+      cursor: pointer;
+      margin: 0;
+      loader-squid {
+        display: inline-block;
+        margin-left: 0.35rem;
+      }
+      span {
+        color: inherit;
+        width: 100%;
+        display: inline-block;
+        margin: 0;
+        font-weight: inherit;
+      }
+      &.p-0 {
+        padding: 0;
+      }
+      &:hover,
+      &:focus {
+        outline: none;
+        cursor: pointer;
+        color: inherit;
+        border-color: inherit;
+        &:before {
+          border-color: inherit;
+        }
+      }
+      &.loading {
+        cursor: wait;
+        &:hover,
+        &:focus {
+          border-color: transparent !important;
+        }
+      }
+      &.disabled {
+        cursor: not-allowed;
+        color: var(--white) !important;
+        border-color: var(--gray_light) !important;
+        background: var(--gray_light) !important;
+      }
+    }
+  }
+  input {
+    display: none;
+  }
+  .icon {
+    position: absolute;
+    right: 35px;
+    bottom: 3px;
+    color: var(--green);
+  }
+  &.error {
+    background: transparent;
+    border-color: var(--red-bl) !important;
+    .icon {
+      color: var(--red-bl);
+    }
+    label.label {
+      color: var(--red-bl) !important;
+    }
+  }
+}
+.error-name {
+  display: block;
+  margin: 0 auto;
+  min-height: 22px;
+  color: var(--red-bl);
+  font-weight: 700;
+  font-size: 0.86rem;
+}

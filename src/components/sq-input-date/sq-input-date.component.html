@@ -7,7 +7,7 @@
     }"
     [for]="id"
   >
-    <div *ngIf="label" [ngStyle]="{ 'color': labelColor }" [innerHtml]="label | universalSafe:'html'"></div>
+    <div *ngIf="label" [ngStyle]="{ 'color': labelColor }" [innerHtml]="label | universalSafe"></div>
     <sq-tooltip
       *ngIf="tooltipMessage"
       class="ml-1"
@@ -59,15 +59,15 @@
     [ngClass]="{
       'no-label': !label?.length
     }"
-    [innerHtml]="externalIcon || '' | universalSafe:'html'"
+    [innerHtml]="externalIcon || '' | universalSafe"
   ></span>
   <div
     class="box-validation box-invalid show"
     *ngIf="errorSpan"
   >
-    <ng-container *ngIf="externalError || error">
-      <i class="fa-solid fa-triangle-exclamation"></i>
-    </ng-container>
+    <i [ngClass]="{
+      'visibility-hidden-force': !error || !externalError
+    }" class="fa-solid fa-triangle-exclamation"></i>
     {{ externalError ? externalError : '' }}
     {{ error && !externalError ? error : '' }}
   </div>
