@@ -77,13 +77,14 @@ export class SqOverlayComponent implements OnChanges, OnDestroy {
     if (changes.hasOwnProperty('open')) {
       const body = this.document.getElementsByTagName('body')[0]
       const backdrop = this.document.getElementById('modal-backdrop') || this.document.createElement('div')
-      if (this.open && this.overlay) {
+      const overlay = this.overlay
+      if (this.open && overlay) {
         this.doCssWidth()
         this.hasFooter = !!this.footerTemplate
         this.hasHeader = !!this.headerTemplate
         this.modals = this.document.getElementsByClassName('modal open')
         body.classList.add('block')
-        this.overlay.nativeElement.style.display = 'flex'
+        overlay.nativeElement.style.display = 'flex'
         window.addEventListener('keydown', this.onKeydown)
         setTimeout(() => {
           this.modalNumber = this.modals?.length || 0
@@ -91,17 +92,23 @@ export class SqOverlayComponent implements OnChanges, OnDestroy {
             backdrop.setAttribute('id', 'modal-backdrop')
             backdrop.setAttribute('class', 'modal-backdrop show')
             body.appendChild(backdrop)
+          } else if (this.modalNumber > 1) {
+            overlay.nativeElement.style.zIndex = 1060 + this.modalNumber + 1
+            setTimeout(() => {
+              backdrop.setAttribute('style', `z-index: ${1060 + this.modalNumber};`)
+            }, 200)
           }
           this.enableBackdropClick = true
           this.finishOpening = true
         })
-      } else if (this.overlay) {
+      } else if (overlay) {
         this.overlayClose.emit()
         this.finishOpening = false
         this.undoCssWidth()
         setTimeout(() => {
-          if (this.overlay) {
-            this.overlay.nativeElement.style.display = 'none'
+          if (overlay) {
+            overlay.nativeElement.style.display = 'none'
+            overlay.nativeElement.style.zIndex = null
           }
         })
         if (backdrop.parentNode && this.modalNumber === 1) {
