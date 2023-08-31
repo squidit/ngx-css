@@ -50,21 +50,16 @@
       [pattern]="pattern"
       [attr.inputmode]="inputMode"
       [mask]="mask"
-      [dropSpecialCharacters]="dropSpecialCharacters"
       [showMaskTyped]="showMaskTyped"
       [thousandSeparator]="thousandSeparator"
-      [specialCharacters]="specialCharacters"
       [suffix]="suffix"
       [prefix]="prefix"
       [showMaskTyped]="showMaskTyped"
-      [dropSpecialCharacters]="dropSpecialCharacters"
       [allowNegativeNumbers]="allowNegativeNumbers"
       [placeHolderCharacter]="placeHolderCharacter"
-      [patterns]="patterns"
       [leadZero]="leadZero"
       ngDefaultControl
     />
-    {{ _value }}
     <span class="input-group-text m-0" *ngIf="rightLabel">
       <ng-container *ngTemplateOutlet="rightLabel"></ng-container>
     </span>

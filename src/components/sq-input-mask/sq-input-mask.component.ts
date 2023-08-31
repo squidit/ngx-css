@@ -13,13 +13,10 @@ export class SqInputMaskComponent extends SqInputComponent {
   @Input() thousandSeparator = ''
   @Input() suffix = ''
   @Input() prefix = ''
-  @Input() specialCharacters: string[] = []
   @Input() showMaskTyped = false
-  @Input() dropSpecialCharacters = false
   @Input() allowNegativeNumbers = false
   @Input() placeHolderCharacter = ''
   @Input() leadZero = true
-  @Input() patterns: { [character: string]: { pattern: RegExp, optional?: boolean } } = {}
 
   override nativeElement: ElementRef
 
