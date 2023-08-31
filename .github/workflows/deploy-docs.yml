@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages on NPM Publish or Manual Trigger
+name: Deploy Docs
 on:
   workflow_run:
     workflows: ["Publish to NPM"]
