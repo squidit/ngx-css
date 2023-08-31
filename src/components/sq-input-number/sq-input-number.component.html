@@ -1,0 +1,49 @@
+<sq-input-mask
+  [value]="_value"
+  [id]="id"
+  [name]="name"
+  mask="separator.2"
+  [thousandSeparator]="thousandSeparator"
+  [decimalMarker]="decimalMarker"
+  [placeHolderCharacter]="placeHolderCharacter"
+  [timeOutInputTime]="timeOutInputTime"
+  [label]="label"
+  [customClass]="customClass"
+  [placeholder]="placeholder"
+  [externalError]="externalError"
+  [externalIcon]="externalIcon"
+  [hasTimeout]="hasTimeout"
+  [errorSpan]="errorSpan"
+  [disabled]="disabled"
+  [readonly]="readonly"
+  [required]="required"
+  [useFormErrors]="useFormErrors"
+  [tooltipMessage]="tooltipMessage"
+  [tooltipPlacement]="tooltipPlacement"
+  [tooltipColor]="tooltipColor"
+  [tooltipIcon]="tooltipIcon"
+  [backgroundColor]="backgroundColor"
+  [allowNegativeNumbers]="allowNegativeNumbers"
+  [borderColor]="borderColor"
+  [leadZero]="leadZero"
+  [showMaskTyped]="showMaskTyped"
+  [labelColor]="labelColor"
+  inputMode="numeric"
+  pattern="[0-9]*"
+  (valueChange)="change($event)"
+  (valid)="valid.emit($event)"
+  (inFocus)="inFocus.emit($event)"
+  (keyPressUp)="keyPressUp.emit($event)"
+  (keyPressDown)="keyPressDown.emit($event)"
+>
+  <ng-container *ngIf="leftLabelOvewrite">
+    <ng-template #leftLabel>
+      <ng-container *ngTemplateOutlet="leftLabelOvewrite"></ng-container>
+    </ng-template>
+  </ng-container>
+  <ng-container *ngIf="rightLabelOvewrite">
+    <ng-template #rightLabel>
+      <ng-container *ngTemplateOutlet="rightLabelOvewrite"></ng-container>
+    </ng-template>
+  </ng-container>
+</sq-input-mask>

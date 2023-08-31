@@ -98,14 +98,14 @@ export class SqInputComponent {
 
   change(event: any): void {
     this.inFocus.emit(true)
-    this.value = event
+    this._value = event
     if (this.hasTimeout) {
       clearTimeout(this.timeoutInput)
       this.timeoutInput = setTimeout(() => {
-        this.valueChange.emit(event)
+        this.valueChange.emit(this.value)
       }, this.timeOutInputTime)
     } else {
-      this.valueChange.emit(event)
+      this.valueChange.emit(this.value)
     }
     this.validate()
   }

@@ -27,6 +27,8 @@ export * from './components/sq-input-file/sq-input-file.component'
 export * from './components/sq-select-search/sq-select-search.component'
 export * from './components/sq-select-multi-tags/sq-select-multi-tags.component'
 export * from './components/sq-input-mask/sq-input-mask.component'
+export * from './components/sq-input-money/sq-input-money.component'
+export * from './components/sq-input-number/sq-input-number.component'
 
 export * from './directives/sq-tooltip/sq-tooltip.directive'
 export * from './directives/sq-dropdown/sq-dropdown.directive'

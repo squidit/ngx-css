@@ -15,8 +15,9 @@ export class SqInputMaskComponent extends SqInputComponent {
   @Input() prefix = ''
   @Input() showMaskTyped = false
   @Input() allowNegativeNumbers = false
+  @Input() decimalMarker: "." | "," | [".", ","] = [".", ","]
   @Input() placeHolderCharacter = ''
-  @Input() leadZero = true
+  @Input() leadZero = false
 
   override nativeElement: ElementRef
 

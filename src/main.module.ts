@@ -32,6 +32,8 @@ import { SearchPipe } from './pipes/search/search.pipe'
 import { SqSelectMultiTagsComponent } from './components/sq-select-multi-tags/sq-select-multi-tags.component'
 import { SqInputMaskComponent } from './components/sq-input-mask/sq-input-mask.component'
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask'
+import { SqInputMoneyComponent } from './components/sq-input-money/sq-input-money.component'
+import { SqInputNumberComponent } from './components/sq-input-number/sq-input-number.component'
 
 const components = [
   SqButtonComponent,
@@ -63,7 +65,9 @@ const components = [
   SqClickOutsideDirective,
   SearchPipe,
   SqSelectMultiTagsComponent,
-  SqInputMaskComponent
+  SqInputMaskComponent,
+  SqInputMoneyComponent,
+  SqInputNumberComponent
 ]
 
 @NgModule({
