@@ -1,4 +1,4 @@
-import { Component, ContentChild, ElementRef, EventEmitter, Input, Optional, Output, TemplateRef } from '@angular/core'
+import { Component, ContentChild, ElementRef, Input, Optional, TemplateRef } from '@angular/core'
 import { TranslateService } from '@ngx-translate/core'
 import { ValidatorHelper } from '../../helpers/validator.helper'
 import { SqInputComponent } from '../sq-input/sq-input.component'
@@ -18,8 +18,6 @@ export class SqInputFileComponent extends SqInputComponent {
   @Input() fileType = '*.*'
   @Input() multiple = false
   @Input() noPadding = false
-
-  @Output() sharedFileValid = new EventEmitter()
 
   @ContentChild('customContent', { static: true })
   customContent: TemplateRef<HTMLElement> | null = null
@@ -43,7 +41,7 @@ export class SqInputFileComponent extends SqInputComponent {
       this.error = false
     } else if (!!this.required && (!this.value || this.value.length < 1) && this.value !== 0) {
       this.setError('formErrors.required')
-      this.sharedValid.emit(false)
+      this.valid.emit(false)
     } else if (this.maxSize && this.value && this.value.length > 0) {
       let bigFiles = 0
       for (const file of this.value) {
@@ -53,24 +51,23 @@ export class SqInputFileComponent extends SqInputComponent {
       }
       if (bigFiles > 0) {
         this.setError('formErrors.fileSize')
-        this.sharedFileValid.emit(false)
+        this.valid.emit(false)
       } else {
-        this.sharedFileValid.emit(true)
+        this.valid.emit(true)
         this.error = ''
       }
     } else {
-      this.sharedFileValid.emit(true)
-      this.sharedValid.emit(true)
+      this.valid.emit(true)
       this.error = ''
     }
     if (isBlur) {
-      this.sharedFocus.emit(false)
+      this.inFocus.emit(false)
     }
   }
 
   override change(event: any): void {
     this.value = event.target?.files || event
-    this.sharedValue.emit(this.value)
+    this.valueChange.emit(this.value)
     this.validate()
   }
 }

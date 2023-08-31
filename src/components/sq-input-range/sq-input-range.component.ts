@@ -24,9 +24,9 @@ export class SqInputRangeComponent implements AfterContentInit, OnChanges {
   @Input() maxNumber = 100
   @Input() useFormErrors = true
 
-  @Output() sharedValue: EventEmitter<string> = new EventEmitter()
-  @Output() sharedFocus: EventEmitter<boolean> = new EventEmitter()
-  @Output() sharedValid: EventEmitter<boolean> = new EventEmitter()
+  @Output() valueChange: EventEmitter<string> = new EventEmitter()
+  @Output() inFocus: EventEmitter<boolean> = new EventEmitter()
+  @Output() valid: EventEmitter<boolean> = new EventEmitter()
 
   @ViewChild('valueFloating') valueFloating!: ElementRef
   @ViewChild('bar') bar!: ElementRef
@@ -63,9 +63,13 @@ export class SqInputRangeComponent implements AfterContentInit, OnChanges {
       this.error = false
     } else if (!!this.required && !this.value && this.value !== '0') {
       this.setError('formErrors.required')
+      this.valid.emit(false)
+    } else {
+      this.valid.emit(true)
+      this.error = ''
     }
     if (isBlur) {
-      this.sharedFocus.emit(false)
+      this.inFocus.emit(false)
     }
   }
 
@@ -85,10 +89,10 @@ export class SqInputRangeComponent implements AfterContentInit, OnChanges {
   }
 
   change(event: any): void {
-    this.sharedFocus.emit(true)
+    this.inFocus.emit(true)
     this.changeValuePosition()
     this.value = event
-    this.sharedValue.emit(event)
+    this.valueChange.emit(event)
     this.validate()
   }
 

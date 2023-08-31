@@ -30,73 +30,57 @@ import { SqSelectSearchComponent } from './components/sq-select-search/sq-select
 import { SqClickOutsideDirective } from './directives/sq-click-outside/sq-click-outside.directive'
 import { SearchPipe } from './pipes/search/search.pipe'
 import { SqSelectMultiTagsComponent } from './components/sq-select-multi-tags/sq-select-multi-tags.component'
+import { SqInputMaskComponent } from './components/sq-input-mask/sq-input-mask.component'
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask'
+
+const components = [
+  SqButtonComponent,
+  SqLoaderComponent,
+  SqProgressBarComponent,
+  SqStepsComponent,
+  SqTooltipDirective,
+  SqTooltipComponent,
+  UniversalSafePipe,
+  ThousandSuffixesPipe,
+  SqTabComponent,
+  SqTabsComponent,
+  SqInfinityComponent,
+  SqOverlayComponent,
+  SqModalComponent,
+  SqCollapseComponent,
+  SqPaginationComponent,
+  SqTagsComponent,
+  SqAccordionComponent,
+  SqTextAreaComponent,
+  SqSelectComponent,
+  SqSelectorComponent,
+  SqInputComponent,
+  SqInputDateComponent,
+  SqInputRangeComponent,
+  SqInputFileComponent,
+  SqDropdownDirective,
+  SqSelectSearchComponent,
+  SqClickOutsideDirective,
+  SearchPipe,
+  SqSelectMultiTagsComponent,
+  SqInputMaskComponent
+]
 
 @NgModule({
-  declarations: [
-    SqButtonComponent,
-    SqLoaderComponent,
-    SqProgressBarComponent,
-    SqStepsComponent,
-    SqTooltipDirective,
-    SqTooltipComponent,
-    UniversalSafePipe,
-    ThousandSuffixesPipe,
-    SqTabComponent,
-    SqTabsComponent,
-    SqInfinityComponent,
-    SqOverlayComponent,
-    SqModalComponent,
-    SqCollapseComponent,
-    SqPaginationComponent,
-    SqTagsComponent,
-    SqAccordionComponent,
-    SqTextAreaComponent,
-    SqSelectComponent,
-    SqSelectorComponent,
-    SqInputComponent,
-    SqInputDateComponent,
-    SqInputRangeComponent,
-    SqInputFileComponent,
-    SqDropdownDirective,
-    SqSelectSearchComponent,
-    SqClickOutsideDirective,
-    SearchPipe,
-    SqSelectMultiTagsComponent
-  ],
+  declarations: components,
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    NgxMaskDirective,
+    NgxMaskPipe
+  ],
+  providers: [
+    provideNgxMask()
   ],
   exports: [
-    SqButtonComponent,
-    SqLoaderComponent,
-    SqProgressBarComponent,
-    SqStepsComponent,
-    SqTooltipDirective,
-    SqTooltipComponent,
-    UniversalSafePipe,
-    ThousandSuffixesPipe,
-    SqTabComponent,
-    SqTabsComponent,
-    SqInfinityComponent,
-    SqOverlayComponent,
-    SqModalComponent,
-    SqCollapseComponent,
-    SqPaginationComponent,
-    SqTagsComponent,
-    SqAccordionComponent,
-    SqTextAreaComponent,
-    SqSelectComponent,
-    SqSelectorComponent,
-    SqInputComponent,
-    SqInputDateComponent,
-    SqInputRangeComponent,
-    SqInputFileComponent,
-    SqDropdownDirective,
-    SqSelectSearchComponent,
-    SqClickOutsideDirective,
-    SearchPipe,
-    SqSelectMultiTagsComponent
+    ...components,
+    NgxMaskDirective,
+    NgxMaskPipe
   ]
 })
 export class SquidCSSModule { }

@@ -42,7 +42,7 @@ export class SqSelectSearchComponent {
 
   @Output() valueChange: EventEmitter<Option> = new EventEmitter()
   @Output() searchChange: EventEmitter<string> = new EventEmitter()
-  @Output() sharedValid: EventEmitter<boolean> = new EventEmitter()
+  @Output() valid: EventEmitter<boolean> = new EventEmitter()
 
   error: boolean | string = false
   timeoutInput!: ReturnType<typeof setTimeout>
@@ -68,9 +68,9 @@ export class SqSelectSearchComponent {
       this.error = false
     } else if (this.required && !this.value) {
       this.setError('formErrors.required')
-      this.sharedValid.emit(false)
+      this.valid.emit(false)
     } else {
-      this.sharedValid.emit(true)
+      this.valid.emit(true)
       this.error = ''
     }
   }

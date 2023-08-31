@@ -27,33 +27,44 @@
     <span class="input-group-text m-0" *ngIf="leftLabel">
       <ng-container *ngTemplateOutlet="leftLabel"></ng-container>
     </span>
-    <textarea
-      class="col textarea scrollbar"
-      [ngStyle]="{
-        'background-color': backgroundColor,
-        'border-color': borderColor
-      }"
+    <input
+      class="col input"
       [ngClass]="{
-        error: (externalError && externalError !== '') || (error && error !== ''),
+        'has-icon': error || externalError,
         disabled: disabled,
-        readonly: readonly,
-        'has-icon-external': externalIcon
+        readonly: readonly
       }"
       [id]="id || timeStamp"
+      [type]="'text'"
       [name]="name || timeStamp"
       [placeholder]="placeholder || ''"
       [required]="required"
       [disabled]="disabled"
       [readonly]="readonly"
       (blur)="validate(true)"
+      [ngModel]="_value"
       [maxlength]="maxLength"
-      [ngModel]="value"
       (ngModelChange)="change($event)"
       (keydown)="keyDown($event)"
       (keyup)="keyUp($event)"
+      [pattern]="pattern"
+      [attr.inputmode]="inputMode"
+      [mask]="mask"
+      [dropSpecialCharacters]="dropSpecialCharacters"
+      [showMaskTyped]="showMaskTyped"
+      [thousandSeparator]="thousandSeparator"
+      [specialCharacters]="specialCharacters"
+      [suffix]="suffix"
+      [prefix]="prefix"
+      [showMaskTyped]="showMaskTyped"
+      [dropSpecialCharacters]="dropSpecialCharacters"
+      [allowNegativeNumbers]="allowNegativeNumbers"
+      [placeHolderCharacter]="placeHolderCharacter"
+      [patterns]="patterns"
+      [leadZero]="leadZero"
       ngDefaultControl
-      >{{ value }}</textarea
-    >
+    />
+    {{ _value }}
     <span class="input-group-text m-0" *ngIf="rightLabel">
       <ng-container *ngTemplateOutlet="rightLabel"></ng-container>
     </span>
@@ -73,9 +84,9 @@
       'has-max-length': maxLength
     }"
   >
-    <ng-container *ngIf="externalError || error">
-      <i class="fa-solid fa-triangle-exclamation"></i>
-    </ng-container>
+    <i [ngClass]="{
+      'visibility-hidden-force': !error || !externalError
+    }" class="fa-solid fa-triangle-exclamation"></i>
     {{ externalError ? externalError : '' }}
     {{ error && !externalError ? error : '' }}
     <span

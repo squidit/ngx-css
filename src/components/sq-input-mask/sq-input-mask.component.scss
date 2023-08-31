@@ -1,0 +1,20 @@
+.wrapper-all-inside-input {
+  .icon {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 700;
+    position: absolute;
+    right: 24px;
+    top: 40px;
+    &.no-label {
+      top: 75px;
+    }
+  }
+  .icon-external {
+    color: inherit !important;
+  }
+  .max-length-name {
+    font-size: inherit;
+    float: right;
+  }
+}

@@ -69,7 +69,7 @@
         [value]="searchText"
         [hasTimeout]="hasTimeout"
         [placeholder]="placeholderSearch || (getTranslation('search') | async)"
-        (sharedValue)="onTipSearchChange($event)"
+        (valueChange)="onTipSearchChange($event)"
         [errorSpan]="false"
         [externalIcon]="'<i class=\'fa-solid fa-search\'></i>'"
         class="input-search"

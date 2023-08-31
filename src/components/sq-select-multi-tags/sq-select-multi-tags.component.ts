@@ -46,7 +46,7 @@ export class SqSelectMultiTagsComponent {
   @Output() valueChange: EventEmitter<Array<any>> = new EventEmitter()
   @Output() closeChange: EventEmitter<any> = new EventEmitter()
   @Output() removeTag: EventEmitter<any> = new EventEmitter()
-  @Output() sharedValid: EventEmitter<boolean> = new EventEmitter()
+  @Output() valid: EventEmitter<boolean> = new EventEmitter()
 
   open = false
   searchText = ''
@@ -148,9 +148,9 @@ export class SqSelectMultiTagsComponent {
       this.error = false
     } else if (this.required && !this.value) {
       this.setError('formErrors.required')
-      this.sharedValid.emit(false)
+      this.valid.emit(false)
     } else {
-      this.sharedValid.emit(true)
+      this.valid.emit(true)
       this.error = ''
     }
   }

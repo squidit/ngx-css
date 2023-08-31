@@ -36,10 +36,11 @@ export class SqTextAreaComponent {
 
   @Input() maxLength: number | null = null
 
-  @Output() sharedValue: EventEmitter<string> = new EventEmitter()
-  @Output() sharedKeyPress: EventEmitter<KeyboardEvent> = new EventEmitter()
-  @Output() sharedValid: EventEmitter<boolean> = new EventEmitter()
-  @Output() sharedFocus: EventEmitter<boolean> = new EventEmitter()
+  @Output() keyPressDown: EventEmitter<KeyboardEvent> = new EventEmitter()
+  @Output() keyPressUp: EventEmitter<KeyboardEvent> = new EventEmitter()
+  @Output() inFocus: EventEmitter<boolean> = new EventEmitter()
+  @Output() valid: EventEmitter<boolean> = new EventEmitter()
+  @Output() valueChange: EventEmitter<any> = new EventEmitter()
 
   @ContentChild('leftLabel')
   leftLabel: TemplateRef<HTMLElement> | null = null
@@ -61,30 +62,30 @@ export class SqTextAreaComponent {
 
   async validate(isBlur = false) {
     if (isBlur) {
-      this.sharedFocus.emit(false)
+      this.inFocus.emit(false)
     }
     if (this.externalError) {
       this.error = false
     } else if (this.required && !this.value) {
-      this.sharedValid.emit(false)
+      this.valid.emit(false)
       this.setError('formErrors.required')
     } else {
-      this.sharedValid.emit(true)
+      this.valid.emit(true)
       this.error = ''
     }
   }
 
   change(event: string): void {
-    this.sharedFocus.emit(true)
+    this.inFocus.emit(true)
     if (this.hasTimeout) {
       this.value = event
       clearTimeout(this.timeoutInput)
       this.timeoutInput = setTimeout(() => {
-        this.sharedValue.emit(event)
+        this.valueChange.emit(event)
       }, this.timeOutInputTime)
     } else {
       this.value = event
-      this.sharedValue.emit(event)
+      this.valueChange.emit(event)
     }
     this.validate()
   }
@@ -96,6 +97,10 @@ export class SqTextAreaComponent {
   }
 
   keyDown(event: KeyboardEvent) {
-    this.sharedKeyPress.emit(event)
+    this.keyPressDown.emit(event)
+  }
+
+  keyUp(event: KeyboardEvent) {
+    this.keyPressUp.emit(event)
   }
 }

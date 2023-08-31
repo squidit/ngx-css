@@ -68,9 +68,8 @@
         <sq-input
           [name]="name || timeStamp"
           [id]="id || timeStamp"
-          [value]="searchText"
+          [(value)]="searchText"
           [placeholder]="placeholderSearch || (getTranslation('search') | async)"
-          (sharedValue)="searchText = $event"
           [errorSpan]="false"
           [externalIcon]="'<i class=\'fas fa-search\'></i>'"
           class="input-search"
@@ -117,7 +116,7 @@
         [disabled]="opt?.disabled"
         [checked]="findItemInValue(opt)"
         [indeterminate]="verifyIfHasChildrenInValue(opt)"
-        (sharedValue)="emit(opt, $event.checked)"
+        (valueChange)="emit(opt, $event.checked)"
       ></sq-selector>
       <span class="text m-0 display-inline-block" [ngClass]="{ 'cursor-pointer': opt?.children?.length }" (click)="handleCollapse(opt)">{{
         opt?.label

@@ -44,9 +44,9 @@ export class SqSelectComponent {
   @ContentChild('rightLabel')
   rightLabel: TemplateRef<HTMLElement> | null = null
 
-  @Output() sharedValue: EventEmitter<any> = new EventEmitter()
-  @Output() sharedFocus: EventEmitter<boolean> = new EventEmitter()
-  @Output() sharedValid: EventEmitter<boolean> = new EventEmitter()
+  @Output() inFocus: EventEmitter<boolean> = new EventEmitter()
+  @Output() valid: EventEmitter<boolean> = new EventEmitter()
+  @Output() valueChange: EventEmitter<any> = new EventEmitter()
 
   error: boolean | string = false
   timeoutInput!: ReturnType<typeof setTimeout>
@@ -62,15 +62,15 @@ export class SqSelectComponent {
     if (this.externalError) {
       this.error = false
     } else if (this.required && !this.value) {
-      this.sharedValid.emit(false)
+      this.valid.emit(false)
       this.setError('formErrors.required')
     } else {
-      this.sharedValid.emit(true)
+      this.valid.emit(true)
       this.error = ''
     }
 
     if (isBlur) {
-      this.sharedFocus.emit(false)
+      this.inFocus.emit(false)
     }
   }
 
@@ -81,9 +81,9 @@ export class SqSelectComponent {
   }
 
   change(value: any): void {
-    this.sharedFocus.emit(true)
+    this.inFocus.emit(true)
     this.value = value
-    this.sharedValue.emit(value)
+    this.valueChange.emit(value)
     this.validate()
   }
 }

@@ -11,8 +11,7 @@
   label="teste"
   [required]="true"
   [tooltipMessage]="'teste'"
-  [value]="title"
-  (sharedValue)="title = $event"
+  [(value)]="title"
   [maxLength]="10"
 ></sq-input>
 <sq-input-date
@@ -20,15 +19,13 @@
   [name]="'teste-2'"
   label="date"
   [required]="true"
-  [value]="date"
-  (sharedValue)="date = $event"
+  [(value)]="date"
 ></sq-input-date>
 {{ date }}
 <sq-input-range
 [id]="'teste-3'"
 [name]="'teste-3'"
-[value]="val"
-(sharedValue)="val = $event"
+[(value)]="val"
 ></sq-input-range>
 <sq-input-file
 [id]="'teste-4'"
@@ -55,6 +52,14 @@ tooltipPlacement="left center"
             [(value)]="multiOption"
           ></sq-select-multi-tags>
           {{ multiOption | json }}
+<sq-input-mask
+[id]="'teste-7'"
+            [name]="'teste-7'"
+            label="teste-6"
+            mask='(000) 000-0000'
+            [(value)]="valToMask"
+></sq-input-mask>
+{{ valToMask }}
 <!-- <sq-selector
   [id]="'teste-1'"
   [name]="'teste-1'"
@@ -73,7 +78,7 @@ tooltipPlacement="left center"
 </sq-selector> -->
 <!-- <sq-progress-bar
   color='pink'
-  [value]='100'
+  [(value)]='100'
   [hasLabel]='true'
   [striped]="true"
 ></sq-progress-bar>

@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, Optional, Output } from '@angular/core'
+import { Component, ElementRef, Input, Optional } from '@angular/core'
 import { TranslateService } from '@ngx-translate/core'
 import { ValidatorHelper } from '../../helpers/validator.helper'
 import { SqInputComponent } from '../sq-input/sq-input.component'
@@ -20,8 +20,6 @@ export class SqInputDateComponent extends SqInputComponent {
     return this._value.toISOString().split('T')[0]
   }
 
-  @Output() sharedDate: EventEmitter<boolean> = new EventEmitter()
-
   constructor(
     public override validatorHelper: ValidatorHelper,
     element: ElementRef,
@@ -35,41 +33,40 @@ export class SqInputDateComponent extends SqInputComponent {
     if (this.externalError) {
       this.error = false
     } else if (!!this.required && !this._value) {
-      this.sharedValid.emit(false)
+      this.valid.emit(false)
       this.setError('formErrors.required')
     } else if (!this.validatorHelper.date(this._value)) {
-      this.sharedDate.emit(false)
+      this.valid.emit(false)
       this.setError('formErrors.date')
     } else if (this.formatDate(this.minDate) > this._value) {
-      this.sharedDate.emit(false)
+      this.valid.emit(false)
       this.setError('formErrors.rangeDate')
     } else if (this.formatDate(this.maxDate) < this._value) {
-      this.sharedDate.emit(false)
+      this.valid.emit(false)
       this.setError('formErrors.rangeDate')
     } else {
-      this.sharedValid.emit(true)
-      this.sharedDate.emit(true)
+      this.valid.emit(true)
       this.error = ''
     }
 
     if (isBlur) {
-      this.sharedFocus.emit(false)
+      this.inFocus.emit(false)
     }
   }
 
   override change(event: any): void {
     event = event?.target?.valueAsDate ? event.target.valueAsDate : event?.target?.value || event
     if (!this.disabled && !this.readonly) {
-      this.sharedFocus.emit(true)
+      this.inFocus.emit(true)
       this._value = event
       event = this.getISOValidDate(event)
       if (this.hasTimeout) {
         clearTimeout(this.timeoutInput)
         this.timeoutInput = setTimeout(() => {
-          this.sharedValue.emit(event)
+          this.valueChange.emit(event)
         }, this.timeOutInputTime)
       } else {
-        this.sharedValue.emit(event)
+        this.valueChange.emit(event)
       }
       this.validate()
     }
