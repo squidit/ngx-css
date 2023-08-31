@@ -1,0 +1,17 @@
+<header class="box">
+  <a class="main-logo" routerLink="/">
+    <logo></logo>
+    <h1>
+      NGX CSS - Angular Components Squid Style
+    </h1>
+  </a>
+  <nav>
+    <a href="https://github.com/squidit/ngx-css" target="_blank">
+      <i class="fa-brands fa-github"></i>
+    </a>
+    <button type="button" class="toggle-theme" (click)="toggleTheme()">
+      <i class="fa-solid fa-moon" *ngIf="theme === 'light'"></i>
+      <i class="fa-solid fa-sun" *ngIf="theme === 'dark'"></i>
+    </button>
+  </nav>
+</header>

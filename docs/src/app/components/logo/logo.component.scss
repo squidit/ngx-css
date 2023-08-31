@@ -1,0 +1,41 @@
+:host {
+  display: inline-block;
+  width: 50px;
+}
+::ng-deep {
+  body
+    &.light .logo {
+      .normal {
+        display: inline-block;
+      }
+      .negative {
+        display: none;
+      }
+    &.dark .logo {
+      .normal {
+        display: none;
+      }
+      .negative {
+        display: inline-block;
+      }
+    }
+  }
+  .logo {
+    @media (prefers-color-scheme: light) {
+      .normal {
+        display: inline-block;
+      }
+      .negative {
+        display: none;
+      }
+    }
+    @media (prefers-color-scheme: dark) {
+      .normal {
+        display: none;
+      }
+      .negative {
+        display: inline-block;
+      }
+    }
+  }  
+}
