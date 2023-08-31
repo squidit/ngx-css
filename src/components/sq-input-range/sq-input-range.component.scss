@@ -1,3 +1,7 @@
+:host {
+  display: block;
+  padding: 0 1rem;
+}
 .wrapper-all-inside-input {
   position: relative;
   &.no-label{
@@ -6,14 +10,20 @@
   label {
     margin: 0 auto 2.5rem;
   }
+  input[type='range'] {
+    border-radius: 12px;
+  }
   .value-floating {
     position: absolute;
     bottom: 26px;
     font-size: 0.86rem;
     line-height: 1;
-    left: 6px;
+    left: 10px;
   }
   .box-validation {
     margin-top: 0.5rem;
+  }
+  .wrapper-input.wrapper-input-squid {
+    position: relative;
   }
 }

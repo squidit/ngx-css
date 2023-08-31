@@ -17,9 +17,9 @@
       error: (externalError && externalError !== '') || (error && error !== ''),
     }"
   >
-    <div class="value-floating" #valueFloating>
+    <output class="value-floating" #valueFloating>
       {{ value }}
-    </div>
+    </output>
     <input
       [id]="id || timeStamp"
       type="range"
@@ -34,6 +34,7 @@
       [ngModel]="value"
       (ngModelChange)="change($event)"
       ngDefaultControl
+      #input
     />
   </div>
   <div class="box-validation box-invalid show" *ngIf="errorSpan">

@@ -29,9 +29,7 @@ export class SqInputRangeComponent implements AfterContentInit, OnChanges {
   @Output() valid: EventEmitter<boolean> = new EventEmitter()
 
   @ViewChild('valueFloating') valueFloating!: ElementRef
-  @ViewChild('bar') bar!: ElementRef
-  @ViewChild('barFully') barFully!: ElementRef
-  @ViewChild('circle') circle!: ElementRef
+  @ViewChild('input') input!: ElementRef
 
   error: boolean | string = false
   timeoutInput!: ReturnType<typeof setTimeout>
@@ -74,17 +72,12 @@ export class SqInputRangeComponent implements AfterContentInit, OnChanges {
   }
 
   changeValuePosition() {
-    const newValue = Number(((parseInt(this.value, 10) - this.minNumber) * 100) / (this.maxNumber - this.minNumber))
-    const newPosition = 6 - newValue * 0.26
-    const newPositionCircle = -3 - newValue * 0.2
-    if (this.circle) {
-      this.circle.nativeElement.style.left = `calc(${newValue < 101 ? newValue : 100}% + (${newPositionCircle}px))`
-    }
+    const val = parseFloat(this.value)
+    const min = this.minNumber ? this.minNumber : 0
+    const max = this.maxNumber ? this.maxNumber : 100
+    const newVal = Number(((val - min) * 100) / (max - min))
     if (this.valueFloating) {
-      this.valueFloating.nativeElement.style.left = `calc(${newValue < 101 ? newValue : 100}% + (${newPosition}px))`
-    }
-    if (this.barFully) {
-      this.barFully.nativeElement.style.width = `${newValue < 101 ? newValue : 100}%`
+      this.valueFloating.nativeElement.style.left = `calc(${newVal}% + (${10 - newVal * 0.36}px))`
     }
   }
 
