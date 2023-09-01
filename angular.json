@@ -3,15 +3,15 @@
   "version": 1,
   "newProjectRoot": ".",
   "projects": {
-    "docs": {
+    "application": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss"
         }
       },
-      "root": "docs",
-      "sourceRoot": "docs/src",
+      "root": "application",
+      "sourceRoot": "application/src",
       "prefix": "",
       "architect": {
         "build": {
@@ -20,17 +20,17 @@
             "allowedCommonJsDependencies": [
               "lodash.isequal"
             ],
-            "outputPath": "dist/docs",
-            "index": "docs/src/index.html",
-            "main": "docs/src/main.ts",
+            "outputPath": "dist/application",
+            "index": "application/src/index.html",
+            "main": "application/src/main.ts",
             "polyfills": [
               "zone.js"
             ],
-            "tsConfig": "docs/tsconfig.app.json",
+            "tsConfig": "application/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "docs/src/favicon.ico",
-              "docs/src/assets",
+              "application/src/favicon.ico",
+              "application/src/assets",
               {
                 "glob": "**/*",
                 "input": "./node_modules/@squidit/css/dist/fonts",
@@ -38,7 +38,7 @@
               }
             ],
             "styles": [
-              "docs/src/styles.scss"
+              "application/src/styles.scss"
             ],
             "scripts": [
               "node_modules/@squidit/css/src/js/components/toast.js"
@@ -75,10 +75,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "docs:build:production"
+              "browserTarget": "application:build:production"
             },
             "development": {
-              "browserTarget": "docs:build:development"
+              "browserTarget": "application:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -86,7 +86,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "docs:build"
+            "browserTarget": "application:build"
           }
         },
         "test": {
@@ -96,19 +96,19 @@
               "zone.js",
               "zone.js/testing"
             ],
-            "tsConfig": "docs/tsconfig.spec.json",
+            "tsConfig": "application/tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "docs/src/favicon.ico",
-              "docs/src/assets",
+              "application/src/favicon.ico",
+              "application/src/assets",
               {
                 "glob": "**/*",
                 "input": "./node_modules/@squidit/css/dist/fonts",
-                "output": "docs/assets/fonts"
+                "output": "application/assets/fonts"
               }
             ],
             "styles": [
-              "docs/src/styles.scss"
+              "application/src/styles.scss"
             ],
             "scripts": [
               "node_modules/@squidit/css/src/js/components/toast.js"
@@ -118,7 +118,7 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": ["docs/src/**/*.{ts,html,js,json}"]
+            "lintFilePatterns": ["application/src/**/*.{ts,html,js,json}"]
           }
         }
       }

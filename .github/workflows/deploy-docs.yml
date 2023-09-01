@@ -40,12 +40,10 @@ jobs:
         run: |
           npm install
           npm run build:docs
-          rm -rf docs
           mkdir docs
-          mv dist/docs/* docs/
-          cd docs
+          mv documentation/* docs/
           echo "ngx-css.squidit.com.br" > CNAME
-          cd ..
+          cd docs
           echo "ngx-css.squidit.com.br" > CNAME
           git init
           git add -A
