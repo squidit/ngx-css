@@ -15,7 +15,7 @@ import { Component, Input } from '@angular/core'
   styleUrls: ['./sq-loader.component.scss']
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
-export class Loader {
+class Loader {
   /**
    * The size of the loading spinner.
    * @default 'small'
@@ -49,10 +49,10 @@ export class Loader {
 
 /**
  * @ignore
- * 
+ * This is a Seletor for real use (export in module). The another is for Documentation name only.
  */
 @Component({
-  selector: 'sq-loader', // Use a different selector for documentation
+  selector: 'sq-loader',
   templateUrl: './sq-loader.component.html',
   styleUrls: ['./sq-loader.component.scss'],
 })
