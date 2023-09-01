@@ -32,16 +32,14 @@ jobs:
         run: |
           npm install
           npm run build:docs
-          mkdir docs
-          mv documentation/* docs/
           echo "ngx-css.squidit.com.br" > CNAME
-          cd docs
+          cd documentation
           echo "ngx-css.squidit.com.br" > CNAME
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
-          path: "./docs/"
+          path: "./documentation/"
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2

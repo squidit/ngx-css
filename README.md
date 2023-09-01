@@ -6,6 +6,15 @@
 
 ## Table of contents
 
+- [Example](#example)
+- [Usage](#usage)
+  - [Install](#install)
+  - [Use Form Errors Variables](#use-form-errors-variables)
+- [Development](#development)
+  - [Write Documentation](#write-documentation)
+  - [Deploy to NPM](#deploy-to-npm)
+- [Documentation](#documentation)
+
 ## Exemple
 
 See an exemple of all components [here](https://css.squidit.com.br/styleguide)
