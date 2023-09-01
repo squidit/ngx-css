@@ -21,7 +21,7 @@ import {
   styleUrls: ['./sq-overlay.component.scss'],
 })
 export class SqOverlayComponent implements OnChanges, OnDestroy {
-  @Input() id = `random-id-${(1 + Date.now() + Math.random()).toString().replace('.', '')}`
+  @Input() id?: string
   @Input() open?: boolean
   @Input() overlayDirection: 'right' | 'left' = 'right'
   @Input() width = '475px'

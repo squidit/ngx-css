@@ -7,6 +7,9 @@ import { SqInputComponent } from "../sq-input/sq-input.component"
  * Represents an input component for handling numeric values.
  *
  * This component extends the {@link SqInputComponent} and adds additional properties and behavior for handling numeric input.
+ * 
+ * @example
+ * <sq-input-number [(value)]='number' [name]="'number-input'" [id]="'number-input'"></sq-input-number>
  */
 @Component({
   selector: 'sq-input-number',

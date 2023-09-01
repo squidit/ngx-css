@@ -9,7 +9,7 @@ import { SqInputComponent } from '../sq-input/sq-input.component'
  * This component extends the {@link SqInputComponent} and adds additional properties and behavior for handling money input.
  * 
  * @example
- * <sq-input-date [name]="'date-input'" [id]="'date-input'" [label]="'Date'"></sq-input-date>
+ * <sq-input-date [name]="'date-input'" [id]="'date-input'" [label]="'Date'" [(value)]='date'></sq-input-date>
  */
 @Component({
   selector: 'sq-input-date',

@@ -12,7 +12,7 @@ import { SqInputComponent } from "../sq-input/sq-input.component"
  * This component extends the {@link SqInputComponent} and adds additional properties and behavior for handling money input.
  * 
  * @example
- * <sq-input-mask [name]="'masked-input'" [id]="'masked-input'" [label]="'Masked Input'" [mask]="'(999) 999-9999'"></sq-input-mask>
+ * <sq-input-mask [(value)]='phone' [name]="'masked-input'" [id]="'masked-input'" [label]="'Masked Input'" [mask]="'(999) 999-9999'"></sq-input-mask>
  */
 @Component({
   selector: 'sq-input-mask',

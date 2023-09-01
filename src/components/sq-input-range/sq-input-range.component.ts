@@ -6,6 +6,12 @@ import { ValidatorHelper } from '../../helpers/validator.helper'
  * Represents an input component for selecting a numeric value within a specified range.
  *
  * This component allows users to input a numeric value within a defined range and provides visual feedback for the selected value.
+ * 
+ * @implements {AfterContentInit}
+ * @implements {OnChanges}
+ * 
+ * @example
+ * <sq-input-range [name]='"input-range"' [(value)]='number' ></sq-input-range>
  */
 @Component({
   selector: 'sq-input-range',
@@ -20,8 +26,10 @@ export class SqInputRangeComponent implements AfterContentInit, OnChanges {
 
   /**
    * The name attribute for the input element.
+   * 
+   * @default 'random-name-[hash-random-code]'
    */
-  @Input() name?: string
+  @Input() name = `random-name-${(1 + Date.now() + Math.random()).toString().replace('.', '')}`
 
   /**
    * The id attribute for the input element.
@@ -31,7 +39,7 @@ export class SqInputRangeComponent implements AfterContentInit, OnChanges {
   /**
    * The initial value of the input.
    */
-  @Input() value = '0'
+  @Input() value: any = '0'
 
   /**
    * Whether the input is read-only.
@@ -91,7 +99,7 @@ export class SqInputRangeComponent implements AfterContentInit, OnChanges {
   /**
    * Event emitter for changes in the input value.
    */
-  @Output() valueChange: EventEmitter<string> = new EventEmitter()
+  @Output() valueChange: EventEmitter<any> = new EventEmitter()
 
   /**
    * Event emitter for focusing or blurring the input.

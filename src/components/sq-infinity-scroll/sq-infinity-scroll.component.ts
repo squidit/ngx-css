@@ -2,6 +2,10 @@ import { AfterContentChecked, AfterViewInit, Component, ElementRef, EventEmitter
 
 /**
  * Represents the SqInfinityComponent, a component for infinite scrolling.
+ * 
+ * @implements {AfterViewInit}
+ * @implements {AfterContentChecked}
+ * @implements {OnDestroy}
  *
  * @example
  * <sq-infinity-scroll [length]="totalItems" [hasMore]="hasMoreData" [loading]="isLoading" (scrolledEmitter)="loadMoreItems()">

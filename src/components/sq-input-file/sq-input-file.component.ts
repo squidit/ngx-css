@@ -9,7 +9,7 @@ import { SqInputComponent } from '../sq-input/sq-input.component'
  * This component extends the {@link SqInputComponent} and adds additional properties and behavior for handling money input.
  * 
  * @example
- * <sq-input-file [name]="'file-input'" [id]="'file-input'" [label]="'Upload File'"></sq-input-file>
+ * <sq-input-file [name]="'file-input'" [id]="'file-input'" [label]="'Upload File'" [(value)]='files'></sq-input-file>
  */
 @Component({
   selector: 'sq-input-file',
@@ -67,21 +67,6 @@ export class SqInputFileComponent extends SqInputComponent {
    */
   @ContentChild('customContent', { static: true })
   customContent: TemplateRef<HTMLElement> | null = null
-
-  /**
-   * Error state of the file input.
-   */
-  override error: boolean | string = false
-
-  /**
-   * Timeout for input-related actions.
-   */
-  override timeoutInput!: ReturnType<typeof setTimeout>
-
-  /**
-   * A timestamp used for generating unique IDs.
-   */
-  override timeStamp = `random-id-${(1 + Date.now() + Math.random()).toString().replace('.', '')}`
 
   /**
    * Reference to the native element.

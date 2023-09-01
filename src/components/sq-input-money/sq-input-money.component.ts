@@ -6,10 +6,15 @@ import { SqInputComponent } from "../sq-input/sq-input.component"
 /**
  * Represents an input component for handling money values.
  *
+ * @implements {OnChanges}
+ * 
  * This component uses ngx-mask library
  * @see {@link https://github.com/JsDaddy/ngx-mask}
  * 
  * This component extends the {@link SqInputComponent} and adds additional properties and behavior for handling money input.
+ * 
+ * @example
+ * <sq-input-money [(value)]='payment' [name]="'money-input'" [id]="'money-input'" [label]="'Money Input'" currency='USD'></sq-input-money>
  */
 @Component({
   selector: 'sq-input-money',

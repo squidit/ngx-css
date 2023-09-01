@@ -23,14 +23,16 @@ import { ValidatorHelper } from '../../helpers/validator.helper'
 })
 export class SqInputComponent {
   /**
- * The name attribute for the input element.
- */
-  @Input() name = ''
+   * The name attribute for the input element.
+   * 
+   * @default 'random-name-[hash-random-code]'
+   */
+  @Input() name = `random-name-${(1 + Date.now() + Math.random()).toString().replace('.', '')}`
 
   /**
    * The id attribute for the input element.
    */
-  @Input() id = ''
+  @Input() id?: string
 
   /**
    * An optional label for the input.
@@ -209,11 +211,6 @@ export class SqInputComponent {
    * Timeout for input changes.
    */
   timeoutInput!: ReturnType<typeof setTimeout>
-
-  /**
-   * Timestamp for generating unique IDs.
-   */
-  timeStamp = `random-id-${(1 + Date.now() + Math.random()).toString().replace('.', '')}`
 
   /**
    * Reference to the native element.

@@ -10,6 +10,9 @@ import { SqCollapseComponent } from './sq-collapse/sq-collapse.component'
 
 /**
  * Represents the SqAccordionComponent, an accordion component that manages a collection of SqCollapseComponents.
+ * 
+ * @implements {AfterContentInit}
+ * @implements {OnDestroy}
  *
  * @example
  * <sq-accordion [onlyOne]="true">
