@@ -44,5 +44,7 @@ export * from './helpers/toast.helper'
 export * from './helpers/validator.helper'
 
 export * from './interfaces/option.interface'
+export * from './interfaces/step.interface'
+export * from './interfaces/toast.interface'
 
 export * from './main.module'
