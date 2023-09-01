@@ -1,3 +1,6 @@
+:host {
+  display: inline-block;
+}
 .button {
   &.p-0 {
     padding: 0;
@@ -9,7 +12,7 @@
     border-style: none !important;
     background-color: transparent !important;
     text-decoration: underline;
-    color: var(--black-html) !important;
+    color: initial !important;
     white-space: nowrap;
     text-transform: none;
   }

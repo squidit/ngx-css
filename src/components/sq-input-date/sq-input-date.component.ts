@@ -3,15 +3,38 @@ import { TranslateService } from '@ngx-translate/core'
 import { ValidatorHelper } from '../../helpers/validator.helper'
 import { SqInputComponent } from '../sq-input/sq-input.component'
 
+/**
+ * Represents a date input component that extends SqInputComponent.
+ * 
+ * This component extends the {@link SqInputComponent} and adds additional properties and behavior for handling money input.
+ * 
+ * @example
+ * <sq-input-date [name]="'date-input'" [id]="'date-input'" [label]="'Date'"></sq-input-date>
+ */
 @Component({
   selector: 'sq-input-date',
   templateUrl: './sq-input-date.component.html',
   styleUrls: ['./sq-input-date.component.scss']
 })
 export class SqInputDateComponent extends SqInputComponent {
+  /**
+   * Minimum allowed date in 'yyyy-mm-dd' format.
+   */
   @Input() minDate = '0001-01-01'
+
+  /**
+   * Maximum allowed date in 'yyyy-mm-dd' format.
+   */
   @Input() maxDate = '9999-12-31'
+
+  /**
+   * Placeholder text for the date input.
+   */
   @Input() override placeholder = 'dd-mm-yyyy'
+
+  /**
+   * The value of the input element in 'yyyy-mm-dd' format.
+   */
   @Input()
   public override set value(value: any) {
     this._value = new Date(value)
@@ -20,6 +43,12 @@ export class SqInputDateComponent extends SqInputComponent {
     return this._value.toISOString().split('T')[0]
   }
 
+  /**
+   * Constructs a new instance of SqInputDateComponent.
+   * @param validatorHelper - The ValidatorHelper service for input validation.
+   * @param element - Reference to the native element.
+   * @param translate - The TranslateService for translation support (optional).
+   */
   constructor(
     public override validatorHelper: ValidatorHelper,
     element: ElementRef,
@@ -29,6 +58,10 @@ export class SqInputDateComponent extends SqInputComponent {
     this.nativeElement = element.nativeElement
   }
 
+  /**
+   * Asynchronously validate the date input value.
+   * @param isBlur - Indicates if the input has lost focus.
+   */
   override async validate(isBlur = false) {
     if (this.externalError) {
       this.error = false
@@ -54,6 +87,10 @@ export class SqInputDateComponent extends SqInputComponent {
     }
   }
 
+  /**
+   * Handle the change event for the date input.
+   * @param event - The input change event.
+   */
   override change(event: any): void {
     event = event?.target?.valueAsDate ? event.target.valueAsDate : event?.target?.value || event
     if (!this.disabled && !this.readonly) {
@@ -72,6 +109,11 @@ export class SqInputDateComponent extends SqInputComponent {
     }
   }
 
+  /**
+   * Get the ISO-formatted valid date from a Date object.
+   * @param value - The Date object to format.
+   * @returns The ISO-formatted date string.
+   */
   getISOValidDate(value: Date) {
     try {
       let isoDate = ''
@@ -87,6 +129,11 @@ export class SqInputDateComponent extends SqInputComponent {
     }
   }
 
+  /**
+   * Format a value as an ISO date string.
+   * @param value - The value to format as an ISO date string.
+   * @returns The ISO date string.
+   */
   formatDate(value: any) {
     if (!value) {
       return ''
