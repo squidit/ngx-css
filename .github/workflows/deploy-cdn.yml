@@ -1,4 +1,4 @@
-name: Deploy to Hub CDN on merge Master
+name: Deploy to Hub CDN
 on:
   workflow_run:
     workflows: ["Publish to NPM"]
