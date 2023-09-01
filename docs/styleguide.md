@@ -1,6 +1,8 @@
 # Styleguide
 
-To see other features of Squid CSS not related to javascript, please refer to the original framework documentation
+Original Project References
+
+[Styleguide Link](https://css.squidit.com.br/styleguide)
 
 [Squid CSS](https://github.com/squidit/css)
 

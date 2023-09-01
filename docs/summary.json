@@ -1,6 +1,114 @@
 [
-    {
-        "title": "Styleguide",
-        "file": "Styleguide.md"
-    }
+  {
+    "title": "Styleguide",
+    "file": "styleguide.md"
+  },
+  {
+    "title": "Content",
+    "file": "content.md",
+    "children": [
+      {
+        "title": "Dark Mode Variables",
+        "file": "content/dark-mode-variables.md"
+      },
+      {
+        "title": "Icons",
+        "file": "content/icons.md"
+      },
+      {
+        "title": "Images",
+        "file": "content/images.md"
+      },
+      {
+        "title": "Table",
+        "file": "content/table.md"
+      },
+      {
+        "title": "Typography",
+        "file": "content/typography.md"
+      }
+    ]
+  },
+  {
+    "title": "Layout",
+    "file": "layout.md",
+    "children": [
+      {
+        "title": "Breakpoints",
+        "file": "layout/breakpoints.md"
+      },
+      {
+        "title": "Container",
+        "file": "layout/container.md"
+      },
+      {
+        "title": "Grid",
+        "file": "layout/grid.md"
+      }
+    ]
+  },
+  {
+    "title": "Components",
+    "file": "components.md",
+    "children": [
+      {
+        "title": "Badge",
+        "file": "components/badge.md"
+      },
+      {
+        "title": "Box",
+        "file": "components/box.md"
+      },
+      {
+        "title": "Breadcrumb",
+        "file": "components/breadcrumb.md"
+      },
+      {
+        "title": "Card",
+        "file": "components/card.md"
+      }
+    ]
+  },
+  {
+    "title": "Utilities",
+    "file": "utilities.md",
+    "children": [
+      {
+        "title": "Colors",
+        "file": "utilities/colors.md"
+      },
+      {
+        "title": "Display",
+        "file": "utilities/display.md"
+      },
+      {
+        "title": "Flex",
+        "file": "utilities/flex.md"
+      },
+      {
+        "title": "Position",
+        "file": "utilities/position.md"
+      },
+      {
+        "title": "Rounds",
+        "file": "utilities/rounds.md"
+      },
+      {
+        "title": "Scrollbar",
+        "file": "utilities/scrollbar.md"
+      },
+      {
+        "title": "Shadows",
+        "file": "utilities/shadows.md"
+      },
+      {
+        "title": "Spacing",
+        "file": "utilities/spacing.md"
+      },
+      {
+        "title": "Text",
+        "file": "utilities/text.md"
+      }
+    ]
+  }
 ]
