@@ -1,19 +1,52 @@
 import { Component, Input } from '@angular/core'
 import { useMemo } from '../../helpers/memo.helper'
 
+/**
+ * Represents a progress bar component for displaying progress visually.
+ *
+ * @example
+ * <sq-progress-bar [value]="50" [striped]="true"></sq-progress-bar>
+ *
+ */
 @Component({
   selector: 'sq-progress-bar',
   templateUrl: './sq-progress-bar.component.html',
   styleUrls: ['./sq-progress-bar.component.scss'],
 })
 export class SqProgressBarComponent {
+  /**
+   * The color of the progress bar.
+   */
   @Input() color = 'black'
+
+  /**
+   * Indicates whether to display a label on the progress bar.
+   */
   @Input() hasLabel = false
+
+  /**
+   * The value of the progress bar (can be a string or number).
+   */
   @Input() value: string | number = 0
+
+  /**
+   * The height of the progress bar.
+   */
   @Input() height = '1rem'
+
+  /**
+   * Indicates whether to display stripes on the progress bar.
+   */
   @Input() striped = true
+
+  /**
+   * Indicates whether the progress bar should have an animation.
+   */
   @Input() animated = false
 
+  /**
+   * The rounded value of the progress (rounded to the nearest integer).
+   */
   roundValue = useMemo((value: string | number) => {
     return Math.round(Number(value))
   })

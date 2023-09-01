@@ -2,28 +2,76 @@ import { Component, EventEmitter, Input, Output } from '@angular/core'
 import { ColorsHelper } from '../../helpers/colors.helper'
 import { useMemo } from '../../helpers/memo.helper'
 
+/**
+ * Represents a tag component with customizable appearance and behavior.
+ *
+ * @example
+ * <sq-tag>Tag Content</sq-tag>
+ */
 @Component({
   selector: 'sq-tag',
   templateUrl: './sq-tag.component.html',
   styleUrls: ['./sq-tag.component.scss']
 })
 export class SqTagsComponent {
+  /**
+   * Additional CSS classes for styling the tag.
+   */
   @Input() customClass = ''
+
+  /**
+   * Flag to round the corners of the tag.
+   */
   @Input() rounded = false
+
+  /**
+   * The text color of the tag.
+   */
   @Input() color = ''
+
+  /**
+   * The background color of the tag.
+   */
   @Input() backgroundColor = ''
+
+  /**
+   * Flag to make the tag readonly.
+   */
   @Input() readonly = false
+
+  /**
+   * Flag to disable the tag.
+   */
   @Input() disabled = false
 
+  /**
+   * Event emitted when the tag is clicked.
+   */
   @Output() emitClick: EventEmitter<void> = new EventEmitter<void>()
 
-  constructor(public colorsHelper: ColorsHelper) {
+  /**
+ * Constructor for the SqButtonComponent class.
+ * @param colorsHelper - The ColorsHelper service for color manipulation.
+ */
+  constructor(
+    public colorsHelper: ColorsHelper
+  ) {
   }
 
-  validatePresetColors() {
+  /**
+   * Validates whether the specified color is a preset color.
+   *
+   * @returns {boolean} True if the color is a valid preset color, false otherwise.
+   */
+  validatePresetColors(): boolean {
     return !!this.colorsHelper?.getCssVariableValue(this.color)
   }
 
+  /**
+   * Retrieves the computed text color for the tag.
+   *
+   * @returns {string} The computed text color.
+   */
   getColor = useMemo(() => {
     if (this.validatePresetColors()) {
       return ''
@@ -31,6 +79,11 @@ export class SqTagsComponent {
     return this.color
   })
 
+  /**
+   * Retrieves the computed background color for the tag.
+   *
+   * @returns {string} The computed background color.
+   */
   getBackgroundColor = useMemo(() => {
     if (this.validatePresetColors()) {
       return ''
@@ -38,7 +91,11 @@ export class SqTagsComponent {
     return this.backgroundColor
   })
 
-  handleClick() {
+  /**
+   * Handles the click event on the tag.
+   * Emits the `emitClick` event if the tag is not readonly or disabled.
+   */
+  handleClick(): void {
     if (this.readonly || this.disabled) {
       return
     }

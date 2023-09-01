@@ -146,7 +146,7 @@ export class SqModalComponent implements OnChanges {
    * @param event - The click event object.
    */
   @HostListener('document:click', ['$event'])
-  backdropClick(event: any) {
+  backdropClick(event: MouseEvent) {
     if (this.backdrop === 'static' || !this.modal || !this.open || !this.enableBackdropClick) {
       return
     }
@@ -215,7 +215,7 @@ export class SqModalComponent implements OnChanges {
    *
    * @param event - The keyboard event object.
    */
-  onKeydown(event: any) {
+  onKeydown(event: KeyboardEvent) {
     if (this.open) {
       this.modals = this.document.getElementsByClassName('modal')
       if (this.modals?.length === this.modalsLength) {
