@@ -4,6 +4,10 @@ import { Step } from '../../interfaces/step.interface'
 /**
  * Represents a component for displaying a sequence of steps.
  *
+ * Look the link about the component in original framework and the appearance
+ *
+ * @see {@link https://css.squidit.com.br/components/steps}
+ * 
  * @example
  * <sq-steps [active]="0" [steps]="stepArray"></sq-steps>
  *

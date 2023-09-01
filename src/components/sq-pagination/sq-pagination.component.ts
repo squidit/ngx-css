@@ -5,6 +5,10 @@ import { Subscription } from 'rxjs'
 
 /**
  * Represents a pagination component for navigating through pages.
+ * 
+ * Look the link about the component in original framework and the appearance
+ *
+ * @see {@link https://css.squidit.com.br/components/pagination}
  *
  * @example
  * <sq-pagination [currentPage]="currentPage" [totalPages]="totalPages" [showPages]="5" (pageChange)="onPageChange($event)"></sq-pagination>

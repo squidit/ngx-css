@@ -4,7 +4,11 @@ import { useMemo } from '../../helpers/memo.helper'
 
 /**
  * Represents a tag component with customizable appearance and behavior.
+ * 
+ * Look the link about the component in original framework and the appearance
  *
+ * @see {@link https://css.squidit.com.br/components/tag}
+ * 
  * @example
  * <sq-tag>Tag Content</sq-tag>
  */

@@ -3,6 +3,10 @@ import { SqTabComponent } from './sq-tab/sq-tab.component'
 
 /**
  * Represents a tab container component for managing a collection of tabs.
+ * 
+ * Look the link about the component in original framework and the appearance
+ *
+ * @see {@link https://css.squidit.com.br/components/tabs}
  *
  * @example
  * <sq-tabs [lineStyle]="true" (tabChange)="handleTabChange($event)">

@@ -4,6 +4,10 @@ import { useMemo } from '../../helpers/memo.helper'
 /**
  * Represents a progress bar component for displaying progress visually.
  *
+ * Look the link about the component in original framework and the appearance
+ *
+ * @see {@link https://css.squidit.com.br/components/progress-bar}
+ * 
  * @example
  * <sq-progress-bar [value]="50" [striped]="true"></sq-progress-bar>
  *

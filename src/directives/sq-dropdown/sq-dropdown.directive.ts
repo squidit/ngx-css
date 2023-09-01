@@ -3,7 +3,11 @@ import { NavigationEnd, Router } from '@angular/router'
 
 /**
  * Directive for creating and controlling dropdown menus.
+ * 
+ * Look the link about the component in original framework and the appearance
  *
+ * @see {@link https://css.squidit.com.br/components/dropdown}
+ * 
  * @example
  * <div
  *  [dropdown]="true"

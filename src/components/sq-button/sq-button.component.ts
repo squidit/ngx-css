@@ -4,7 +4,11 @@ import { useMemo } from '../../helpers/memo.helper'
 
 /**
  * Represents the SqButtonComponent, a customizable button component.
+ * 
+ * Look the link about the component in original framework and the appearance
  *
+ * @see {@link https://css.squidit.com.br/components/button}
+ * 
  * @example
  * <sq-button type="button" color="pink" [loading]="false" (emitClick)="onClick($event)">
  *   Click Me

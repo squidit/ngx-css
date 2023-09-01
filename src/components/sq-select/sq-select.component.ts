@@ -5,6 +5,10 @@ import { Option } from '../../interfaces/option.interface'
 /**
  * Represents a select input component for choosing options from a dropdown.
  *
+ * Look the link about the component in original framework and the appearance
+ *
+ * @see {@link https://css.squidit.com.br/forms/select}
+ * 
  * @example
  * <sq-select
  *   [label]="'Select an option'"

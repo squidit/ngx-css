@@ -5,6 +5,10 @@ import { ValidatorHelper } from '../../helpers/validator.helper'
 /**
  * Represents the SqInputComponent, a customizable input component.
  *
+ * Look the link about the component in original framework and the appearance
+ *
+ * @see {@link https://css.squidit.com.br/forms/input}
+ * 
  * @example
  * <sq-input
  *   [name]="'name-exemple'"

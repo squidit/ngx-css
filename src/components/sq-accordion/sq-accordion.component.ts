@@ -13,6 +13,10 @@ import { SqCollapseComponent } from './sq-collapse/sq-collapse.component'
  * 
  * @implements {AfterContentInit}
  * @implements {OnDestroy}
+ * 
+ * Look the link about the component in original framework and the appearance
+ *
+ * @see {@link https://css.squidit.com.br/components/accordion-collapse}
  *
  * @example
  * <sq-accordion [onlyOne]="true">

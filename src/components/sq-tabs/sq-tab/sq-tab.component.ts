@@ -2,6 +2,10 @@ import { Component, EventEmitter, Input, Output } from '@angular/core'
 /**
  * Represents a tab component for displaying tabbed content.
  *
+ * Look the link about the component in original framework and the appearance
+ *
+ * @see {@link https://css.squidit.com.br/components/tabs}
+ * 
  * @example
  * <sq-tab [title]="'Tab Title'" (whenOpen)="handleTabOpen()">
  * <!-- Content Here -->

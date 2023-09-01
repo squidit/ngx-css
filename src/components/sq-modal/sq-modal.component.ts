@@ -17,6 +17,10 @@ import {
 /**
  * Represents a modal component with customizable options and event handling.
  * 
+ * Look the link about the component in original framework and the appearance
+ *
+ * @see {@link https://css.squidit.com.br/components/modal}
+ * 
  * @example
  * <sq-modal [open]="isModalOpen" (modalClose)="onModalClose()">
  *   <ng-template #headerModal>

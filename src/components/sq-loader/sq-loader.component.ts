@@ -3,6 +3,10 @@ import { Component, Input } from '@angular/core'
 /**
  * Represents the SqLoaderComponent which displays a loading spinner with customizable options.
  * 
+ * Look the link about the component in original framework and the appearance
+ *
+ * @see {@link https://css.squidit.com.br/components/loader}
+ * 
  * @example
  * <sq-loader size="small" color="var(--blue)" customClass="custom-spinner"></sq-loader>
  *

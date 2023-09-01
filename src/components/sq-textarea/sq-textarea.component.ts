@@ -5,6 +5,10 @@ import { TranslateService } from '@ngx-translate/core'
 /**
  * Represents a textarea input component with various configuration options.
  *
+ * Look the link about the component in original framework and the appearance
+ *
+ * @see {@link https://css.squidit.com.br/forms/textarea}
+ * 
  * @example
  * <sq-textarea [name]="'description'" [id]="'description'" [label]="'Description'"[placeholder]="'Enter a description...'" [(value)]="text"></sq-textarea>
  *

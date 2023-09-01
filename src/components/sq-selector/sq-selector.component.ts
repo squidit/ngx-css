@@ -14,6 +14,10 @@ import { TranslateService } from '@ngx-translate/core'
 /**
  * Represents a selector input component for checkboxes or radio buttons.
  *
+ * Look the link about the component in original framework and the appearance
+ *
+ * @see {@link https://css.squidit.com.br/forms/selectors}
+ * 
  * @example
  * // To use the SqSelectorComponent in your Angular template:
  * <sq-selector

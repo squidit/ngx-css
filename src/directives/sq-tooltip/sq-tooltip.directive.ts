@@ -4,6 +4,10 @@ import { NavigationEnd, Router } from '@angular/router'
 /**
  * Directive for creating and managing tooltips.
  *
+ * Look the link about the component in original framework and the appearance
+ *
+ * @see {@link https://css.squidit.com.br/components/tooltip}
+ * 
  * @example
  * <div [tooltip]="'Tooltip message'" placement="center top"></div>
  */

@@ -5,6 +5,10 @@ import { useMemo } from '../../../helpers/memo.helper'
 /**
  * Represents the SqCollapseComponent, a collapsible container component with customizable options.
  *
+ * Look the link about the component in original framework and the appearance
+ * 
+ * @see {@link https://css.squidit.com.br/components/accordion-collapse}
+ * 
  * @example
  * <sq-collapse open="true" color="blue" (openedEmitter)="onOpened($event)">
  *   <ng-container header>

@@ -1,7 +1,11 @@
 import { Component, Input } from '@angular/core'
 /**
  * Represents a tooltip component for displaying informative messages.
+ * 
+ * Look the link about the component in original framework and the appearance
  *
+ * @see {@link https://css.squidit.com.br/components/tooltip}
+ * 
  * @example
  * <sq-tooltip placement='center top' message='This is a tooltip message.'></sq-tooltip>
  *

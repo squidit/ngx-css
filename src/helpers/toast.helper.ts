@@ -11,6 +11,10 @@ declare const Toast: Toast
  *
  * Toast messages are often used to provide feedback to users in a non-intrusive way. This service
  * provides methods to display different types of toast messages with various configurations.
+ * 
+ * Look the link about the component in original framework and the appearance
+ *
+ * @see {@link https://css.squidit.com.br/components/toast}
  *
  * @example
  * @Component({
