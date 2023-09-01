@@ -96,7 +96,7 @@ export class SqInputFileComponent extends SqInputComponent {
     if (this.externalError) {
       this.error = false
     } else if (!!this.required && (!this.value || this.value.length < 1) && this.value !== 0) {
-      this.setError('formErrors.required')
+      this.setError('forms.required')
       this.valid.emit(false)
     } else if (this.maxSize && this.value && this.value.length > 0) {
       let bigFiles = 0
@@ -106,7 +106,7 @@ export class SqInputFileComponent extends SqInputComponent {
         }
       }
       if (bigFiles > 0) {
-        this.setError('formErrors.fileSize')
+        this.setError('forms.fileSize')
         this.valid.emit(false)
       } else {
         this.valid.emit(true)

@@ -240,16 +240,16 @@ export class SqInputComponent {
       this.error = false
     } else if (!!this.required && !this.value) {
       this.valid.emit(false)
-      this.setError('formErrors.required')
+      this.setError('forms.required')
     } else if (this.type === 'email' && !this.validatorHelper.email(this.value)) {
       this.valid.emit(false)
-      this.setError('formErrors.email')
+      this.setError('forms.email')
     } else if (this.type === 'tel' && !this.validatorHelper.phone(this.value)) {
       this.valid.emit(false)
-      this.setError('formErrors.phone')
+      this.setError('forms.phone')
     } else if (this.type === 'url' && this.value && this.value.length && !this.validatorHelper.url(this.value)) {
       this.valid.emit(false)
-      this.setError('formErrors.url')
+      this.setError('forms.url')
     } else {
       this.valid.emit(true)
       this.error = ''

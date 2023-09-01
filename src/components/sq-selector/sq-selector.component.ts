@@ -199,7 +199,7 @@ export class SqSelectorComponent implements OnChanges {
       this.error = ''
     } else if (this.required && !this.thisChecked) {
       this.valid.emit(false)
-      this.error = await this.translate.instant('formErrors.required')
+      this.error = await this.translate.instant('forms.required')
     } else {
       this.valid.emit(true)
       this.error = ''

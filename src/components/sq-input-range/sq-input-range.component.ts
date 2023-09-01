@@ -177,7 +177,7 @@ export class SqInputRangeComponent implements AfterContentInit, OnChanges {
     if (this.externalError) {
       this.error = false
     } else if (!!this.required && !this.value && this.value !== '0') {
-      this.setError('formErrors.required')
+      this.setError('forms.required')
       this.valid.emit(false)
     } else {
       this.valid.emit(true)

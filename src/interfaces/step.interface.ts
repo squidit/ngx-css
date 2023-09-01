@@ -1,7 +1,6 @@
 /**
  * Represents a step in a sequence of steps.
  *
- * @export
  * @interface Step
  */
 export interface Step {

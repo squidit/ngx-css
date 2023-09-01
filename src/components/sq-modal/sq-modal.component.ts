@@ -31,7 +31,6 @@ import {
  * </sq-modal>
  * <button (click)='isModalOpen = true'>Open Modal</button>
  *
- * @export
  * @implements {OnChanges}
  */
 @Component({

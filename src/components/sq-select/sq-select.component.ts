@@ -207,7 +207,7 @@ export class SqSelectComponent {
       this.error = false
     } else if (this.required && !this.value) {
       this.valid.emit(false)
-      this.setError('formErrors.required')
+      this.setError('forms.required')
     } else {
       this.valid.emit(true)
       this.error = ''

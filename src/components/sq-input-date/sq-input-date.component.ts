@@ -67,16 +67,16 @@ export class SqInputDateComponent extends SqInputComponent {
       this.error = false
     } else if (!!this.required && !this._value) {
       this.valid.emit(false)
-      this.setError('formErrors.required')
+      this.setError('forms.required')
     } else if (!this.validatorHelper.date(this._value)) {
       this.valid.emit(false)
-      this.setError('formErrors.date')
+      this.setError('forms.date')
     } else if (this.formatDate(this.minDate) > this._value) {
       this.valid.emit(false)
-      this.setError('formErrors.rangeDate')
+      this.setError('forms.rangeDate')
     } else if (this.formatDate(this.maxDate) < this._value) {
       this.valid.emit(false)
-      this.setError('formErrors.rangeDate')
+      this.setError('forms.rangeDate')
     } else {
       this.valid.emit(true)
       this.error = ''

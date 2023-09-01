@@ -1,35 +1,12 @@
 {
-  "formErrors": {
+  "forms": {
     "search": "Buscar",
     "seachSelectEmpty": "Não há opções a serem selecionadas",
     "fileSize": "O arquivo enviado é muito grande, tente diminuir a qualidade ou fazer o upload novamente.",
     "required": "Campo obrigatório",
     "email": "E-mail inválido",
     "url": "URL inválida. Atenção: toda URL deve começar com https://",
-    "selectIten": "Selecione ao menos {{value}} item",
-    "selectItens": "Selecione ao menos {{value}} itens",
     "date": "Data inválida",
-    "rangeDate:": "Data fora do periodo válido",
-    "underAge": "É preciso ter 18 anos ou mais!",
-    "phone": "Telefone inválido",
-    "internationalDocument": "Documento internacional inválido",
-    "cpf": "CPF inválido",
-    "cpfAlreadyRegistered": "CPF já cadastrado",
-    "cnpj": "CNPJ inválido",
-    "name": "Nome Completo inválido",
-    "address": "Endereço inválido",
-    "neighborhood": "Bairro inválido",
-    "city": "Cidade inválida",
-    "state": "Estado inválido",
-    "recordEmployment": "PIS/NIS/PASEP inválido",
-    "recordEmploymentAlreadyRegistered": "PIS/NIS/PASEP já cadastrado",
-    "nationalDocument": "RG inválido",
-    "agency": "Agência inválida",
-    "agencyDigit": "Digito da agência inválida",
-    "account": "Conta inválida",
-    "accountDigit": "Digito da conta inválida",
-    "dateWeekend": "Final de semana não permitido",
-    "noPermissionRegistration": "No tienes permiso para acceder a los datos de registro de este influencer",
-    "typeformError": "Atenção! Não insira o link do typeform neste campo"
+    "phone": "Telefone inválido"
   }
 }

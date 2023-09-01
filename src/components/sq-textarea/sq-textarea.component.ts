@@ -8,8 +8,6 @@ import { TranslateService } from '@ngx-translate/core'
  * @example
  * <sq-textarea [name]="'description'" [id]="'description'" [label]="'Description'"[placeholder]="'Enter a description...'" [(value)]="text"></sq-textarea>
  *
- * @export
- * @class SqTextAreaComponent
  */
 @Component({
   selector: 'sq-textarea',
@@ -211,7 +209,7 @@ export class SqTextAreaComponent {
       this.error = false
     } else if (this.required && !this.value) {
       this.valid.emit(false)
-      this.setError('formErrors.required')
+      this.setError('forms.required')
     } else {
       this.valid.emit(true)
       this.error = ''
