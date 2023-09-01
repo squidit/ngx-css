@@ -6,8 +6,8 @@ import { SqTabComponent } from './sq-tab/sq-tab.component'
  *
  * @example
  * <sq-tabs [lineStyle]="true" (tabChange)="handleTabChange($event)">
- *   <sq-tab [active]="true" [title]="'Tab 1'" (whenOpen)="handleTabOpen()">Tab 1 Content</sq-tab>
- *   <sq-tab [active]="false" [title]="'Tab 2'">Tab 2 Content</sq-tab>
+ *   <sq-tab [title]="'Tab 1'" (whenOpen)="handleTabOpen()">Tab 1 Content</sq-tab>
+ *   <sq-tab [title]="'Tab 2'">Tab 2 Content</sq-tab>
  *   <!-- Add more sq-tab elements as needed -->
  * </sq-tabs>
  *

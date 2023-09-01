@@ -66,8 +66,8 @@
         }"
       >
         <sq-input
-          [name]="name || timeStamp"
-          [id]="id || timeStamp"
+          [name]="name"
+          [id]="id"
           [(value)]="searchText"
           [placeholder]="placeholderSearch || (getTranslation('search') | async)"
           [errorSpan]="false"
@@ -110,8 +110,8 @@
         *ngIf="verifyIfOptionsHasChildren(options)"
       ></i>
       <sq-selector
-        [id]="(id || timeStamp) + '-checkbox-' + opt?.value + '-' + i"
-        [name]="(name || timeStamp) + '-checkbox'"
+        [id]="(id || name) + '-checkbox-' + opt?.value + '-' + i"
+        [name]="name + '-checkbox'"
         [value]="opt?.value"
         [disabled]="opt?.disabled"
         [checked]="findItemInValue(opt)"

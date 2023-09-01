@@ -27,7 +27,7 @@ export class SqTextAreaComponent {
   /**
    * The id attribute of the textarea.
    */
-  @Input() id = ''
+  @Input() id?: string
 
   /**
    * The label to display for the textarea.

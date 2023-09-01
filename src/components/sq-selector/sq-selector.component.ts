@@ -11,54 +11,172 @@ import {
 } from '@angular/core'
 import { TranslateService } from '@ngx-translate/core'
 
+/**
+ * Represents a selector input component for checkboxes or radio buttons.
+ *
+ * @example
+ * // To use the SqSelectorComponent in your Angular template:
+ * <sq-selector
+ *   [label]="'Check this box'"
+ *   [checked]="isChecked"
+ *   [value]="selectedValue"
+ *   (valueChange)="handleValueChange($event)"
+ * ></sq-selector>
+ */
 @Component({
   selector: 'sq-selector',
   templateUrl: './sq-selector.component.html',
   styleUrls: ['./sq-selector.component.scss'],
 })
 export class SqSelectorComponent implements OnChanges {
+  /**
+   * The name attribute for the selector input.
+   */
   @Input() name = ''
+
+  /**
+   * The type of selector: 'checkbox' or 'radio'.
+   */
   @Input() type: 'checkbox' | 'radio' = 'checkbox'
-  @Input() id = ''
+
+  /**
+   * The id attribute for the selector input.
+   */
+  @Input() id?: string
+
+  /**
+   * The selected value of the selector input.
+   */
   @Input() value: any = ''
+
+  /**
+   * Indicates whether the selector input is checked.
+   */
   @Input() checked = false
+
+  /**
+   * Indicates whether the selector input is in an indeterminate state.
+   */
   @Input() indeterminate = false
+
+  /**
+   * Indicates whether the selector input is disabled.
+   */
   @Input() disabled?: boolean
+
+  /**
+   * Indicates whether the selector input is readonly.
+   */
   @Input() readonly?: boolean
+
+  /**
+   * Indicates whether the selector input is required.
+   */
   @Input() required?: boolean
+
+  /**
+   * Text color for the selector input.
+   */
   @Input() colorText = ''
+
+  /**
+   * Background color for the selector input when checked.
+   */
   @Input() colorBackground = 'green'
+
+  /**
+   * Indicates whether to hide the actual input element.
+   */
   @Input() hideInput = false
+
+  /**
+   * Indicates whether the selector input supports toggle behavior.
+   */
   @Input() toggle = false
+
+  /**
+   * External error message for the selector input.
+   */
   @Input() externalError = ''
+
+  /**
+   * Indicates whether to use form errors for validation.
+   */
   @Input() useFormErrors = true
+
+  /**
+   * The label for the selector input.
+   */
   @Input() label = ''
+
+  /**
+   * Indicates whether to display an error span.
+   */
   @Input() errorSpan = true
 
+  /**
+   * Event emitted when the value of the selector input changes.
+   */
   @Output() valueChange: EventEmitter<{
-    value: any
-    checked: boolean
+    value: any;
+    checked: boolean;
   }> = new EventEmitter()
+
+  /**
+   * Event emitted when the selector input becomes valid or invalid.
+   */
   @Output() valid: EventEmitter<boolean> = new EventEmitter()
 
+  /**
+   * Content child for the right label template.
+   */
   @ContentChild('rightLabel')
   rightLabel: TemplateRef<HTMLElement> | null = null
+
+  /**
+   * Content child for the left label template.
+   */
   @ContentChild('leftLabel')
   leftLabel: TemplateRef<HTMLElement> | null = null
 
+  /**
+   * Indicates whether the selector input is currently checked.
+   */
   thisChecked = false
+
+  /**
+   * Indicates whether the selector input is in an indeterminate state.
+   */
   thisIndeterminate = false
+
+  /**
+   * Error message associated with the selector input.
+   */
   error = ''
+
+  /**
+   * Context object containing selector properties.
+   */
   context: any = {
     checked: this.thisChecked,
     indeterminate: !this.thisChecked ? this.thisIndeterminate : false,
     value: this.value
   }
 
+  /**
+   * Constructs a new SqSelectorComponent.
+   *
+   * @param {TranslateService} translate - The optional TranslateService for internationalization.
+   */
   constructor(
     @Optional() public translate: TranslateService
   ) { }
 
+  /**
+   * Lifecycle hook called when any input properties change.
+   *
+   * @param {SimpleChanges} changes - An object containing changed input properties.
+   */
   async ngOnChanges(changes: SimpleChanges) {
     if (changes.hasOwnProperty('checked')) {
       this.thisChecked = this.checked
@@ -73,6 +191,9 @@ export class SqSelectorComponent implements OnChanges {
     }
   }
 
+  /**
+   * Validates the selector input and sets the error state.
+   */
   async validate() {
     if (this.externalError) {
       this.error = ''
@@ -85,12 +206,22 @@ export class SqSelectorComponent implements OnChanges {
     }
   }
 
+  /**
+   * Sets an error message.
+   *
+   * @param {string} key - The translation key for the error message.
+   */
   async setError(key: string) {
     if (this.useFormErrors && this.translate) {
       this.error = await this.translate.instant(key)
     }
   }
 
+  /**
+   * Handles the change event of the selector input.
+   *
+   * @param {any} event - The change event object.
+   */
   change(event: any): void {
     if (!this.readonly && !this.disabled) {
       this.valueChange.emit({

@@ -3,6 +3,19 @@ import { TranslateService } from '@ngx-translate/core'
 import { OptionMulti } from '../../interfaces/option.interface'
 import { useMemo } from '../../helpers/memo.helper'
 
+/**
+ * Represents a multi-tag select component.
+ *
+ * @example
+ * // To use the SqSelectMultiTagsComponent in your Angular template:
+ * <sq-select-multi-tags
+ *   [name]="'tags'"
+ *   [value]="selectedTags"
+ *   [options]="tagOptions"
+ *   (valueChange)="handleTagSelection($event)"
+ * >
+ * </sq-select-multi-tags>
+ */
 @Component({
   selector: 'sq-select-multi-tags',
   templateUrl: './sq-select-multi-tags.component.html',
@@ -10,66 +23,229 @@ import { useMemo } from '../../helpers/memo.helper'
   providers: [],
 })
 export class SqSelectMultiTagsComponent {
-  @Input() name = ''
+  /**
+   * The name attribute for the multi-tag select input.
+   * 
+   * @default 'random-name-[hash-random-code]'
+   */
+  @Input() name = `random-name-${(1 + Date.now() + Math.random()).toString().replace('.', '')}`
+
+  /**
+   * The selected values for the multi-tag select input.
+   */
   @Input() value?: OptionMulti[] = []
-  @Input() id = ''
+
+  /**
+   * The id attribute for the multi-tag select input.
+   */
+  @Input() id?: string
+
+  /**
+   * The label for the multi-tag select input.
+   */
   @Input() label = ''
+
+  /**
+   * Custom CSS class for styling the component.
+   */
   @Input() customClass = ''
 
+  /**
+   * Placeholder text for the input field.
+   */
   @Input() placeholder = ''
+
+  /**
+   * External error message for the multi-tag select input.
+   */
   @Input() externalError = ''
+
+  /**
+   * External icon for the multi-tag select input.
+   */
   @Input() externalIcon = ''
+
+  /**
+   * Placeholder text for the search input field.
+   */
   @Input() placeholderSearch = ''
 
+  /**
+   * Indicates whether the multi-tag select input is disabled.
+   */
   @Input() disabled = false
+
+  /**
+   * Indicates whether the multi-tag select input is readonly.
+   */
   @Input() readonly = false
+
+  /**
+   * Indicates whether the multi-tag select input is required.
+   */
   @Input() required = false
+
+  /**
+   * Indicates whether the multi-tag select input is in a loading state.
+   */
   @Input() loading = false
+
+  /**
+   * Indicates whether to use form errors for validation.
+   */
   @Input() useFormErrors = true
+
+  /**
+   * Indicates whether to display an error span.
+   */
   @Input() errorSpan = true
+
+  /**
+   * Indicates whether a timeout is applied to input changes.
+   */
   @Input() hasTimeout = false
 
+  /**
+   * Background color for the multi-tag select input.
+   */
   @Input() backgroundColor = ''
+
+  /**
+   * Border color for the multi-tag select input.
+   */
   @Input() borderColor = ''
+
+  /**
+   * Color for the label of the multi-tag select input.
+   */
   @Input() labelColor = ''
 
+  /**
+   * Options available for selection.
+   */
   @Input() options: Array<OptionMulti> = []
 
+  /**
+   * Indicates whether to show selected tags inside the input.
+   */
   @Input() showInside = true
+
+  /**
+   * Indicates whether to hide the search input.
+   */
   @Input() hideSearch = false
 
+  /**
+   * Tooltip message for the multi-tag select input.
+   */
   @Input() tooltipMessage = ''
+
+  /**
+   * Tooltip placement for the multi-tag select input.
+   */
   @Input() tooltipPlacement: 'center top' | 'center bottom' | 'left center' | 'right center' = 'right center'
+
+  /**
+   * Tooltip color for the multi-tag select input.
+   */
   @Input() tooltipColor = 'inherit'
+
+  /**
+   * Tooltip icon for the multi-tag select input.
+   */
   @Input() tooltipIcon = ''
 
-  @Output() valueChange: EventEmitter<Array<any>> = new EventEmitter()
-  @Output() closeChange: EventEmitter<any> = new EventEmitter()
-  @Output() removeTag: EventEmitter<any> = new EventEmitter()
+  /**
+   * Event emitted when the selected values change.
+   */
+  @Output() valueChange: EventEmitter<Array<OptionMulti>> = new EventEmitter()
+
+  /**
+   * Event emitted when the multi-tag select dropdown is closed.
+   */
+  @Output() closeChange: EventEmitter<boolean> = new EventEmitter()
+
+  /**
+   * Event emitted when a tag is removed.
+   */
+  @Output() removeTag: EventEmitter<OptionMulti> = new EventEmitter()
+
+  /**
+   * Event emitted when the multi-tag select input becomes valid or invalid.
+   */
   @Output() valid: EventEmitter<boolean> = new EventEmitter()
 
+  /**
+   * Indicates whether the multi-tag select dropdown is open.
+   */
   open = false
+
+  /**
+   * Text entered in the search input field.
+   */
   searchText = ''
+
+  /**
+   * Indicates whether the value has changed.
+   */
   valueChanged = false
+
+  /**
+   * Indicates whether a timeout has occurred for input changes.
+   */
   timeouted = false
-  error: boolean | string = false
-  timeoutInput!: ReturnType<typeof setTimeout>
+
+  /**
+   * Error message associated with the multi-tag select input.
+   */
+  error: boolean | string = ''
+
+  /**
+   * Timeout duration for input changes.
+   */
   timeOutInputTime = 800
-  timeStamp = `random-id-${(1 + Date.now() + Math.random()).toString().replace('.', '')}`
+
+  /**
+   * Native element reference.
+   */
   nativeElement: ElementRef
 
+  /**
+   * Constructs a new SqSelectMultiTagsComponent.
+   *
+   * @param {ElementRef} element - The element reference.
+   * @param {TranslateService} translate - The optional TranslateService for internationalization.
+   */
   constructor(public element: ElementRef, @Optional() private translate: TranslateService) {
     this.nativeElement = element.nativeElement
   }
 
+  /**
+   * Determines if an item exists in the selected values.
+   *
+   * @param {OptionMulti} item - The item to search for.
+   * @returns {boolean} True if the item exists in the selected values; otherwise, false.
+   */
   findItemInValue = useMemo((item: OptionMulti) => {
     return !!this.value?.find((value) => value.value === item.value)
   })
 
+  /**
+   * Verifies if any options have children.
+   *
+   * @param {OptionMulti[]} options - The options to check.
+   * @returns {boolean} True if any option has children; otherwise, false.
+   */
   verifyIfOptionsHasChildren = useMemo((options: OptionMulti[]) => {
     return options.some((item) => item.children?.length)
   })
 
+  /**
+   * Verifies if an item has children that are selected.
+   *
+   * @param {OptionMulti} item - The item to check.
+   * @returns {boolean} True if the item has selected children; otherwise, false.
+   */
   verifyIfHasChildrenInValue = useMemo((item: OptionMulti) => {
     if (item.children?.length) {
       const hasAllChildren = item.children.every((child) => this.findItemInValue(child))
@@ -85,6 +261,11 @@ export class SqSelectMultiTagsComponent {
     return false
   })
 
+  /**
+   * Removes an item from the selected values.
+   *
+   * @param {OptionMulti} item - The item to remove.
+   */
   removeItem(item: OptionMulti) {
     if (item.children?.length) {
       item.children.forEach((child) => {
@@ -98,6 +279,12 @@ export class SqSelectMultiTagsComponent {
     this.validate()
   }
 
+  /**
+   * Emits a change event with the specified object and checked state.
+   *
+   * @param {OptionMulti} object - The object to emit.
+   * @param {boolean} checked - The checked state.
+   */
   emit(object: OptionMulti, checked: boolean) {
     if (checked) {
       this.value?.push(object)
@@ -122,10 +309,17 @@ export class SqSelectMultiTagsComponent {
     this.validate()
   }
 
+  /**
+   * Gets the search input value.
+   *
+   */
   getSearchValue() {
     return this.searchText || ''
   }
 
+  /**
+   * Closes the multi-tag select dropdown.
+   */
   closeDropdown() {
     this.open = false
     this.searchText = ''
@@ -133,16 +327,29 @@ export class SqSelectMultiTagsComponent {
     this.valueChanged = false
   }
 
+  /**
+   * Handles the collapse of an item.
+   *
+   * @param {OptionMulti} item - The item to collapse.
+   */
   handleCollapse(item: OptionMulti) {
     item.open = !item.open
   }
 
+  /**
+   * Sets an error message.
+   *
+   * @param {string} key - The translation key for the error message.
+   */
   async setError(key: string) {
     if (this.useFormErrors && this.translate) {
       this.error = await this.translate.instant(key)
     }
   }
 
+  /**
+   * Validates the multi-tag select input and sets the error state.
+   */
   validate() {
     if (this.externalError) {
       this.error = false
@@ -155,6 +362,12 @@ export class SqSelectMultiTagsComponent {
     }
   }
 
+  /**
+   * Gets a translation for the specified key.
+   *
+   * @param {string} key - The translation key.
+   * @returns {Promise<string>} A promise that resolves to the translation.
+   */
   getTranslation = useMemo(async (key: string) => {
     if (this.translate) {
       return await this.translate.instant(key)
