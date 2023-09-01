@@ -4,20 +4,20 @@
     (click)="emit(element); toggleCollapse()"
     class="header-collapse"
     [ngStyle]="{
-      'background-color': hoverHeder ? setHover(color) : color,
-      'border-color': hoverHeder ? setHover(color) : color,
+      'background-color': hoverHeader ? setHover(color) : color,
+      'border-color': hoverHeader ? setHover(color) : color,
     }"
     [ngClass]="{
       disabled: disabled,
       loading: loading,
-      'not-header': !header,
+      'not-header': !headerTemplate,
       opened: open,
       'p-0': noPadding
     }"
-    (mouseover)="hoverHeder = true"
-    (mouseleave)="hoverHeder = false"
+    (mouseover)="hoverHeader = true"
+    (mouseleave)="hoverHeader = false"
   >
-    <span class="html" *ngIf="header">
+    <span class="html" *ngIf="headerTemplate">
       <ng-container *ngTemplateOutlet="headerTemplate"></ng-container>
     </span>
     <div

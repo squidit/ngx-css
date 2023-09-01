@@ -14,6 +14,7 @@
     "noFallthroughCasesInSwitch": true,
     "sourceMap": true,
     "paths": {
+      "application": ["dist/application"],
       "@squidit/ngx-css": ["dist/@squidit/ngx-css"]
     },
     "declaration": false,
