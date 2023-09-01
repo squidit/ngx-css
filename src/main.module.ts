@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core'
+import { NgModule, Type } from '@angular/core'
 import { SqButtonComponent } from './components/sq-button/sq-button.component'
 import { CommonModule } from '@angular/common'
 import { SqLoaderComponent } from './components/sq-loader/sq-loader.component'
@@ -35,7 +35,13 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask'
 import { SqInputMoneyComponent } from './components/sq-input-money/sq-input-money.component'
 import { SqInputNumberComponent } from './components/sq-input-number/sq-input-number.component'
 
-const components = [
+/**
+ * Array containing a collection of Angular components, directives, and pipes.
+ * These elements can be used within the SquidCSSModule for building UI features.
+ * 
+ * @type {(Type<any> | any)[]}
+ */
+const components: (Type<any> | any)[] = [
   SqButtonComponent,
   SqLoaderComponent,
   SqProgressBarComponent,
@@ -70,6 +76,10 @@ const components = [
   SqInputNumberComponent
 ]
 
+/**
+ * Angular module that exports a collection of UI components, directives, and pipes
+ * for use in Angular applications.
+ */
 @NgModule({
   declarations: components,
   imports: [
