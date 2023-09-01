@@ -99,7 +99,7 @@ This launches an angular pattern that is contained in the application folder. Ju
 
 We use [compodoc](https://github.com/compodoc/compodoc) to write docs with [jsDocs](https://jsdoc.app/)
 
-1. Run `start:docs` and the compodoc will serve the docs. For each change it is necessary to run the command again
+Run `start:docs` and the compodoc will serve the docs. For each change it is necessary to run the command again
 
 ### Deploy yo NPM
 
