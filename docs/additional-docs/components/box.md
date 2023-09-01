@@ -3,7 +3,7 @@
 Default box to to encapsulate some HTML. The applies the default `box-shadow` and `border-raduys` with a `white` background
 
 <div class='box' style='max-width: 300px'>
-  <p class='black'>
+  <p>
     Some HTML here
   </p>
 </div>
