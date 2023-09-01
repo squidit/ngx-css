@@ -1,14 +1,52 @@
 import { Injectable } from '@angular/core'
 
+/**
+ * A utility service for performing various types of validation tasks, such as email, URL, date,
+ * CNPJ, phone number, CPF, and record employment number validation.
+ *
+ * @example
+ * // Import and inject the ValidatorHelper service in a component or service.
+ * import { Component } from '@angular/core';
+ * import { ValidatorHelper } from './validator-helper.service';
+ *
+ * @Component({
+ *   selector: 'app-root',
+ *   template: '<button (click)="validateEmail()">Validate Email</button>',
+ * })
+ * export class AppComponent {
+ *   constructor(private validatorHelper: ValidatorHelper) {}
+ *
+ *   validateEmail() {
+ *     const isValid = this.validatorHelper.email('example@email.com');
+ *     if (isValid) {
+ *       console.log('Email is valid.');
+ *     } else {
+ *       console.log('Email is not valid.');
+ *     }
+ *   }
+ * }
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class ValidatorHelper {
 
+  /**
+   * Validates an email address.
+   *
+   * @param {string} email - The email address to validate.
+   * @returns {boolean} - `true` if the email is valid, otherwise `false`.
+   */
   email(email: string): boolean {
     return /^[_\-a-z0-9]+(\.[-_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]+)$/i.test(email)
   }
 
+  /**
+   * Validates a URL.
+   *
+   * @param {string} url - The URL to validate.
+   * @returns {boolean} - `true` if the URL is valid, otherwise `false`.
+   */
   url(url: string): boolean {
     const pattern = new RegExp(
       '^(https?:\\/\\/)' + // protocol
@@ -22,11 +60,22 @@ export class ValidatorHelper {
     return !!pattern.test(url)
   }
 
+  /**
+   * Validates a date string.
+   *
+   * @param {string} date - The date string to validate.
+   * @returns {boolean} - `true` if the date is valid, otherwise `false`.
+   */
   date(date: string): boolean {
     return !!Date.parse(date)
   }
 
-  cnpj(value = '') {
+  /**
+   * Validates a CNPJ (Cadastro Nacional da Pessoa Jurídica) number.
+   *
+   * @returns {boolean} - `true` if the CNPJ is valid, otherwise `false`.
+   */
+  cnpj(value = ''): boolean {
     if (value.length !== 14) {
       return false
     }
@@ -67,11 +116,23 @@ export class ValidatorHelper {
     return true
   }
 
-  phone(phone = '') {
+  /**
+   * Validates a phone number.
+   *
+   * @param {string} phone - The phone number to validate.
+   * @returns {boolean} - `true` if the phone number is valid, otherwise `false`.
+   */
+  phone(phone = ''): boolean {
     const regex = /(\d{2})(\d{0,1})(\d{4})(\d{4})/
     return phone.match(regex) !== null
   }
 
+  /**
+   * Validates a CPF (Cadastro de Pessoas Físicas) number.
+   *
+   * @param {string} value - The CPF number to validate.
+   * @returns {boolean} - `true` if the CPF is valid, otherwise `false`.
+   */
   cpf(value = '') {
     let sum = 0
     let rest
@@ -106,6 +167,12 @@ export class ValidatorHelper {
     return true
   }
 
+  /**
+   * Validates a record employment number.
+   *
+   * @param {string} recordEmployment - The record employment number to validate.
+   * @returns {boolean} - `true` if the record employment number is valid, otherwise `false`.
+   */
   recordEmployment(recordEmployment = '') {
     let total = 0
     let residual = 0
