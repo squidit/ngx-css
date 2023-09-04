@@ -24,7 +24,7 @@ export class ThousandSuffixesPipe implements PipeTransform {
    * @param {number} toFixedArgs - Optional. The number of decimal places to round to.
    * @returns {string} - The formatted number with suffix.
    */
-  transform(input: number, round?: string, toFixedArgs?: number): string {
+  transform(input: any, round?: any, toFixedArgs?: number): string {
     const suffixes = ['k', 'M', 'G', 'T', 'P', 'E']
 
     // Handle special cases
