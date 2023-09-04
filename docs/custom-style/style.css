@@ -6,3 +6,13 @@
 @import "./compodoc.css";
 @import "./tablesort.css";
 @import "https://css-cdn.squidit.com.br/dist/css/squid-components.min.css";
+
+.nav.nav-tabs + .tab-content {
+  color: inherit;
+  display: block;
+  opacity: 1;
+  transition: all .3s ease;
+  padding: initial;
+  width: 100%;
+  color: inherit;
+}
