@@ -9,6 +9,10 @@ import { useMemo } from '../../helpers/memo.helper'
  *
  * @see {@link https://css.squidit.com.br/components/tag}
  * 
+ *  <div class=' my-3 tag-box'>
+ *    Tag Content
+ *  </div>
+ * 
  * @example
  * <sq-tag>Tag Content</sq-tag>
  */
@@ -17,7 +21,7 @@ import { useMemo } from '../../helpers/memo.helper'
   templateUrl: './sq-tag.component.html',
   styleUrls: ['./sq-tag.component.scss']
 })
-export class SqTagsComponent {
+export class SqTagComponent {
   /**
    * Additional CSS classes for styling the tag.
    */

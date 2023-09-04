@@ -8,6 +8,15 @@ import { useMemo } from '../../helpers/memo.helper'
  *
  * @see {@link https://css.squidit.com.br/components/progress-bar}
  * 
+ * <div class="progress my-3">
+ *  <div
+ *    class="progress-bar background-dashed animate-bar"
+ *    role="progressbar"
+ *    aria-valuemin="0"
+ *    aria-valuemax="100"
+ *  ></div>
+ * </div>
+ * 
  * @example
  * <sq-progress-bar [value]="50" [striped]="true"></sq-progress-bar>
  *

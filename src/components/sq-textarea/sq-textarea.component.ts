@@ -9,6 +9,21 @@ import { TranslateService } from '@ngx-translate/core'
  *
  * @see {@link https://css.squidit.com.br/forms/textarea}
  * 
+ * <div class='col-6 my-3'>
+ *  <label class='display-block' for='textarea-text'>
+ *    Label
+ *  </label>
+ *  <div class='wrapper-input mb-3'>
+ *    <textarea
+ *      class='display-block textarea'
+ *      type='text'
+ *      name='textarea-text'
+ *      id='textarea-text'
+ *      placeholder='Placeholder'
+ *    ></textarea>
+ *  </div>
+ *</div>
+ * 
  * @example
  * <sq-textarea [name]="'description'" [id]="'description'" [label]="'Description'"[placeholder]="'Enter a description...'" [(value)]="text"></sq-textarea>
  *

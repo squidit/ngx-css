@@ -10,6 +10,17 @@ import { ValidatorHelper } from '../../helpers/validator.helper'
  * @implements {AfterContentInit}
  * @implements {OnChanges}
  * 
+ * <br>
+ * <label for='id-exemple-range'>
+ *  Example Input Range
+ * </label>
+ * <input
+ *   class='range mb-3'
+ *   name="name-exemple-range"
+ *   id="id-exemple-range"
+ *   type="range"
+ * ></input>
+ * 
  * @example
  * <sq-input-range [name]='"input-range"' [(value)]='number' ></sq-input-range>
  */

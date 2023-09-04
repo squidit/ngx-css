@@ -9,6 +9,30 @@ import { Subscription } from 'rxjs'
  * Look the link about the component in original framework and the appearance
  *
  * @see {@link https://css.squidit.com.br/components/pagination}
+ * 
+ *  <div class='my-3' >
+ *    <ul class="pagination" style='padding: 0; margin: 0;'>
+ *      <li class="disabled">
+ *        <a>
+ *          <i class="fas fa-chevron-left"></i>
+ *        </a>
+ *      </li>
+ *      <li>
+ *        <a>1</a>
+ *      </li>
+ *      <li class='active'>
+ *        <a>2</a>
+ *      </li>
+ *      <li>
+ *        <a>3</a>
+ *      </li>
+ *      <li>
+ *        <a>
+ *          <i class="fas fa-chevron-right"></i>
+ *        </a>
+ *      </li>
+ *    </ul>
+ *  </div>
  *
  * @example
  * <sq-pagination [currentPage]="currentPage" [totalPages]="totalPages" [showPages]="5" (pageChange)="onPageChange($event)"></sq-pagination>

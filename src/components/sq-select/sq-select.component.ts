@@ -9,8 +9,22 @@ import { Option } from '../../interfaces/option.interface'
  *
  * @see {@link https://css.squidit.com.br/forms/select}
  * 
+ * <br>
+ * <label for='select-name'>
+ * Label select
+ * </label>
+ * <select
+ *   class='select mb-3'
+ *   [name]="'select-name'"
+ * >
+ *  <option value='' disabled>Select an option</option>
+ *  <option value="1">Option 1</option>
+ *  <option value="2">Option 2</option>
+ * </select>
+ * 
  * @example
  * <sq-select
+ *   [name]="'select-name'"
  *   [label]="'Select an option'"
  *   [options]="selectOptions"
  *   [(value)]='value'

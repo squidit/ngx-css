@@ -8,6 +8,20 @@ import { Step } from '../../interfaces/step.interface'
  *
  * @see {@link https://css.squidit.com.br/components/steps}
  * 
+ * <div class="steps my-3">
+ *  <ul>
+ *    <li class="old">
+ *      <span></span>
+ *    </li>
+ *    <li class="active">
+ *      <span></span>
+ *    </li>
+ *    <li>
+ *      <span></span>
+ *    </li>
+ *  </ul>
+ * </div>
+ * 
  * @example
  * <sq-steps [active]="0" [steps]="stepArray"></sq-steps>
  *

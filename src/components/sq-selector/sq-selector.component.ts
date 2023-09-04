@@ -18,8 +18,65 @@ import { TranslateService } from '@ngx-translate/core'
  *
  * @see {@link https://css.squidit.com.br/forms/selectors}
  * 
+ * <br />
+ * <div class='row'>
+ *  <div class='col-md-4'>
+ *    <div class='wrapper-selectors mb-3'>
+ *      <input
+ *        type='checkbox'
+ *        name='checkbox'
+ *        id='checkbox'
+ *      />
+ *      <label
+ *        class='checkbox'
+ *        for='checkbox'
+ *      ></label>
+ *      <label
+ *        for='checkbox'
+ *      >
+ *        Label
+ *      </label>
+ *    </div>
+ *  </div>
+ *  <div class='col-md-4'>
+ *    <div class='wrapper-selectors mb-3'>
+ *      <input
+ *        type='radio'
+ *        name='radio'
+ *        id='radio'
+ *      />
+ *      <label
+ *        class='checkbox'
+ *        for='radio'
+ *      ></label>
+ *      <label
+ *        for='radio'
+ *      >
+ *        Label
+ *      </label>
+ *    </div>
+ *  </div>
+ *  <div class='col-md-4'>
+ *    <div class='wrapper-selectors toggle mb-3'>
+ *      <input
+ *        type='checkbox'
+ *        name='toggle'
+ *        id='toggle'
+ *      />
+ *      <label
+ *        class='checkbox'
+ *        for='toggle'
+ *      ></label>
+ *      <label
+ *        for='toggle'
+ *      >
+ *        Label
+ *      </label>
+ *    </div>
+ *  </div>
+ *</div>
+ * 
  * @example
- * // To use the SqSelectorComponent in your Angular template:
  * <sq-selector
  *   [label]="'Check this box'"
  *   [checked]="isChecked"

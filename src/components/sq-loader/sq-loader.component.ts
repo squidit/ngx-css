@@ -7,6 +7,11 @@ import { Component, Input } from '@angular/core'
  *
  * @see {@link https://css.squidit.com.br/components/loader}
  * 
+ * <br>
+ * <div class="loader mb-3" role="status">
+ *   <span class="visually-hidden">Loading...</span>
+ * </div>
+ * 
  * @example
  * <sq-loader size="small" color="var(--blue)" customClass="custom-spinner"></sq-loader>
  *

@@ -9,6 +9,17 @@ import { ValidatorHelper } from '../../helpers/validator.helper'
  *
  * @see {@link https://css.squidit.com.br/forms/input}
  * 
+ * <br>
+ * <label for='id-exemple'>
+ *  Example Input
+ * </label>
+ * <input
+ *   class='input mb-3'
+ *   name="name-exemple"
+ *   id="id-exemple"
+ *   placeholder="Enter text"
+ * ></input>
+ * 
  * @example
  * <sq-input
  *   [name]="'name-exemple'"

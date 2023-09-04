@@ -15,7 +15,7 @@ import { SqOverlayComponent } from './components/sq-overlay/sq-overlay.component
 import { SqModalComponent } from './components/sq-modal/sq-modal.component'
 import { SqCollapseComponent } from './components/sq-accordion/sq-collapse/sq-collapse.component'
 import { SqPaginationComponent } from './components/sq-pagination/sq-pagination.component'
-import { SqTagsComponent } from './components/sq-tag/sq-tag.component'
+import { SqTagComponent } from './components/sq-tag/sq-tag.component'
 import { SqAccordionComponent } from './components/sq-accordion/sq-accordion.component'
 import { SqTextAreaComponent } from './components/sq-textarea/sq-textarea.component'
 import { FormsModule } from '@angular/forms'
@@ -57,7 +57,7 @@ const components: (Type<any> | any)[] = [
   SqModalComponent,
   SqCollapseComponent,
   SqPaginationComponent,
-  SqTagsComponent,
+  SqTagComponent,
   SqAccordionComponent,
   SqTextAreaComponent,
   SqSelectComponent,
