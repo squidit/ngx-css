@@ -26,8 +26,11 @@ export class ColorsHelper {
    * @returns {string} The value of the CSS variable or the variableName if not found.
    */
   getCssVariableValue(variableName: string): string {
-    const clearVar = variableName?.replace('var(', '')?.replace(')', '')?.trim()
-    return getComputedStyle(document.documentElement).getPropertyValue(clearVar) || variableName
+    if (document?.documentElement) {
+      const clearVar = variableName?.replace('var(', '')?.replace(')', '')?.trim()
+      return getComputedStyle(document?.documentElement).getPropertyValue(clearVar) || variableName
+    }
+    return variableName
   }
 
   /**

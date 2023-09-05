@@ -1,4 +1,5 @@
-import { AfterContentChecked, AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, Output, ViewChild } from '@angular/core'
+import { DOCUMENT } from '@angular/common'
+import { AfterContentChecked, AfterViewInit, Component, ElementRef, EventEmitter, Inject, Input, OnDestroy, Output, ViewChild } from '@angular/core'
 
 /**
  * Represents the SqInfinityComponent, a component for infinite scrolling.
@@ -64,13 +65,27 @@ export class SqInfinityComponent implements AfterViewInit, AfterContentChecked, 
   elementToScroll?: HTMLElement | null | Window & typeof globalThis
 
   /**
+   * Reference to the Document object for interacting with the DOM.
+   */
+  document: Document
+
+  /**
+   * Creates an instance of SqInfinityComponent.
+   * 
+   * @param {Document} documentImported Reference to the Document object for interacting with the DOM.
+   */
+  constructor(@Inject(DOCUMENT) public documentImported: Document) {
+    this.document = this.documentImported || document
+  }
+
+  /**
    * Performs actions after the view has been initialized.
    */
   ngAfterViewInit(): void {
     const { elementToScrollId } = this
 
     if (elementToScrollId) {
-      this.elementToScroll = document.getElementById(elementToScrollId)
+      this.elementToScroll = this.document.getElementById(elementToScrollId)
     }
 
     if (!elementToScrollId || !this.elementToScroll) {
@@ -84,7 +99,7 @@ export class SqInfinityComponent implements AfterViewInit, AfterContentChecked, 
    */
   ngAfterContentChecked(): void {
     if (this.elementToScrollId && this.elementToScroll && this.elementToScroll instanceof HTMLElement && typeof this.elementToScroll.getAttribute === 'undefined') {
-      const element = document.getElementById(this.elementToScrollId)
+      const element = this.document.getElementById(this.elementToScrollId)
       if (element) {
         this.elementToScroll.removeEventListener('scroll', this.onScroll, false)
         element.addEventListener('scroll', this.onScroll, false)

@@ -3,3 +3,4 @@
 
 npx ng lint application --fix
 npx ng lint @squidit/ngx-css --fix
+npm run lint:docs

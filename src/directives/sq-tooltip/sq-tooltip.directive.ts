@@ -1,15 +1,18 @@
-import { Directive, ElementRef, HostListener, Input, OnDestroy, OnInit, Renderer2, TemplateRef, ViewContainerRef } from '@angular/core'
+import { Directive, ElementRef, HostListener, Inject, Input, OnDestroy, OnInit, Renderer2, TemplateRef, ViewContainerRef } from '@angular/core'
 import { NavigationEnd, Router } from '@angular/router'
 import { sleep } from '../../helpers/sleep.helper'
+import { DOCUMENT } from '@angular/common'
 
 /**
- * Directive for creating and managing tooltips.
+ * Angular directive for creating and managing tooltips.
  *
- * Look the link about the component in original framework and the appearance
+ * This directive allows you to easily add tooltips to elements in your Angular application.
+ * Tooltips can display additional information when hovering or clicking on an element.
  *
- * @see {@link https://css.squidit.com.br/components/tooltip}
- * 
+ * @see {@link https://css.squidit.com.br/components/tooltip|Official Tooltip Documentation}
+ *
  * @example
+ * <!-- Basic usage -->
  * <div [tooltip]="'Tooltip message'" placement="center top"></div>
  */
 @Directive({
@@ -17,14 +20,14 @@ import { sleep } from '../../helpers/sleep.helper'
 })
 export class SqTooltipDirective implements OnInit, OnDestroy {
   /**
-   * The content of the tooltip.
+   * The content of the tooltip. Can be a string message or an Angular TemplateRef.
    */
   @Input('tooltip') content?: string | null | TemplateRef<any> = ''
 
   /**
    * The placement of the tooltip relative to the host element.
-   * Possible values: 'left top', 'left center', 'left bottom', 'center top', 'center center', 'center bottom',
-   * 'right top', 'right center', 'right bottom'.
+   * Possible values: 'left top', 'left center', 'left bottom', 'center top',
+   * 'center center', 'center bottom', 'right top', 'right center', 'right bottom'.
    */
   @Input() placement = 'center top'
 
@@ -58,10 +61,15 @@ export class SqTooltipDirective implements OnInit, OnDestroy {
    */
   window = window
 
-  /*
-   * Indicates whether the dropdown menu is open or closed. Used to internal control
+  /**
+   * Indicates whether the tooltip is open or closed. Used for internal control.
    */
   open = false
+
+  /**
+   * Reference to the Document object for interacting with the DOM.
+   */
+  document: Document
 
   /**
    * Constructs a new SqTooltipDirective.
@@ -70,14 +78,19 @@ export class SqTooltipDirective implements OnInit, OnDestroy {
    * @param {Renderer2} renderer - The Renderer2 for DOM manipulation.
    * @param {Router} router - The Angular Router service.
    * @param {ViewContainerRef} viewContainerRef - The ViewContainerRef for the tooltip.
+   * @param {Document} documentImported - The injected Document object for DOM manipulation.
    */
   constructor(
     private el: ElementRef,
     private renderer: Renderer2,
     private router: Router,
-    private viewContainerRef: ViewContainerRef
+    private viewContainerRef: ViewContainerRef,
+    @Inject(DOCUMENT) private documentImported: Document
   ) {
+    // Bind the hide function to the current instance.
     this.hide = this.hide.bind(this)
+    // Assign the document object for DOM manipulation.
+    this.document = this.documentImported || document
   }
 
   /**
@@ -135,7 +148,7 @@ export class SqTooltipDirective implements OnInit, OnDestroy {
   /**
    * Checks if the device has touch support.
    *
-   * @returns {boolean} - True if the device supports touch, otherwise false.
+   * @returns {boolean} - True if the device supports touch events; otherwise, false.
    */
   isTouch(): boolean {
     return 'ontouchstart' in window || navigator?.maxTouchPoints > 0
@@ -147,10 +160,10 @@ export class SqTooltipDirective implements OnInit, OnDestroy {
   async show() {
     this.create()
     this.setPosition()
-    document?.addEventListener('click', this.hide, true)
+    this.document?.addEventListener('click', this.hide, true)
     if (this.tooltipElement) {
       this.renderer.addClass(this.tooltipElement, 'tooltip-show')
-      await sleep(500)
+      await sleep(500) // Wait for animations.
       this.open = true
     }
   }
@@ -163,12 +176,12 @@ export class SqTooltipDirective implements OnInit, OnDestroy {
       this.renderer.removeClass(this.tooltipElement, 'tooltip-show')
       window.setTimeout(() => {
         if (this.tooltipElement) {
-          this.renderer.removeChild(document.body, this.tooltipElement)
+          this.renderer.removeChild(this.document.body, this.tooltipElement)
         }
         this.tooltipElement = null
         this.open = false
       }, this.delay)
-      document.removeEventListener('click', this.hide, true)
+      this.document.removeEventListener('click', this.hide, true)
     }
   }
 
@@ -205,7 +218,7 @@ export class SqTooltipDirective implements OnInit, OnDestroy {
       this.renderer.setStyle(this.tooltipElement, 'transition', `opacity ${this.delay}ms`)
 
       this.renderer.appendChild(this.tooltipElement, arrow)
-      this.renderer.appendChild(document.body, this.tooltipElement)
+      this.renderer.appendChild(this.document.body, this.tooltipElement)
     }
   }
 
@@ -217,7 +230,7 @@ export class SqTooltipDirective implements OnInit, OnDestroy {
 
     if (this.tooltipElement) {
       const tooltipPos = this.tooltipElement.getBoundingClientRect()
-      const scrollPos = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0
+      const scrollPos = window.pageYOffset || this.document.documentElement.scrollTop || this.document.body.scrollTop || 0
       let top
       let left
 
@@ -257,4 +270,3 @@ export class SqTooltipDirective implements OnInit, OnDestroy {
     }
   }
 }
-

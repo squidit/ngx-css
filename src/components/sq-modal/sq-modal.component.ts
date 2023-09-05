@@ -179,7 +179,7 @@ export class SqModalComponent implements OnChanges {
    * Removes the modal element from document body.
    */
   removeModalFromBody() {
-    const modal = document.getElementById(this.id)
+    const modal = this.document.getElementById(this.id)
     if (modal?.parentNode) {
       modal.parentNode.removeChild(modal)
     }

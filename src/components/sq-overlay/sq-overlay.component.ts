@@ -246,7 +246,7 @@ export class SqOverlayComponent implements OnChanges {
    * Removes the overlay element from document body.
    */
   removeOverlayFromBody() {
-    const overlay = document.getElementById(this.id)
+    const overlay = this.document.getElementById(this.id)
     if (overlay?.parentNode) {
       overlay.parentNode.removeChild(overlay)
     }
@@ -278,7 +278,7 @@ export class SqOverlayComponent implements OnChanges {
    * Removes the CSS styles that set the width of the overlay.
    */
   undoCssWidth() {
-    const style = document.getElementById(this.styleId)
+    const style = this.document.getElementById(this.styleId)
     if (style?.parentNode) {
       style.parentNode.removeChild(style)
     }
