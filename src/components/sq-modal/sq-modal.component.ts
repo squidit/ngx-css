@@ -8,7 +8,6 @@ import {
   Inject,
   Input,
   OnChanges,
-  OnDestroy,
   Output,
   SimpleChanges,
   TemplateRef,
@@ -43,7 +42,7 @@ import {
   templateUrl: './sq-modal.component.html',
   styleUrls: ['./sq-modal.component.scss'],
 })
-export class SqModalComponent implements OnChanges, OnDestroy {
+export class SqModalComponent implements OnChanges {
   /**
    * A unique identifier for the modal component.
    */
@@ -174,6 +173,7 @@ export class SqModalComponent implements OnChanges, OnDestroy {
       const modal = this.modal
       if (modal) {
         const body = this.document.getElementsByTagName('body')[0]
+        body.appendChild(modal.nativeElement)
         const backdrop = this.document.getElementById('modal-backdrop') || this.document.createElement('div')
         if (this.open) {
           this.hasHeader = !!this.headerTemplate
@@ -183,7 +183,7 @@ export class SqModalComponent implements OnChanges, OnDestroy {
           this.modals = this.document.getElementsByClassName('modal open')
           setTimeout(() => {
             this.modalNumber = this.modals?.length || 0
-            if (this.modalNumber === 1) {
+            if (this.modalNumber <= 1) {
               backdrop.setAttribute('id', 'modal-backdrop')
               backdrop.setAttribute('class', 'modal-backdrop show')
               body.appendChild(backdrop)
@@ -191,15 +191,13 @@ export class SqModalComponent implements OnChanges, OnDestroy {
               modal.nativeElement.style.zIndex = 1060 + this.modalNumber + 1
               backdrop.setAttribute('style', `z-index: ${1060 + this.modalNumber};`)
             }
-            body.appendChild(modal.nativeElement)
             this.enableBackdropClick = true
           })
         } else {
           this.modalClose.emit()
-          modal.nativeElement.style.display = 'none'
-          modal.nativeElement.style.zIndex = null
           backdrop.removeAttribute('style')
-          if (backdrop.parentNode && this.modalNumber === 1) {
+          this.removeModalFromBody()
+          if (backdrop.parentNode && this.modalNumber <= 1) {
             backdrop.parentNode.removeChild(backdrop)
             body.classList.remove('block')
           }
@@ -211,9 +209,9 @@ export class SqModalComponent implements OnChanges, OnDestroy {
   }
 
   /**
-   * Performs cleanup when the component is destroyed.
+   * Removes the modal element from document body.
    */
-  ngOnDestroy() {
+  removeModalFromBody() {
     const modal = document.getElementById(this.id)
     if (modal?.parentNode) {
       modal.parentNode.removeChild(modal)
