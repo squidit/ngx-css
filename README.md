@@ -60,10 +60,10 @@ $fontsFolderPath: '/assets/fonts'; // Overwrite default font path
 @import '@squidit/css/src/scss/squid.scss'; // Import all Framework Styles
 ```
 
-4. Import `NgxSquidModule` in your `app.module.ts`
+4. Import `SquidCSSModule` in your `app.module.ts`
 
 ```ts
-import { NgxSquidModule } from '@squidit/ngx-css'
+import { SquidCSSModule } from '@squidit/ngx-css'
 
 @NgModule({
   // ...
