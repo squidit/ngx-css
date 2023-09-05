@@ -125,7 +125,7 @@ export class SqInputFileComponent extends SqInputComponent {
    * Handle the change event for the file input.
    * @param event - The input change event.
    */
-  override change(event: any): void {
+  override async change(event: any) {
     this.value = event.target?.files || event
     this.valueChange.emit(this.value)
     this.validate()
