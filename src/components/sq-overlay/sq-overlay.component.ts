@@ -175,7 +175,7 @@ export class SqOverlayComponent implements OnChanges, OnDestroy {
    * A unique style identifier.
    *
    */
-  styleId = ''
+  styleId = `overlay-${new Date().getTime()}-${Math.random().toString(36).substring(7)}`
 
   /**
    * Indicates whether the overlay has finished opening.
@@ -221,54 +221,52 @@ export class SqOverlayComponent implements OnChanges, OnDestroy {
    * @param changes - The changes detected in the component's input properties.
    */
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.hasOwnProperty('width')) {
-      if (this.open) {
-        this.doCssWidth()
-      }
+    if (changes.hasOwnProperty('width') && this.open) {
+      this.doCssWidth()
     }
     if (changes.hasOwnProperty('open')) {
-      const body = this.document.getElementsByTagName('body')[0]
-      const backdrop = this.document.getElementById('modal-backdrop') || this.document.createElement('div')
       const overlay = this.overlay
-      if (this.open && overlay) {
-        this.doCssWidth()
-        this.hasFooter = !!this.footerTemplate
-        this.hasHeader = !!this.headerTemplate
-        this.modals = this.document.getElementsByClassName('modal open')
-        body.classList.add('block')
-        overlay.nativeElement.style.display = 'flex'
-        window.addEventListener('keydown', this.onKeydown)
-        setTimeout(() => {
-          this.modalNumber = this.modals?.length || 0
-          if (this.modalNumber === 1) {
-            backdrop.setAttribute('id', 'modal-backdrop')
-            backdrop.setAttribute('class', 'modal-backdrop show')
-            body.appendChild(backdrop)
-          } else if (this.modalNumber > 1) {
-            overlay.nativeElement.style.zIndex = 1060 + this.modalNumber + 1
-            setTimeout(() => {
+      if (overlay) {
+        const body = this.document.getElementsByTagName('body')[0]
+        const backdrop = this.document.getElementById('modal-backdrop') || this.document.createElement('div')
+        if (this.open) {
+          this.doCssWidth()
+          this.hasFooter = !!this.footerTemplate
+          this.hasHeader = !!this.headerTemplate
+          this.modals = this.document.getElementsByClassName('modal open')
+          body.classList.add('block')
+          overlay.nativeElement.style.display = 'flex'
+          window.addEventListener('keydown', this.onKeydown)
+          setTimeout(() => {
+            this.modalNumber = this.modals?.length || 0
+            if (this.modalNumber === 1) {
+              backdrop.setAttribute('id', 'modal-backdrop')
+              backdrop.setAttribute('class', 'modal-backdrop show')
+              body.appendChild(backdrop)
+            } else if (this.modalNumber > 1) {
+              overlay.nativeElement.style.zIndex = 1060 + this.modalNumber + 1
               backdrop.setAttribute('style', `z-index: ${1060 + this.modalNumber};`)
-            }, 200)
+            }
+            body.appendChild(overlay.nativeElement)
+            this.enableBackdropClick = true
+            this.finishOpening = true
+          })
+        } else {
+          this.overlayClose.emit()
+          this.finishOpening = false
+          this.undoCssWidth()
+          setTimeout(() => {
+            if (overlay) {
+              overlay.nativeElement.style.display = 'none'
+            }
+          })
+          if (backdrop.parentNode && this.modalNumber === 1) {
+            backdrop.parentNode.removeChild(backdrop)
+            body.classList.remove('block')
           }
-          this.enableBackdropClick = true
-          this.finishOpening = true
-        })
-      } else if (overlay) {
-        this.overlayClose.emit()
-        this.finishOpening = false
-        this.undoCssWidth()
-        setTimeout(() => {
-          if (overlay) {
-            overlay.nativeElement.style.display = 'none'
-            overlay.nativeElement.style.zIndex = null
-          }
-        })
-        if (backdrop.parentNode && this.modalNumber === 1) {
-          backdrop.parentNode.removeChild(backdrop)
-          body.classList.remove('block')
+          this.enableBackdropClick = false
+          window.removeEventListener('keydown', this.onKeydown)
         }
-        this.enableBackdropClick = false
-        window.removeEventListener('keydown', this.onKeydown)
       }
     }
   }
@@ -277,16 +275,16 @@ export class SqOverlayComponent implements OnChanges, OnDestroy {
    * Performs cleanup when the component is destroyed.
    */
   ngOnDestroy() {
-    this.undoCssWidth()
+    const overlay = document.getElementById(this.id)
+    if (overlay?.parentNode) {
+      overlay.parentNode.removeChild(overlay)
+    }
   }
 
   /**
    * Applies CSS styles to set the width of the overlay.
    */
   doCssWidth() {
-    if (!this.styleId) {
-      this.styleId = `overlay-${new Date().getTime()}-${Math.random().toString(36).substring(7)}`
-    }
     const css = `
       .overlay.open .modal-dialog.opened {
         width: ${this.width};
