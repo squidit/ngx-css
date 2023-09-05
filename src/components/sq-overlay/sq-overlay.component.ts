@@ -8,7 +8,6 @@ import {
   Inject,
   Input,
   OnChanges,
-  OnDestroy,
   Output,
   SimpleChanges,
   TemplateRef,
@@ -32,14 +31,14 @@ import {
  * </sq-overlay>
  * <button (click)='isOverlayOpen = true'>Open Modal</button>
  * 
- * @implements {OnChanges, OnDestroy}
+ * @implements {OnChanges}
  */
 @Component({
   selector: 'sq-overlay',
   templateUrl: './sq-overlay.component.html',
   styleUrls: ['./sq-overlay.component.scss'],
 })
-export class SqOverlayComponent implements OnChanges, OnDestroy {
+export class SqOverlayComponent implements OnChanges {
   /**
    * A unique identifier for the overlay.
    */
@@ -228,18 +227,19 @@ export class SqOverlayComponent implements OnChanges, OnDestroy {
       const overlay = this.overlay
       if (overlay) {
         const body = this.document.getElementsByTagName('body')[0]
+        body.appendChild(overlay.nativeElement)
         const backdrop = this.document.getElementById('modal-backdrop') || this.document.createElement('div')
         if (this.open) {
           this.doCssWidth()
           this.hasFooter = !!this.footerTemplate
           this.hasHeader = !!this.headerTemplate
-          this.modals = this.document.getElementsByClassName('modal open')
           body.classList.add('block')
           overlay.nativeElement.style.display = 'flex'
           window.addEventListener('keydown', this.onKeydown)
+          this.modals = this.document.getElementsByClassName('modal open')
           setTimeout(() => {
             this.modalNumber = this.modals?.length || 0
-            if (this.modalNumber === 1) {
+            if (this.modalNumber <= 1) {
               backdrop.setAttribute('id', 'modal-backdrop')
               backdrop.setAttribute('class', 'modal-backdrop show')
               body.appendChild(backdrop)
@@ -247,7 +247,6 @@ export class SqOverlayComponent implements OnChanges, OnDestroy {
               overlay.nativeElement.style.zIndex = 1060 + this.modalNumber + 1
               backdrop.setAttribute('style', `z-index: ${1060 + this.modalNumber};`)
             }
-            body.appendChild(overlay.nativeElement)
             this.enableBackdropClick = true
             this.finishOpening = true
           })
@@ -255,12 +254,9 @@ export class SqOverlayComponent implements OnChanges, OnDestroy {
           this.overlayClose.emit()
           this.finishOpening = false
           this.undoCssWidth()
-          setTimeout(() => {
-            if (overlay) {
-              overlay.nativeElement.style.display = 'none'
-            }
-          })
-          if (backdrop.parentNode && this.modalNumber === 1) {
+          backdrop.removeAttribute('style')
+          this.removeOverlayFromBody()
+          if (backdrop.parentNode && this.modalNumber <= 1) {
             backdrop.parentNode.removeChild(backdrop)
             body.classList.remove('block')
           }
@@ -272,9 +268,9 @@ export class SqOverlayComponent implements OnChanges, OnDestroy {
   }
 
   /**
-   * Performs cleanup when the component is destroyed.
+   * Removes the overlay element from document body.
    */
-  ngOnDestroy() {
+  removeOverlayFromBody() {
     const overlay = document.getElementById(this.id)
     if (overlay?.parentNode) {
       overlay.parentNode.removeChild(overlay)
@@ -355,7 +351,7 @@ export class SqOverlayComponent implements OnChanges, OnDestroy {
       const backdrop = this.document.getElementById('modal-backdrop') || this.document.createElement('div')
       this.overlayClose.emit()
       this.overlay.nativeElement.style.display = 'none'
-      if (backdrop.parentNode && this.modalNumber === 1) {
+      if (backdrop.parentNode && this.modalNumber <= 1) {
         backdrop.parentNode.removeChild(backdrop)
         body.classList.remove('block')
       }
