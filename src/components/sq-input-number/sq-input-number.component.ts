@@ -18,6 +18,21 @@ import { SqInputComponent } from "../sq-input/sq-input.component"
 })
 export class SqInputNumberComponent extends SqInputComponent {
   /**
+   * The value of the input element.
+   */
+  @Input()
+  public override set value(value: any) {
+    if (typeof value === 'number') {
+      value = value.toString()
+    } else {
+      this._value = value
+    }
+  }
+  public override get value(): any {
+    return parseFloat(this._value)
+  }
+
+  /**
    * The character used for thousand separators (e.g., ',' or '.').
    */
   @Input() thousandSeparator = '.'
