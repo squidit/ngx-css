@@ -18,7 +18,7 @@ export class SqTooltipDirective implements OnInit, OnDestroy {
   /**
    * The content of the tooltip.
    */
-  @Input('tooltip') content = ''
+  @Input('tooltip') content?: string | null = ''
 
   /**
    * The placement of the tooltip relative to the host element.
