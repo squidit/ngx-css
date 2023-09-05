@@ -60,6 +60,21 @@ $fontsFolderPath: '/assets/fonts'; // Overwrite default font path
 @import '@squidit/css/src/scss/squid.scss'; // Import all Framework Styles
 ```
 
+4. Import `NgxSquidModule` in your `app.module.ts`
+
+```ts
+import { NgxSquidModule } from '@squidit/ngx-css'
+
+@NgModule({
+  // ...
+  imports: [
+    // ...
+    NgxSquidModule
+  ]
+  // ...
+})
+```
+
 #### Use form erros variables
 
 To use the errors handled in form components, you need to follow the steps below
