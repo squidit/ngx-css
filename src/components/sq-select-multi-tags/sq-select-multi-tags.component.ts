@@ -2,6 +2,7 @@ import { Component, ElementRef, EventEmitter, Input, Optional, Output } from '@a
 import { TranslateService } from '@ngx-translate/core'
 import { OptionMulti } from '../../interfaces/option.interface'
 import { useMemo } from '../../helpers/memo.helper'
+import { sleep } from '../../helpers/sleep.helper'
 
 /**
  * Represents a multi-tag select component.
@@ -246,15 +247,14 @@ export class SqSelectMultiTagsComponent {
    * @param {OptionMulti} item - The item to check.
    * @returns {boolean} True if the item has selected children; otherwise, false.
    */
-  verifyIfHasChildrenInValue = useMemo((item: OptionMulti) => {
+  verifyIfHasChildrenInValue = useMemo(async (item: OptionMulti) => {
     if (item.children?.length) {
       const hasAllChildren = item.children.every((child) => this.findItemInValue(child))
       if (hasAllChildren && !this.findItemInValue(item) && !this.timeouted) {
         this.timeouted = true
-        setTimeout(() => {
-          this.emit(item, true)
-          this.timeouted = false
-        }, 0)
+        await sleep(1)
+        this.emit(item, true)
+        this.timeouted = false
       }
       return !!item.children.find((child) => this.findItemInValue(child))
     }
@@ -307,14 +307,6 @@ export class SqSelectMultiTagsComponent {
     this.valueChanged = true
     this.valueChange.emit(this.value)
     this.validate()
-  }
-
-  /**
-   * Gets the search input value.
-   *
-   */
-  getSearchValue() {
-    return this.searchText || ''
   }
 
   /**

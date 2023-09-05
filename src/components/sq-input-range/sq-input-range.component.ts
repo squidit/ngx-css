@@ -1,6 +1,7 @@
 import { AfterContentInit, Component, ElementRef, EventEmitter, Input, OnChanges, Optional, Output, SimpleChanges, ViewChild } from '@angular/core'
 import { TranslateService } from '@ngx-translate/core'
 import { ValidatorHelper } from '../../helpers/validator.helper'
+import { sleep } from '../../helpers/sleep.helper'
 
 /**
  * Represents an input component for selecting a numeric value within a specified range.
@@ -161,10 +162,9 @@ export class SqInputRangeComponent implements AfterContentInit, OnChanges {
    * Lifecycle hook that runs after content initialization.
    * It sets a timeout to change the value position.
    */
-  ngAfterContentInit() {
-    setTimeout(() => {
-      this.changeValuePosition()
-    })
+  async ngAfterContentInit() {
+    await sleep()
+    this.changeValuePosition()
   }
 
   /**

@@ -54,9 +54,7 @@ export class SqClickOutsideDirective implements OnDestroy, OnChanges {
    * Lifecycle hook that cleans up the directive when it is destroyed.
    */
   ngOnDestroy() {
-    if (typeof this.listener === 'function') {
-      this.listener()
-    }
+    this.listener = () => null
   }
 
   /**

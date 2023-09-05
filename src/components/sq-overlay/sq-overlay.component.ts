@@ -4,7 +4,6 @@ import {
   ContentChild,
   ElementRef,
   EventEmitter,
-  HostListener,
   Inject,
   Input,
   OnChanges,
@@ -13,6 +12,7 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core'
+import { sleep } from '../../helpers/sleep.helper'
 
 /**
  * Represents an overlay component, an abstraction with differente style but still a modal.
@@ -183,12 +183,6 @@ export class SqOverlayComponent implements OnChanges {
   finishOpening = false
 
   /**
-   * Indicates whether clicking the backdrop is enabled.
-   *
-   */
-  enableBackdropClick = false
-
-  /**
    * Constructs an instance of SqOverlayComponent.
    *
    * @param {Document} documentImported - The imported Document object.
@@ -199,27 +193,11 @@ export class SqOverlayComponent implements OnChanges {
   }
 
   /**
-   * Handles a click event on the backdrop to close the overlay.
-   *
-   * @param event - The click event object.
-   */
-  @HostListener('document:click', ['$event'])
-  backdropClick(event: MouseEvent) {
-    if (this.backdrop === 'static' || !this.overlay || !this.open || !this.enableBackdropClick) {
-      return
-    }
-    const modalDialog = this.overlay.nativeElement.firstElementChild
-    if (!modalDialog?.contains(event.target)) {
-      this.toCloseOverlay()
-    }
-  }
-
-  /**
    * Lifecycle hook that detects changes to the 'open' input property and handles modal behavior accordingly.
    *
    * @param changes - The changes detected in the component's input properties.
    */
-  ngOnChanges(changes: SimpleChanges) {
+  async ngOnChanges(changes: SimpleChanges) {
     if (changes.hasOwnProperty('width') && this.open) {
       this.doCssWidth()
     }
@@ -237,19 +215,17 @@ export class SqOverlayComponent implements OnChanges {
           overlay.nativeElement.style.display = 'flex'
           window.addEventListener('keydown', this.onKeydown)
           this.modals = this.document.getElementsByClassName('modal open')
-          setTimeout(() => {
-            this.modalNumber = this.modals?.length || 0
-            if (this.modalNumber <= 1) {
-              backdrop.setAttribute('id', 'modal-backdrop')
-              backdrop.setAttribute('class', 'modal-backdrop show')
-              body.appendChild(backdrop)
-            } else if (this.modalNumber > 1) {
-              overlay.nativeElement.style.zIndex = 1060 + this.modalNumber + 1
-              backdrop.setAttribute('style', `z-index: ${1060 + this.modalNumber};`)
-            }
-            this.enableBackdropClick = true
-            this.finishOpening = true
-          })
+          await sleep()
+          this.modalNumber = this.modals?.length || 0
+          if (this.modalNumber <= 1) {
+            backdrop.setAttribute('id', 'modal-backdrop')
+            backdrop.setAttribute('class', 'modal-backdrop show')
+            body.appendChild(backdrop)
+          } else if (this.modalNumber > 1) {
+            overlay.nativeElement.style.zIndex = 1060 + this.modalNumber + 1
+            backdrop.setAttribute('style', `z-index: ${1060 + this.modalNumber};`)
+          }
+          this.finishOpening = true
         } else {
           this.overlayClose.emit()
           this.finishOpening = false
@@ -260,7 +236,6 @@ export class SqOverlayComponent implements OnChanges {
             backdrop.parentNode.removeChild(backdrop)
             body.classList.remove('block')
           }
-          this.enableBackdropClick = false
           window.removeEventListener('keydown', this.onKeydown)
         }
       }
@@ -318,7 +293,7 @@ export class SqOverlayComponent implements OnChanges {
     if (this.open) {
       this.modals = this.document.getElementsByClassName('modal open')
       if (this.modals?.length === this.modalNumber) {
-        this.events(event.keyCode)
+        this.events(event.key)
       }
     }
   }
@@ -328,15 +303,15 @@ export class SqOverlayComponent implements OnChanges {
    *
    * @param key - The key code of the pressed key.
    */
-  events(key: number) {
+  events(key: string) {
     switch (key) {
-      case 27:
+      case 'Escape':
         this.overlayClose.emit()
         break
-      case 37:
+      case 'ArrowLeft':
         this.leftPress.emit()
         break
-      case 39:
+      case 'ArrowRight':
         this.rightPress.emit()
         break
     }
@@ -356,7 +331,6 @@ export class SqOverlayComponent implements OnChanges {
         body.classList.remove('block')
       }
       window.removeEventListener('keydown', this.onKeydown)
-      this.enableBackdropClick = false
     }
   }
 }

@@ -1,5 +1,6 @@
 import { Directive, ElementRef, HostListener, Input, OnDestroy, OnInit, Renderer2, TemplateRef, ViewContainerRef } from '@angular/core'
 import { NavigationEnd, Router } from '@angular/router'
+import { sleep } from '../../helpers/sleep.helper'
 
 /**
  * Directive for creating and managing tooltips.
@@ -57,6 +58,11 @@ export class SqTooltipDirective implements OnInit, OnDestroy {
    */
   window = window
 
+  /*
+   * Indicates whether the dropdown menu is open or closed. Used to internal control
+   */
+  open = false
+
   /**
    * Constructs a new SqTooltipDirective.
    *
@@ -70,7 +76,9 @@ export class SqTooltipDirective implements OnInit, OnDestroy {
     private renderer: Renderer2,
     private router: Router,
     private viewContainerRef: ViewContainerRef
-  ) { }
+  ) {
+    this.hide = this.hide.bind(this)
+  }
 
   /**
    * Event listener for the 'mouseenter' event to show the tooltip on hover.
@@ -107,17 +115,6 @@ export class SqTooltipDirective implements OnInit, OnDestroy {
   }
 
   /**
-   * Event listener for the 'document:click' event to hide the tooltip when clicking outside of it (on touch devices).
-   *
-   * @param {MouseEvent} event - The click event object.
-   */
-  @HostListener('document:click', ['$event']) onClickDocument(event: MouseEvent) {
-    if (this.isTouch() && this.trigger === 'hover' && !event?.composedPath()?.includes(this.el.nativeElement)) {
-      this.hide()
-    }
-  }
-
-  /**
    * Initializes the directive and subscribes to router events to hide the tooltip on navigation.
    */
   ngOnInit() {
@@ -140,18 +137,21 @@ export class SqTooltipDirective implements OnInit, OnDestroy {
    *
    * @returns {boolean} - True if the device supports touch, otherwise false.
    */
-  isTouch() {
+  isTouch(): boolean {
     return 'ontouchstart' in window || navigator?.maxTouchPoints > 0
   }
 
   /**
    * Shows the tooltip and sets its position.
    */
-  show() {
+  async show() {
     this.create()
     this.setPosition()
+    document?.addEventListener('click', this.hide, true)
     if (this.tooltipElement) {
       this.renderer.addClass(this.tooltipElement, 'tooltip-show')
+      await sleep(500)
+      this.open = true
     }
   }
 
@@ -159,14 +159,16 @@ export class SqTooltipDirective implements OnInit, OnDestroy {
    * Hides the tooltip with a delay to allow for animations, and performs cleanup.
    */
   hide() {
-    if (this.tooltipElement) {
+    if (this.tooltipElement && this.open) {
       this.renderer.removeClass(this.tooltipElement, 'tooltip-show')
       window.setTimeout(() => {
         if (this.tooltipElement) {
           this.renderer.removeChild(document.body, this.tooltipElement)
         }
         this.tooltipElement = null
+        this.open = false
       }, this.delay)
+      document.removeEventListener('click', this.hide, true)
     }
   }
 

@@ -7,6 +7,7 @@ import {
   OnDestroy
 } from '@angular/core'
 import { SqCollapseComponent } from './sq-collapse/sq-collapse.component'
+import { sleep } from '../../helpers/sleep.helper'
 
 /**
  * Represents the SqAccordionComponent, an accordion component that manages a collection of SqCollapseComponents.
@@ -56,11 +57,13 @@ export class SqAccordionComponent implements AfterContentInit, OnDestroy {
   /**
    * Performs actions after the content has been initialized.
    */
-  ngAfterContentInit(): void {
+  async ngAfterContentInit() {
     if (this.openFirst) {
-      setTimeout(() => {
+      const collapses = this.collapses.toArray()
+      if (collapses?.length) {
+        await sleep()
         this.collapses.toArray()[0].toggleCollapse()
-      }, 300)
+      }
     }
     this.collapses.toArray().forEach((collapse) => {
       collapse.openedEmitter.subscribe(() => {

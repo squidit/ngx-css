@@ -36,6 +36,10 @@
         disabled: disabled,
         readonly: readonly
       }"
+      [ngStyle]="{
+        'background-color': backgroundColor,
+        'border-color': borderColor
+      }"
       [clickOutsideEnabled]="open"
       (clickOutside)="closeDropdown()"
     >
@@ -76,7 +80,7 @@
           *ngIf="!hideSearch"
         ></sq-input>
         <ng-container *ngIf="open && !loading">
-          <ul class="list" *ngFor="let opt of options | search : getSearchValue(); let i = index">
+          <ul class="list" *ngFor="let opt of options | search:searchText; let i = index">
             <ng-container *ngTemplateOutlet="option; context: { opt: opt, i: i }"></ng-container>
           </ul>
         </ng-container>
@@ -122,7 +126,7 @@
         opt?.label
       }}</span>
       <ul class="children" [ngClass]="{ open: opt.open && !opt?.disabled }" *ngIf="opt?.children?.length">
-        <ng-container *ngFor="let child of opt?.children | search : getSearchValue(); let j = index">
+        <ng-container *ngFor="let child of opt?.children | search:searchText; let j = index">
           <ng-template *ngTemplateOutlet="option; context: { opt: child, i: j }"></ng-template>
         </ng-container>
       </ul>

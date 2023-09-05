@@ -2,6 +2,7 @@ import { Component, ElementRef, Input, Optional } from '@angular/core'
 import { TranslateService } from '@ngx-translate/core'
 import { ValidatorHelper } from '../../helpers/validator.helper'
 import { SqInputComponent } from '../sq-input/sq-input.component'
+import { sleep } from '../../helpers/sleep.helper'
 
 /**
  * Represents a date input component that extends SqInputComponent.
@@ -102,20 +103,16 @@ export class SqInputDateComponent extends SqInputComponent {
    * Handle the change event for the date input.
    * @param event - The input change event.
    */
-  override change(event: any): void {
+  override async change(event: any) {
     event = event?.target?.valueAsDate ? event.target.valueAsDate : event?.target?.value || event
     if (!this.disabled && !this.readonly) {
       this.inFocus.emit(true)
       this._value = event
       event = this.getISOValidDate(event)
       if (this.hasTimeout) {
-        clearTimeout(this.timeoutInput)
-        this.timeoutInput = setTimeout(() => {
-          this.valueChange.emit(event)
-        }, this.timeOutInputTime)
-      } else {
-        this.valueChange.emit(event)
+        await sleep(this.timeOutInputTime)
       }
+      this.valueChange.emit(event)
       this.validate()
     }
   }

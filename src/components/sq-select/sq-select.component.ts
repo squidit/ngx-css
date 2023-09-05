@@ -191,16 +191,6 @@ export class SqSelectComponent {
   error: boolean | string = false
 
   /**
-   * Timeout for input changes.
-   */
-  timeoutInput!: ReturnType<typeof setTimeout>
-
-  /**
-   * Time (in milliseconds) for input timeout.
-   */
-  timeOutInputTime = 800
-
-  /**
    * ElementRef for the native select input element.
    */
   nativeElement: ElementRef

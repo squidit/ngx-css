@@ -1,6 +1,7 @@
 import { Component, ContentChild, ElementRef, EventEmitter, Input, Optional, Output, TemplateRef } from "@angular/core"
 import { ValidatorHelper } from '../../helpers/validator.helper'
 import { TranslateService } from '@ngx-translate/core'
+import { sleep } from '../../helpers/sleep.helper'
 
 /**
  * Represents a textarea input component with various configuration options.
@@ -194,11 +195,6 @@ export class SqTextAreaComponent {
   error: boolean | string = false
 
   /**
-   * Timeout for input changes.
-   */
-  timeoutInput!: ReturnType<typeof setTimeout>
-
-  /**
    * Reference to the native element of the textarea.
    */
   nativeElement: ElementRef
@@ -240,18 +236,13 @@ export class SqTextAreaComponent {
    *
    * @param {string} event - The new value of the textarea.
    */
-  change(event: string): void {
+  async change(event: any) {
     this.inFocus.emit(true)
+    this.value = event
     if (this.hasTimeout) {
-      this.value = event
-      clearTimeout(this.timeoutInput)
-      this.timeoutInput = setTimeout(() => {
-        this.valueChange.emit(event)
-      }, this.timeOutInputTime)
-    } else {
-      this.value = event
-      this.valueChange.emit(event)
+      await sleep(this.timeOutInputTime)
     }
+    this.valueChange.emit(this.value)
     this.validate()
   }
 

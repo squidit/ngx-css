@@ -6,7 +6,11 @@
   }"
   #modal
 >
-  <div class="modal-dialog modal-{{ modalSize }} {{ modalClass }}">
+  <div
+    class="modal-dialog modal-{{ modalSize }} {{ modalClass }}"
+    [clickOutsideEnabled]="!!(open && backdrop !== 'static' && modal)"
+    (clickOutside)="modalClose.emit()"
+  >
     <div class="modal-content modal-sq">
       <div
         class="modal-header"

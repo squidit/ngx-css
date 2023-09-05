@@ -1,5 +1,11 @@
 <div [id]="id" class="modal overlay {{ overlayDirection }}" [ngClass]="{ open: open }" #overlay>
-  <div class="modal-dialog {{ overlayDirection }}" [ngStyle]="{ 'background-color': headerColor }" [ngClass]="{ opened: finishOpening }">
+  <div
+    class="modal-dialog {{ overlayDirection }}"
+    [ngStyle]="{ 'background-color': headerColor }"
+    [ngClass]="{ opened: finishOpening }"
+    [clickOutsideEnabled]="!!(open && backdrop !== 'static' && overlay)"
+    (clickOutside)="toCloseOverlay()"
+  >
     <div class="modal-content scrollbar">
       <div
         class="modal-header"

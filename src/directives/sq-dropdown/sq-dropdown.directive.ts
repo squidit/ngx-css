@@ -1,5 +1,6 @@
 import { Directive, Input, ElementRef, HostListener, Renderer2, OnDestroy, OnInit } from '@angular/core'
 import { NavigationEnd, Router } from '@angular/router'
+import { sleep } from '../../helpers/sleep.helper'
 
 /**
  * Directive for creating and controlling dropdown menus.
@@ -58,7 +59,7 @@ export class SqDropdownDirective implements OnInit, OnDestroy {
   /**
    * The width of the dropdown menu in pixels.
    */
-  @Input() dropdownWidth = 0
+  @Input() dropdownWidth = 'auto'
 
   /**
    * The vertical distance between the host element and the dropdown menu.
@@ -80,6 +81,11 @@ export class SqDropdownDirective implements OnInit, OnDestroy {
    */
   dropdownElement: HTMLElement | null = null
 
+  /*
+   * Indicates whether the dropdown menu is open or closed. Used to internal control
+   */
+  open = false
+
   /**
    * Constructs a new SqDropdownDirective.
    *
@@ -87,7 +93,9 @@ export class SqDropdownDirective implements OnInit, OnDestroy {
    * @param {Renderer2} renderer - The Renderer2 for DOM manipulation.
    * @param {Router} router - The Angular Router service.
    */
-  constructor(private el: ElementRef, private renderer: Renderer2, private router: Router) { }
+  constructor(private el: ElementRef, private renderer: Renderer2, private router: Router) {
+    this.hide = this.hide.bind(this)
+  }
 
   /**
    * Event listener for the 'click' event on the host element to toggle the dropdown menu.
@@ -98,21 +106,6 @@ export class SqDropdownDirective implements OnInit, OnDestroy {
     }
     if (!this.dropdownElement) {
       this.show()
-    }
-  }
-
-  /**
-   * Event listener for the 'document:click' event to close the dropdown when clicking outside the menu.
-   *
-   * @param {Event} event - The click event object.
-   */
-  @HostListener('document:click', ['$event']) clickOutsideMenu(event: { target: any }) {
-    if (
-      this.dropdownElement &&
-      ((this.dropdownElement?.contains(event.target) && this.closeOnClick) ||
-        (!this.dropdownElement?.contains(event.target) && !this.el.nativeElement.contains(event.target)))
-    ) {
-      this.hide()
     }
   }
 
@@ -139,9 +132,11 @@ export class SqDropdownDirective implements OnInit, OnDestroy {
    */
   show() {
     this.create()
+    document?.addEventListener('click', this.hide, true)
     if (this.dropdownElement) {
       this.renderer.addClass(this.dropdownElement, 'open')
       this.setPosition()
+      this.open = true
     }
   }
 
@@ -149,14 +144,17 @@ export class SqDropdownDirective implements OnInit, OnDestroy {
    * Closes the dropdown menu with a delay to allow for animations, and performs cleanup.
    */
   hide() {
-    if (this.dropdownElement) {
-      window.setTimeout(() => {
+    if (this.dropdownElement && this.open) {
+      window.setTimeout(async () => {
+        this.open = false
         this.renderer.removeClass(this.dropdownElement, 'open')
         this.renderer.removeClass(this.dropdownElement, 'dropdown-generated')
         this.renderer.removeClass(this.dropdownElement, `dropdown-${this.dropdownPlacement.replace(' ', '-')}`)
         this.renderer.removeAttribute(this.dropdownElement, 'style')
         this.renderer.insertBefore(this.el.nativeElement.parentNode, this.dropdownElement, this.el.nativeElement.nextSibling)
+        await sleep(500)
         this.dropdownElement = null
+        document.removeEventListener('click', this.hide, true)
       }, this.dropdownDelay)
     }
   }
@@ -169,20 +167,20 @@ export class SqDropdownDirective implements OnInit, OnDestroy {
       let menu = this.el.nativeElement.nextSibling
       let foundDropdown = false
       while (!foundDropdown) {
-        if (!menu || (menu.classList && menu.classList.contains('dropdown'))) {
+        if (!menu || menu?.classList?.contains('dropdown')) {
           foundDropdown = true
           break
         }
         menu = menu.nextSibling
       }
-      if (!menu || !menu.classList || (menu.classList && !menu.classList.contains('dropdown'))) {
+      if (!menu?.classList || !menu.classList?.contains('dropdown')) {
         return
       }
       this.dropdownElement = menu
       menu.getAttribute('dropdown')
       this.renderer.addClass(this.dropdownElement, 'dropdown-generated')
       this.renderer.addClass(this.dropdownElement, `dropdown-${this.dropdownPlacement.replace(' ', '-')}`)
-      this.renderer.setAttribute(this.dropdownElement, 'style', `width: ${this.dropdownWidth}px`)
+      this.renderer.setAttribute(this.dropdownElement, 'style', `width: ${this.dropdownWidth}`)
       this.renderer.appendChild(document.body, this.dropdownElement)
     }
   }
@@ -198,9 +196,10 @@ export class SqDropdownDirective implements OnInit, OnDestroy {
       let top
       let left
 
-      const posHorizontal = this.dropdownPlacement.split(' ')[0] || 'right'
+      const posHorizontal = this.dropdownPlacement.split(' ')[0] || 'center'
       const posVertical = this.dropdownPlacement.split(' ')[1] || 'bottom'
-
+      console.log('positions', hostPos.left, hostPos.width, dropdownPos.width)
+      console.log('string', posHorizontal, posVertical)
       switch (posHorizontal) {
         case 'left':
           left = hostPos.left + hostPos.width - dropdownPos.width + this.dropdownDistanceHorizontal
@@ -217,11 +216,12 @@ export class SqDropdownDirective implements OnInit, OnDestroy {
       }
 
       switch (posVertical) {
+
+        default:
         case 'bottom':
           top = hostPos.bottom + this.dropdownDistanceVertical
           break
 
-        default:
         case 'top':
           top = hostPos.top - dropdownPos.height - this.dropdownDistanceVertical
       }

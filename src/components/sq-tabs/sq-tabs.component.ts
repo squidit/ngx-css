@@ -1,5 +1,6 @@
 import { AfterViewChecked, AfterViewInit, Component, ContentChildren, EventEmitter, Input, Output, QueryList } from '@angular/core'
 import { SqTabComponent } from './sq-tab/sq-tab.component'
+import { sleep } from '../../helpers/sleep.helper'
 
 /**
  * Represents a tab container component for managing a collection of tabs.
@@ -67,14 +68,13 @@ export class SqTabsComponent implements AfterViewInit, AfterViewChecked {
   /**
    * Lifecycle hook called after the view initialization.
    */
-  ngAfterViewInit() {
+  async ngAfterViewInit() {
     const activeTabs = this.tabs.filter((tab) => tab.active)
     if (activeTabs.length === 0) {
-      setTimeout(() => {
-        if (this.tabs.first) {
-          this.selectTab(this.tabs.first, 0)
-        }
-      }, 1000)
+      await sleep(1000)
+      if (this.tabs.first) {
+        this.selectTab(this.tabs.first, 0)
+      }
     }
 
     this.total = this.tabs.toArray().length || 1

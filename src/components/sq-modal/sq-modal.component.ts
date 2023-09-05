@@ -4,7 +4,6 @@ import {
   ContentChild,
   ElementRef,
   EventEmitter,
-  HostListener,
   Inject,
   Input,
   OnChanges,
@@ -13,6 +12,7 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core'
+import { sleep } from '../../helpers/sleep.helper'
 
 /**
  * Represents a modal component with customizable options and event handling.
@@ -124,11 +124,6 @@ export class SqModalComponent implements OnChanges {
   document: Document
 
   /**
-   * Indicates whether backdrop click events are enabled.
-   */
-  enableBackdropClick = false
-
-  /**
    * Creates an instance of `SqModalComponent`.
    *
    * @param documentImported - The injected Document object for DOM manipulation.
@@ -139,36 +134,11 @@ export class SqModalComponent implements OnChanges {
   }
 
   /**
-   * Listens for click events on the document and handles modal backdrop clicks.
-   *
-   * @param event - The click event object.
-   */
-  @HostListener('document:click', ['$event'])
-  backdropClick(event: MouseEvent) {
-    if (this.backdrop === 'static' || !this.modal || !this.open || !this.enableBackdropClick) {
-      return
-    }
-    const modalDialog = this.modal.nativeElement.firstElementChild
-    if (!modalDialog?.contains(event.target)) {
-      const body = this.document.getElementsByTagName('body')[0]
-      const backdrop = this.document.getElementById('modal-backdrop') || this.document.createElement('div')
-      this.modalClose.emit()
-      this.modal.nativeElement.style.display = 'none'
-      if (backdrop.parentNode && this.modalNumber === 1) {
-        backdrop.parentNode.removeChild(backdrop)
-        body.classList.remove('block')
-      }
-      window.removeEventListener('keydown', this.onKeydown)
-      this.enableBackdropClick = false
-    }
-  }
-
-  /**
    * Lifecycle hook that detects changes to the 'open' input property and handles modal behavior accordingly.
    *
    * @param changes - The changes detected in the component's input properties.
    */
-  ngOnChanges(changes: SimpleChanges) {
+  async ngOnChanges(changes: SimpleChanges) {
     if (changes.hasOwnProperty('open')) {
       const modal = this.modal
       if (modal) {
@@ -181,18 +151,16 @@ export class SqModalComponent implements OnChanges {
           modal.nativeElement.style.display = 'flex'
           window.addEventListener('keydown', this.onKeydown)
           this.modals = this.document.getElementsByClassName('modal open')
-          setTimeout(() => {
-            this.modalNumber = this.modals?.length || 0
-            if (this.modalNumber <= 1) {
-              backdrop.setAttribute('id', 'modal-backdrop')
-              backdrop.setAttribute('class', 'modal-backdrop show')
-              body.appendChild(backdrop)
-            } else if (this.modalNumber > 1) {
-              modal.nativeElement.style.zIndex = 1060 + this.modalNumber + 1
-              backdrop.setAttribute('style', `z-index: ${1060 + this.modalNumber};`)
-            }
-            this.enableBackdropClick = true
-          })
+          await sleep()
+          this.modalNumber = this.modals?.length || 0
+          if (this.modalNumber <= 1) {
+            backdrop.setAttribute('id', 'modal-backdrop')
+            backdrop.setAttribute('class', 'modal-backdrop show')
+            body.appendChild(backdrop)
+          } else if (this.modalNumber > 1) {
+            modal.nativeElement.style.zIndex = 1060 + this.modalNumber + 1
+            backdrop.setAttribute('style', `z-index: ${1060 + this.modalNumber};`)
+          }
         } else {
           this.modalClose.emit()
           backdrop.removeAttribute('style')
@@ -201,7 +169,6 @@ export class SqModalComponent implements OnChanges {
             backdrop.parentNode.removeChild(backdrop)
             body.classList.remove('block')
           }
-          this.enableBackdropClick = false
           window.removeEventListener('keydown', this.onKeydown)
         }
       }
@@ -227,7 +194,7 @@ export class SqModalComponent implements OnChanges {
     if (this.open) {
       this.modals = this.document.getElementsByClassName('modal')
       if (this.modals?.length === this.modalNumber) {
-        this.events(event.keyCode)
+        this.events(event.key)
       }
     }
   }
@@ -237,15 +204,15 @@ export class SqModalComponent implements OnChanges {
    *
    * @param key - The key code of the pressed key.
    */
-  events(key: number) {
+  events(key: string) {
     switch (key) {
-      case 27:
+      case 'Escape':
         this.modalClose.emit()
         break
-      case 37:
+      case 'ArrowLeft':
         this.leftPress.emit()
         break
-      case 39:
+      case 'ArrowRight':
         this.rightPress.emit()
         break
     }

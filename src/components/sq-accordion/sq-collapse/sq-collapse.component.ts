@@ -1,6 +1,7 @@
 import { Component, ContentChild, ElementRef, EventEmitter, Input, Output, TemplateRef, ViewChild } from '@angular/core'
 import { ColorsHelper } from '../../../helpers/colors.helper'
 import { useMemo } from '../../../helpers/memo.helper'
+import { sleep } from '../../../helpers/sleep.helper'
 
 /**
  * Represents the SqCollapseComponent, a collapsible container component with customizable options.
@@ -103,11 +104,6 @@ export class SqCollapseComponent {
   opening: boolean | string = false
 
   /**
-   * Timeout for controlling the animation when opening/closing the collapse.
-   */
-  timeOut?: ReturnType<typeof setTimeout>
-
-  /**
    * Indicates whether the mouse is hovering over the header.
    */
   hoverHeader = false
@@ -126,15 +122,14 @@ export class SqCollapseComponent {
   /**
    * Toggles the state of the collapse component.
    */
-  public toggleCollapse(): void {
+  public async toggleCollapse() {
     const { disabled, loading } = this
     if (!disabled && !loading && !this.opening) {
       this.opening = this.content?.nativeElement?.clientHeight + 'px'
-      clearTimeout(this.timeOut)
-      this.timeOut = setTimeout(() => {
-        this.opening = false
-        this.open = !this.open
-      }, 500)
+      // Rollback ?
+      await sleep(500)
+      this.opening = false
+      this.open = !this.open
     }
   }
 

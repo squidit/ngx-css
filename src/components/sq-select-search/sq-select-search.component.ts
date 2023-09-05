@@ -220,13 +220,6 @@ export class SqSelectSearchComponent {
   }
 
   /**
-   * Gets the search input value.
-   */
-  getSearchValue() {
-    return this.searchText || ''
-  }
-
-  /**
    * Closes the dropdown and resets the search text.
    */
   closeDropdown() {
