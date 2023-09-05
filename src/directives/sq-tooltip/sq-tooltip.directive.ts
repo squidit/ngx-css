@@ -1,4 +1,4 @@
-import { Directive, ElementRef, HostListener, Input, OnDestroy, OnInit, Renderer2 } from '@angular/core'
+import { Directive, ElementRef, HostListener, Input, OnDestroy, OnInit, Renderer2, TemplateRef, ViewContainerRef } from '@angular/core'
 import { NavigationEnd, Router } from '@angular/router'
 
 /**
@@ -18,7 +18,7 @@ export class SqTooltipDirective implements OnInit, OnDestroy {
   /**
    * The content of the tooltip.
    */
-  @Input('tooltip') content?: string | null = ''
+  @Input('tooltip') content?: string | null | TemplateRef<any> = ''
 
   /**
    * The placement of the tooltip relative to the host element.
@@ -63,8 +63,14 @@ export class SqTooltipDirective implements OnInit, OnDestroy {
    * @param {ElementRef} el - The ElementRef of the host element.
    * @param {Renderer2} renderer - The Renderer2 for DOM manipulation.
    * @param {Router} router - The Angular Router service.
+   * @param {ViewContainerRef} viewContainerRef - The ViewContainerRef for the tooltip.
    */
-  constructor(private el: ElementRef, private renderer: Renderer2, private router: Router) { }
+  constructor(
+    private el: ElementRef,
+    private renderer: Renderer2,
+    private router: Router,
+    private viewContainerRef: ViewContainerRef
+  ) { }
 
   /**
    * Event listener for the 'mouseenter' event to show the tooltip on hover.
@@ -175,9 +181,15 @@ export class SqTooltipDirective implements OnInit, OnDestroy {
         this.renderer.addClass(arrow, 'tooltip-not-arrow')
       }
       this.tooltipElement = this.renderer.createElement('div')
-
       if (this.tooltipElement) {
-        this.tooltipElement.innerHTML = this.content
+        if (this.content instanceof TemplateRef) {
+          for (const node of this.viewContainerRef.createEmbeddedView(this.content).rootNodes) {
+            this.renderer.appendChild(this.tooltipElement, node)
+          }
+        }
+        if (typeof this.content === 'string') {
+          this.tooltipElement.innerHTML = this.content
+        }
       }
 
       this.renderer.addClass(this.tooltipElement, 'tooltip')
