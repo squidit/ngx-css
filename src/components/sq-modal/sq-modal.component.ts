@@ -8,6 +8,7 @@ import {
   Inject,
   Input,
   OnChanges,
+  OnDestroy,
   Output,
   SimpleChanges,
   TemplateRef,
@@ -42,11 +43,11 @@ import {
   templateUrl: './sq-modal.component.html',
   styleUrls: ['./sq-modal.component.scss'],
 })
-export class SqModalComponent implements OnChanges {
+export class SqModalComponent implements OnChanges, OnDestroy {
   /**
    * A unique identifier for the modal component.
    */
-  @Input() id?: string
+  @Input() id = `modal-random-id-${(1 + Date.now() + Math.random()).toString().replace('.', '')}`
 
   /**
    * Indicates whether the modal should be open or closed.
@@ -129,11 +130,6 @@ export class SqModalComponent implements OnChanges {
   enableBackdropClick = false
 
   /**
-   * The total number of open modals in the document.
-   */
-  modalsLength = 0
-
-  /**
    * Creates an instance of `SqModalComponent`.
    *
    * @param documentImported - The injected Document object for DOM manipulation.
@@ -159,7 +155,7 @@ export class SqModalComponent implements OnChanges {
       const backdrop = this.document.getElementById('modal-backdrop') || this.document.createElement('div')
       this.modalClose.emit()
       this.modal.nativeElement.style.display = 'none'
-      if (backdrop.parentNode && this.modalsLength === 1) {
+      if (backdrop.parentNode && this.modalNumber === 1) {
         backdrop.parentNode.removeChild(backdrop)
         body.classList.remove('block')
       }
@@ -175,41 +171,52 @@ export class SqModalComponent implements OnChanges {
    */
   ngOnChanges(changes: SimpleChanges) {
     if (changes.hasOwnProperty('open')) {
-      const body = this.document.getElementsByTagName('body')[0]
-      const backdrop = this.document.getElementById('modal-backdrop') || this.document.createElement('div')
       const modal = this.modal
-      if (this.open && modal) {
-        this.hasHeader = !!this.headerTemplate
-        body.classList.add('block')
-        modal.nativeElement.style.display = 'flex'
-        window.addEventListener('keydown', this.onKeydown)
-        this.modals = this.document.getElementsByClassName('modal open')
-        setTimeout(() => {
-          this.modalsLength = this.modals?.length || 0
-          if (this.modalsLength === 1) {
-            backdrop.setAttribute('id', 'modal-backdrop')
-            backdrop.setAttribute('class', 'modal-backdrop show')
-            body.appendChild(backdrop)
-          } else if (this.modalsLength > 1) {
-            modal.nativeElement.style.zIndex = 1060 + this.modalsLength + 1
-            setTimeout(() => {
-              backdrop.setAttribute('style', `z-index: ${1060 + this.modalsLength};`)
-            }, 200)
+      if (modal) {
+        const body = this.document.getElementsByTagName('body')[0]
+        const backdrop = this.document.getElementById('modal-backdrop') || this.document.createElement('div')
+        if (this.open) {
+          this.hasHeader = !!this.headerTemplate
+          body.classList.add('block')
+          modal.nativeElement.style.display = 'flex'
+          window.addEventListener('keydown', this.onKeydown)
+          this.modals = this.document.getElementsByClassName('modal open')
+          setTimeout(() => {
+            this.modalNumber = this.modals?.length || 0
+            if (this.modalNumber === 1) {
+              backdrop.setAttribute('id', 'modal-backdrop')
+              backdrop.setAttribute('class', 'modal-backdrop show')
+              body.appendChild(backdrop)
+            } else if (this.modalNumber > 1) {
+              modal.nativeElement.style.zIndex = 1060 + this.modalNumber + 1
+              backdrop.setAttribute('style', `z-index: ${1060 + this.modalNumber};`)
+            }
+            body.appendChild(modal.nativeElement)
+            this.enableBackdropClick = true
+          })
+        } else {
+          this.modalClose.emit()
+          modal.nativeElement.style.display = 'none'
+          modal.nativeElement.style.zIndex = null
+          backdrop.removeAttribute('style')
+          if (backdrop.parentNode && this.modalNumber === 1) {
+            backdrop.parentNode.removeChild(backdrop)
+            body.classList.remove('block')
           }
-          this.enableBackdropClick = true
-        })
-      } else if (modal) {
-        this.modalClose.emit()
-        modal.nativeElement.style.display = 'none'
-        modal.nativeElement.style.zIndex = null
-        backdrop.removeAttribute('style')
-        if (backdrop.parentNode && this.modalsLength === 1) {
-          backdrop.parentNode.removeChild(backdrop)
-          body.classList.remove('block')
+          this.enableBackdropClick = false
+          window.removeEventListener('keydown', this.onKeydown)
         }
-        this.enableBackdropClick = false
-        window.removeEventListener('keydown', this.onKeydown)
       }
+    }
+  }
+
+  /**
+   * Performs cleanup when the component is destroyed.
+   */
+  ngOnDestroy() {
+    const modal = document.getElementById(this.id)
+    if (modal?.parentNode) {
+      modal.parentNode.removeChild(modal)
     }
   }
 
@@ -221,7 +228,7 @@ export class SqModalComponent implements OnChanges {
   onKeydown(event: KeyboardEvent) {
     if (this.open) {
       this.modals = this.document.getElementsByClassName('modal')
-      if (this.modals?.length === this.modalsLength) {
+      if (this.modals?.length === this.modalNumber) {
         this.events(event.keyCode)
       }
     }
