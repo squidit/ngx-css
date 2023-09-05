@@ -40,7 +40,10 @@ export class UniversalSafePipe implements PipeTransform {
    * @returns {SafeHtml | SafeStyle | SafeScript | SafeUrl | SafeResourceUrl} - The sanitized and trusted content.
    * @throws {Error} - If an invalid `type` is provided.
    */
-  public transform(value: string, type = 'html'): SafeHtml | SafeStyle | SafeScript | SafeUrl | SafeResourceUrl {
+  public transform(value?: string, type = 'html'): SafeHtml | SafeStyle | SafeScript | SafeUrl | SafeResourceUrl {
+    if (!value) {
+      return ''
+    }
     switch (type) {
       case 'html':
         return this.sanitizer.bypassSecurityTrustHtml(value)
