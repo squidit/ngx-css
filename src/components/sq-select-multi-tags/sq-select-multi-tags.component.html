@@ -119,7 +119,7 @@
         [value]="opt?.value"
         [disabled]="opt?.disabled"
         [checked]="findItemInValue(opt)"
-        [indeterminate]="verifyIfHasChildrenInValue(opt) | async"
+        [indeterminate]="verifyIfHasChildrenInValue(opt)"
         (valueChange)="emit(opt, $event.checked)"
       ></sq-selector>
       <span class="text m-0 display-inline-block" [ngClass]="{ 'cursor-pointer': opt?.children?.length }" (click)="handleCollapse(opt)">{{
