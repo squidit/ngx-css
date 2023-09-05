@@ -116,7 +116,7 @@ We use [compodoc](https://github.com/compodoc/compodoc) to write docs with [jsDo
 
 Run `start:docs` and the compodoc will serve the docs. For each change it is necessary to run the command again
 
-### Deploy yo NPM
+### Deploy to NPM
 
 > Just draft a new release here on Github and an actions will starts
 
