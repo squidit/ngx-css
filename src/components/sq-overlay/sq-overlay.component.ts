@@ -43,7 +43,7 @@ export class SqOverlayComponent implements OnChanges, OnDestroy {
   /**
    * A unique identifier for the overlay.
    */
-  @Input() id?: string
+  @Input() id = `overlay-random-id-${(1 + Date.now() + Math.random()).toString().replace('.', '')}`
 
   /**
    * Indicates whether the overlay is open or closed.
@@ -175,7 +175,7 @@ export class SqOverlayComponent implements OnChanges, OnDestroy {
    * A unique style identifier.
    *
    */
-  styleId = `overlay-${new Date().getTime()}-${Math.random().toString(36).substring(7)}`
+  styleId = `overlay-style-random-id-${new Date().getTime()}-${Math.random().toString(36).substring(7)}`
 
   /**
    * Indicates whether the overlay has finished opening.

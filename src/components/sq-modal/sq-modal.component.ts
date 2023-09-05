@@ -47,7 +47,7 @@ export class SqModalComponent implements OnChanges, OnDestroy {
   /**
    * A unique identifier for the modal component.
    */
-  @Input() id?: string
+  @Input() id = `modal-random-id-${(1 + Date.now() + Math.random()).toString().replace('.', '')}`
 
   /**
    * Indicates whether the modal should be open or closed.
