@@ -53,6 +53,11 @@ export class SqTagComponent {
   @Input() disabled = false
 
   /**
+   * Flag to disable the tag.
+   */
+  @Input() pointer = false
+
+  /**
    * Event emitted when the tag is clicked.
    */
   @Output() emitClick: EventEmitter<void> = new EventEmitter<void>()
