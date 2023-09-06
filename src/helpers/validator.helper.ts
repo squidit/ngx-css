@@ -30,6 +30,16 @@ import { Injectable } from '@angular/core'
   providedIn: 'root',
 })
 export class ValidatorHelper {
+  /**
+   * Validates XOR Logic
+   *
+   * @param {any} x - any value to validate.
+   * @param {any} y - any value to validate.
+   * @returns {boolean} - `true` if the is an xor logic, otherwise `false`.
+   */
+  XOR(x: any, y: any): boolean {
+    return (x || y) && !(x && y)
+  }
 
   /**
    * Validates an email address.
