@@ -100,11 +100,6 @@ export class SqSelectMultiTagsComponent {
   @Input() errorSpan = true
 
   /**
-   * Indicates whether a timeout is applied to input changes.
-   */
-  @Input() hasTimeout = false
-
-  /**
    * Background color for the multi-tag select input.
    */
   @Input() backgroundColor = ''

@@ -1,7 +1,6 @@
 import { Component, ContentChild, ElementRef, EventEmitter, Input, Optional, Output, TemplateRef } from "@angular/core"
 import { ValidatorHelper } from '../../helpers/validator.helper'
 import { TranslateService } from '@ngx-translate/core'
-import { sleep } from '../../helpers/sleep.helper'
 
 /**
  * Represents a textarea input component with various configuration options.
@@ -78,14 +77,9 @@ export class SqTextAreaComponent {
   @Input() value: any = ''
 
   /**
-   * The time interval for input timeout.
+   * The time interval for input timeout in ms.
    */
-  @Input() timeOutInputTime = 800
-
-  /**
-   * Flag to enable input timeout.
-   */
-  @Input() hasTimeout = false
+  @Input() timeToChange = 0
 
   /**
    * Flag to show an error span.
@@ -200,6 +194,11 @@ export class SqTextAreaComponent {
   nativeElement: ElementRef
 
   /**
+   * Timeout for input changes.
+   */
+  timeoutInput!: ReturnType<typeof setTimeout>
+
+  /**
    * Constructor for the SqInputComponent class.
    * @param validatorHelper - The ValidatorHelper service for input validation.
    * @param element - The ElementRef representing the input element.
@@ -239,10 +238,10 @@ export class SqTextAreaComponent {
   async change(event: any) {
     this.inFocus.emit(true)
     this.value = event
-    if (this.hasTimeout) {
-      await sleep(this.timeOutInputTime)
-    }
-    this.valueChange.emit(this.value)
+    clearTimeout(this.timeoutInput)
+    this.timeoutInput = setTimeout(() => {
+      this.valueChange.emit(event)
+    }, this.timeToChange)
     this.validate()
   }
 

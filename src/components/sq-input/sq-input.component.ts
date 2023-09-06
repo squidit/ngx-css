@@ -1,7 +1,6 @@
 import { Component, ContentChild, ElementRef, EventEmitter, Input, Optional, Output, TemplateRef } from '@angular/core'
 import { TranslateService } from '@ngx-translate/core'
 import { ValidatorHelper } from '../../helpers/validator.helper'
-import { sleep } from '../../helpers/sleep.helper'
 
 /**
  * Represents the SqInputComponent, a customizable input component.
@@ -89,12 +88,7 @@ export class SqInputComponent {
   /**
    * Time in milliseconds before triggering input timeout.
    */
-  @Input() timeOutInputTime = 800
-
-  /**
-   * Flag to enable input timeout.
-   */
-  @Input() hasTimeout = false
+  @Input() timeToChange = 0
 
   /**
    * Flag to display an error span.
@@ -229,6 +223,11 @@ export class SqInputComponent {
   nativeElement: ElementRef
 
   /**
+   * Timeout for input changes.
+   */
+  timeoutInput!: ReturnType<typeof setTimeout>
+
+  /**
    * Constructor for the SqInputComponent class.
    * @param validatorHelper - The ValidatorHelper service for input validation.
    * @param element - The ElementRef representing the input element.
@@ -277,11 +276,11 @@ export class SqInputComponent {
    */
   async change(event: any) {
     this.inFocus.emit(true)
-    this._value = event
-    if (this.hasTimeout) {
-      await sleep(this.timeOutInputTime)
-    }
-    this.valueChange.emit(this.value)
+    this.value = event
+    clearTimeout(this.timeoutInput)
+    this.timeoutInput = setTimeout(() => {
+      this.valueChange.emit(event)
+    }, this.timeToChange)
     this.validate()
   }
 

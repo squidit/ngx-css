@@ -98,9 +98,9 @@ export class SqSelectSearchComponent {
   @Input() errorSpan = true
 
   /**
-   * Indicates whether a timeout is applied to input changes.
+   * The time interval for input timeout in ms.
    */
-  @Input() hasTimeout = false
+  @Input() timeToChange = 0
 
   /**
    * Options available for selection.
