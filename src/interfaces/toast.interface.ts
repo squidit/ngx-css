@@ -10,7 +10,7 @@ export interface Toast {
    * @param {ToastConfig} config - Configuration options for the toast.
    * @returns {ToastResponse} - An object containing the message and toast configuration.
    */
-  success: (message: string, config: ToastConfig) => ToastResponse;
+  success: (message: string, config?: ToastConfig) => ToastResponse;
 
   /**
    * Display an error toast message.
@@ -19,7 +19,7 @@ export interface Toast {
    * @param {ToastConfig} config - Configuration options for the toast.
    * @returns {ToastResponse} - An object containing the message and toast configuration.
    */
-  error: (message: string, config: ToastConfig) => ToastResponse;
+  error: (message: string, config?: ToastConfig) => ToastResponse;
 
   /**
    * Display an inverted (styled) toast message.
@@ -28,7 +28,7 @@ export interface Toast {
    * @param {ToastConfig} config - Configuration options for the toast.
    * @returns {ToastResponse} - An object containing the message and toast configuration.
    */
-  inverted: (message: string, config: ToastConfig) => ToastResponse;
+  inverted: (message: string, config?: ToastConfig) => ToastResponse;
 
   /**
    * Display an information (info) toast message.
@@ -37,7 +37,7 @@ export interface Toast {
    * @param {ToastConfig} config - Configuration options for the toast.
    * @returns {ToastResponse} - An object containing the message and toast configuration.
    */
-  info: (message: string, config: ToastConfig) => ToastResponse;
+  info: (message: string, config?: ToastConfig) => ToastResponse;
 
   /**
    * Display a warning toast message.
@@ -46,7 +46,7 @@ export interface Toast {
    * @param {ToastConfig} config - Configuration options for the toast.
    * @returns {ToastResponse} - An object containing the message and toast configuration.
    */
-  warning: (message: string, config: ToastConfig) => ToastResponse;
+  warning: (message: string, config?: ToastConfig) => ToastResponse;
 
   /**
    * Display a grayscale (styled) toast message.
@@ -55,7 +55,7 @@ export interface Toast {
    * @param {ToastConfig} config - Configuration options for the toast.
    * @returns {ToastResponse} - An object containing the message and toast configuration.
    */
-  grayscale: (message: string, config: ToastConfig) => ToastResponse;
+  grayscale: (message: string, config?: ToastConfig) => ToastResponse;
 
   /**
    * Display a custom-styled toast message.
@@ -64,7 +64,7 @@ export interface Toast {
    * @param {ToastConfig} config - Configuration options for the toast.
    * @returns {ToastResponse} - An object containing the message and toast configuration.
    */
-  custom: (message: string, config: ToastConfig) => ToastResponse;
+  custom: (message: string, config?: ToastConfig) => ToastResponse;
 
   /**
    * Display a default (unstyled) toast message.
@@ -73,7 +73,7 @@ export interface Toast {
    * @param {ToastConfig} config - Configuration options for the toast.
    * @returns {ToastResponse} - An object containing the message and toast configuration.
    */
-  default: (message: string, config: ToastConfig) => ToastResponse;
+  default: (message: string, config?: ToastConfig) => ToastResponse;
 
   /**
    * Display a toast message with custom styling or theme.
@@ -82,7 +82,7 @@ export interface Toast {
    * @param {ToastConfig} config - Configuration options for the toast.
    * @returns {ToastResponse} - An object containing the message and toast configuration.
    */
-  theme: (message: string, config: ToastConfig) => ToastResponse;
+  theme: (message: string, config?: ToastConfig) => ToastResponse;
 
   /**
    * Display a toast message with custom configuration options.
@@ -91,7 +91,7 @@ export interface Toast {
    * @param {ToastConfig} config - Configuration options for the toast.
    * @returns {ToastResponse} - An object containing the message and toast configuration.
    */
-  show: (message: string, config: ToastConfig) => ToastResponse;
+  show: (message: string, config?: ToastConfig) => ToastResponse;
 }
 
 /**
@@ -106,7 +106,7 @@ export interface ToastResponse {
   /**
    * Configuration options used for displaying the toast.
    */
-  config: ToastConfig;
+  config?: ToastConfig;
 }
 
 /**
