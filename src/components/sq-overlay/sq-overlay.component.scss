@@ -62,12 +62,12 @@
           }
         }
         .modal-body {
-          height: calc(100vh - 120px);
+          height: calc(100vh - 112px);
           padding: 2rem;
           overflow-y: auto;
           overflow-x: hidden;
           &.without-footer {
-            height: calc(100vh - 60px);
+            height: calc(100vh - 52px);
           }
         }
         .modal-footer {
