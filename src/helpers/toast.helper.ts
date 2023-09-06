@@ -38,16 +38,16 @@ export class ToastHelper {
    * An object containing methods for displaying different types of toast messages.
    */
   public toast: Toast = {
-    success: (message: string, config: ToastConfig) => this.toastLogSrr(message, config),
-    error: (message: string, config: ToastConfig) => this.toastLogSrr(message, config),
-    inverted: (message: string, config: ToastConfig) => this.toastLogSrr(message, config),
-    info: (message: string, config: ToastConfig) => this.toastLogSrr(message, config),
-    warning: (message: string, config: ToastConfig) => this.toastLogSrr(message, config),
-    grayscale: (message: string, config: ToastConfig) => this.toastLogSrr(message, config),
-    custom: (message: string, config: ToastConfig) => this.toastLogSrr(message, config),
-    default: (message: string, config: ToastConfig) => this.toastLogSrr(message, config),
-    show: (message: string, config: ToastConfig) => this.toastLogSrr(message, config),
-    theme: (message: string, config: ToastConfig) => this.toastLogSrr(message, config),
+    success: (message: string, config?: ToastConfig) => this.toastLogSrr(message, config),
+    error: (message: string, config?: ToastConfig) => this.toastLogSrr(message, config),
+    inverted: (message: string, config?: ToastConfig) => this.toastLogSrr(message, config),
+    info: (message: string, config?: ToastConfig) => this.toastLogSrr(message, config),
+    warning: (message: string, config?: ToastConfig) => this.toastLogSrr(message, config),
+    grayscale: (message: string, config?: ToastConfig) => this.toastLogSrr(message, config),
+    custom: (message: string, config?: ToastConfig) => this.toastLogSrr(message, config),
+    default: (message: string, config?: ToastConfig) => this.toastLogSrr(message, config),
+    show: (message: string, config?: ToastConfig) => this.toastLogSrr(message, config),
+    theme: (message: string, config?: ToastConfig) => this.toastLogSrr(message, config),
   }
 
   /**
@@ -63,7 +63,7 @@ export class ToastHelper {
    * @param {ToastConfig} config - The configuration options for the toast.
    * @returns {ToastResponse} - The response containing the message and configuration.
    */
-  toastLogSrr(message: string, config: ToastConfig): ToastResponse {
+  toastLogSrr(message: string, config?: ToastConfig): ToastResponse {
     return {
       message,
       config,
