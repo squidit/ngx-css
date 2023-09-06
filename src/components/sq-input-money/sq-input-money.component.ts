@@ -28,7 +28,7 @@ export class SqInputMoneyComponent extends SqInputComponent implements OnChanges
   @Input()
   public override set value(value: any) {
     if (typeof value === 'number') {
-      value = value.toString()
+      this._value = value.toString()
     } else {
       this._value = value
     }
