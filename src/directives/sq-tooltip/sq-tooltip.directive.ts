@@ -173,14 +173,21 @@ export class SqTooltipDirective implements OnInit, OnDestroy {
       ((this.isTouch() || this.trigger === 'click') && this.open) ||
       (!this.isTouch() && this.trigger === 'hover')
     ) {
-      this.renderer.removeClass(this.tooltipElement, 'tooltip-show')
+      try {
+        this.renderer.removeClass(this.tooltipElement, 'tooltip-show')
+      } catch (e) {
+        // Ignore error
+      }
       window.setTimeout(() => {
-        if (this.tooltipElement) {
+        try {
           this.renderer.removeChild(this.document.body, this.tooltipElement)
         }
-        this.tooltipElement = null
+        catch (e) {
+          // Ignore error
+        }
         this.open = false
         this.document.removeEventListener('click', this.hide, true)
+        this.tooltipElement = null
       }, this.delay)
     }
   }
