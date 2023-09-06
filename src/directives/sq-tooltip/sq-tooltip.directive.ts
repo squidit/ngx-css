@@ -97,10 +97,8 @@ export class SqTooltipDirective implements OnInit, OnDestroy {
    * Event listener for the 'mouseenter' event to show the tooltip on hover.
    */
   @HostListener('mouseenter') onMouseEnter() {
-    if (!this.isTouch()) {
-      if (!this.tooltipElement && this.trigger === 'hover') {
-        this.show()
-      }
+    if (!this.isTouch() && !this.tooltipElement && this.trigger === 'hover') {
+      this.show()
     }
   }
 
@@ -108,10 +106,8 @@ export class SqTooltipDirective implements OnInit, OnDestroy {
    * Event listener for the 'mouseleave' event to hide the tooltip on hover.
    */
   @HostListener('mouseleave') onMouseLeave() {
-    if (!this.isTouch()) {
-      if (this.tooltipElement && this.trigger === 'hover') {
-        this.hide()
-      }
+    if (this.tooltipElement && this.trigger === 'hover' && !this.isTouch()) {
+      this.hide()
     }
   }
 
@@ -172,7 +168,11 @@ export class SqTooltipDirective implements OnInit, OnDestroy {
    * Hides the tooltip with a delay to allow for animations, and performs cleanup.
    */
   hide() {
-    if (this.tooltipElement && this.open) {
+    if (
+      this.tooltipElement &&
+      ((this.isTouch() || this.trigger === 'click') && this.open) ||
+      (!this.isTouch() && this.trigger === 'hover')
+    ) {
       this.renderer.removeClass(this.tooltipElement, 'tooltip-show')
       window.setTimeout(() => {
         if (this.tooltipElement) {
@@ -180,8 +180,8 @@ export class SqTooltipDirective implements OnInit, OnDestroy {
         }
         this.tooltipElement = null
         this.open = false
+        this.document.removeEventListener('click', this.hide, true)
       }, this.delay)
-      this.document.removeEventListener('click', this.hide, true)
     }
   }
 

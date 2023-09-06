@@ -51,4 +51,11 @@ export class SqTooltipComponent {
    * The font size of the tooltip content.
    */
   @Input() fontSize = '1rem'
+
+  /**
+   * The tooltip trigger
+   * Possible values: 'hover' or 'click'.
+   */
+  @Input() trigger: 'hover' | 'click' = 'hover'
+
 }
