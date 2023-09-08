@@ -53,7 +53,7 @@
       opening: opening
     }"
     [ngStyle]="{
-      height: getHeight(opening)
+      height: this.opening ? this.opening : (this.open && !this.disabled && !this.loading ? 'auto' : '0px')
     }"
     #content
   >

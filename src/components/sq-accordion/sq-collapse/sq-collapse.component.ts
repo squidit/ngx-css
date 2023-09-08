@@ -1,7 +1,6 @@
 import { Component, ContentChild, ElementRef, EventEmitter, Input, Output, TemplateRef, ViewChild } from '@angular/core'
 import { ColorsHelper } from '../../../helpers/colors.helper'
 import { useMemo } from '../../../helpers/memo.helper'
-import { sleep } from '../../../helpers/sleep.helper'
 
 /**
  * Represents the SqCollapseComponent, a collapsible container component with customizable options.
@@ -114,6 +113,11 @@ export class SqCollapseComponent {
   hoverIcon = false
 
   /**
+   * Timeout handler to open animation
+   */
+  timeout!: ReturnType<typeof setTimeout>
+
+  /**
    * Component Constructor
    * @param colorsHelper - The ColorsHelper instance
    */
@@ -126,10 +130,11 @@ export class SqCollapseComponent {
     const { disabled, loading } = this
     if (!disabled && !loading && !this.opening) {
       this.opening = this.content?.nativeElement?.clientHeight + 'px'
-      // Rollback ?
-      await sleep(500)
-      this.opening = false
-      this.open = !this.open
+      clearTimeout(this.timeout)
+      this.timeout = setTimeout(() => {
+        this.opening = false
+        this.open = !this.open
+      }, 500)
     }
   }
 
@@ -143,21 +148,6 @@ export class SqCollapseComponent {
       element,
     })
   }
-
-  /**
-   * Gets the height of the collapse based on its state.
-   * @param opening - The opening state of the collapse.
-   * @returns The height as a string (e.g., 'auto' or '0').
-   */
-  getHeight = useMemo((opening: string | boolean) => {
-    if (opening) {
-      return opening
-    } else if (this.open && !this.disabled && !this.loading) {
-      return 'auto'
-    } else {
-      return '0'
-    }
-  })
 
   /**
    * Sets the hover state for a given color.
