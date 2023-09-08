@@ -10,7 +10,7 @@ import { useMemo } from '../../../helpers/memo.helper'
  * @see {@link https://css.squidit.com.br/components/accordion-collapse}
  * 
  * @example
- * <sq-collapse open="true" color="blue" (openedEmitter)="onOpened($event)">
+ * <sq-collapse [open]="true" color="blue" (openedEmitter)="onOpened($event)">
  *   <ng-container header>
  *     <div>Header Content</div>
  *   </ng-container>
@@ -98,6 +98,11 @@ export class SqCollapseComponent {
   @ViewChild('content') content?: ElementRef
 
   /**
+   * Wrapper body element.
+   */
+  @ViewChild('wrapper') wrapper?: ElementRef
+
+  /**
    * Indicates whether the collapse is in the process of opening.
    */
   opening: boolean | string = false
@@ -127,9 +132,8 @@ export class SqCollapseComponent {
    * Toggles the state of the collapse component.
    */
   public async toggleCollapse() {
-    const { disabled, loading } = this
-    if (!disabled && !loading && !this.opening) {
-      this.opening = this.content?.nativeElement?.clientHeight + 'px'
+    if (!this.disabled && !this.loading && !this.opening) {
+      this.opening = this.wrapper?.nativeElement?.clientHeight + 'px'
       clearTimeout(this.timeout)
       this.timeout = setTimeout(() => {
         this.opening = false
