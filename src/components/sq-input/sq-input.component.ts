@@ -153,7 +153,7 @@ export class SqInputComponent {
   /**
    * Type of the input element (e.g., text, email, password).
    */
-  @Input() type: 'text' | 'email' | 'hidden' | 'password' | 'tel' | 'url' = 'text'
+  @Input() type: 'text' | 'email' | 'hidden' | 'password' | 'tel' | 'url' | 'file' = 'text'
 
   /**
    * Maximum length for the input element.
