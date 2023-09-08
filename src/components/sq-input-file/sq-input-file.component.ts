@@ -63,6 +63,11 @@ export class SqInputFileComponent extends SqInputComponent {
   @Input() noPadding = false
 
   /**
+   * Display the file input as a block element.
+   */
+  @Input() block = false
+
+  /**
    * Custom content to be displayed within the file input.
    */
   @ContentChild('customContent', { static: true })
