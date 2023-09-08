@@ -10,6 +10,7 @@
   .tabs-header {
     position: relative;
     scroll-behavior: smooth;
+    background: var(--transparent);
     li {
       min-width: min-content;
     }

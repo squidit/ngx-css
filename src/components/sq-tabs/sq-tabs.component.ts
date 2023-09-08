@@ -51,6 +51,11 @@ export class SqTabsComponent implements AfterViewInit, AfterViewChecked {
   @Input() lineStyle = false
 
   /**
+   * Flag to indicate too use sm class com tabs header.
+   */
+  @Input() sm = true
+
+  /**
    * Event emitted when a tab is changed.
    */
   @Output() tabChange: EventEmitter<{ tab: SqTabComponent; index: number }> = new EventEmitter()

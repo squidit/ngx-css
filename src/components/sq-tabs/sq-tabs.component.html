@@ -23,7 +23,8 @@
           [ngClass]="{
             disabled: !tab?.title || tab?.disabled,
             loading: tab?.title && tab.loading,
-            active: tab?.active
+            active: tab?.active,
+            sm: sm
           }"
           [ngStyle]="{
             background: tab?.active && !lineStyle ? tab?.color : null
