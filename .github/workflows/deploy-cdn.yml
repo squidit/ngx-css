@@ -1,4 +1,4 @@
-name: Deploy to Hub CDN
+name: Deploy to CSS CDN
 on:
   workflow_run:
     workflows: ["Publish to NPM"]
