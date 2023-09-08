@@ -255,7 +255,7 @@ export class SqTooltipDirective implements OnInit, OnDestroy {
 
         default:
         case 'center':
-          left = hostPos.left + (hostPos.width - tooltipPos.width + 20) / 2
+          left = hostPos.left + (hostPos.width - tooltipPos.width + 14) / 2
       }
 
       switch (posVertical) {
