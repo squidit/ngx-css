@@ -68,7 +68,7 @@
         background: var(--gray_light) !important;
       }
     }
-    loader-squid {
+    sq-loader {
       display: inline-block;
     }
     &.loading {
@@ -104,11 +104,12 @@
     }
     &.open {
       margin: 0 auto;
-      height: auto;
+      height: auto !important;
       visibility: visible;
     }
     &.loading,
     &.disabled {
+      height: 0 !important;
       max-height: 0;
       opacity: 0;
       margin: 0;
