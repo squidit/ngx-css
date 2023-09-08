@@ -234,10 +234,10 @@ export class SqTooltipDirective implements OnInit, OnDestroy {
    */
   setPosition() {
     const hostPos = this.el.nativeElement.getBoundingClientRect()
-
     if (this.tooltipElement) {
       const tooltipPos = this.tooltipElement.getBoundingClientRect()
       const scrollPos = window.pageYOffset || this.document.documentElement.scrollTop || this.document.body.scrollTop || 0
+      const percentage = Math.round(((hostPos.left + hostPos.width / 2) / window.innerWidth * 100))
       let top
       let left
 
@@ -255,7 +255,7 @@ export class SqTooltipDirective implements OnInit, OnDestroy {
 
         default:
         case 'center':
-          left = hostPos.left + (hostPos.width - tooltipPos.width + 14) / 2
+          left = hostPos.left + (percentage / 100) * 8 + (hostPos.width - tooltipPos.width) / 2
       }
 
       switch (posVertical) {
