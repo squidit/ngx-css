@@ -1,7 +1,8 @@
 <div
   class="wrapper-input-file-squid"
   [ngClass]="{
-    error: (externalError && externalError !== '') || (error && error !== '')
+    error: (externalError && externalError !== '') || (error && error !== ''),
+    block: block
   }"
 >
   <label

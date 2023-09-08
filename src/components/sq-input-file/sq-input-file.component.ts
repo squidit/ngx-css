@@ -91,6 +91,7 @@ export class SqInputFileComponent extends SqInputComponent {
   ) {
     super(validatorHelper, element, translate)
     this.nativeElement = element.nativeElement
+    this.type = 'file'
   }
 
   /**
