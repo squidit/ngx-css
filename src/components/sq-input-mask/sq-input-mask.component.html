@@ -85,7 +85,7 @@
     }"
   >
     <i [ngClass]="{
-      'visibility-hidden-force': !error || !externalError
+      'visibility-hidden-force': !error && !externalError
     }" class="fa-solid fa-triangle-exclamation"></i>
     {{ externalError ? externalError : '' }}
     {{ error && !externalError ? error : '' }}
