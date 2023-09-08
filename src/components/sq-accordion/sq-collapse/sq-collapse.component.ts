@@ -79,7 +79,7 @@ export class SqCollapseComponent {
    */
   @Output() openedEmitter: EventEmitter<{
     open: boolean;
-    element: HTMLElement;
+    element: HTMLElement | ElementRef<any> | null;
   }> = new EventEmitter()
 
   /**
