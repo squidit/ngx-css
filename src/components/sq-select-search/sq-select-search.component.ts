@@ -1,7 +1,6 @@
 import { Component, ElementRef, EventEmitter, Input, Optional, Output } from '@angular/core'
 import { TranslateService } from '@ngx-translate/core'
 import { Option } from '../../interfaces/option.interface'
-import { useMemo } from '../../helpers/memo.helper'
 
 /**
  * Represents a search-based select component.
@@ -247,17 +246,4 @@ export class SqSelectSearchComponent {
       this.error = await this.translate.instant(key)
     }
   }
-
-  /**
-   * Gets a translation for the specified key.
-   *
-   * @param {string} key - The translation key.
-   * @returns {Promise<string>} A promise that resolves to the translation.
-   */
-  getTranslation = useMemo(async (key: string) => {
-    if (this.translate) {
-      return await this.translate.instant(key)
-    }
-    return ''
-  })
 }

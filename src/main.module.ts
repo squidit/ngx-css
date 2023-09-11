@@ -34,6 +34,7 @@ import { SqInputMaskComponent } from './components/sq-input-mask/sq-input-mask.c
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask'
 import { SqInputMoneyComponent } from './components/sq-input-money/sq-input-money.component'
 import { SqInputNumberComponent } from './components/sq-input-number/sq-input-number.component'
+import { TranslateInternalPipe } from './pipes/translate-internal/translate-internal.pipe'
 
 /**
  * Array containing a collection of Angular components, directives, and pipes.
@@ -73,7 +74,8 @@ const components: (Type<any> | any)[] = [
   SqSelectMultiTagsComponent,
   SqInputMaskComponent,
   SqInputMoneyComponent,
-  SqInputNumberComponent
+  SqInputNumberComponent,
+  TranslateInternalPipe
 ]
 
 /**

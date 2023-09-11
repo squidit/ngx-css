@@ -73,7 +73,7 @@
           [name]="name"
           [id]="id"
           [(value)]="searchText"
-          [placeholder]="placeholderSearch || (getTranslation('forms.search') | async)"
+          [placeholder]="placeholderSearch || ('forms.search' | translateInternal | async) || ''"
           [errorSpan]="false"
           [externalIcon]="'<i class=\'fas fa-search\'></i>'"
           class="input-search"
@@ -85,7 +85,7 @@
           </ul>
         </ng-container>
         <p *ngIf="!options?.length">
-          {{ getTranslation('forms.seachSelectEmpty') | async }}
+          {{ 'forms.seachSelectEmpty' | translateInternal | async }}
         </p>
       </div>
     </div>

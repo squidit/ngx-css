@@ -72,7 +72,7 @@
         [borderColor]="borderColor"
         [value]="searchText"
         [timeToChange]="timeToChange"
-        [placeholder]="placeholderSearch || (getTranslation('forms.search') | async)"
+        [placeholder]="placeholderSearch || ('forms.search' | translateInternal | async) || ''"
         (valueChange)="onTipSearchChange($event)"
         [errorSpan]="false"
         [externalIcon]="'<i class=\'fa-solid fa-search\'></i>'"
@@ -83,7 +83,7 @@
           <ng-container *ngTemplateOutlet="option; context: { opt: opt, i: i }"></ng-container>
         </ul>
         <p class="mb-0 mt-3" *ngIf="!options?.length">
-          {{ getTranslation('forms.seachSelectEmpty') | async }}
+          {{ 'forms.seachSelectEmpty' | translateInternal | async }}
         </p>
       </ng-container>
     </div>

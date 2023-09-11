@@ -37,6 +37,7 @@ export * from './directives/sq-click-outside/sq-click-outside.directive'
 export * from './pipes/thousands/thousands.pipe'
 export * from './pipes/universal-safe/universal-safe.pipe'
 export * from './pipes/search/search.pipe'
+export * from './pipes/translate-internal/translate-internal.pipe'
 
 export * from './helpers/colors.helper'
 export * from './helpers/memo.helper'
