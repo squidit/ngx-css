@@ -115,7 +115,7 @@ export class ValidatorHelper {
     sum = 0
     pos = size - 7
     for (let i = size; i >= 1; i--) {
-      sum += parseFloat(numbers.charAt(parseFloat(numbers) - i)) * pos--
+      sum += parseFloat(numbers.charAt(size - i)) * pos--
       if (pos < 2) {
         pos = 9
       }
