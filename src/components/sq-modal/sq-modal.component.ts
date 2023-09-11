@@ -151,7 +151,7 @@ export class SqModalComponent implements OnChanges {
           modal.nativeElement.style.display = 'flex'
           window.addEventListener('keydown', this.onKeydown)
           this.modals = this.document.getElementsByClassName('modal open')
-          await sleep()
+          await sleep(10)
           this.modalNumber = this.modals?.length || 0
           if (this.modalNumber <= 1) {
             backdrop.setAttribute('id', 'modal-backdrop')
