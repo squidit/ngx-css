@@ -51,6 +51,7 @@
     z-index: 1;
     width: 100%;
     padding-top: 1.1rem;
+    background-color: var(--background_secondary);
     ::ng-deep {
       .wrapper-all-inside-input {
         .icon.no-label {
