@@ -17,6 +17,11 @@ export interface Option {
    * (Optional) Indicates if the option is disabled.
    */
   disabled?: boolean
+
+  /**
+   * (Optional) Additional data
+   */
+  data?: any
 }
 
 /**
@@ -48,4 +53,9 @@ export interface OptionMulti {
    * (Optional) Indicates whether the option's children should be displayed (open) in a dropdown.
    */
   open?: boolean
+
+  /**
+   * (Optional) Additional data
+   */
+  data?: any
 }

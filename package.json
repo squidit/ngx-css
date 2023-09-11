@@ -11,7 +11,7 @@
     "watch:prod": "rm -rf dist/@squidit/ngx-css && ng build @squidit/ngx-css --watch --configuration production",
     "test": "ng test @squidit/ngx-css",
     "lint": "ng lint @squidit/ngx-css",
-    "lint:docs": "compodoc -p tsconfig.doc.json --coverageMinimumPerFile 95",
+    "lint:docs": "compodoc -p tsconfig.doc.json --coverageMinimumPerFile 100",
     "build:docs": "compodoc -p tsconfig.doc.json -n 'NGX CSS - Angular Components Squid Style' --customFavicon='./application/src/favicon.ico' --includes='./docs/additional-docs' -y './docs/custom-style' -a './docs/js'  --templates './docs/templates'",
     "start:docs": "npx compodoc -r 5050 -p tsconfig.doc.json -n 'NGX CSS - Angular Components Squid Style' -s -w --customFavicon='./application/src/favicon.ico' --includes='./docs/additional-docs' -y './docs/custom-style' -a './docs/js' --templates './docs/templates'",
     "serve:docs": "compodoc -r 5050 -s --customFavicon='./application/src/favicon.ico' -n 'NGX CSS - Angular Components Squid Style' --includes='./docs/additional-docs' -y './docs/custom-style' -a './docs/js'  --templates './docs/templates'",

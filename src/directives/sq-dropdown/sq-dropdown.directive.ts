@@ -84,7 +84,7 @@ export class SqDropdownDirective implements OnInit, OnDestroy {
    */
   dropdownElement: HTMLElement | null = null
 
-  /*
+  /**
    * Indicates whether the dropdown menu is open or closed. Used for internal control
    */
   open = false
