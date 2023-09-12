@@ -157,7 +157,13 @@ export class SqButtonComponent {
    * @returns True if the color is set correctly; otherwise, false.
    */
   validatePresetColors() {
-    if (!this.color.startsWith('var(--') && !this.color.startsWith('#')) {
+    if (
+      !this.color.startsWith('var(--') &&
+      !this.color.startsWith('#') &&
+      !this.color.startsWith('rgb') &&
+      !this.color.startsWith('hsl') &&
+      !this.color.startsWith('transparent')
+    ) {
       return !!this.colorsHelper?.getCssVariableValue(this.color)
     }
     return false
