@@ -157,7 +157,10 @@ export class SqButtonComponent {
    * @returns True if the color is set correctly; otherwise, false.
    */
   validatePresetColors() {
-    return !!this.colorsHelper?.getCssVariableValue(this.color)
+    if (!this.color.startsWith('var(--') && !this.color.startsWith('#')) {
+      return !!this.colorsHelper?.getCssVariableValue(this.color)
+    }
+    return false
   }
 
   /**
@@ -202,6 +205,7 @@ export class SqButtonComponent {
     if (this.validatePresetColors()) {
       return ''
     }
+
     switch (type) {
       case 'text':
         return this.doHoverOnText()
@@ -219,31 +223,31 @@ export class SqButtonComponent {
    * @param color - The color to apply the hover effect.
    * @returns The color with the hover effect applied.
    */
-  setHover = useMemo((color: string) => {
+  setHover(color: string) {
     return this.colorsHelper?.lightenDarkenColor(this.colorsHelper?.getCssVariableValue(color), -25)
-  })
+  }
 
   /**
    * Sets the hover background color.
    * @returns The background color with the hover effect applied.
    */
-  setHoverBg = useMemo(() => {
+  setHoverBg() {
     if (this.invertedHover) {
       return this.setHover(this.textColor || '')
     }
     return this.setHover(this.color)
-  })
+  }
 
   /**
    * Sets the hover text color.
    * @returns The text color with the hover effect applied.
    */
-  setHoverText = useMemo(() => {
+  setHoverText() {
     if (this.invertedHover) {
       return this.setHover(this.color !== 'transparent' ? this.color : 'var(--white-html)')
     }
     return this.setHover(this.textColor !== 'transparent' ? this.textColor || '' : 'var(--white-html)')
-  })
+  }
 
   /**
    * Executes a function when the button is clicked.
