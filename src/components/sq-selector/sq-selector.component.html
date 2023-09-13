@@ -8,7 +8,7 @@
     block: block,
   }"
 >
-  <label [for]="id" *ngIf="leftLabel" [ngClass]="{ block: block }">
+  <label [for]="id" *ngIf="leftLabel">
     <ng-container
       *ngTemplateOutlet="leftLabel; context: context"
     ></ng-container>
@@ -32,13 +32,12 @@
     [for]="id"
     [ngClass]="{
       disabled: disabled,
-      'hide-input': hideInput,
-      block: block
+      'hide-input': hideInput
     }"
     class="checkbox {{ type }}"
   ></label>
   <label [for]="id" *ngIf="label" [innerHtml]="label | universalSafe"></label>
-  <label [for]="id" *ngIf="rightLabel" [ngClass]="{ block: block }">
+  <label [for]="id" *ngIf="rightLabel">
     <ng-container
       *ngTemplateOutlet="rightLabel; context: context"
     ></ng-container>
