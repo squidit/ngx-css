@@ -176,6 +176,11 @@ export class SqSelectorComponent implements OnChanges {
   @Input() errorSpan = true
 
   /**
+   * Block (width: 100%) the selector input.
+   */
+  @Input() block = false
+
+  /**
    * Event emitted when the value of the selector input changes.
    */
   @Output() valueChange: EventEmitter<{
