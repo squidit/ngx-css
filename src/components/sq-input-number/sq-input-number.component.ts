@@ -25,7 +25,7 @@ export class SqInputNumberComponent extends SqInputComponent {
     if (typeof value === 'number') {
       this._value = value.toString()
     } else {
-      this._value = value
+      this._value = value || ''
     }
   }
   public override get value(): any {
