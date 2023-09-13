@@ -29,9 +29,10 @@ export function useMemo<T extends Function>(fnToMemoize: T): T {
   let result: unknown
 
   return function (...newArgs: unknown[]) {
-    if (!isEqual(prevArgs, newArgs)) {
-      result = fnToMemoize(...newArgs)
-      prevArgs = newArgs
+    const args = JSON.parse(JSON.stringify(newArgs))
+    if (!isEqual(prevArgs, args)) {
+      result = fnToMemoize(...args)
+      prevArgs = JSON.parse(JSON.stringify(args))
     }
     return result
   } as unknown as T
