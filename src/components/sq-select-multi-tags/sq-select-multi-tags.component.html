@@ -82,7 +82,10 @@
                 *ngIf="!hideSearch"
               />
             </div>
-            <span class="icon icon-external textarea-icon"><i class='fas fa-search'></i></span>
+            <span class="icon icon-external textarea-icon">
+              <sq-loader *ngIf="typing"></sq-loader>
+              <i *ngIf="!typing" class='fas fa-search'></i>
+            </span>
           </div>
         </div>
         <ul class="list" *ngIf="!loading" [ngStyle]="{display: !open ? 'none' : 'block'}">

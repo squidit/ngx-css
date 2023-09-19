@@ -226,6 +226,11 @@ export class SqSelectMultiTagsComponent implements OnInit, DoCheck {
   arrayDiffersCh!: Array<KeyValueDiffer<string, any>>
 
   /**
+   * Identify when user is typing
+   */
+  typing = false
+
+  /**
    * Constructs a new SqSelectMultiTagsComponent.
    *
    * @param {ElementRef} element - The element reference.
@@ -257,28 +262,34 @@ export class SqSelectMultiTagsComponent implements OnInit, DoCheck {
    * Check the diff of options on differs.
    */
   ngDoCheck(): void {
-    this.options.forEach((option, index) => {
-      const objDiffer = this.arrayDiffers[index]
-      const objChanges = objDiffer.diff(option)
-      if (objChanges) {
-        objChanges.forEachChangedItem(() => {
-          this.options = [...this.options]
-          this.changeDetector.detectChanges()
-        })
-      }
-      if (option?.children?.length) {
-        option.children.forEach((children, indexCh) => {
-          const objDifferCh = this.arrayDiffersCh[indexCh]
-          const objChangesCh = objDifferCh.diff(children)
-          if (objChangesCh) {
-            objChangesCh.forEachChangedItem(() => {
+    if (!this.typing) {
+      this.options.forEach((option, index) => {
+        const objDiffer = this.arrayDiffers[index]
+        const objChanges = objDiffer.diff(option)
+        if (objChanges) {
+          objChanges.forEachChangedItem((change) => {
+            if (change.key !== 'open') {
               this.options = [...this.options]
               this.changeDetector.detectChanges()
-            })
-          }
-        })
-      }
-    })
+            }
+          })
+        }
+        if (option?.children?.length) {
+          option.children.forEach((children, indexCh) => {
+            const objDifferCh = this.arrayDiffersCh[indexCh]
+            const objChangesCh = objDifferCh.diff(children)
+            if (objChangesCh) {
+              objChangesCh.forEachChangedItem((changeCh) => {
+                if (changeCh.key !== 'open') {
+                  this.options = [...this.options]
+                  this.changeDetector.detectChanges()
+                }
+              })
+            }
+          })
+        }
+      })
+    }
   }
 
   /**
@@ -424,10 +435,12 @@ export class SqSelectMultiTagsComponent implements OnInit, DoCheck {
    * Change searchtext with timeout and detect detectChanges
    */
   async modelChange(event: any) {
+    this.typing = true
     clearTimeout(this.timeoutInput)
     this.searchText = await new Promise<string>(resolve => this.timeoutInput = setTimeout(() => {
       resolve(event)
     }, this.timeToChange)) || ''
+    this.typing = false
     this.changeDetector.detectChanges()
   }
 }
