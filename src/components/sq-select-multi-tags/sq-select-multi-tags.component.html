@@ -69,21 +69,27 @@
           open: open && !disabled && !loading
         }"
       >
-        <sq-input
-          [name]="name"
-          [id]="id"
-          [(value)]="searchText"
-          [placeholder]="placeholderSearch || ('forms.search' | translateInternal | async) || ''"
-          [errorSpan]="false"
-          [externalIcon]="'<i class=\'fas fa-search\'></i>'"
-          class="input-search"
-          *ngIf="!hideSearch"
-        ></sq-input>
-        <ng-container *ngIf="open && !loading">
-          <ul class="list" *ngFor="let opt of options | search:searchText; let i = index">
-            <ng-container *ngTemplateOutlet="option; context: { opt: opt, i: i }"></ng-container>
-          </ul>
-        </ng-container>
+      <div class="input-search">
+        <div class="wrapper-all-inside-input">
+          <div class="p-0 wrapper-input wrapper-input-squid text-ellipsisarea">
+            <input
+              [name]="name"
+              [id]="id"
+              [placeholder]="placeholderSearch || ('forms.search' | translateInternal | async) || ''"
+              class="col input"
+              [ngModel]="searchText"
+              (ngModelChange)="modelChange($event)"
+              *ngIf="!hideSearch"
+            />
+          </div>
+          <span class="icon icon-external textarea-icon"><i class='fas fa-search'></i></span>
+        </div>
+      </div>
+        <ul class="list" *ngIf="!loading" [ngStyle]="{display: !open ? 'none' : 'block'}">
+          <ng-container *ngFor="let opt of options | search:searchText; let i = index; trackBy: trackByOptValue">
+            <ng-template *ngTemplateOutlet="option; context: { opt: opt, i: i }"></ng-template>
+          </ng-container>
+        </ul>
         <p *ngIf="!options?.length">
           {{ 'forms.seachSelectEmpty' | translateInternal | async }}
         </p>
@@ -125,8 +131,8 @@
       <span class="text m-0 display-inline-block" [ngClass]="{ 'cursor-pointer': opt?.children?.length }" (click)="handleCollapse(opt)">{{
         opt?.label
       }}</span>
-      <ul class="children" [ngClass]="{ open: opt.open && !opt?.disabled }" *ngIf="opt?.children?.length">
-        <ng-container *ngFor="let child of opt?.children | search:searchText; let j = index">
+      <ul class="children" *ngIf="opt?.children?.length" [ngStyle]="{ display: !opt?.open ? 'none' : 'block' }">
+        <ng-container *ngFor="let child of opt?.children | search:searchText; let j = index; trackBy: trackByOptValue">
           <ng-template *ngTemplateOutlet="option; context: { opt: child, i: j }"></ng-template>
         </ng-container>
       </ul>

@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, Optional, Output } from '@angular/core'
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, Optional, Output, TrackByFunction } from '@angular/core'
 import { TranslateService } from '@ngx-translate/core'
 import { OptionMulti } from '../../interfaces/option.interface'
 import { useMemo } from '../../helpers/memo.helper'
@@ -18,6 +18,7 @@ import { useMemo } from '../../helpers/memo.helper'
 @Component({
   selector: 'sq-select-multi-tags',
   templateUrl: './sq-select-multi-tags.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./sq-select-multi-tags.component.scss'],
   providers: [],
 })
@@ -205,12 +206,22 @@ export class SqSelectMultiTagsComponent {
   nativeElement: ElementRef
 
   /**
+   * Timeout for input changes.
+   */
+  timeoutInput!: ReturnType<typeof setTimeout>
+
+  /**
+   * Time in milliseconds before triggering input timeout.
+   */
+  timeToChange = 800
+
+  /**
    * Constructs a new SqSelectMultiTagsComponent.
    *
    * @param {ElementRef} element - The element reference.
    * @param {TranslateService} translate - The optional TranslateService for internationalization.
    */
-  constructor(public element: ElementRef, @Optional() private translate: TranslateService) {
+  constructor(public element: ElementRef, @Optional() private translate: TranslateService, private changeDetector: ChangeDetectorRef) {
     this.nativeElement = element.nativeElement
   }
 
@@ -346,5 +357,21 @@ export class SqSelectMultiTagsComponent {
       this.valid.emit(true)
       this.error = ''
     }
+  }
+
+  /**
+   * Return trackBy for ngFor
+   */
+  trackByOptValue: TrackByFunction<any> = useMemo((index, opt) => opt.value)
+
+  /**
+   * Change searchtext with timeout and detect detectChanges
+   */
+  async modelChange(event: any) {
+    clearTimeout(this.timeoutInput)
+    this.searchText = await new Promise<string>(resolve => this.timeoutInput = setTimeout(() => {
+      resolve(event)
+    }, this.timeToChange)) || ''
+    this.changeDetector.detectChanges()
   }
 }

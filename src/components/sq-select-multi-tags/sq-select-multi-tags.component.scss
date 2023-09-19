@@ -77,12 +77,17 @@
     width: 100%;
     padding-top: 1.1rem;
     background-color: var(--background_secondary);
-    ::ng-deep {
-      .wrapper-all-inside-input {
-        .icon.no-label {
-          right: 11px;
-          top: 27px;
-        }
+    .wrapper-all-inside-input {
+      .icon {
+        margin: 0;
+        font-size: 1rem;
+        font-weight: 700;
+        position: absolute;
+        right: 11px;
+        top: 27px;
+      }
+      .icon-external {
+        color: inherit !important;
       }
     }
   }
@@ -130,12 +135,8 @@
     margin: 0.7rem 0 0;
   }
   .children {
-    max-height: 0;
     overflow: hidden;
     transition: var(--transition);
     padding-left: 1.4rem;
-    &.open {
-      max-height: 9999px;
-    }
   }
 }
