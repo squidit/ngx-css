@@ -220,6 +220,7 @@ export class SqSelectMultiTagsComponent {
    *
    * @param {ElementRef} element - The element reference.
    * @param {TranslateService} translate - The optional TranslateService for internationalization.
+   * @param {ChangeDetectorRef} changeDetector - Base class that provides change detection functionality.
    */
   constructor(public element: ElementRef, @Optional() private translate: TranslateService, private changeDetector: ChangeDetectorRef) {
     this.nativeElement = element.nativeElement
