@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, Optional, Output, TrackByFunction } from '@angular/core'
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DoCheck, ElementRef, EventEmitter, Input, KeyValueDiffer, KeyValueDiffers, OnInit, Optional, Output, TrackByFunction } from '@angular/core'
 import { TranslateService } from '@ngx-translate/core'
 import { OptionMulti } from '../../interfaces/option.interface'
 import { useMemo } from '../../helpers/memo.helper'
@@ -22,7 +22,7 @@ import { useMemo } from '../../helpers/memo.helper'
   styleUrls: ['./sq-select-multi-tags.component.scss'],
   providers: [],
 })
-export class SqSelectMultiTagsComponent {
+export class SqSelectMultiTagsComponent implements OnInit, DoCheck {
   /**
    * The name attribute for the multi-tag select input.
    * 
@@ -216,14 +216,69 @@ export class SqSelectMultiTagsComponent {
   timeToChange = 800
 
   /**
+   * Array to verify diff on each option in options.
+   */
+  arrayDiffers!: Array<KeyValueDiffer<string, any>>
+
+  /**
+   * Array to verify diff on each option.children in options.
+   */
+  arrayDiffersCh!: Array<KeyValueDiffer<string, any>>
+
+  /**
    * Constructs a new SqSelectMultiTagsComponent.
    *
    * @param {ElementRef} element - The element reference.
    * @param {TranslateService} translate - The optional TranslateService for internationalization.
+   * @param {KeyValueDiffers} differs - Base class that map diffing strategies.
    * @param {ChangeDetectorRef} changeDetector - Base class that provides change detection functionality.
    */
-  constructor(public element: ElementRef, @Optional() private translate: TranslateService, private changeDetector: ChangeDetectorRef) {
+  constructor(public element: ElementRef, @Optional() private translate: TranslateService, private differs: KeyValueDiffers, private changeDetector: ChangeDetectorRef) {
     this.nativeElement = element.nativeElement
+  }
+  
+  /**
+   * Initializes the differs.
+   */
+  public ngOnInit(): void {
+    this.arrayDiffers = new Array<KeyValueDiffer<string, any>>()
+    this.arrayDiffersCh = new Array<KeyValueDiffer<string, any>>()
+    this.options.forEach((option, index) => {
+      this.arrayDiffers[index] = this.differs.find(option).create()
+      if (option?.children?.length) {
+        option.children.forEach((children, indexCh) => {
+          this.arrayDiffersCh[indexCh] = this.differs.find(children).create()
+        })
+      }
+    })
+  }
+
+  /**
+   * Check the diff of options on differs.
+   */
+  ngDoCheck(): void {
+    this.options.forEach((option, index) => {
+      const objDiffer = this.arrayDiffers[index]
+      const objChanges = objDiffer.diff(option)
+      if (objChanges) {
+        objChanges.forEachChangedItem(() => {
+          this.options = [...this.options]
+          this.changeDetector.detectChanges()
+        })
+      }
+      if (option?.children?.length) {
+        option.children.forEach((children, indexCh) => {
+          const objDifferCh = this.arrayDiffersCh[indexCh]
+          const objChangesCh = objDifferCh.diff(children)
+          if (objChangesCh) {
+            objChangesCh.forEachChangedItem(() => {
+              this.options = [...this.options]
+              this.changeDetector.detectChanges()
+            })
+          }
+        })
+      }
+    })
   }
 
   /**
