@@ -350,7 +350,7 @@ export class SqSelectMultiTagsComponent {
   validate() {
     if (this.externalError) {
       this.error = false
-    } else if (this.required && !this.value) {
+    } else if (this.required && !this.value?.length) {
       this.setError('forms.required')
       this.valid.emit(false)
     } else {
