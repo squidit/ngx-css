@@ -48,7 +48,7 @@
         [ngClass]="{
           disabled: disabled
         }"
-        (click)="open = !open; !open ? closeDropdown() : null"
+        (click)="doDropDownAction()"
       >
         <div class="loading-wrapper" *ngIf="loading">
           <sq-loader></sq-loader>
@@ -63,28 +63,43 @@
         <i *ngIf="!loading" class="icon-down fas fa-chevron-down"></i>
       </div>
       <div
+        *ngIf="!loading && !disabled && renderOptionsList"
+        id="sq-select-multi-tags-scroll"
         class="input-window scrollbar"
-        *ngIf="!disabled"
         [ngClass]="{
-          open: open && !disabled && !loading
+          open: !loading && !disabled && renderOptionsList && open
         }"
       >
-        <sq-input
-          [name]="name"
-          [id]="id"
-          [(value)]="searchText"
-          [placeholder]="placeholderSearch || ('forms.search' | translateInternal | async) || ''"
-          [errorSpan]="false"
-          [externalIcon]="'<i class=\'fas fa-search\'></i>'"
-          class="input-search"
-          *ngIf="!hideSearch"
-        ></sq-input>
-        <ng-container *ngIf="open && !loading">
-          <ul class="list" *ngFor="let opt of options | search:searchText; let i = index">
-            <ng-container *ngTemplateOutlet="option; context: { opt: opt, i: i }"></ng-container>
-          </ul>
-        </ng-container>
-        <p *ngIf="!options?.length">
+        <div class="input-search">
+          <div class="wrapper-all-inside-input">
+            <div class="p-0 wrapper-input wrapper-input-squid text-ellipsisarea">
+              <input
+                [name]="name"
+                [id]="id"
+                [placeholder]="placeholderSearch || ('forms.search' | translateInternal | async) || ''"
+                class="col input"
+                [ngModel]="searchText"
+                (ngModelChange)="modelChange($event)"
+                *ngIf="!hideSearch"
+              />
+            </div>
+            <span class="icon icon-external textarea-icon"><i class='fas fa-search'></i></span>
+          </div>
+        </div>
+        <sq-infinity-scroll
+          class="list"
+          elementToScrollId="sq-select-multi-tags-scroll"
+          loaderColor="var(--pink)"
+          [length]="_options.length || 0"
+          [hasMore]="hasMoreOptions"
+          [loading]="loadingScroll"
+          (scrolledEmitter)="addMoreOptions()"
+        >
+          <ng-container *ngFor="let opt of _options | search:searchText; let i = index; trackBy: trackByOptValue">
+            <ng-template *ngTemplateOutlet="option; context: { opt: opt, i: i }"></ng-template>
+          </ng-container>
+        </sq-infinity-scroll>
+        <p *ngIf="!_options?.length">
           {{ 'forms.seachSelectEmpty' | translateInternal | async }}
         </p>
       </div>
@@ -125,8 +140,8 @@
       <span class="text m-0 display-inline-block" [ngClass]="{ 'cursor-pointer': opt?.children?.length }" (click)="handleCollapse(opt)">{{
         opt?.label
       }}</span>
-      <ul class="children" [ngClass]="{ open: opt.open && !opt?.disabled }" *ngIf="opt?.children?.length">
-        <ng-container *ngFor="let child of opt?.children | search:searchText; let j = index">
+      <ul class="children" *ngIf="opt?.children?.length" [ngClass]="{open: !opt?.disabled && opt?.open}">
+        <ng-container *ngFor="let child of opt?.children | search:searchText; let j = index; trackBy: trackByOptValue">
           <ng-template *ngTemplateOutlet="option; context: { opt: child, i: j }"></ng-template>
         </ng-container>
       </ul>

@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, Optional, Output } from '@angular/core'
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, Optional, Output, TrackByFunction } from '@angular/core'
 import { TranslateService } from '@ngx-translate/core'
 import { OptionMulti } from '../../interfaces/option.interface'
 import { useMemo } from '../../helpers/memo.helper'
@@ -18,6 +18,7 @@ import { useMemo } from '../../helpers/memo.helper'
 @Component({
   selector: 'sq-select-multi-tags',
   templateUrl: './sq-select-multi-tags.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./sq-select-multi-tags.component.scss'],
   providers: [],
 })
@@ -169,6 +170,12 @@ export class SqSelectMultiTagsComponent {
    */
   @Output() valid: EventEmitter<boolean> = new EventEmitter()
 
+
+  /**
+   * Indicates when is the time to render the multi-tag select dropdown.
+   */
+  renderOptionsList = false
+
   /**
    * Indicates whether the multi-tag select dropdown is open.
    */
@@ -205,12 +212,48 @@ export class SqSelectMultiTagsComponent {
   nativeElement: ElementRef
 
   /**
+   * Timeout for input changes.
+   */
+  timeoutInput!: ReturnType<typeof setTimeout>
+
+  /**
+   * Time in milliseconds before triggering input timeout.
+   */
+  timeToChange = 800
+
+  /**
+   * Control pagination for options
+   */
+  _options: Array<OptionMulti> = []
+
+  /**
+   * Indicate if has more options to add on _options
+   */
+  hasMoreOptions = true
+
+  /**
+   * Loading for sq-infinity-scroll
+   */
+  loadingScroll = false
+
+  /**
+   * Control quantity for limit and to addMore on _options
+   */
+  quantity = 15
+
+  /**
+   * Control the _options limit
+   */
+  limit = this.quantity
+
+  /**
    * Constructs a new SqSelectMultiTagsComponent.
    *
    * @param {ElementRef} element - The element reference.
    * @param {TranslateService} translate - The optional TranslateService for internationalization.
+   * @param {ChangeDetectorRef} changeDetector - Base class that provides change detection functionality.
    */
-  constructor(public element: ElementRef, @Optional() private translate: TranslateService) {
+  constructor(public element: ElementRef, @Optional() private translate: TranslateService, private changeDetector: ChangeDetectorRef) {
     this.nativeElement = element.nativeElement
   }
 
@@ -304,10 +347,33 @@ export class SqSelectMultiTagsComponent {
   }
 
   /**
+   * Do action to open or close thw dropdown list
+   */
+  async doDropDownAction() {
+    if (this.open) {
+      this.closeDropdown()
+      this.renderOptionsList = await new Promise<boolean>(resolve => setTimeout(() => {
+        resolve(false)
+      }, 300))
+      this.changeDetector.detectChanges()
+    } else {
+      this.addMoreOptions()
+      this.renderOptionsList = true
+      this.open = await new Promise<boolean>(resolve => setTimeout(() => {
+        resolve(true)
+      }, 100))
+      this.changeDetector.detectChanges()
+    }
+  }
+
+  /**
    * Closes the multi-tag select dropdown.
    */
   closeDropdown() {
     this.open = false
+    this._options = []
+    this.limit = this.quantity
+    this.hasMoreOptions = true
     this.searchText = ''
     this.closeChange.emit(this.valueChanged)
     this.valueChanged = false
@@ -339,12 +405,42 @@ export class SqSelectMultiTagsComponent {
   validate() {
     if (this.externalError) {
       this.error = false
-    } else if (this.required && !this.value) {
+    } else if (this.required && !this.value?.length) {
       this.setError('forms.required')
       this.valid.emit(false)
     } else {
       this.valid.emit(true)
       this.error = ''
+    }
+  }
+
+  /**
+   * Return trackBy for ngFor
+   */
+  trackByOptValue: TrackByFunction<any> = useMemo((index, opt) => opt.value)
+
+  /**
+   * Change searchtext with timeout and detect detectChanges
+   */
+  async modelChange(event: any) {
+    clearTimeout(this.timeoutInput)
+    this.searchText = await new Promise<string>(resolve => this.timeoutInput = setTimeout(() => {
+      resolve(event)
+    }, this.timeToChange)) || ''
+    this.changeDetector.detectChanges()
+  }
+
+  /**
+   * Function to add more values on _options
+   */
+  addMoreOptions() {
+    if (this.hasMoreOptions) {
+      this.loadingScroll = true
+      const limitState = this.limit > this.options.length ? this.options.length : this.limit
+      this._options = this.options.slice(0, limitState)
+      this.limit = this.limit + this.quantity
+      this.hasMoreOptions = limitState !== this.options.length
+      this.loadingScroll = false
     }
   }
 }
