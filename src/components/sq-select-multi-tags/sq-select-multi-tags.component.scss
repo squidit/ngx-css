@@ -36,7 +36,7 @@
     border: 1px solid var(--border_color);
     background: var(--background);
     padding: 0.75rem 1rem;
-    transition: all 0.3s ease;
+    transition: var(--transition);
     color: var(--text_color);
     border-radius: 5px;
     .icon-down {
@@ -98,7 +98,7 @@
     top: 100%;
     max-height: 0;
     height: 0;
-    transition: all 0.3s ease;
+    transition: var(--transition);
     overflow: hidden;
     z-index: 1;
     &.open {
@@ -133,8 +133,12 @@
     }
   }
   .children {
+    max-height: 0;
     overflow: hidden;
     transition: var(--transition);
     padding-left: 1.4rem;
+    &.open {
+      max-height: 9999px;
+    }
   }
 }

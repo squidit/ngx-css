@@ -48,7 +48,7 @@
         [ngClass]="{
           disabled: disabled
         }"
-        (click)="open = !open; !open ? closeDropdown() : addMoreOptions()"
+        (click)="doDropDownAction()"
       >
         <div class="loading-wrapper" *ngIf="loading">
           <sq-loader></sq-loader>
@@ -63,11 +63,11 @@
         <i *ngIf="!loading" class="icon-down fas fa-chevron-down"></i>
       </div>
       <div
-        *ngIf="!loading && !disabled && open"
+        *ngIf="!loading && !disabled && renderOptionsList"
         id="sq-select-multi-tags-scroll"
         class="input-window scrollbar"
         [ngClass]="{
-          open: open && !disabled && !loading
+          open: !loading && !disabled && renderOptionsList && open
         }"
       >
         <div class="input-search">
@@ -140,7 +140,7 @@
       <span class="text m-0 display-inline-block" [ngClass]="{ 'cursor-pointer': opt?.children?.length }" (click)="handleCollapse(opt)">{{
         opt?.label
       }}</span>
-      <ul class="children" *ngIf="opt?.children?.length && opt?.open">
+      <ul class="children" *ngIf="opt?.children?.length && renderChildrensList" [ngClass]="{open: !opt?.disabled && renderChildrensList && opt?.open}">
         <ng-container *ngFor="let child of opt?.children | search:searchText; let j = index; trackBy: trackByOptValue">
           <ng-template *ngTemplateOutlet="option; context: { opt: child, i: j }"></ng-template>
         </ng-container>
