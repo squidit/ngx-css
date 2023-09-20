@@ -90,7 +90,7 @@
           class="list"
           [elementToScrollId]="'scroll-'+ id"
           loaderColor="var(--pink)"
-          [length]="options.length || 0"
+          [length]="_options.length || 0"
           [hasMore]="hasMoreOptions"
           [loading]="loadingScroll"
           (scrolledEmitter)="addMoreOptions()"
