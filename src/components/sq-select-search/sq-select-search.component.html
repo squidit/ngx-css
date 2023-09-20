@@ -46,7 +46,7 @@
       [ngClass]="{
         disabled: disabled
       }"
-      (click)="open = !open; !open ? closeDropdown() : null"
+      (click)="doDropDownAction()"
     >
       <div class="loading-wrapper" *ngIf="loading">
         <sq-loader></sq-loader>
@@ -60,32 +60,44 @@
       <i *ngIf="!loading" class="icon-down fas fa-chevron-down"></i>
     </div>
     <div
+      *ngIf="!disabled && !loading && renderOptionsList"
       class="input-window scrollbar"
-      *ngIf="!disabled"
+      id="sq-select-search-scroll"
       [ngClass]="{
-        open: open && !disabled
+        open: !disabled && !loading && renderOptionsList && open
       }"
     >
-      <sq-input
-        [name]="name"
-        [id]="id"
-        [borderColor]="borderColor"
-        [value]="searchText"
-        [timeToChange]="timeToChange"
-        [placeholder]="placeholderSearch || ('forms.search' | translateInternal | async) || ''"
-        (valueChange)="onTipSearchChange($event)"
-        [errorSpan]="false"
-        [externalIcon]="'<i class=\'fa-solid fa-search\'></i>'"
-        class="input-search"
-      ></sq-input>
-      <ng-container *ngIf="open && !loading">
-        <ul class="list" *ngFor="let opt of options | search:searchText; let i = index">
-          <ng-container *ngTemplateOutlet="option; context: { opt: opt, i: i }"></ng-container>
-        </ul>
-        <p class="mb-0 mt-3" *ngIf="!options?.length">
-          {{ 'forms.seachSelectEmpty' | translateInternal | async }}
-        </p>
+    <div class="input-search">
+      <div class="wrapper-all-inside-input">
+        <div class="p-0 wrapper-input wrapper-input-squid text-ellipsisarea">
+          <input
+            [name]="name"
+            [id]="id"
+            [placeholder]="placeholderSearch || ('forms.search' | translateInternal | async) || ''"
+            class="col input"
+            [ngModel]="searchText"
+            (ngModelChange)="onTipSearchChange($event)"
+          />
+        </div>
+        <span class="icon icon-external textarea-icon"><i class='fas fa-search'></i></span>
+      </div>
+    </div>
+    <sq-infinity-scroll
+      class="list"
+      elementToScrollId="sq-select-search-scroll"
+      loaderColor="var(--pink)"
+      [length]="_options.length || 0"
+      [hasMore]="hasMoreOptions"
+      [loading]="loadingScroll"
+      (scrolledEmitter)="addMoreOptions()"
+    >
+      <ng-container *ngFor="let opt of _options | search:searchText; let i = index; trackBy: trackByOptValue">
+        <ng-template *ngTemplateOutlet="option; context: { opt: opt, i: i }"></ng-template>
       </ng-container>
+    </sq-infinity-scroll>
+    <p class="mb-0 mt-3" *ngIf="!_options?.length">
+      {{ 'forms.seachSelectEmpty' | translateInternal | async }}
+    </p>
     </div>
   </div>
   <div

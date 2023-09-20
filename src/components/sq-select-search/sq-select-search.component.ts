@@ -1,6 +1,7 @@
-import { Component, ElementRef, EventEmitter, Input, Optional, Output } from '@angular/core'
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, Optional, Output, TrackByFunction } from '@angular/core'
 import { TranslateService } from '@ngx-translate/core'
 import { Option } from '../../interfaces/option.interface'
+import { useMemo } from '../../helpers/memo.helper'
 
 /**
  * Represents a search-based select component.
@@ -18,6 +19,7 @@ import { Option } from '../../interfaces/option.interface'
 @Component({
   selector: 'sq-select-search',
   templateUrl: './sq-select-search.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./sq-select-search.component.scss'],
   providers: [],
 })
@@ -99,7 +101,7 @@ export class SqSelectSearchComponent {
   /**
    * The time interval for input timeout in ms.
    */
-  @Input() timeToChange = 0
+  @Input() timeToChange = 800
 
   /**
    * Options available for selection.
@@ -177,17 +179,53 @@ export class SqSelectSearchComponent {
   searchText = ''
 
   /**
+   * Indicates when is the time to render the multi-tag select dropdown.
+   */
+  renderOptionsList = false
+
+  /**
    * Indicates whether the dropdown is open.
    */
   open = false
+
+  /**
+   * Control pagination for options
+   */
+  _options: Array<Option> = []
+
+  /**
+   * Indicate if has more options to add on _options
+   */
+  hasMoreOptions = true
+
+  /**
+   * Loading for sq-infinity-scroll
+   */
+  loadingScroll = false
+
+  /**
+   * Control quantity for limit and to addMore on _options
+   */
+  quantity = 15
+
+  /**
+   * Control the _options limit
+   */
+  limit = this.quantity
+
+   /**
+   * Timeout for input changes.
+   */
+   timeoutInput!: ReturnType<typeof setTimeout>
 
   /**
    * Constructs a new SqSelectSearchComponent.
    *
    * @param {ElementRef} element - The element reference.
    * @param {TranslateService} translate - The optional TranslateService for internationalization.
+   * @param {ChangeDetectorRef} changeDetector - Base class that provides change detection functionality.
    */
-  constructor(public element: ElementRef, @Optional() private translate: TranslateService) {
+  constructor(public element: ElementRef, @Optional() private translate: TranslateService, private changeDetector: ChangeDetectorRef) {
     this.nativeElement = element.nativeElement
   }
 
@@ -219,21 +257,53 @@ export class SqSelectSearchComponent {
   }
 
   /**
+   * Do action to open or close thw dropdown list
+   */
+  async doDropDownAction() {
+    if (this.open) {
+      this.closeDropdown()
+      this.renderOptionsList = await new Promise<boolean>(resolve => setTimeout(() => {
+        resolve(false)
+      }, 300))
+      this.changeDetector.detectChanges()
+    } else {
+      this.addMoreOptions()
+      this.renderOptionsList = true
+      this.open = await new Promise<boolean>(resolve => setTimeout(() => {
+        resolve(true)
+      }, 100))
+      this.changeDetector.detectChanges()
+    }
+  }
+
+  /**
    * Closes the dropdown and resets the search text.
    */
   closeDropdown() {
     this.open = false
+    this._options = []
+    this.limit = this.quantity
+    this.hasMoreOptions = true
     this.searchText = ''
   }
+
+  /**
+   * Return trackBy for ngFor
+   */
+  trackByOptValue: TrackByFunction<any> = useMemo((index, opt) => opt.value)
 
   /**
    * Handles changes to the search input value.
    *
    * @param {string} event - The search input value.
    */
-  onTipSearchChange(event: string) {
-    this.searchText = event
+  async onTipSearchChange(event: string) {
+    clearTimeout(this.timeoutInput)
+    this.searchText = await new Promise<string>(resolve => this.timeoutInput = setTimeout(() => {
+      resolve(event)
+    }, this.timeToChange)) || ''
     this.searchChange.emit(event)
+    this.changeDetector.detectChanges()
   }
 
   /**
@@ -246,4 +316,18 @@ export class SqSelectSearchComponent {
       this.error = await this.translate.instant(key)
     }
   }
+
+ /**
+   * Function to add more values on _options
+   */
+  addMoreOptions() {
+    if (this.hasMoreOptions) {
+      this.loadingScroll = true
+      const limitState = this.limit > this.options.length ? this.options.length : this.limit
+      this._options = this.options.slice(0, limitState)
+      this.limit = this.limit + this.quantity
+      this.hasMoreOptions = limitState !== this.options.length
+      this.loadingScroll = false
+    }
+  } 
 }
