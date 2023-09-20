@@ -64,7 +64,7 @@
       </div>
       <div
         *ngIf="!loading && !disabled && open"
-        [id]="'scroll-'+ id"
+        id="sq-select-multi-tags-scroll"
         class="input-window scrollbar"
         [ngClass]="{
           open: open && !disabled && !loading
@@ -88,7 +88,7 @@
         </div>
         <sq-infinity-scroll
           class="list"
-          [elementToScrollId]="'scroll-'+ id"
+          elementToScrollId="sq-select-multi-tags-scroll"
           loaderColor="var(--pink)"
           [length]="_options.length || 0"
           [hasMore]="hasMoreOptions"

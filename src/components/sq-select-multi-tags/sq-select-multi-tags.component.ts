@@ -38,7 +38,7 @@ export class SqSelectMultiTagsComponent {
   /**
    * The id attribute for the multi-tag select input.
    */
-  @Input() id = `random-id-${(1 + Date.now() + Math.random()).toString().replace('.', '')}`
+  @Input() id?: string
 
   /**
    * The label for the multi-tag select input.
