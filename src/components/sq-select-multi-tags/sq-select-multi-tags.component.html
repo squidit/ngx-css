@@ -85,7 +85,7 @@
             <span class="icon icon-external textarea-icon"><i class='fas fa-search'></i></span>
           </div>
         </div>
-        <ul class="list" *ngIf="!loading" [ngStyle]="{display: !open ? 'none' : 'block'}">
+        <ul class="list" *ngIf="!loading && open">
           <ng-container *ngFor="let opt of options | search:searchText; let i = index; trackBy: trackByOptValue">
             <ng-template *ngTemplateOutlet="option; context: { opt: opt, i: i }"></ng-template>
           </ng-container>
@@ -131,7 +131,7 @@
       <span class="text m-0 display-inline-block" [ngClass]="{ 'cursor-pointer': opt?.children?.length }" (click)="handleCollapse(opt)">{{
         opt?.label
       }}</span>
-      <ul class="children" *ngIf="opt?.children?.length" [ngStyle]="{ display: !opt?.open ? 'none' : 'block' }">
+      <ul class="children" *ngIf="opt?.children?.length && opt?.open">
         <ng-container *ngFor="let child of opt?.children | search:searchText; let j = index; trackBy: trackByOptValue">
           <ng-template *ngTemplateOutlet="option; context: { opt: child, i: j }"></ng-template>
         </ng-container>
