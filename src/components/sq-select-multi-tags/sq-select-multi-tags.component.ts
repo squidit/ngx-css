@@ -384,7 +384,7 @@ export class SqSelectMultiTagsComponent {
    *
    * @param {OptionMulti} item - The item to collapse.
    */
-  async handleCollapse(item: OptionMulti) {
+  handleCollapse(item: OptionMulti) {
     item.open = !item.open
   }
 
