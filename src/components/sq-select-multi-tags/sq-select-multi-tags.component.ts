@@ -170,6 +170,12 @@ export class SqSelectMultiTagsComponent {
    */
   @Output() valid: EventEmitter<boolean> = new EventEmitter()
 
+
+  /**
+   * Indicates when is the time to render the multi-tag select dropdown.
+   */
+  renderOptionsList = false
+
   /**
    * Indicates whether the multi-tag select dropdown is open.
    */
@@ -179,6 +185,11 @@ export class SqSelectMultiTagsComponent {
    * Text entered in the search input field.
    */
   searchText = ''
+
+  /**
+   * Indicates when is the time to render the children list.
+   */
+  renderChildrensList = false
 
   /**
    * Indicates whether the value has changed.
@@ -214,6 +225,31 @@ export class SqSelectMultiTagsComponent {
    * Time in milliseconds before triggering input timeout.
    */
   timeToChange = 800
+
+  /**
+   * Control pagination for options
+   */
+  _options: Array<OptionMulti> = []
+
+  /**
+   * Indicate if has more options to add on _options
+   */
+  hasMoreOptions = true
+
+  /**
+   * Loading for sq-infinity-scroll
+   */
+  loadingScroll = false
+
+  /**
+   * Control quantity for limit and to addMore on _options
+   */
+  quantity = 15
+
+  /**
+   * Control the _options limit
+   */
+  limit = this.quantity
 
   /**
    * Constructs a new SqSelectMultiTagsComponent.
@@ -316,10 +352,33 @@ export class SqSelectMultiTagsComponent {
   }
 
   /**
+   * Do action to open or close thw dropdown list
+   */
+  async doDropDownAction() {
+    if (this.open) {
+      this.closeDropdown()
+      this.renderOptionsList = await new Promise<boolean>(resolve => setTimeout(() => {
+        resolve(false)
+      }, 300))
+      this.changeDetector.detectChanges()
+    } else {
+      this.addMoreOptions()
+      this.renderOptionsList = true
+      this.open = await new Promise<boolean>(resolve => setTimeout(() => {
+        resolve(true)
+      }, 100))
+      this.changeDetector.detectChanges()
+    }
+  }
+
+  /**
    * Closes the multi-tag select dropdown.
    */
   closeDropdown() {
     this.open = false
+    this._options = []
+    this.limit = this.quantity
+    this.hasMoreOptions = true
     this.searchText = ''
     this.closeChange.emit(this.valueChanged)
     this.valueChanged = false
@@ -330,8 +389,20 @@ export class SqSelectMultiTagsComponent {
    *
    * @param {OptionMulti} item - The item to collapse.
    */
-  handleCollapse(item: OptionMulti) {
-    item.open = !item.open
+  async handleCollapse(item: OptionMulti) {
+    if (item.open) {
+      item.open = false
+      this.renderChildrensList = await new Promise<boolean>(resolve => setTimeout(() => {
+        resolve(false)
+      }, 300))
+      this.changeDetector.detectChanges()
+    } else {
+      this.renderChildrensList = true
+      item.open = await new Promise<boolean>(resolve => setTimeout(() => {
+        resolve(true)
+      }, 100))
+      this.changeDetector.detectChanges()
+    }
   }
 
   /**
@@ -374,5 +445,19 @@ export class SqSelectMultiTagsComponent {
       resolve(event)
     }, this.timeToChange)) || ''
     this.changeDetector.detectChanges()
+  }
+
+  /**
+   * Function to add more values on _options
+   */
+  addMoreOptions() {
+    if (this.hasMoreOptions) {
+      this.loadingScroll = true
+      const limitState = this.limit > this.options.length ? this.options.length : this.limit
+      this._options = this.options.slice(0, limitState)
+      this.limit = this.limit + this.quantity
+      this.hasMoreOptions = limitState !== this.options.length
+      this.loadingScroll = false
+    }
   }
 }
