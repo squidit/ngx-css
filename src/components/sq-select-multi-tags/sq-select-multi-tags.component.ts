@@ -187,11 +187,6 @@ export class SqSelectMultiTagsComponent {
   searchText = ''
 
   /**
-   * Indicates when is the time to render the children list.
-   */
-  renderChildrensList = false
-
-  /**
    * Indicates whether the value has changed.
    */
   valueChanged = false
@@ -390,19 +385,7 @@ export class SqSelectMultiTagsComponent {
    * @param {OptionMulti} item - The item to collapse.
    */
   async handleCollapse(item: OptionMulti) {
-    if (item.open) {
-      item.open = false
-      this.renderChildrensList = await new Promise<boolean>(resolve => setTimeout(() => {
-        resolve(false)
-      }, 300))
-      this.changeDetector.detectChanges()
-    } else {
-      this.renderChildrensList = true
-      item.open = await new Promise<boolean>(resolve => setTimeout(() => {
-        resolve(true)
-      }, 100))
-      this.changeDetector.detectChanges()
-    }
+    item.open = !item.open
   }
 
   /**
