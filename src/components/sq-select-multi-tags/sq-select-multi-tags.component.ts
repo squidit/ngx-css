@@ -38,7 +38,7 @@ export class SqSelectMultiTagsComponent {
   /**
    * The id attribute for the multi-tag select input.
    */
-  @Input() id?: string
+  @Input() id = `random-id-${(1 + Date.now() + Math.random()).toString().replace('.', '')}`
 
   /**
    * The label for the multi-tag select input.
@@ -216,6 +216,31 @@ export class SqSelectMultiTagsComponent {
   timeToChange = 800
 
   /**
+   * Control pagination for options
+   */
+  _options: Array<OptionMulti> = []
+
+  /**
+   * Indicate if has more options to add on _options
+   */
+  hasMoreOptions = true
+
+  /**
+   * Loading for sq-infinity-scroll
+   */
+  loadingScroll = false
+
+  /**
+   * Control quantity for limit and to addMore on _options
+   */
+  quantity = 15
+
+  /**
+   * Control the _options limit
+   */
+  limit = this.quantity
+
+  /**
    * Constructs a new SqSelectMultiTagsComponent.
    *
    * @param {ElementRef} element - The element reference.
@@ -320,6 +345,9 @@ export class SqSelectMultiTagsComponent {
    */
   closeDropdown() {
     this.open = false
+    this._options = []
+    this.limit = this.quantity
+    this.hasMoreOptions = true
     this.searchText = ''
     this.closeChange.emit(this.valueChanged)
     this.valueChanged = false
@@ -374,5 +402,19 @@ export class SqSelectMultiTagsComponent {
       resolve(event)
     }, this.timeToChange)) || ''
     this.changeDetector.detectChanges()
+  }
+
+  /**
+   * Function to add more values on _options
+   */
+  addMoreOptions() {
+    if (this.hasMoreOptions) {
+      this.loadingScroll = true
+      const limitState = this.limit > this.options.length ? this.options.length : this.limit
+      this._options = this.options.slice(0, limitState)
+      this.limit = this.limit + this.quantity
+      this.hasMoreOptions = limitState !== this.options.length
+      this.loadingScroll = false
+    }
   }
 }

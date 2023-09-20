@@ -48,7 +48,7 @@
         [ngClass]="{
           disabled: disabled
         }"
-        (click)="open = !open; !open ? closeDropdown() : null"
+        (click)="open = !open; !open ? closeDropdown() : addMoreOptions()"
       >
         <div class="loading-wrapper" *ngIf="loading">
           <sq-loader></sq-loader>
@@ -63,8 +63,9 @@
         <i *ngIf="!loading" class="icon-down fas fa-chevron-down"></i>
       </div>
       <div
+        *ngIf="!loading && !disabled && open"
+        [id]="'scroll-'+ id"
         class="input-window scrollbar"
-        *ngIf="!disabled"
         [ngClass]="{
           open: open && !disabled && !loading
         }"
@@ -85,12 +86,20 @@
             <span class="icon icon-external textarea-icon"><i class='fas fa-search'></i></span>
           </div>
         </div>
-        <ul class="list" *ngIf="!loading && open">
-          <ng-container *ngFor="let opt of options | search:searchText; let i = index; trackBy: trackByOptValue">
+        <sq-infinity-scroll
+          class="list"
+          [elementToScrollId]="'scroll-'+ id"
+          loaderColor="var(--pink)"
+          [length]="options.length || 0"
+          [hasMore]="hasMoreOptions"
+          [loading]="loadingScroll"
+          (scrolledEmitter)="addMoreOptions()"
+        >
+          <ng-container *ngFor="let opt of _options | search:searchText; let i = index; trackBy: trackByOptValue">
             <ng-template *ngTemplateOutlet="option; context: { opt: opt, i: i }"></ng-template>
           </ng-container>
-        </ul>
-        <p *ngIf="!options?.length">
+        </sq-infinity-scroll>
+        <p *ngIf="!_options?.length">
           {{ 'forms.seachSelectEmpty' | translateInternal | async }}
         </p>
       </div>

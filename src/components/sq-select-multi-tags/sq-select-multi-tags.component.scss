@@ -76,6 +76,7 @@
     z-index: 1;
     width: 100%;
     padding-top: 1.1rem;
+    margin-bottom: 0.7rem;
     background-color: var(--background_secondary);
     .wrapper-all-inside-input {
       .icon {
@@ -130,9 +131,6 @@
       justify-content: flex-start;
       transition: var(--transition);
     }
-  }
-  .list {
-    margin: 0.7rem 0 0;
   }
   .children {
     overflow: hidden;
