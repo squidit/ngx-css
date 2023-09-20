@@ -202,11 +202,6 @@ export class SqSelectMultiTagsComponent {
   error: boolean | string = ''
 
   /**
-   * Timeout duration for input changes.
-   */
-  timeOutInputTime = 800
-
-  /**
    * Native element reference.
    */
   nativeElement: ElementRef
