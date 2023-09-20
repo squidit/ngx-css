@@ -170,6 +170,12 @@ export class SqSelectMultiTagsComponent {
    */
   @Output() valid: EventEmitter<boolean> = new EventEmitter()
 
+
+  /**
+   * Indicates when is the time to render the multi-tag select dropdown.
+   */
+  renderOptionsList = false
+
   /**
    * Indicates whether the multi-tag select dropdown is open.
    */
@@ -179,6 +185,11 @@ export class SqSelectMultiTagsComponent {
    * Text entered in the search input field.
    */
   searchText = ''
+
+  /**
+   * Indicates when is the time to render the children list.
+   */
+  renderChildrensList = false
 
   /**
    * Indicates whether the value has changed.
@@ -341,6 +352,26 @@ export class SqSelectMultiTagsComponent {
   }
 
   /**
+   * Do action to open or close thw dropdown list
+   */
+  async doDropDownAction() {
+    if (this.open) {
+      this.closeDropdown()
+      this.renderOptionsList = await new Promise<boolean>(resolve => setTimeout(() => {
+        resolve(false)
+      }, 300))
+      this.changeDetector.detectChanges()
+    } else {
+      this.addMoreOptions()
+      this.renderOptionsList = true
+      this.open = await new Promise<boolean>(resolve => setTimeout(() => {
+        resolve(true)
+      }, 100))
+      this.changeDetector.detectChanges()
+    }
+  }
+
+  /**
    * Closes the multi-tag select dropdown.
    */
   closeDropdown() {
@@ -358,8 +389,20 @@ export class SqSelectMultiTagsComponent {
    *
    * @param {OptionMulti} item - The item to collapse.
    */
-  handleCollapse(item: OptionMulti) {
-    item.open = !item.open
+  async handleCollapse(item: OptionMulti) {
+    if (item.open) {
+      item.open = false
+      this.renderChildrensList = await new Promise<boolean>(resolve => setTimeout(() => {
+        resolve(false)
+      }, 300))
+      this.changeDetector.detectChanges()
+    } else {
+      this.renderChildrensList = true
+      item.open = await new Promise<boolean>(resolve => setTimeout(() => {
+        resolve(true)
+      }, 100))
+      this.changeDetector.detectChanges()
+    }
   }
 
   /**
