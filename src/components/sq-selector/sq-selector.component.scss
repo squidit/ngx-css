@@ -3,6 +3,11 @@
   .hide-input {
     display: none !important;
   }
+  &.block{
+    .label-max-width{
+      width: 100%;
+    }
+  }
 }
 .block {
   width: 100%;
