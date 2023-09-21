@@ -1,4 +1,5 @@
 .wrapper-all-inside-input {
+  position: relative;
   .icon {
     margin: 0;
     font-size: 1rem;
@@ -7,7 +8,7 @@
     right: 24px;
     top: 40px;
     &.no-label {
-      top: 63px;
+      top: 12px;
     }
   }
   .icon-external {
