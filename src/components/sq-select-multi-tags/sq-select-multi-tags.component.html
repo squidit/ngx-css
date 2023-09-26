@@ -3,7 +3,7 @@
     class="display-flex"
     *ngIf="label?.length || tooltipMessage"
     [ngClass]="{
-      readonly: readonly
+      readonly: readonly || isMaxTags
     }"
     [for]="id"
   >
@@ -22,7 +22,7 @@
     [ngClass]="{
       error: (externalError && externalError !== '') || (error && error !== ''),
       disabled: disabled,
-      readonly: readonly,
+      readonly: readonly || isMaxTags,
       loading: loading
     }"
   >
@@ -34,7 +34,7 @@
         'no-label': !(label && label.length > 0),
         'has-icon': error || externalError,
         disabled: disabled,
-        readonly: readonly
+        readonly: readonly || isMaxTags
       }"
       [ngStyle]="{
         'background-color': backgroundColor,
@@ -55,7 +55,7 @@
         </div>
         <span *ngIf="!value?.length || !showInside">{{ placeholder }}</span>
         <div class="input-fake-content-text" *ngIf="showInside && value?.length">
-          <span class="tag" *ngFor="let opt of value; let i = index" (click)="removeItem(opt)">
+          <span class="tag" *ngFor="let opt of value; let i = index" (click)="removeItem(opt, $event)">
             {{ opt?.label }} <i class="fas fa-times"></i>
           </span>
         </div>
@@ -63,11 +63,11 @@
         <i *ngIf="!loading" class="icon-down fas fa-chevron-down"></i>
       </div>
       <div
-        *ngIf="!loading && !disabled && renderOptionsList"
+        *ngIf="!loading && !disabled && !isMaxTags && renderOptionsList"
         id="sq-select-multi-tags-scroll"
         class="input-window scrollbar"
         [ngClass]="{
-          open: !loading && !disabled && renderOptionsList && open
+          open: !loading && !disabled && !isMaxTags && renderOptionsList && open
         }"
       >
         <div class="input-search">
