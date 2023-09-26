@@ -91,6 +91,7 @@ To use the errors handled in form components, you need to follow the steps below
     "seachSelectEmpty": "There are no options to select",
     "fileSize": "File too large",
     "required": "Required field",
+    "minimumRequired": "The minimum number of selected tags must be greater than or equal to {{ minTags }}",
     "email": "Invalid email",
     "url": "Invalid URL. Attention: URL must start with https://",
     "date": "Invalid Date",
