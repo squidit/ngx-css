@@ -4,6 +4,7 @@
     "seachSelectEmpty": "No hay opciones a seleccionar",
     "fileSize": "Archivo demasiado grande",
     "required": "Campo obligatorio",
+    "minimumRequired": "El número mínimo de etiquetas seleccionadas debe ser mayor o igual a {{ minTags }}",
     "email": "E-mail inválido",
     "url": "URL invalida. Atención: cada URL debe comenzar con https://",
     "date": "Fecha inválida",

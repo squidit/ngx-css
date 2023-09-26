@@ -121,6 +121,16 @@ export class SqSelectMultiTagsComponent {
   @Input() options: Array<OptionMulti> = []
 
   /**
+   * Maximum number of tags that can be chosen.
+   */
+  @Input() maxTags?: number
+
+  /**
+   * Minimum number of tags that can be chosen.
+   */
+  @Input() minTags?: number
+
+  /**
    * Indicates whether to show selected tags inside the input.
    */
   @Input() showInside = true
@@ -154,6 +164,11 @@ export class SqSelectMultiTagsComponent {
    * Event emitted when the selected values change.
    */
   @Output() valueChange: EventEmitter<Array<OptionMulti>> = new EventEmitter()
+
+  /**
+   * Event emitted when the search input value changes.
+   */
+  @Output() searchChange: EventEmitter<string> = new EventEmitter()
 
   /**
    * Event emitted when the multi-tag select dropdown is closed.
@@ -242,6 +257,11 @@ export class SqSelectMultiTagsComponent {
   limit = this.quantity
 
   /**
+   * Control the readonly on reach the maxTags
+   */
+  isMaxTags = false
+
+  /**
    * Constructs a new SqSelectMultiTagsComponent.
    *
    * @param {ElementRef} element - The element reference.
@@ -298,7 +318,8 @@ export class SqSelectMultiTagsComponent {
    *
    * @param {OptionMulti} item - The item to remove.
    */
-  removeItem(item: OptionMulti) {
+  removeItem(item: OptionMulti, event: any) {
+    event?.stopPropagation()
     if (item.children?.length) {
       item.children.forEach((child) => {
         this.value = this.value?.filter((value) => value.value !== child.value)
@@ -388,9 +409,9 @@ export class SqSelectMultiTagsComponent {
    *
    * @param {string} key - The translation key for the error message.
    */
-  async setError(key: string) {
+  async setError(key: string, interpolateParams: Object = {}) {
     if (this.useFormErrors && this.translate) {
-      this.error = await this.translate.instant(key)
+      this.error = await this.translate.instant(key, interpolateParams)
     }
   }
 
@@ -403,9 +424,18 @@ export class SqSelectMultiTagsComponent {
     } else if (this.required && !this.value?.length) {
       this.setError('forms.required')
       this.valid.emit(false)
-    } else {
-      this.valid.emit(true)
+    } else if (this.minTags && this.value && this.value?.length < this.minTags) {
+      this.setError('forms.minimumRequired', {minTags: this.minTags})
+      this.valid.emit(false)
+    } else if (this.maxTags && this.value && this.value?.length === this.maxTags) {
+      this.renderOptionsList = false
+      this.isMaxTags = true
       this.error = ''
+      this.valid.emit(true)
+    } else {
+      this.isMaxTags = false
+      this.error = ''
+      this.valid.emit(true)
     }
   }
 
@@ -422,6 +452,7 @@ export class SqSelectMultiTagsComponent {
     this.searchText = await new Promise<string>(resolve => this.timeoutInput = setTimeout(() => {
       resolve(event)
     }, this.timeToChange)) || ''
+    this.searchChange.emit(event)
     this.changeDetector.detectChanges()
   }
 
