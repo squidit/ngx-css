@@ -59,6 +59,12 @@ export class SqModalComponent implements OnChanges {
   @Input() modalSize: 'sm' | 'md' | 'lg' | 'xl' | '' = 'md'
 
   /**
+   * Top and bottom spacing of modal body, wich can be 0, 1, 2, 3, 4 or 5.
+   */
+
+  @Input() modalBodyBlockSpacing: 0 | 1 | 2 | 3 | 4 | 5 = 0
+
+  /**
    * Additional CSS classes to apply to the modal element.
    */
   @Input() modalClass?: string
