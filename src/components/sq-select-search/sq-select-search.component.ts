@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, Optional, Output, TrackByFunction } from '@angular/core'
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnChanges, Optional, Output, SimpleChanges, TrackByFunction } from '@angular/core'
 import { TranslateService } from '@ngx-translate/core'
 import { Option } from '../../interfaces/option.interface'
 import { useMemo } from '../../helpers/memo.helper'
@@ -15,6 +15,8 @@ import { useMemo } from '../../helpers/memo.helper'
  *   (searchChange)="handleSearch($event)"
  * >
  * </sq-select-search>
+ * 
+ * @implements {OnChanges}
  */
 @Component({
   selector: 'sq-select-search',
@@ -23,7 +25,7 @@ import { useMemo } from '../../helpers/memo.helper'
   styleUrls: ['./sq-select-search.component.scss'],
   providers: [],
 })
-export class SqSelectSearchComponent {
+export class SqSelectSearchComponent implements OnChanges {
   /**
    * The name attribute for the search-based select input.
    */
@@ -230,6 +232,17 @@ export class SqSelectSearchComponent {
   }
 
   /**
+   * Lifecycle hook called when any input properties change.
+   *
+   * @param changes - The changes detected in the component's input properties.
+   */
+  async ngOnChanges(changes: SimpleChanges) {
+    if (this.open && changes.hasOwnProperty('options')) {
+      this.addMoreOptions(true)
+    }
+  }
+
+  /**
    * Emits the selected value and closes the dropdown.
    *
    * @param {any} event - The event containing the selected value.
@@ -320,14 +333,15 @@ export class SqSelectSearchComponent {
  /**
    * Function to add more values on _options
    */
-  addMoreOptions() {
-    if (this.hasMoreOptions) {
+  addMoreOptions(isOnChange = false) {
+    if (this.hasMoreOptions || isOnChange) {
       this.loadingScroll = true
       const limitState = this.limit > this.options.length ? this.options.length : this.limit
       this._options = this.options.slice(0, limitState)
       this.limit = this.limit + this.quantity
       this.hasMoreOptions = limitState !== this.options.length
       this.loadingScroll = false
+      this.changeDetector.detectChanges()
     }
   } 
 }
