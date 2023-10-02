@@ -51,6 +51,6 @@ export class SearchPipe implements PipeTransform {
       })
     }
 
-    return solution
+    return !alternativeList?.length && !solution?.length && value?.length ? value : solution
   }
 }
