@@ -95,7 +95,7 @@
           [loading]="loadingScroll"
           (scrolledEmitter)="addMoreOptions()"
         >
-          <ng-container *ngFor="let opt of _options | search:searchText:options; let i = index; trackBy: trackByOptValue">
+          <ng-container *ngFor="let opt of _options | search:searchText:false:options; let i = index; trackBy: trackByOptValue">
             <ng-template *ngTemplateOutlet="option; context: { opt: opt, i: i }"></ng-template>
           </ng-container>
         </sq-infinity-scroll>
@@ -141,7 +141,7 @@
         opt?.label
       }}</span>
       <ul class="children" *ngIf="opt?.children?.length" [ngClass]="{open: !opt?.disabled && opt?.open}">
-        <ng-container *ngFor="let child of opt?.children | search:searchText; let j = index; trackBy: trackByOptValue">
+        <ng-container *ngFor="let child of opt?.children | search:searchText:true; let j = index; trackBy: trackByOptValue">
           <ng-template *ngTemplateOutlet="option; context: { opt: child, i: j }"></ng-template>
         </ng-container>
       </ul>
