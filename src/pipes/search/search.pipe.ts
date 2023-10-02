@@ -22,8 +22,8 @@ export class SearchPipe implements PipeTransform {
    *
    * @param {any[]} value - The array of objects to filter.
    * @param {string} search - The search string to filter by.
-   * @param {any[]} alternativeList - If you want to search in another array, send this.
    * @param {boolean} fromChildren - Indicate when value is from a children of the main array.
+   * @param {any[]} alternativeList - If you want to search in another array, send this.
    * @returns {any[]} - The filtered array of objects.
    */
   transform(value: any, search: string, fromChildren?: boolean, alternativeList?: any): any {
