@@ -91,7 +91,7 @@
       [loading]="loadingScroll"
       (scrolledEmitter)="addMoreOptions()"
     >
-      <ng-container *ngFor="let opt of _options | search:searchText:options; let i = index; trackBy: trackByOptValue">
+      <ng-container *ngFor="let opt of _options | searchFromAlternativeArray:searchText:options; let i = index; trackBy: trackByOptValue">
         <ng-template *ngTemplateOutlet="option; context: { opt: opt, i: i }"></ng-template>
       </ng-container>
     </sq-infinity-scroll>
