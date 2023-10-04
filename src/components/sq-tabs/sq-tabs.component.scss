@@ -15,4 +15,7 @@
       min-width: min-content;
     }
   }
+  li:hover {
+    color: var(--primary_color);
+  }
 }
