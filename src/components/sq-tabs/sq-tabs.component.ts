@@ -4,7 +4,7 @@ import { sleep } from '../../helpers/sleep.helper'
 
 /**
  * Represents a tab container component for managing a collection of tabs.
- * 
+ *
  * Look the link about the component in original framework and the appearance
  *
  * @see {@link https://css.squidit.com.br/components/tabs}
@@ -26,9 +26,19 @@ import { sleep } from '../../helpers/sleep.helper'
 })
 export class SqTabsComponent implements AfterViewInit, AfterViewChecked {
   /**
+   * Flag to indicate to use box-shadow class on tabs header.
+   */
+  @Input() boxShadow = false
+
+  /**
    * A query list of `SqTabComponent` elements representing the tabs.
    */
   @ContentChildren(SqTabComponent) tabs: QueryList<SqTabComponent> = [] as unknown as QueryList<SqTabComponent>
+
+  /**
+   * Custom CSS class for the input element.
+   */
+  @Input() customClass = ''
 
   /**
    * The height of the tab container.
@@ -51,7 +61,13 @@ export class SqTabsComponent implements AfterViewInit, AfterViewChecked {
   @Input() lineStyle = false
 
   /**
-   * Flag to indicate too use sm class com tabs header.
+   * The width of the tab container.
+   */
+  @Input() tabWidth = 'fit-content'
+
+
+  /**
+   * Flag to indicate to use sm class com tabs header.
    */
   @Input() sm = true
 
