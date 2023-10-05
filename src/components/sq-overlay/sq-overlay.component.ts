@@ -13,6 +13,7 @@ import {
   ViewChild,
 } from '@angular/core'
 import { sleep } from '../../helpers/sleep.helper'
+import { NavigationStart, Router } from '@angular/router'
 
 /**
  * Represents an overlay component, an abstraction with differente style but still a modal.
@@ -183,13 +184,27 @@ export class SqOverlayComponent implements OnChanges {
   finishOpening = false
 
   /**
+   * Indicates the origin path from overlay.
+   *
+   */
+  localized: string
+
+  /**
    * Constructs an instance of SqOverlayComponent.
    *
-   * @param {Document} documentImported - The imported Document object.
+   * @param {Document} documentImported - The injected Document object for DOM manipulation.
+   * @param {Router} router - The Router service for programmatic navigation.
    */
-  constructor(@Inject(DOCUMENT) public documentImported: Document) {
+  constructor(@Inject(DOCUMENT) public documentImported: Document, public router: Router) {
     this.onKeydown = this.onKeydown.bind(this)
     this.document = documentImported || document
+    this.localized = this.router.url
+    router.events.subscribe(async (event) => {
+      if (this.localized !== undefined && event instanceof NavigationStart && this.localized !== event.url) {
+        this.removeOverlayFromBody()
+        await sleep(1000)
+      }
+    })
   }
 
   /**
@@ -227,15 +242,7 @@ export class SqOverlayComponent implements OnChanges {
           }
           this.finishOpening = true
         } else {
-          this.overlayClose.emit()
-          this.finishOpening = false
-          this.undoCssWidth()
-          backdrop.removeAttribute('style')
           this.removeOverlayFromBody()
-          if (backdrop.parentNode && this.modalNumber <= 1) {
-            backdrop.parentNode.removeChild(backdrop)
-            body.classList.remove('block')
-          }
           window.removeEventListener('keydown', this.onKeydown)
         }
       }
@@ -246,9 +253,17 @@ export class SqOverlayComponent implements OnChanges {
    * Removes the overlay element from document body.
    */
   removeOverlayFromBody() {
-    const overlay = this.document.getElementById(this.id)
-    if (overlay?.parentNode) {
-      overlay.parentNode.removeChild(overlay)
+    const body = this.document.getElementsByTagName('body')[0]
+    const backdrop = this.document.getElementById('modal-backdrop')
+    const overlay: any = this.document.getElementById(this.id)
+    this.overlayClose.emit()
+    this.finishOpening = false
+    this.undoCssWidth()
+    backdrop?.removeAttribute('style')
+    overlay?.parentNode?.removeChild(overlay)
+    if (this.modalNumber <= 1) {
+      backdrop?.parentNode?.removeChild(backdrop)
+      body?.classList?.remove('block')
     }
   }
 
