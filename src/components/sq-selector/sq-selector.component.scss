@@ -1,4 +1,8 @@
-
+:host{
+  &.fitContent{
+    width: fit-content;
+  }
+}
 .wrapper-selectors {
   .hide-input {
     display: none !important;

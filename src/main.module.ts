@@ -41,7 +41,7 @@ import { TranslateInternalPipe } from './pipes/translate-internal/translate-inte
 /**
  * Array containing a collection of Angular components, directives, and pipes.
  * These elements can be used within the SquidCSSModule for building UI features.
- * 
+ *
  * @type {(Type<any> | any)[]}
  */
 const components: (Type<any> | any)[] = [
@@ -79,7 +79,7 @@ const components: (Type<any> | any)[] = [
   SqInputMaskComponent,
   SqInputMoneyComponent,
   SqInputNumberComponent,
-  TranslateInternalPipe
+  TranslateInternalPipe,
 ]
 
 /**

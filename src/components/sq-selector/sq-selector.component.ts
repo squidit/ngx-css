@@ -2,6 +2,7 @@ import {
   Component,
   ContentChild,
   EventEmitter,
+  HostBinding,
   Input,
   OnChanges,
   Optional,
@@ -179,6 +180,11 @@ export class SqSelectorComponent implements OnChanges {
    * Block (width: 100%) the selector input.
    */
   @Input() block = false
+
+  /**
+   * fitContent (width: 'fit-content') the selector input.
+   */
+  @HostBinding('class.fitContent') @Input() fitContent = true
 
   /**
    * Event emitted when the value of the selector input changes.
