@@ -141,7 +141,7 @@ export class SqModalComponent implements OnChanges {
     this.document = documentImported || document
     this.localized = this.router.url
     router.events.subscribe(async (event) => {
-      if (this.localized !== undefined && event instanceof NavigationStart && this.localized !== event.url) {
+      if (this.open && this.localized !== undefined && event instanceof NavigationStart && this.localized !== event.url) {
         this.removeModalFromBody()
         await sleep(1000)
       }
