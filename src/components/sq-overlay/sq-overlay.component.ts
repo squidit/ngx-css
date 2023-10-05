@@ -7,6 +7,7 @@ import {
   Inject,
   Input,
   OnChanges,
+  OnDestroy,
   Output,
   SimpleChanges,
   TemplateRef,
@@ -14,6 +15,7 @@ import {
 } from '@angular/core'
 import { sleep } from '../../helpers/sleep.helper'
 import { NavigationStart, Router } from '@angular/router'
+import { Subscription } from 'rxjs'
 
 /**
  * Represents an overlay component, an abstraction with differente style but still a modal.
@@ -33,13 +35,14 @@ import { NavigationStart, Router } from '@angular/router'
  * <button (click)='isOverlayOpen = true'>Open Modal</button>
  * 
  * @implements {OnChanges}
+ * @implements {OnDestroy}
  */
 @Component({
   selector: 'sq-overlay',
   templateUrl: './sq-overlay.component.html',
   styleUrls: ['./sq-overlay.component.scss'],
 })
-export class SqOverlayComponent implements OnChanges {
+export class SqOverlayComponent implements OnChanges, OnDestroy {
   /**
    * A unique identifier for the overlay.
    */
@@ -190,6 +193,11 @@ export class SqOverlayComponent implements OnChanges {
   localized: string
 
   /**
+   * A subscription to the router change url.
+   */
+  routerObservable!: Subscription
+
+  /**
    * Constructs an instance of SqOverlayComponent.
    *
    * @param {Document} documentImported - The injected Document object for DOM manipulation.
@@ -199,12 +207,6 @@ export class SqOverlayComponent implements OnChanges {
     this.onKeydown = this.onKeydown.bind(this)
     this.document = documentImported || document
     this.localized = this.router.url
-    router.events.subscribe(async (event) => {
-      if (this.open && this.localized !== undefined && event instanceof NavigationStart && this.localized !== event.url) {
-        this.removeOverlayFromBody()
-        await sleep(1000)
-      }
-    })
   }
 
   /**
@@ -223,6 +225,7 @@ export class SqOverlayComponent implements OnChanges {
         body.appendChild(overlay.nativeElement)
         const backdrop = this.document.getElementById('modal-backdrop') || this.document.createElement('div')
         if (this.open) {
+          this.observeRouter()
           this.doCssWidth()
           this.hasFooter = !!this.footerTemplate
           this.hasHeader = !!this.headerTemplate
@@ -247,6 +250,25 @@ export class SqOverlayComponent implements OnChanges {
         }
       }
     }
+  }
+
+  /**
+   * Performs actions before the component is destroyed.
+   */
+  ngOnDestroy(): void {
+    this.routerObservable?.unsubscribe()
+  }
+
+  /**
+   * Function that init the routerObservable.
+   */
+  observeRouter() {
+    this.routerObservable = this.router.events.subscribe(async (event) => {
+      if (this.localized !== undefined && event instanceof NavigationStart && this.localized !== event.url) {
+        this.removeOverlayFromBody()
+        await sleep(1000)
+      }
+    })
   }
 
   /**

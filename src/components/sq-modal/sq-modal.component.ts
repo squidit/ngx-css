@@ -7,6 +7,7 @@ import {
   Inject,
   Input,
   OnChanges,
+  OnDestroy,
   Output,
   SimpleChanges,
   TemplateRef,
@@ -14,6 +15,7 @@ import {
 } from '@angular/core'
 import { sleep } from '../../helpers/sleep.helper'
 import { NavigationStart, Router } from '@angular/router'
+import { Subscription } from 'rxjs'
 
 /**
  * Represents a modal component with customizable options and event handling.
@@ -37,13 +39,14 @@ import { NavigationStart, Router } from '@angular/router'
  * <button (click)='isModalOpen = true'>Open Modal</button>
  *
  * @implements {OnChanges}
+ * @implements {OnDestroy}
  */
 @Component({
   selector: 'sq-modal',
   templateUrl: './sq-modal.component.html',
   styleUrls: ['./sq-modal.component.scss'],
 })
-export class SqModalComponent implements OnChanges {
+export class SqModalComponent implements OnChanges, OnDestroy {
   /**
    * A unique identifier for the modal component.
    */
@@ -131,6 +134,11 @@ export class SqModalComponent implements OnChanges {
   localized: string
 
   /**
+   * A subscription to the router change url.
+   */
+  routerObservable!: Subscription
+
+  /**
    * Creates an instance of `SqModalComponent`.
    *
    * @param {Document} documentImported - The injected Document object for DOM manipulation.
@@ -140,12 +148,6 @@ export class SqModalComponent implements OnChanges {
     this.onKeydown = this.onKeydown.bind(this)
     this.document = documentImported || document
     this.localized = this.router.url
-    router.events.subscribe(async (event) => {
-      if (this.open && this.localized !== undefined && event instanceof NavigationStart && this.localized !== event.url) {
-        this.removeModalFromBody()
-        await sleep(1000)
-      }
-    })
   }
 
   /**
@@ -161,6 +163,7 @@ export class SqModalComponent implements OnChanges {
         body.appendChild(modal.nativeElement)
         const backdrop = this.document.getElementById('modal-backdrop') || this.document.createElement('div')
         if (this.open) {
+          this.observeRouter()
           this.hasHeader = !!this.headerTemplate
           body.classList.add('block')
           modal.nativeElement.style.display = 'flex'
@@ -182,6 +185,25 @@ export class SqModalComponent implements OnChanges {
         }
       }
     }
+  }
+
+  /**
+   * Performs actions before the component is destroyed.
+   */
+  ngOnDestroy(): void {
+    this.routerObservable?.unsubscribe()
+  }
+
+  /**
+   * Function that init the routerObservable.
+   */
+  observeRouter() {
+    this.routerObservable = this.router.events.subscribe(async (event) => {
+      if (this.localized !== undefined && event instanceof NavigationStart && this.localized !== event.url) {
+        this.removeModalFromBody()
+        await sleep(1000)
+      }
+    })
   }
 
   /**
