@@ -198,7 +198,7 @@ export class SqModalComponent implements OnChanges, OnDestroy {
    * Function that init the routerObservable.
    */
   observeRouter() {
-    this.router.events.subscribe(async (event) => {
+    this.routerObservable = this.router.events.subscribe(async (event) => {
       if (this.localized !== undefined && event instanceof NavigationStart && this.localized !== event.url) {
         this.removeModalFromBody()
         await sleep(1000)
