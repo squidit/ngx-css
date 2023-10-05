@@ -13,6 +13,7 @@ import {
   ViewChild,
 } from '@angular/core'
 import { sleep } from '../../helpers/sleep.helper'
+import { NavigationStart, Router } from '@angular/router'
 
 /**
  * Represents a modal component with customizable options and event handling.
@@ -124,13 +125,27 @@ export class SqModalComponent implements OnChanges {
   document: Document
 
   /**
+   * Indicates the origin path from modal.
+   *
+   */
+  localized: string
+
+  /**
    * Creates an instance of `SqModalComponent`.
    *
-   * @param documentImported - The injected Document object for DOM manipulation.
+   * @param {Document} documentImported - The injected Document object for DOM manipulation.
+   * @param {Router} router - The Router service for programmatic navigation.
    */
-  constructor(@Inject(DOCUMENT) public documentImported: Document) {
+  constructor(@Inject(DOCUMENT) public documentImported: Document, public router: Router) {
     this.onKeydown = this.onKeydown.bind(this)
     this.document = documentImported || document
+    this.localized = this.router.url
+    router.events.subscribe(async (event) => {
+      if (this.localized !== undefined && event instanceof NavigationStart && this.localized !== event.url) {
+        this.removeModalFromBody()
+        await sleep(1000)
+      }
+    })
   }
 
   /**
@@ -162,13 +177,7 @@ export class SqModalComponent implements OnChanges {
             backdrop.setAttribute('style', `z-index: ${1060 + this.modalNumber};`)
           }
         } else {
-          this.modalClose.emit()
-          backdrop.removeAttribute('style')
           this.removeModalFromBody()
-          if (backdrop.parentNode && this.modalNumber <= 1) {
-            backdrop.parentNode.removeChild(backdrop)
-            body.classList.remove('block')
-          }
           window.removeEventListener('keydown', this.onKeydown)
         }
       }
@@ -179,9 +188,15 @@ export class SqModalComponent implements OnChanges {
    * Removes the modal element from document body.
    */
   removeModalFromBody() {
+    const body = this.document.getElementsByTagName('body')[0]
+    const backdrop = this.document.getElementById('modal-backdrop')
     const modal = this.document.getElementById(this.id)
-    if (modal?.parentNode) {
-      modal.parentNode.removeChild(modal)
+    this.modalClose.emit()
+    backdrop?.removeAttribute('style')
+    modal?.parentNode?.removeChild(modal)
+    if (this.modalNumber <= 1) {
+      backdrop?.parentNode?.removeChild(backdrop)
+      body?.classList?.remove('block')
     }
   }
 
