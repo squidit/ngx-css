@@ -1,7 +1,7 @@
 import { AfterViewChecked, AfterViewInit, Component, ContentChildren, EventEmitter, Input, Output, QueryList } from '@angular/core'
 import { SqTabComponent } from './sq-tab/sq-tab.component'
 import { sleep } from '../../helpers/sleep.helper'
-import { useMemo } from "src/helpers/memo.helper";
+import { useMemo } from "src/helpers/memo.helper"
 
 /**
  * Represents a tab container component for managing a collection of tabs.
@@ -59,8 +59,7 @@ export class SqTabsComponent implements AfterViewInit, AfterViewChecked {
   /**
    * The width of the tab container.
    */
-    // @ts-ignore
-  @Input() tabWidth = '';
+  @Input() tabWidth = ''
 
   /**
    * Flag to indicate to use sm class com tabs header.
@@ -138,7 +137,7 @@ export class SqTabsComponent implements AfterViewInit, AfterViewChecked {
    * @returns {string} - The computed width for the tabs.
    */
   get tabWidthMemo(): string {
-    return this.memoizedTabWidth(this.tabWidth, this.lineStyle);
+    return this.memoizedTabWidth(this.tabWidth, this.lineStyle)
   }
 
   /**
@@ -153,11 +152,11 @@ export class SqTabsComponent implements AfterViewInit, AfterViewChecked {
    */
   private memoizedTabWidth = useMemo((tabWidth: string, lineStyle: boolean) => {
     if (tabWidth) {
-      return tabWidth;
+      return tabWidth
     }
     if (lineStyle) {
-     return 'fit-content';
+     return 'fit-content'
     }
-    return 'initial';
-  });
+    return 'initial'
+  })
 }
