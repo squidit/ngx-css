@@ -1,9 +1,9 @@
 <div class="tabs-squid">
-  <div class="tabs-container" [ngClass]="{ 'box-shadow': boxShadow }">
+  <div class="tabs-container">
     <div
       class="wrapper {{ customClass }}"
       [ngStyle]="{
-        'width': lineStyle || tabWidth ? tabWidth : 'initial',
+        'width': tabWidthMemo,
       }"
     >
       <ul

@@ -1,6 +1,7 @@
 import { AfterViewChecked, AfterViewInit, Component, ContentChildren, EventEmitter, Input, Output, QueryList } from '@angular/core'
 import { SqTabComponent } from './sq-tab/sq-tab.component'
 import { sleep } from '../../helpers/sleep.helper'
+import { useMemo } from "src/helpers/memo.helper";
 
 /**
  * Represents a tab container component for managing a collection of tabs.
@@ -25,11 +26,6 @@ import { sleep } from '../../helpers/sleep.helper'
   styleUrls: ['./sq-tabs.component.scss'],
 })
 export class SqTabsComponent implements AfterViewInit, AfterViewChecked {
-  /**
-   * Flag to indicate to use box-shadow class on tabs header.
-   */
-  @Input() boxShadow = false
-
   /**
    * A query list of `SqTabComponent` elements representing the tabs.
    */
@@ -63,8 +59,8 @@ export class SqTabsComponent implements AfterViewInit, AfterViewChecked {
   /**
    * The width of the tab container.
    */
-  @Input() tabWidth = 'fit-content'
-
+    // @ts-ignore
+  @Input() tabWidth = '';
 
   /**
    * Flag to indicate to use sm class com tabs header.
@@ -134,4 +130,34 @@ export class SqTabsComponent implements AfterViewInit, AfterViewChecked {
     }
     return null
   }
+
+  /**
+   * Returns the width for the tabs. It utilizes memoization to ensure optimal
+   * performance by returning cached values when the inputs haven't changed.
+   *
+   * @returns {string} - The computed width for the tabs.
+   */
+  get tabWidthMemo(): string {
+    return this.memoizedTabWidth(this.tabWidth, this.lineStyle);
+  }
+
+  /**
+   * Determines the tab width based on the provided conditions.
+   *
+   * @param {string} tabWidth - The width of the tab.
+   * @param {boolean} lineStyle - A flag to determine if line style is applied.
+   *
+   * @returns {string} - Returns 'fit-content' if lineStyle is true.
+   *                     Returns the provided tabWidth if it exists.
+   *                     Otherwise, returns 'initial'.
+   */
+  private memoizedTabWidth = useMemo((tabWidth: string, lineStyle: boolean) => {
+    if (tabWidth) {
+      return tabWidth;
+    }
+    if (lineStyle) {
+     return 'fit-content';
+    }
+    return 'initial';
+  });
 }
