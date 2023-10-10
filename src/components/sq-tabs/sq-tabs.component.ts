@@ -1,6 +1,7 @@
 import { AfterViewChecked, AfterViewInit, Component, ContentChildren, EventEmitter, Input, Output, QueryList } from '@angular/core'
 import { SqTabComponent } from './sq-tab/sq-tab.component'
 import { sleep } from '../../helpers/sleep.helper'
+import { useMemo } from "src/helpers/memo.helper"
 
 /**
  * Represents a tab container component for managing a collection of tabs.
@@ -25,11 +26,6 @@ import { sleep } from '../../helpers/sleep.helper'
   styleUrls: ['./sq-tabs.component.scss'],
 })
 export class SqTabsComponent implements AfterViewInit, AfterViewChecked {
-  /**
-   * Flag to indicate to use box-shadow class on tabs header.
-   */
-  @Input() boxShadow = false
-
   /**
    * A query list of `SqTabComponent` elements representing the tabs.
    */
@@ -63,8 +59,7 @@ export class SqTabsComponent implements AfterViewInit, AfterViewChecked {
   /**
    * The width of the tab container.
    */
-  @Input() tabWidth = 'fit-content'
-
+  @Input() tabWidth = ''
 
   /**
    * Flag to indicate to use sm class com tabs header.
@@ -134,4 +129,24 @@ export class SqTabsComponent implements AfterViewInit, AfterViewChecked {
     }
     return null
   }
+
+  /**
+   * Determines the tab width based on the provided conditions.
+   *
+   * @param {string} tabWidth - The width of the tab.
+   * @param {boolean} lineStyle - A flag to determine if line style is applied.
+   *
+   * @returns {string} - Returns 'fit-content' if lineStyle is true.
+   *                     Returns the provided tabWidth if it exists.
+   *                     Otherwise, returns 'initial'.
+   */
+  memoizedTabWidth = useMemo((tabWidth: string, lineStyle: boolean): string => {
+    if (tabWidth) {
+      return tabWidth
+    }
+    if (lineStyle) {
+     return 'fit-content'
+    }
+    return 'initial'
+  })
 }
