@@ -59,12 +59,14 @@ export class ValidatorHelper {
    */
   url(url: string): boolean {
     const pattern = new RegExp(
-      '^(https?:\\/\\/)' + // protocol
-      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
-      '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
-      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
-      '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
-      '(\\#[-a-z\\d_]*)?$',
+      // '^(https:\/\/)(((([0-9]{1,3}\.){3}[0-9]{1,3})|([a-zA-Z0-9.-]+\.[a-zA-Z]{2,}))(?::[0-9]+)?(\/[^\s?#]*)?(\?[^?\s#]+)?(#\S*)?)$'
+      '^(https?:\\/\\/)' + // matches the literal string https://
+      '(((([0-9]{1,3}\\.){3}[0-9]{1,3})|' + // matches an IPv4 address (e.g., 192.168.0.1)
+      '([a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}))' + // matches a domain name (e.g., example.com).
+      '(?::[0-9]+)' + // matches an optional colon : followed by one or more digits (port number)
+      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // matches an optional forward slash / followed by any number of non-whitespace characters, excluding ? and # (the path)
+      '(\\?[;&a-z\\d%_.~+=-]*)?' + // matches an optional question mark ? followed by one or more characters that are not ?, whitespace, or # (the query parameters).
+      '(\\#[-a-z\\d_]*)?$', // matches an optional hash # followed by zero or more non-whitespace characters (the fragment identifier).
       'i'
     ) // fragment locator
     return !!pattern.test(url)
