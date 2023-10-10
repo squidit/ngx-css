@@ -3,7 +3,7 @@
     <div
       class="wrapper {{ customClass }}"
       [ngStyle]="{
-        'width': tabWidthMemo,
+        'width': memoizedTabWidth(tabWidth, lineStyle),
       }"
     >
       <ul

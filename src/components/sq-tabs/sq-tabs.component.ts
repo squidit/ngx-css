@@ -131,16 +131,6 @@ export class SqTabsComponent implements AfterViewInit, AfterViewChecked {
   }
 
   /**
-   * Returns the width for the tabs. It utilizes memoization to ensure optimal
-   * performance by returning cached values when the inputs haven't changed.
-   *
-   * @returns {string} - The computed width for the tabs.
-   */
-  get tabWidthMemo(): string {
-    return this.memoizedTabWidth(this.tabWidth, this.lineStyle)
-  }
-
-  /**
    * Determines the tab width based on the provided conditions.
    *
    * @param {string} tabWidth - The width of the tab.
@@ -150,7 +140,7 @@ export class SqTabsComponent implements AfterViewInit, AfterViewChecked {
    *                     Returns the provided tabWidth if it exists.
    *                     Otherwise, returns 'initial'.
    */
-  private memoizedTabWidth = useMemo((tabWidth: string, lineStyle: boolean) => {
+  memoizedTabWidth = useMemo((tabWidth: string, lineStyle: boolean): string => {
     if (tabWidth) {
       return tabWidth
     }
