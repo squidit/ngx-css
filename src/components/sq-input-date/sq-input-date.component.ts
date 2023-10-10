@@ -48,6 +48,7 @@ export class SqInputDateComponent extends SqInputComponent {
    */
   @Input()
   public override set value(value: any) {
+    value = value.split('T')[0] || value
     this._value = new Date(value)
   }
   public override get value(): any {

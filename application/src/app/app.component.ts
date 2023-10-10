@@ -9,6 +9,7 @@ import { Component, OnInit } from '@angular/core'
 export class AppComponent implements OnInit {
   theme = window.matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light'
 
+
   ngOnInit() {
     this.theme = localStorage.getItem('theme') || this.theme
     document.body.classList.value = `scrollbar ${this.theme}`
