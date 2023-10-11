@@ -1,7 +1,7 @@
 import { AfterViewChecked, AfterViewInit, Component, ContentChildren, EventEmitter, Input, Output, QueryList } from '@angular/core'
 import { SqTabComponent } from './sq-tab/sq-tab.component'
 import { sleep } from '../../helpers/sleep.helper'
-import { useMemo } from "src/helpers/memo.helper"
+import { useMemo } from '../../helpers/memo.helper'
 
 /**
  * Represents a tab container component for managing a collection of tabs.
