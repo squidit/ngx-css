@@ -131,7 +131,7 @@ export class SqModalComponent implements OnChanges, OnDestroy {
    * Indicates the origin path from modal.
    *
    */
-  localized: string
+  localized: URL
 
   /**
    * A subscription to the router change url.
@@ -147,7 +147,7 @@ export class SqModalComponent implements OnChanges, OnDestroy {
   constructor(@Inject(DOCUMENT) public documentImported: Document, public router: Router) {
     this.onKeydown = this.onKeydown.bind(this)
     this.document = documentImported || document
-    this.localized = this.router.url
+    this.localized = new URL(window.location.href)
   }
 
   /**
@@ -199,9 +199,12 @@ export class SqModalComponent implements OnChanges, OnDestroy {
    */
   observeRouter() {
     this.routerObservable = this.router.events.subscribe(async (event) => {
-      if (this.localized !== undefined && event instanceof NavigationStart && this.localized !== event.url) {
-        this.removeModalFromBody()
-        await sleep(1000)
+      if (event instanceof NavigationStart) {
+        const destinationRoute = new URL(event.url, this.localized.origin)
+        if ((this.localized.origin + this.localized.pathname) !== (destinationRoute.origin + destinationRoute.pathname)) {
+          this.removeModalFromBody()
+          await sleep(1000)
+        }
       }
     })
   }
