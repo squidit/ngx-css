@@ -333,16 +333,18 @@ export class SqSelectMultiTagsComponent implements OnChanges {
    */
   removeItem(item: OptionMulti, event: any) {
     event?.stopPropagation()
-    if (item.children?.length) {
-      item.children.forEach((child) => {
-        this.value = this.value?.filter((value) => value.value !== child.value)
-      })
+    if(!this.readonly && !this.disabled) {
+      if (item.children?.length) {
+        item.children.forEach((child) => {
+          this.value = this.value?.filter((value) => value.value !== child.value)
+        })
+      }
+      this.value = this.value?.filter((value) => value.value !== item.value)
+      
+      this.valueChange.emit(this.value)
+      this.removeTag.emit(item)
+      this.validate()
     }
-    this.value = this.value?.filter((value) => value.value !== item.value)
-
-    this.valueChange.emit(this.value)
-    this.removeTag.emit(item)
-    this.validate()
   }
 
   /**
