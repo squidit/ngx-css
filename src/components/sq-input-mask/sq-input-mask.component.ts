@@ -126,7 +126,7 @@ export class SqInputMaskComponent extends SqInputComponent {
    * @param isBlur - Indicates if the input has lost focus.
    */
   override async validate(isBlur = false) {
-    const numericValue = Number(this.value); // Convert string to number
+    const numericValue = Number(this.value)
 
     if (this.externalError) {
       this.error = false
@@ -142,6 +142,10 @@ export class SqInputMaskComponent extends SqInputComponent {
     } else {
       this.valid.emit(true)
       this.error = ''
+    }
+
+    if (isBlur) {
+      this.inFocus.emit(false)
     }
   }
 }
