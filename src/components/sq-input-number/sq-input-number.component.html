@@ -27,8 +27,8 @@
   [leadZero]="leadZero"
   [showMaskTyped]="showMaskTyped"
   [labelColor]="labelColor"
-  [backgroundColor]="backgroundColor"
-  [borderColor]="borderColor"
+  [maxValue]="maxValue"
+  [minValue]="minValue"
   inputMode="numeric"
   pattern="[0-9]*"
   (valueChange)="change($event)"
@@ -37,14 +37,14 @@
   (keyPressUp)="keyPressUp.emit($event)"
   (keyPressDown)="keyPressDown.emit($event)"
 >
-  <ng-container *ngIf="leftLabelOvewrite">
+  <ng-container *ngIf="leftLabelOverwrite">
     <ng-template #leftLabel>
-      <ng-container *ngTemplateOutlet="leftLabelOvewrite"></ng-container>
+      <ng-container *ngTemplateOutlet="leftLabelOverwrite"></ng-container>
     </ng-template>
   </ng-container>
-  <ng-container *ngIf="rightLabelOvewrite">
+  <ng-container *ngIf="rightLabelOverwrite">
     <ng-template #rightLabel>
-      <ng-container *ngTemplateOutlet="rightLabelOvewrite"></ng-container>
+      <ng-container *ngTemplateOutlet="rightLabelOverwrite"></ng-container>
     </ng-template>
   </ng-container>
 </sq-input-mask>
