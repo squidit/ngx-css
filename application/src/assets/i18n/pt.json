@@ -8,9 +8,9 @@
     "email": "E-mail inválido",
     "url": "URL inválida. Atenção: toda URL deve começar com https://",
     "date": "Data inválida",
-    "maxValue:": "Maior valor permitido é: {{ maxValue }}",
-    "minValue:": "Menor valor permitido é: {{ minValue }}",
     "phone": "Telefone inválido",
+    "minValueAllowed": "Maior valor permitido é: {{ min }}",
+    "maxValueAllowed": "Menor valor permitido é: {{ max }}",
     "rangeDate:": "Data está fora do intervalo permitido"
   }
 }

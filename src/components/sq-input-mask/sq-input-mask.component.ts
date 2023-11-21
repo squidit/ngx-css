@@ -66,12 +66,12 @@ export class SqInputMaskComponent extends SqInputComponent {
   @Input() leadZero = false
 
   /**
-   * The character used as a placeholder for empty positions.
+   * Defines the minimum value that can be accepted as input.
    */
   @Input() minValue?: number
 
   /**
-   * The character used as a placeholder for empty positions.
+   * Defines the maximum value that can be accepted as input.
    */
   @Input() maxValue?: number
 
@@ -108,20 +108,6 @@ export class SqInputMaskComponent extends SqInputComponent {
   }
 
   /**
-   * Handle input value changes.
-   * @param event - The input change event.
-   */
-  override async change(event: any) {
-    this.inFocus.emit(true)
-    this.value = event
-    clearTimeout(this.timeoutInput)
-    this.timeoutInput = setTimeout(() => {
-      this.valueChange.emit(event)
-    }, this.timeToChange)
-    this.validate()
-  }
-
-  /**
    * Asynchronously validate the date input value.
    * @param isBlur - Indicates if the input has lost focus.
    */
@@ -135,10 +121,10 @@ export class SqInputMaskComponent extends SqInputComponent {
       this.setError('forms.required')
     } else if (this.maxValue && numericValue > this.maxValue) {
       this.valid.emit(false)
-      this.setError('forms.maxValue', {minValue: this.maxValue})
+      this.setError('forms.maxValueAllowed', { max: this.maxValue })
     } else if (this.minValue && numericValue < this.minValue) {
       this.valid.emit(false)
-      this.setError('forms.minValue', {minValue: this.minValue})
+      this.setError('forms.minValueAllowed', { min: this.minValue })
     } else {
       this.valid.emit(true)
       this.error = ''

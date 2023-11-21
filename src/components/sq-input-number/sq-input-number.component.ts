@@ -63,12 +63,12 @@ export class SqInputNumberComponent extends SqInputComponent {
   @Input() decimalMarker: "." | "," | [".", ","] = ','
 
   /**
-   * The character used as a placeholder for empty positions.
+   * Defines the minimum value that can be accepted as input.
    */
   @Input() minValue?: number
 
   /**
-   * The character used as a placeholder for empty positions.
+   * Defines the maximum value that can be accepted as input.
    */
   @Input() maxValue?: number
 
