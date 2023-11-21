@@ -116,7 +116,7 @@ export class SqInputMaskComponent extends SqInputComponent {
 
     if (this.externalError) {
       this.error = false
-    } else if (this.required && !this.value) {
+    } else if (this.required && (this.value === null || this.value === undefined || this.value === '')) {
       this.valid.emit(false)
       this.setError('forms.required')
     } else if (this.maxValue && numericValue > this.maxValue) {
