@@ -8,7 +8,7 @@ import { ValidatorHelper } from '../../helpers/validator.helper'
  * Look the link about the component in original framework and the appearance
  *
  * @see {@link https://css.squidit.com.br/forms/input}
- * 
+ *
  * <br>
  * <label for='id-exemple'>
  *  Example Input
@@ -19,7 +19,7 @@ import { ValidatorHelper } from '../../helpers/validator.helper'
  *   id="id-exemple"
  *   placeholder="Enter text"
  * ></input>
- * 
+ *
  * @example
  * <sq-input
  *   [name]="'name-exemple'"
@@ -39,7 +39,7 @@ import { ValidatorHelper } from '../../helpers/validator.helper'
 export class SqInputComponent {
   /**
    * The name attribute for the input element.
-   * 
+   *
    * @default 'random-name-[hash-random-code]'
    */
   @Input() name = `random-name-${(1 + Date.now() + Math.random()).toString().replace('.', '')}`
@@ -285,12 +285,14 @@ export class SqInputComponent {
   }
 
   /**
-   * Set an error message based on a translation key.
-   * @param key - The translation key for the error message.
+   * Sets an error message.
+   *
+   * @param {string} key - The translation key for the error message.
+   * @param interpolateParams - Value to interpolate with translation.
    */
-  async setError(key: string) {
+  async setError(key: string, interpolateParams: Object = {}) {
     if (this.useFormErrors && this.translate) {
-      this.error = await this.translate.instant(key)
+      this.error = await this.translate.instant(key, interpolateParams)
     }
   }
 

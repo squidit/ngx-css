@@ -96,18 +96,6 @@ export class SqInputMaskComponent extends SqInputComponent {
   }
 
   /**
-   * Sets an error message.
-   *
-   * @param {string} key - The translation key for the error message.
-   * @param interpolateParams - Value to interpolate with translation.
-   */
-  override async setError(key: string, interpolateParams: Object = {}) {
-    if (this.useFormErrors && this.translate) {
-      this.error = await this.translate.instant(key, interpolateParams)
-    }
-  }
-
-  /**
    * Asynchronously validate the date input value.
    * @param isBlur - Indicates if the input has lost focus.
    */
