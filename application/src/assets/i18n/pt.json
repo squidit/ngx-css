@@ -1,13 +1,16 @@
 {
   "forms": {
     "search": "Buscar",
-    "seachSelectEmpty": "Não há opções a serem selecionadas",
+    "searchSelectEmpty": "Não há opções a serem selecionadas",
     "fileSize": "O arquivo enviado é muito grande, tente diminuir a qualidade ou fazer o upload novamente.",
     "required": "Campo obrigatório",
     "minimumRequired": "O número mínimo de tags selecionadas tem que ser maior ou igual a {{ minTags }}",
     "email": "E-mail inválido",
     "url": "URL inválida. Atenção: toda URL deve começar com https://",
     "date": "Data inválida",
-    "phone": "Telefone inválido"
+    "phone": "Telefone inválido",
+    "minValueAllowed": "Maior valor permitido é: {{ min }}",
+    "maxValueAllowed": "Menor valor permitido é: {{ max }}",
+    "rangeDate:": "Data está fora do intervalo permitido"
   }
 }
