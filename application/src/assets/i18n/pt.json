@@ -9,8 +9,8 @@
     "url": "URL inválida. Atenção: toda URL deve começar com https://",
     "date": "Data inválida",
     "phone": "Telefone inválido",
-    "minValueAllowed": "Maior valor permitido é: {{ min }}",
-    "maxValueAllowed": "Menor valor permitido é: {{ max }}",
+    "minValueAllowed": "Menor valor permitido é: {{ min }}",
+    "maxValueAllowed": "Maior valor permitido é: {{ max }}",
     "rangeDate:": "Data está fora do intervalo permitido"
   }
 }
