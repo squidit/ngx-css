@@ -291,8 +291,8 @@ export class SqSelectMultiTagsComponent implements OnChanges {
    * @param {OptionMulti} item - The item to search for.
    * @returns {boolean} True if the item exists in the selected values; otherwise, false.
    */
-  findItemInValue = useMemo((item: OptionMulti) => {
-    return !!this.value?.find((value) => value.value === item.value)
+  findItemInValue = useMemo((item: OptionMulti, value?: Array<OptionMulti>) => {
+    return !!value?.find((value) => value.value === item.value)
   })
 
   /**
@@ -311,17 +311,17 @@ export class SqSelectMultiTagsComponent implements OnChanges {
    * @param {OptionMulti} item - The item to check.
    * @returns {boolean} True if the item has selected children; otherwise, false.
    */
-  verifyIfHasChildrenInValue = useMemo((item: OptionMulti) => {
+  verifyIfHasChildrenInValue = useMemo((item: OptionMulti, value?: Array<OptionMulti>) => {
     if (item.children?.length) {
-      const hasAllChildren = item.children.every((child) => this.findItemInValue(child))
-      if (hasAllChildren && !this.findItemInValue(item) && !this.timeouted) {
+      const hasAllChildren = item.children.every((child) => this.findItemInValue(child, value))
+      if (hasAllChildren && !this.findItemInValue(item, value) && !this.timeouted) {
         this.timeouted = true
         setTimeout(() => {
           this.emit(item, true)
           this.timeouted = false
         }, 0)
       }
-      return !!item.children.find((child) => this.findItemInValue(child))
+      return !!item.children.find((child) => this.findItemInValue(child, value))
     }
     return false
   })
