@@ -12,12 +12,14 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.theme = localStorage.getItem('theme') || this.theme
-    document.body.classList.value = `scrollbar ${this.theme}`
+    const html = document.getElementsByTagName('html')[0]
+    html.classList.value = `${this.theme}`
   }
 
   toggleTheme() {
     this.theme = this.theme === 'dark' ? 'light' : 'dark'
-    document.body.classList.value = `scrollbar ${this.theme}`
+    const html = document.getElementsByTagName('html')[0]
+    html.classList.value = `${this.theme}`
     localStorage.setItem('theme', this.theme)
   }
 }
