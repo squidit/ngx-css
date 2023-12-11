@@ -18,22 +18,16 @@ If there is a need to lock this automatic switch or make a theme selector for th
 > To dark mode
 
 ```html
-<html>
+<html class="dark">
   ...
-  <body class="dark">
-    ...
-  </body>
 </html
 ```
 
 > To light mode
 
 ```html
-<html>
+<html class="light">
   ...
-  <body class="light">
-    ...
-  </body>
 </html
 ```
 
