@@ -7,7 +7,7 @@ import { SqInputComponent } from "../sq-input/sq-input.component"
  * Represents an input component for handling numeric values.
  *
  * This component extends the {@link SqInputComponent} and adds additional properties and behavior for handling numeric input.
- * 
+ *
  * @example
  * <sq-input-number [(value)]='number' [name]="'number-input'" [id]="'number-input'"></sq-input-number>
  */
@@ -63,6 +63,16 @@ export class SqInputNumberComponent extends SqInputComponent {
   @Input() decimalMarker: "." | "," | [".", ","] = ','
 
   /**
+   * Defines the minimum value that can be accepted as input.
+   */
+  @Input() minValue?: number
+
+  /**
+   * Defines the maximum value that can be accepted as input.
+   */
+  @Input() maxValue?: number
+
+  /**
    * Event emitter for changes in the numeric value.
    */
   @Output() override valueChange: EventEmitter<number> = new EventEmitter()
@@ -70,14 +80,14 @@ export class SqInputNumberComponent extends SqInputComponent {
   /**
    * Content child template for the left label override.
    */
-  @ContentChild('leftLabelOvewrite')
-  leftLabelOvewrite: TemplateRef<HTMLElement> | null = null
+  @ContentChild('leftLabelOverwrite')
+  leftLabelOverwrite: TemplateRef<HTMLElement> | null = null
 
   /**
    * Content child template for the right label override.
    */
-  @ContentChild('rightLabelOvewrite')
-  rightLabelOvewrite: TemplateRef<HTMLElement> | null = null
+  @ContentChild('rightLabelOverwrite')
+  rightLabelOverwrite: TemplateRef<HTMLElement> | null = null
 
   /**
    * Reference to the native element.

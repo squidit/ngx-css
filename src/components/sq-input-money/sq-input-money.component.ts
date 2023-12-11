@@ -7,12 +7,12 @@ import { SqInputComponent } from "../sq-input/sq-input.component"
  * Represents an input component for handling money values.
  *
  * @implements {OnChanges}
- * 
+ *
  * This component uses ngx-mask library
  * @see {@link https://github.com/JsDaddy/ngx-mask}
- * 
+ *
  * This component extends the {@link SqInputComponent} and adds additional properties and behavior for handling money input.
- * 
+ *
  * @example
  * <sq-input-money [(value)]='payment' [name]="'money-input'" [id]="'money-input'" [label]="'Money Input'" currency='USD'></sq-input-money>
  */
@@ -85,8 +85,8 @@ export class SqInputMoneyComponent extends SqInputComponent implements OnChanges
   /**
    * Content child template for the right label override.
    */
-  @ContentChild('rightLabelOvewrite')
-  rightLabelOvewrite: TemplateRef<HTMLElement> | null = null
+  @ContentChild('rightLabelOverwrite')
+  rightLabelOverwrite: TemplateRef<HTMLElement> | null = null
 
   /**
    * Constructs a new instance of SqInputMaskComponent.

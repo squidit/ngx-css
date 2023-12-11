@@ -56,14 +56,14 @@
         <span *ngIf="!value?.length || !showInside">{{ placeholder }}</span>
         <div class="input-fake-content-text" *ngIf="showInside && value?.length">
           <span class="tag" *ngFor="let opt of value; let i = index" (click)="removeItem(opt, $event)">
-            {{ opt?.label }} <i class="fas fa-times"></i>
+            {{ opt?.label }} <i *ngIf="!readonly" class="fas fa-times"></i>
           </span>
         </div>
         <span *ngIf="value?.length" class="badge">{{ value!.length }}</span>
-        <i *ngIf="!loading" class="icon-down fas fa-chevron-down"></i>
+        <i *ngIf="!loading && !readonly" class="icon-down fas fa-chevron-down"></i>
       </div>
       <div
-        *ngIf="!loading && !disabled && !isMaxTags && renderOptionsList"
+        *ngIf="!loading && !disabled && !readonly && !isMaxTags && renderOptionsList"
         id="sq-select-multi-tags-scroll"
         class="input-window scrollbar"
         [ngClass]="{
@@ -100,7 +100,7 @@
           </ng-container>
         </sq-infinity-scroll>
         <p *ngIf="!_options?.length">
-          {{ 'forms.seachSelectEmpty' | translateInternal | async }}
+          {{ 'forms.searchSelectEmpty' | translateInternal | async }}
         </p>
       </div>
     </div>
@@ -133,8 +133,8 @@
         [name]="name + '-checkbox'"
         [value]="opt?.value"
         [disabled]="opt?.disabled"
-        [checked]="findItemInValue(opt)"
-        [indeterminate]="verifyIfHasChildrenInValue(opt)"
+        [checked]="findItemInValue(opt, value)"
+        [indeterminate]="verifyIfHasChildrenInValue(opt, value)"
         (valueChange)="emit(opt, $event.checked)"
       ></sq-selector>
       <span class="text m-0 display-inline-block" [ngClass]="{ 'cursor-pointer': opt?.children?.length }" (click)="handleCollapse(opt)">{{
