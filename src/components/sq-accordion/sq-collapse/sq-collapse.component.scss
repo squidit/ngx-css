@@ -56,16 +56,16 @@
     &.disabled,
     &.disabled:hover,
     &.disabled:focus {
-      color: var(--gray) !important;
-      border-color: var(--gray_light) !important;
-      background: var(--gray_light) !important;
+      color: var(--color_text-icon_neutral_disabled) !important;
+      border-color: var(--color_border_input_disabled) !important;
+      background: var(--color_bg_input_disabled) !important;
       span.html {
         cursor: not-allowed;
-        color: var(--gray) !important;
+        color: var(--color_text-icon_neutral_disabled) !important;
       }
       .wrapper-icons {
         cursor: not-allowed;
-        background: var(--gray_light) !important;
+        background: var(--color_bg_input_disabled) !important;
       }
     }
     sq-loader {
