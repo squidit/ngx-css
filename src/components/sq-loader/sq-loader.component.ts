@@ -44,10 +44,10 @@ export class SqLoaderComponent {
 
   /**
    * The color of the loading spinner.
-   * @default 'var(--pink)'
+   * @default 'var(--primary_color)'
    * @example '#ff9900'
    */
-  @Input() color = 'var(--pink)'
+  @Input() color = 'var(--primary_color)'
 
   /**
    * Custom CSS class to be applied to the loading spinner element.

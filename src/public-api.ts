@@ -46,6 +46,7 @@ export * from './helpers/memo.helper'
 export * from './helpers/toast.helper'
 export * from './helpers/validator.helper'
 export * from './helpers/sleep.helper'
+export * from './helpers/formatTime.helper'
 
 export * from './interfaces/option.interface'
 export * from './interfaces/step.interface'
