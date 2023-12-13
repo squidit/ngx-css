@@ -1,6 +1,10 @@
-
 .wrapper-input {
   &.disabled {
     border-radius: 5px;
+  }
+
+  select.readonly,
+  select[readonly] {
+    opacity: 1 !important;
   }
 }
