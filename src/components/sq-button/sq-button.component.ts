@@ -129,6 +129,11 @@ export class SqButtonComponent {
   @Input() width?: string
 
   /**
+   * Add inverted class to button
+   */
+  @Input() inverted = false
+
+  /**
    * Event emitter for when the button is clicked.
    */
   @Output() emitClick: EventEmitter<MouseEvent> = new EventEmitter()
