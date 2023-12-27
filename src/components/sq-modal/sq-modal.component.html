@@ -21,7 +21,7 @@
         <ng-container *ngIf="headerTemplate">
           <ng-container *ngTemplateOutlet="headerTemplate"></ng-container>
         </ng-container>
-        <button type="button" class="close button-close" aria-label="Close" (click)="modalClose.emit()">
+        <button *ngIf="buttonClose" type="button" class="close button-close" aria-label="Close" (click)="modalClose.emit()">
           <i class="fa-solid fa-xmark fa-lg"></i>
         </button>
       </div>
