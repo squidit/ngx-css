@@ -31,11 +31,11 @@ import { useMemo } from './memo.helper'
   })
 export class DateHelper {
 
-  MS_PER_SECOND = 1000
-  MS_PER_MINUTE = 60 * this.MS_PER_SECOND
-  MS_PER_HOUR = 60 * this.MS_PER_MINUTE
-  MS_PER_DAY = 24 * this.MS_PER_HOUR
-  MS_PER_WEEK = 7 * this.MS_PER_DAY
+  readonly MS_PER_SECOND = 1000
+  readonly MS_PER_MINUTE = 60 * this.MS_PER_SECOND
+  readonly MS_PER_HOUR = 60 * this.MS_PER_MINUTE
+  readonly MS_PER_DAY = 24 * this.MS_PER_HOUR
+  readonly MS_PER_WEEK = 7 * this.MS_PER_DAY
 
   /**
    * Uses Angular's formatDate to format the date using the provided format and timezone
@@ -56,22 +56,17 @@ export class DateHelper {
    * @returns Date offset by timezone
    */
   timezoneDate(date: Date, timezone?: string): Date {
-    const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: '2-digit', day: '2-digit',  hour: '2-digit', minute: '2-digit', second:'2-digit', timeZone: timezone, timeZoneName: 'shortOffset' }
-    let tzDate = new Date(date).toLocaleString('en-US', options)
-    tzDate = tzDate.replace(' ', '')
+    return new Date(date.toLocaleString('en-US', { timeZone: timezone }))
+  }
+
+  startOfDay(date: Date, timezone?: string): Date {
+    const tzDate = new Date(date.getFullYear(), date.getMonth(), date.getDate()).toLocaleString('en-US', {timeZone: timezone})
     return new Date(tzDate)
   }
 
-  startOfDay(date: Date | string, timezone?: string): Date {
-    const options: Intl.DateTimeFormatOptions = { day: '2-digit', month: '2-digit', year: 'numeric', timeZone: timezone, timeZoneName: 'short' }
-    const tzDate = new Date(date).toLocaleString('en-US', options)
-    return new Date(tzDate)
-  }
-
-  endOfDay(date: Date | string, timezone?: string): Date {
+  endOfDay(date: Date, timezone?: string): Date {
     const startOfDay = this.startOfDay(date, timezone)
-    startOfDay.setDate(startOfDay.getDate() + 1)
-    return new Date(startOfDay.getTime() - 1)
+    return new Date(startOfDay.getTime() + (this.MS_PER_DAY - 1))
   }
 
   startOfMonth(date: Date, timezone?: string): Date {
@@ -82,7 +77,7 @@ export class DateHelper {
   endOfMonth(date: Date, timezone?: string): Date {
     const localeDate = this.startOfDay(date, timezone)
     const nextMonth = new Date(localeDate.getFullYear(), localeDate.getMonth() + 1, 1)
-    return new Date(nextMonth.valueOf() - 1)
+    return new Date(nextMonth.getTime() - 1)
   }
 
   /**
@@ -110,6 +105,7 @@ export class DateHelper {
         break
       case 'weeks':
         unitTime = this.MS_PER_WEEK
+        break
     }
   
     firstDate = this.timezoneDate(firstDate, timezone)
@@ -192,7 +188,8 @@ export class DateHelper {
         break
       case 'months':
         return new Date(date.setMonth(date.getMonth() + value))
-      default:
+        break
+        default:
         throw new Error('Invalid unit')
     }
 
