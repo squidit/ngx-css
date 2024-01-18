@@ -28,7 +28,7 @@ import { useMemo } from './memo.helper'
  **/
 @Injectable({
     providedIn: 'root',
-  })
+})
 export class DateHelper {
 
   readonly MS_PER_SECOND = 1000
