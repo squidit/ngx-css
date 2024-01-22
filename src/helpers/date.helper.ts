@@ -31,10 +31,29 @@ import { useMemo } from './memo.helper'
 })
 export class DateHelper {
 
+  /**
+   * TODO: Daniel colocar a descrição da constante
+   */
   readonly MS_PER_SECOND = 1000
+
+  /**
+   * TODO: Daniel colocar a descrição da constante
+   */
   readonly MS_PER_MINUTE = 60 * this.MS_PER_SECOND
+
+  /**
+   * TODO: Daniel colocar a descrição da constante
+   */
   readonly MS_PER_HOUR = 60 * this.MS_PER_MINUTE
+
+  /**
+   * TODO: Daniel colocar a descrição da constante
+   */
   readonly MS_PER_DAY = 24 * this.MS_PER_HOUR
+
+  /**
+   * TODO: Daniel colocar a descrição da constante
+   */
   readonly MS_PER_WEEK = 7 * this.MS_PER_DAY
 
   /**
@@ -59,21 +78,45 @@ export class DateHelper {
     return new Date(date.toLocaleString('en-US', { timeZone: timezone }))
   }
 
+  /**
+   * TODO: Daniel colocar a descrição da função
+   * @param date 
+   * @param timezone 
+   * @returns TODO: Daniel colocar o retorno da função
+   */
   startOfDay(date: Date, timezone?: string): Date {
     const tzDate = new Date(date.getFullYear(), date.getMonth(), date.getDate()).toLocaleString('en-US', {timeZone: timezone})
     return new Date(tzDate)
   }
 
+  /**
+   * TODO: Daniel colocar a descrição da função
+   * @param date 
+   * @param timezone 
+   * @returns TODO: Daniel colocar o retorno da função
+   */
   endOfDay(date: Date, timezone?: string): Date {
     const startOfDay = this.startOfDay(date, timezone)
     return new Date(startOfDay.getTime() + (this.MS_PER_DAY - 1))
   }
 
+  /**
+   * TODO: Daniel colocar a descrição da função
+   * @param date 
+   * @param timezone 
+   * @returns TODO: Daniel colocar o retorno da função
+   */
   startOfMonth(date: Date, timezone?: string): Date {
     const localeDate = this.startOfDay(date, timezone)
     return new Date(localeDate.getFullYear(), localeDate.getMonth(), 1)
   }
 
+  /**
+   * TODO: Daniel colocar a descrição da função
+   * @param date 
+   * @param timezone 
+   * @returns TODO: Daniel colocar o retorno da função
+   */
   endOfMonth(date: Date, timezone?: string): Date {
     const localeDate = this.startOfDay(date, timezone)
     const nextMonth = new Date(localeDate.getFullYear(), localeDate.getMonth() + 1, 1)

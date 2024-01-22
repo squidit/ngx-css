@@ -233,47 +233,54 @@ export class SqTooltipDirective implements OnInit, OnDestroy {
    * Sets the position of the tooltip relative to the host element.
    */
   setPosition() {
-    const hostPos = this.el.nativeElement.getBoundingClientRect()
     if (this.tooltipElement) {
-      const tooltipPos = this.tooltipElement.getBoundingClientRect()
-      const scrollPos = window.pageYOffset || this.document.documentElement.scrollTop || this.document.body.scrollTop || 0
-      const percentage = Math.round(((hostPos.left + hostPos.width / 2) / window.innerWidth * 100))
-      let top
-      let left
+      const parentCoords = this.el.nativeElement.getBoundingClientRect()
+      const tooltipCoords = this.tooltipElement.getBoundingClientRect()
 
       const posHorizontal = this.placement.split(' ')[0] || 'center'
       const posVertical = this.placement.split(' ')[1] || 'bottom'
 
+      const distance = 7
+
+      let top
+      let left
+
       switch (posHorizontal) {
         case 'left':
-          left = hostPos.left - tooltipPos.width - this.offset
+          left = parseInt(parentCoords.left) - distance - tooltipCoords.width
+          if (parseInt(parentCoords.left) - tooltipCoords.width < 0) {
+            left = distance
+          }
           break
 
         case 'right':
-          left = hostPos.right + this.offset
+          left = parentCoords.right + distance
+          if (parseInt(parentCoords.right) + tooltipCoords.width > document.documentElement.clientWidth) {
+            left = document.documentElement.clientWidth - tooltipCoords.width - distance
+          }
           break
-
+        // eslint-disable-next-line
         default:
         case 'center':
-          left = hostPos.left + (percentage / 100) * 8 + (hostPos.width - tooltipPos.width) / 2
+          left = (parseInt(parentCoords.left) - (tooltipCoords.width / 2)) + (parentCoords.width / 2)
       }
 
       switch (posVertical) {
         case 'center':
-          top = hostPos.top + (hostPos.height - tooltipPos.height) / 2
+          top = (parseInt(parentCoords.top) + parseInt(parentCoords.bottom)) / 2 - this.tooltipElement.offsetHeight / 2
           break
 
         case 'bottom':
-          top = hostPos.bottom + this.offset
+          top = parseInt(parentCoords.bottom) + distance
           break
-
+        // eslint-disable-next-line
         default:
         case 'top':
-          top = hostPos.top - tooltipPos.height - this.offset
+          top = parseInt(parentCoords.top) - this.tooltipElement.offsetHeight - distance
       }
 
-      this.renderer.setStyle(this.tooltipElement, 'top', `${top + scrollPos}px`)
-      this.renderer.setStyle(this.tooltipElement, 'left', `${left}px`)
+      this.renderer.setStyle(this.tooltipElement, 'left', `${left < 0 ? parseInt(parentCoords.left) : left}px`)
+      this.renderer.setStyle(this.tooltipElement, 'top', `${top < 0 ? parseInt(parentCoords.bottom) + distance : top}px`)
     }
   }
 }
