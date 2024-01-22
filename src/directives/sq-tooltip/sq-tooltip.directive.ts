@@ -259,7 +259,7 @@ export class SqTooltipDirective implements OnInit, OnDestroy {
             left = document.documentElement.clientWidth - tooltipCoords.width - distance
           }
           break
-        // eslint-disable-next-line
+
         default:
         case 'center':
           left = (parseInt(parentCoords.left) - (tooltipCoords.width / 2)) + (parentCoords.width / 2)
@@ -273,7 +273,7 @@ export class SqTooltipDirective implements OnInit, OnDestroy {
         case 'bottom':
           top = parseInt(parentCoords.bottom) + distance
           break
-        // eslint-disable-next-line
+
         default:
         case 'top':
           top = parseInt(parentCoords.top) - this.tooltipElement.offsetHeight - distance
