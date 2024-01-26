@@ -5,7 +5,7 @@ import { CountdownComponent, CountdownEvent } from 'ngx-countdown'
  * Interface for the return event os emitters.
  * @interface
  */
-interface returnEvent {
+interface ReturnEvent {
   /**
    * The time left in the countdown.
    */
@@ -44,17 +44,17 @@ export class SqCountdownComponent {
   /**
    * Event emitter for when the countdown starts.
    */
-  @Output() startEmitter: EventEmitter<returnEvent> = new EventEmitter()
+  @Output() startEmitter: EventEmitter<ReturnEvent> = new EventEmitter()
 
   /**
    * Event emitter for when the count reaches the input notify times.
    */
-  @Output() notifyEmitter: EventEmitter<returnEvent> = new EventEmitter()
+  @Output() notifyEmitter: EventEmitter<ReturnEvent> = new EventEmitter()
 
   /**
    * Event emitter for when the countdown ends.
    */
-  @Output() doneEmitter: EventEmitter<returnEvent> = new EventEmitter()
+  @Output() doneEmitter: EventEmitter<ReturnEvent> = new EventEmitter()
 
   /**
    * Map the CountdownEvents to emit startEmitter, notifyEmitter or doneEmitter.
@@ -63,7 +63,7 @@ export class SqCountdownComponent {
   eventMap(event: CountdownEvent) {
     const action = event.action as "start" | "notify" | "done"
     if (action && this[`${action}Emitter`]) {
-      const returnEvent: returnEvent = {
+      const returnEvent: ReturnEvent = {
         left: event.left
       }
       this[`${action}Emitter`].emit(returnEvent)
