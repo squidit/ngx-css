@@ -1,0 +1,10 @@
+::ng-deep {
+  sq-countdown {
+    min-width: min-content;
+    countdown.count-down {
+      span {
+        color: var(--text_color);
+      }
+    }
+  }
+}
