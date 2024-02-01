@@ -18,6 +18,6 @@ jobs:
 
     - name: Imprimir variável de ambiente
       run: |
-        echo "GCE_AUTH_JSON=${GCE_AUTH_JSON}"
+        printf "%s" "$GCE_AUTH_JSON"
         echo "NPM_TOKEN=${NPM_TOKEN}"
       shell: bash
