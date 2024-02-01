@@ -12,7 +12,7 @@ jobs:
 
     - name: Configurar variáveis de ambiente
       run: |
-        echo "export GCE_AUTH_JSON=\${{ secrets.GCE_AUTH_JSON }}" >> $GITHUB_ENV
+        echo "GCE_AUTH_JSON=${{ secrets.GCE_AUTH_JSON }}" >> $GITHUB_ENV
         echo "export NPM_TOKEN=\${{ secrets.NPM_TOKEN }}" >> $GITHUB_ENV
       shell: bash
 
