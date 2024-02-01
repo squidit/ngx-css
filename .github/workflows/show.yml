@@ -1,0 +1,23 @@
+name: Exemplo de GitHub Action
+
+on: 'pull_request'
+
+jobs:
+  exemplo_job:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout do repositório
+      uses: actions/checkout@v2
+
+    - name: Configurar variáveis de ambiente
+      run: |
+        echo "export GCE_AUTH_JSON=\${{ secrets.GCE_AUTH_JSON }}" >> $GITHUB_ENV
+        echo "export NPM_TOKEN=\${{ secrets.NPM_TOKEN }}" >> $GITHUB_ENV
+      shell: bash
+
+    - name: Imprimir variável de ambiente
+      run: |
+        echo "GCE_AUTH_JSON=${GCE_AUTH_JSON}"
+        echo "NPM_TOKEN=${NPM_TOKEN}"
+      shell: bash
