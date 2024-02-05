@@ -280,7 +280,7 @@ export class SqTooltipDirective implements OnInit, OnDestroy {
       }
 
       this.renderer.setStyle(this.tooltipElement, 'left', `${left < 0 ? parseInt(parentCoords.left) : left}px`)
-      this.renderer.setStyle(this.tooltipElement, 'top', `${top < 0 ? parseInt(parentCoords.bottom) + distance : top}px`)
+      this.renderer.setStyle(this.tooltipElement, 'top', `${(top < 0 ? parseInt(parentCoords.bottom) + distance : top) + scrollY}px`)
     }
   }
 }
