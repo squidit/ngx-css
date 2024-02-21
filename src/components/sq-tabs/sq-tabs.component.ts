@@ -67,6 +67,11 @@ export class SqTabsComponent implements AfterViewInit, AfterViewChecked {
   @Input() sm = true
 
   /**
+   * Flag to hide html for inactive tabs.
+   */
+  @Input() hideHtmlForInactives = false
+
+  /**
    * Event emitted when a tab is changed.
    */
   @Output() tabChange: EventEmitter<{ tab: SqTabComponent; index: number }> = new EventEmitter()
@@ -122,10 +127,18 @@ export class SqTabsComponent implements AfterViewInit, AfterViewChecked {
         index,
       })
       tab.active = true
+      tab.hideHtml = false
 
       if (tab.whenOpen) {
         tab.whenOpen.emit()
       }
+    }
+    if (this.hideHtmlForInactives) {
+      this.tabs.toArray().forEach((tabItem) => {
+        if (!tabItem.active) {
+          tabItem.hideHtml = true
+        }
+      })
     }
     return null
   }
