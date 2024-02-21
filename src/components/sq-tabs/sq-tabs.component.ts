@@ -69,7 +69,7 @@ export class SqTabsComponent implements AfterViewInit, AfterViewChecked {
   /**
    * Flag to hide html for inactive tabs.
    */
-  @Input() hideHtmlForInactives = true
+  @Input() hideHtmlForInactives = false
 
   /**
    * Event emitted when a tab is changed.
