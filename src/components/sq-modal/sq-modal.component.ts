@@ -144,6 +144,11 @@ export class SqModalComponent implements OnChanges, OnDestroy {
   routerObservable!: Subscription
 
   /**
+   * Indicates the scroll position of the window.
+   */
+  scrollY = window.scrollY
+
+  /**
    * Creates an instance of `SqModalComponent`.
    *
    * @param {Document} documentImported - The injected Document object for DOM manipulation.
@@ -165,9 +170,10 @@ export class SqModalComponent implements OnChanges, OnDestroy {
       const modal = this.modal
       if (modal) {
         const body = this.document.getElementsByTagName('body')[0]
-        body.appendChild(modal.nativeElement)
         const backdrop = this.document.getElementById('modal-backdrop') || this.document.createElement('div')
         if (this.open) {
+          this.scrollY = window.scrollY
+          body.appendChild(modal.nativeElement)
           this.observeRouter()
           this.hasHeader = !!this.headerTemplate
           body.classList.add('block')
@@ -186,7 +192,6 @@ export class SqModalComponent implements OnChanges, OnDestroy {
           }
         } else {
           this.removeModalFromBody()
-          window.removeEventListener('keydown', this.onKeydown)
         }
       }
     }
@@ -219,6 +224,12 @@ export class SqModalComponent implements OnChanges, OnDestroy {
    */
   removeModalFromBody() {
     const body = this.document.getElementsByTagName('body')[0]
+    if (this.modalNumber <= 1) {
+      body?.classList?.remove('block')
+      if (window.scrollY !== this.scrollY) {
+        window.scrollTo(0, this.scrollY)
+      }
+    }
     const backdrop = this.document.getElementById('modal-backdrop')
     const modal = this.document.getElementById(this.id)
     this.modalClose.emit()
@@ -226,8 +237,8 @@ export class SqModalComponent implements OnChanges, OnDestroy {
     modal?.parentNode?.removeChild(modal)
     if (this.modalNumber <= 1) {
       backdrop?.parentNode?.removeChild(backdrop)
-      body?.classList?.remove('block')
     }
+    window.removeEventListener('keydown', this.onKeydown)
   }
 
   /**
