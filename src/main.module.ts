@@ -29,6 +29,7 @@ import { SqDropdownDirective } from './directives/sq-dropdown/sq-dropdown.direct
 import { SqSelectSearchComponent } from './components/sq-select-search/sq-select-search.component'
 import { SqClickOutsideDirective } from './directives/sq-click-outside/sq-click-outside.directive'
 import { SearchPipe } from './pipes/search/search.pipe'
+import { BirthdatePipe } from './pipes/birthdate/birthdate.pipe'
 import { SearchFromAlternativeArrayPipe } from './pipes/search-from-alternative-array/search-from-alternative-array.pipe'
 import { SearchValidValuesPipe } from './pipes/search-valid-values/search-valid-values.pipe'
 import { SqSelectMultiTagsComponent } from './components/sq-select-multi-tags/sq-select-multi-tags.component'
@@ -74,6 +75,7 @@ const components: (Type<any> | any)[] = [
   SqSelectSearchComponent,
   SqClickOutsideDirective,
   SearchPipe,
+  BirthdatePipe,
   SearchFromAlternativeArrayPipe,
   SearchValidValuesPipe,
   SqSelectMultiTagsComponent,
