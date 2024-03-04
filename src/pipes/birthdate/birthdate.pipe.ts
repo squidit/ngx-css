@@ -16,11 +16,11 @@ export class BirthdatePipe implements PipeTransform {
    * @returns {string} - The age from the birthdate.
    */
   transform(date: string): string {
-    const diffSinseStart = 1970
+    const epochYear = 1970 // Used as the base year for age calculation
     if (date) {
       const ageDifMs = Date.now() - new Date(date).getTime()
       const ageDate = new Date(ageDifMs)
-      return Math.abs(ageDate.getUTCFullYear() - diffSinseStart).toString()
+      return Math.abs(ageDate.getUTCFullYear() - epochYear).toString()
     }
     return '0'
   }
