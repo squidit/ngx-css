@@ -78,7 +78,7 @@ export class DateHelper {
    * @returns Date offset by the specified timezone.
    */
   timezoneDate(date: Date, timezone?: string): Date {
-    return new Date(date.toLocaleString('en-US', { timeZone: timezone }))
+    return new Date(date.toLocaleString('en-US', { timeZone: timezone || undefined }))
   }
 
   /**
@@ -89,7 +89,7 @@ export class DateHelper {
    * @returns A Date object representing the first moment of the day at 00:00:00.
    */
   startOfDay(date: Date, timezone?: string): Date {
-    const tzDate = new Date(date.getFullYear(), date.getMonth(), date.getDate()).toLocaleString('en-US', {timeZone: timezone})
+    const tzDate = new Date(date.getFullYear(), date.getMonth(), date.getDate()).toLocaleString('en-US', {timeZone: timezone || undefined})
     return new Date(tzDate)
   }
 

@@ -198,6 +198,11 @@ export class SqOverlayComponent implements OnChanges, OnDestroy {
   routerObservable!: Subscription
 
   /**
+   * Indicates the scroll position of the window.
+   */
+  scrollY = window.scrollY
+
+  /**
    * Constructs an instance of SqOverlayComponent.
    *
    * @param {Document} documentImported - The injected Document object for DOM manipulation.
@@ -222,9 +227,10 @@ export class SqOverlayComponent implements OnChanges, OnDestroy {
       const overlay = this.overlay
       if (overlay) {
         const body = this.document.getElementsByTagName('body')[0]
-        body.appendChild(overlay.nativeElement)
         const backdrop = this.document.getElementById('modal-backdrop') || this.document.createElement('div')
         if (this.open) {
+          this.scrollY = window.scrollY
+          body.appendChild(overlay.nativeElement)
           this.observeRouter()
           this.doCssWidth()
           this.hasFooter = !!this.footerTemplate
@@ -246,7 +252,6 @@ export class SqOverlayComponent implements OnChanges, OnDestroy {
           this.finishOpening = true
         } else {
           this.removeOverlayFromBody()
-          window.removeEventListener('keydown', this.onKeydown)
         }
       }
     }
@@ -279,6 +284,12 @@ export class SqOverlayComponent implements OnChanges, OnDestroy {
    */
   removeOverlayFromBody() {
     const body = this.document.getElementsByTagName('body')[0]
+    if (this.modalNumber <= 1) {
+      body?.classList?.remove('block')
+      if (window.scrollY !== this.scrollY) {
+        window.scrollTo(0, this.scrollY)
+      }
+    }
     const backdrop = this.document.getElementById('modal-backdrop')
     const overlay: any = this.document.getElementById(this.id)
     this.overlayClose.emit()
@@ -288,8 +299,8 @@ export class SqOverlayComponent implements OnChanges, OnDestroy {
     overlay?.parentNode?.removeChild(overlay)
     if (this.modalNumber <= 1) {
       backdrop?.parentNode?.removeChild(backdrop)
-      body?.classList?.remove('block')
     }
+    window.removeEventListener('keydown', this.onKeydown)
   }
 
   /**

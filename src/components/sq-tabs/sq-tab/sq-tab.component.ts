@@ -59,6 +59,11 @@ export class SqTabComponent {
   @Input() tabName = ''
 
   /**
+   * Flag to hide the tab html.
+   */
+  @Input() hideHtml = false
+
+  /**
    * Event emitted when the tab is opened.
    */
   @Output() whenOpen: EventEmitter<void> = new EventEmitter()
