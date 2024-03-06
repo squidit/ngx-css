@@ -7,7 +7,8 @@
   [tooltip]="message"
   [trigger]="trigger"
   [ngStyle]="{
-    color: color
+    color: color,
+    'font-size': fontSize
   }"
 >
   <div class="icon" *ngIf="icon" [innerHtml]="icon | universalSafe"></div>
