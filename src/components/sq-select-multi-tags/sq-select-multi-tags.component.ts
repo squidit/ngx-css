@@ -118,6 +118,16 @@ export class SqSelectMultiTagsComponent implements OnChanges {
   @Input() labelColor = ''
 
   /**
+   * Minimum number of characters to perform the searchChange.
+   */
+  @Input() minCharactersToSearch = 0
+
+  /**
+   * The time interval for input timeout in ms.
+   */
+  @Input() timeToChange = 800
+
+  /**
    * Options available for selection.
    */
   @Input() options: Array<OptionMulti> = []
@@ -224,16 +234,6 @@ export class SqSelectMultiTagsComponent implements OnChanges {
   nativeElement: ElementRef
 
   /**
-   * Timeout for input changes.
-   */
-  timeoutInput!: ReturnType<typeof setTimeout>
-
-  /**
-   * Time in milliseconds before triggering input timeout.
-   */
-  timeToChange = 800
-
-  /**
    * Control pagination for options
    */
   _options: Array<OptionMulti> = []
@@ -262,6 +262,11 @@ export class SqSelectMultiTagsComponent implements OnChanges {
    * Control the readonly on reach the maxTags
    */
   isMaxTags = false
+
+  /**
+   * Timeout for input changes.
+   */
+  timeoutInput!: ReturnType<typeof setTimeout>
 
   /**
    * Constructs a new SqSelectMultiTagsComponent.
@@ -463,12 +468,14 @@ export class SqSelectMultiTagsComponent implements OnChanges {
    * Change searchtext with timeout and detect detectChanges
    */
   async modelChange(event: any) {
-    clearTimeout(this.timeoutInput)
-    this.searchText = await new Promise<string>(resolve => this.timeoutInput = setTimeout(() => {
-      resolve(event)
-    }, this.timeToChange)) || ''
-    this.searchChange.emit(event)
-    this.changeDetector.detectChanges()
+    if (!this.minCharactersToSearch || !event.length || event.length >= this.minCharactersToSearch) {
+      clearTimeout(this.timeoutInput)
+      this.searchText = await new Promise<string>(resolve => this.timeoutInput = setTimeout(() => {
+        resolve(event)
+      }, this.timeToChange)) || ''
+      this.searchChange.emit(event)
+      this.changeDetector.detectChanges()
+    }
   }
 
   /**
