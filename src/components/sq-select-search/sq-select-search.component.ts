@@ -101,6 +101,11 @@ export class SqSelectSearchComponent implements OnChanges {
   @Input() errorSpan = true
 
   /**
+   * Minimum number of characters to perform the searchChange.
+   */
+  @Input() minCharactersToSearch = 0
+
+  /**
    * The time interval for input timeout in ms.
    */
   @Input() timeToChange = 800
@@ -166,11 +171,6 @@ export class SqSelectSearchComponent implements OnChanges {
   error: boolean | string = ''
 
   /**
-   * Timeout duration for input changes.
-   */
-  timeOutInputTime = 800
-
-  /**
    * Native element reference.
    */
   nativeElement: ElementRef
@@ -215,10 +215,10 @@ export class SqSelectSearchComponent implements OnChanges {
    */
   limit = this.quantity
 
-   /**
+  /**
    * Timeout for input changes.
    */
-   timeoutInput!: ReturnType<typeof setTimeout>
+  timeoutInput!: ReturnType<typeof setTimeout>
 
   /**
    * Constructs a new SqSelectSearchComponent.
@@ -311,12 +311,14 @@ export class SqSelectSearchComponent implements OnChanges {
    * @param {string} event - The search input value.
    */
   async onTipSearchChange(event: string) {
-    clearTimeout(this.timeoutInput)
-    this.searchText = await new Promise<string>(resolve => this.timeoutInput = setTimeout(() => {
-      resolve(event)
-    }, this.timeToChange)) || ''
-    this.searchChange.emit(event)
-    this.changeDetector.detectChanges()
+    if (!this.minCharactersToSearch || !event.length || event.length >= this.minCharactersToSearch) {
+      clearTimeout(this.timeoutInput)
+      this.searchText = await new Promise<string>(resolve => this.timeoutInput = setTimeout(() => {
+        resolve(event)
+      }, this.timeToChange)) || ''
+      this.searchChange.emit(event)
+      this.changeDetector.detectChanges()
+    }
   }
 
   /**
