@@ -81,6 +81,26 @@ export class SqModalComponent implements OnChanges, OnDestroy {
    * Determines whether to display the close button.
    */
   @Input() buttonClose = true
+ 
+  /**
+   * Determines the body padding.
+   */
+  @Input() bodyPadding = '0 1rem'
+ 
+  /**
+   * Determines the header background color.
+   */
+  @Input() headerBackgroundColor = ''
+ 
+  /**
+   * Determines the body background color.
+   */
+  @Input() bodyBackgroundColor = ''
+ 
+  /**
+   * Determines the footer background color.
+   */
+  @Input() footerBackgroundColor = ''
 
   /**
    * Event emitted when the modal is closed.
