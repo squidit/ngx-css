@@ -17,20 +17,40 @@
         [ngClass]="{
           'without-header': !hasHeader
         }"
+        [ngStyle]="{
+          background: headerBackgroundColor,
+          padding: headerPadding
+        }"
       >
         <ng-container *ngIf="headerTemplate">
           <ng-container *ngTemplateOutlet="headerTemplate"></ng-container>
         </ng-container>
-        <button *ngIf="buttonClose" type="button" class="close button-close" aria-label="Close" (click)="modalClose.emit()">
+        <button
+          *ngIf="buttonClose"
+          type="button"
+          class="close button-close"
+          aria-label="Close"
+          (click)="modalClose.emit()"
+        >
           <i class="fa-solid fa-xmark fa-lg"></i>
         </button>
       </div>
 
-      <div class="modal-body scrollbar">
+      <div
+        class="modal-body scrollbar"
+        [ngStyle]="{ background: bodyBackgroundColor, padding: bodyPadding }"
+      >
         <ng-content></ng-content>
       </div>
 
-      <div class="modal-footer" *ngIf="footerTemplate">
+      <div
+        class="modal-footer"
+        [ngStyle]="{
+          background: footerBackgroundColor,
+          padding: footerPadding
+        }"
+        *ngIf="footerTemplate"
+      >
         <ng-container *ngTemplateOutlet="footerTemplate"></ng-container>
       </div>
     </div>
