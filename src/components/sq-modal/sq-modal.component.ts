@@ -83,9 +83,19 @@ export class SqModalComponent implements OnChanges, OnDestroy {
   @Input() buttonClose = true
  
   /**
+   * Determines the header padding.
+   */
+  @Input() headerPadding = ''
+ 
+  /**
    * Determines the body padding.
    */
   @Input() bodyPadding = '0 1rem'
+ 
+  /**
+   * Determines the footer padding.
+   */
+  @Input() footerPadding = ''
  
   /**
    * Determines the header background color.
