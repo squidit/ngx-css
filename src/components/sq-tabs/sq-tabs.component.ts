@@ -90,12 +90,17 @@ export class SqTabsComponent implements AfterViewInit, AfterViewChecked {
    * Lifecycle hook called after the view initialization.
    */
   async ngAfterViewInit() {
-    const activeTabs = this.tabs.filter((tab) => tab.active)
-    if (activeTabs.length === 0) {
-      await sleep(1000)
-      if (this.tabs.first) {
-        this.selectTab(this.tabs.first, 0)
-      }
+    const activeTab = {
+      tab: this.tabs.find((tab) => tab.active),
+      index: this.tabs.toArray().findIndex((tab) => tab.active),
+    }
+
+    await sleep(1000)
+
+    if (activeTab.tab?.title) {
+      this.selectTab(activeTab.tab, activeTab.index)
+    } else if (this.tabs.first) {
+      this.selectTab(this.tabs.first, 0)
     }
 
     this.total = this.tabs.toArray().length || 1
