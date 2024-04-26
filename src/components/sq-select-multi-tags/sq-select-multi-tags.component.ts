@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnChanges, Optional, Output, SimpleChanges, TrackByFunction, OnInit } from '@angular/core'
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnChanges, Optional, Output, SimpleChanges, TrackByFunction } from '@angular/core'
 import { TranslateService } from '@ngx-translate/core'
 import { OptionMulti } from '../../interfaces/option.interface'
 import { useMemo } from '../../helpers/memo.helper'
@@ -24,7 +24,7 @@ import { useMemo } from '../../helpers/memo.helper'
   styleUrls: ['./sq-select-multi-tags.component.scss'],
   providers: [],
 })
-export class SqSelectMultiTagsComponent implements OnChanges, OnInit {
+export class SqSelectMultiTagsComponent implements OnChanges {
   /**
    * The name attribute for the multi-tag select input.
    * 
@@ -288,13 +288,9 @@ export class SqSelectMultiTagsComponent implements OnChanges, OnInit {
     if (this.open && changes.hasOwnProperty('options')) {
       this.addMoreOptions(true)
     }
-  }
-
-  /**
-   * Lifecycle hook called after the view initialization to validate pre-selected values.
-   */
-  async ngOnInit() {
-    this.validate()
+    if (changes.hasOwnProperty('value') || changes.hasOwnProperty('minTags') || changes.hasOwnProperty('maxTags')) {
+      this.validate()
+    }
   }
 
   /**
