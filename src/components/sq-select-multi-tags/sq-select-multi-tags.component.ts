@@ -288,6 +288,9 @@ export class SqSelectMultiTagsComponent implements OnChanges {
     if (this.open && changes.hasOwnProperty('options')) {
       this.addMoreOptions(true)
     }
+    if (changes.hasOwnProperty('value') || changes.hasOwnProperty('minTags') || changes.hasOwnProperty('maxTags')) {
+      this.validate()
+    }
   }
 
   /**
