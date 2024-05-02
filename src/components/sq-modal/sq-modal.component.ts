@@ -16,6 +16,7 @@ import {
 import { sleep } from '../../helpers/sleep.helper'
 import { NavigationStart, Router } from '@angular/router'
 import { Subscription } from 'rxjs'
+import { GetWindow } from 'src/helpers/window.helper'
 
 /**
  * Represents a modal component with customizable options and event handling.
@@ -176,7 +177,7 @@ export class SqModalComponent implements OnChanges, OnDestroy {
   /**
    * Indicates the scroll position of the window.
    */
-  scrollY = window.scrollY
+  scrollY = this.getWindow?.window()?.scrollY
 
   /**
    * Creates an instance of `SqModalComponent`.
@@ -184,10 +185,10 @@ export class SqModalComponent implements OnChanges, OnDestroy {
    * @param {Document} documentImported - The injected Document object for DOM manipulation.
    * @param {Router} router - The Router service for programmatic navigation.
    */
-  constructor(@Inject(DOCUMENT) public documentImported: Document, public router: Router) {
+  constructor(@Inject(DOCUMENT) public documentImported: Document, public router: Router, public getWindow: GetWindow) {
     this.onKeydown = this.onKeydown.bind(this)
     this.document = documentImported || document
-    this.localized = new URL(window.location.href)
+    this.localized = new URL(this.getWindow.href())
   }
 
   /**
@@ -202,13 +203,13 @@ export class SqModalComponent implements OnChanges, OnDestroy {
         const body = this.document.getElementsByTagName('body')[0]
         const backdrop = this.document.getElementById('modal-backdrop') || this.document.createElement('div')
         if (this.open) {
-          this.scrollY = window.scrollY
+          this.scrollY = this.getWindow?.window()?.scrollY
           body.appendChild(modal.nativeElement)
           this.observeRouter()
           this.hasHeader = !!this.headerTemplate
           body.classList.add('block')
           modal.nativeElement.style.display = 'flex'
-          window.addEventListener('keydown', this.onKeydown)
+          this.getWindow?.window()?.addEventListener('keydown', this.onKeydown)
           this.modals = this.document.getElementsByClassName('modal open')
           await sleep(10)
           this.modalNumber = this.modals?.length || 0
@@ -256,8 +257,8 @@ export class SqModalComponent implements OnChanges, OnDestroy {
     const body = this.document.getElementsByTagName('body')[0]
     if (this.modalNumber <= 1) {
       body?.classList?.remove('block')
-      if (window.scrollY !== this.scrollY) {
-        window.scrollTo(0, this.scrollY)
+      if (this.getWindow?.window()?.scrollY !== this.scrollY) {
+        if(this.scrollY) this.getWindow?.window()?.scrollTo(0, this.scrollY)
       }
     }
     const backdrop = this.document.getElementById('modal-backdrop')
@@ -268,7 +269,7 @@ export class SqModalComponent implements OnChanges, OnDestroy {
     if (this.modalNumber <= 1) {
       backdrop?.parentNode?.removeChild(backdrop)
     }
-    window.removeEventListener('keydown', this.onKeydown)
+    this.getWindow?.window()?.removeEventListener('keydown', this.onKeydown)
   }
 
   /**

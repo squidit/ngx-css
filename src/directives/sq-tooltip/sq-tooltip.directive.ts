@@ -2,6 +2,7 @@ import { Directive, ElementRef, HostListener, Inject, Input, OnDestroy, OnInit, 
 import { NavigationEnd, Router } from '@angular/router'
 import { sleep } from '../../helpers/sleep.helper'
 import { DOCUMENT } from '@angular/common'
+import { GetWindow } from 'src/helpers/window.helper'
 
 /**
  * Angular directive for creating and managing tooltips.
@@ -59,7 +60,7 @@ export class SqTooltipDirective implements OnInit, OnDestroy {
   /**
    * Reference to the window object.
    */
-  window = window
+  window = this.getWindow.window()
 
   /**
    * Indicates whether the tooltip is open or closed. Used for internal control.
@@ -85,7 +86,8 @@ export class SqTooltipDirective implements OnInit, OnDestroy {
     private renderer: Renderer2,
     private router: Router,
     private viewContainerRef: ViewContainerRef,
-    @Inject(DOCUMENT) private documentImported: Document
+    @Inject(DOCUMENT) private documentImported: Document,
+    public getWindow: GetWindow
   ) {
     // Bind the hide function to the current instance.
     this.hide = this.hide.bind(this)
@@ -147,7 +149,11 @@ export class SqTooltipDirective implements OnInit, OnDestroy {
    * @returns {boolean} - True if the device supports touch events; otherwise, false.
    */
   isTouch(): boolean {
-    return 'ontouchstart' in window || navigator?.maxTouchPoints > 0
+    const window = this.getWindow.window()
+    if (window) {
+      return 'ontouchstart' in window || window.navigator.maxTouchPoints > 0
+    }
+    return false
   }
 
   /**
@@ -178,7 +184,7 @@ export class SqTooltipDirective implements OnInit, OnDestroy {
       } catch (e) {
         // Ignore error
       }
-      window.setTimeout(() => {
+      this.getWindow?.window()?.setTimeout(() => {
         try {
           this.renderer.removeChild(this.document.body, this.tooltipElement)
         }
@@ -280,7 +286,8 @@ export class SqTooltipDirective implements OnInit, OnDestroy {
       }
 
       this.renderer.setStyle(this.tooltipElement, 'left', `${left < 0 ? parseInt(parentCoords.left) : left}px`)
-      this.renderer.setStyle(this.tooltipElement, 'top', `${(top < 0 ? parseInt(parentCoords.bottom) + distance : top) + window.scrollY}px`)
+      const scrollY = this.getWindow?.window()?.scrollY ?? 0
+      this.renderer.setStyle(this.tooltipElement, 'top', `${(top < 0 ? parseInt(parentCoords.bottom) + distance : top) + scrollY}px`)
     }
   }
 }

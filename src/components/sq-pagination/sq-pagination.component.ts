@@ -1,15 +1,16 @@
-import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core'
+import { Component, EventEmitter, Input, NgZone, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core'
 import { useMemo } from '../../helpers/memo.helper'
 import { ActivatedRoute, Router } from '@angular/router'
 import { Subscription } from 'rxjs'
+import { GetWindow } from 'src/helpers/window.helper'
 
 /**
  * Represents a pagination component for navigating through pages.
- * 
+ *
  * Look the link about the component in original framework and the appearance
  *
  * @see {@link https://css.squidit.com.br/components/pagination}
- * 
+ *
  *  <div class='my-3' >
  *    <ul class="pagination" style='padding: 0; margin: 0;'>
  *      <li class="disabled">
@@ -97,7 +98,7 @@ export class SqPaginationComponent implements OnInit, OnChanges, OnDestroy {
    * @param {ActivatedRoute} route - The ActivatedRoute service for retrieving route information.
    * @param {Router} router - The Router service for programmatic navigation.
    */
-  constructor(private route: ActivatedRoute, private router: Router) { }
+  constructor(private route: ActivatedRoute, private router: Router, public getWindow: GetWindow, private ngZone: NgZone) { }
 
   /**
    * Initializes the component.
@@ -147,7 +148,7 @@ export class SqPaginationComponent implements OnInit, OnChanges, OnDestroy {
   mountQueryObservable() {
     this.routeObservable = this.route.queryParams.subscribe(search => {
       const searchParams = new URLSearchParams(search)
-      const newPageQuery = parseInt(searchParams.get('page') || '1', 10)
+      const newPageQuery = parseInt(searchParams.get('page') ?? '1', 10)
       if (newPageQuery !== this.page) {
         this.page = newPageQuery
       }
@@ -158,9 +159,11 @@ export class SqPaginationComponent implements OnInit, OnChanges, OnDestroy {
    * Destroys the query parameter observable and removes the 'page' query parameter from the URL.
    */
   destroyQueryObservable() {
-    const searchParams = new URLSearchParams(window.location.search)
+    const searchParams = new URLSearchParams(this.getWindow.window()?.location.search)
     searchParams.delete('page')
-    this.router.navigate([], { relativeTo: this.route, queryParams: { page: null }, queryParamsHandling: 'merge' })
+    this.ngZone.run(() => {
+      this.router.navigate([], { relativeTo: this.route, queryParams: { page: null }, queryParamsHandling: 'merge' })
+    })
     this.routeObservable?.unsubscribe()
   }
 
@@ -214,9 +217,11 @@ export class SqPaginationComponent implements OnInit, OnChanges, OnDestroy {
       return
     }
     if (this.useQueryString) {
-      const searchParams = new URLSearchParams(window.location.search)
+      const searchParams = new URLSearchParams(this.getWindow.window()?.location.search)
       searchParams.set('page', newPage.toString())
-      this.router.navigate([], { relativeTo: this.route, queryParams: { page: newPage }, queryParamsHandling: 'merge' })
+      this.ngZone.run(() => {
+        this.router.navigate([], { relativeTo: this.route, queryParams: { page: newPage }, queryParamsHandling: 'merge' })
+      })
     }
 
     this.page = newPage

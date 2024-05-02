@@ -1,4 +1,6 @@
-import { Injectable } from '@angular/core'
+import { GetWindow } from './window.helper'
+import { DOCUMENT } from '@angular/common'
+import { Inject, Injectable } from '@angular/core'
 
 /**
  * A utility service for working with colors in Angular applications.
@@ -8,7 +10,7 @@ import { Injectable } from '@angular/core'
  * @example
  * // Inject the ColorsHelper service and use its methods:
  * constructor(private colorsHelper: ColorsHelper) { }
- * 
+ *
  * // Or instance a new class
  * const colorsHelper = new ColorsHelper()
  *
@@ -20,15 +22,24 @@ import { Injectable } from '@angular/core'
 })
 export class ColorsHelper {
   /**
+   * Initializes a new instance of the `ColorsHelper` class.
+   * @param document
+   * @param getWindow
+   */
+  constructor(@Inject(DOCUMENT) private document: Document, public getWindow: GetWindow) {}
+  /**
    * Get the value of a CSS variable.
    *
    * @param {string} variableName - The name of the CSS variable (e.g., '--main-color').
    * @returns {string} The value of the CSS variable or the variableName if not found.
    */
   getCssVariableValue(variableName: string): string {
-    if (document?.documentElement) {
+    if (this.document?.documentElement) {
       const clearVar = variableName?.replace('var(', '')?.replace(')', '')?.trim()
-      return getComputedStyle(document?.documentElement).getPropertyValue(clearVar) || variableName
+      /**
+       * Get the value of the CSS variable from the document element.
+       */
+      return this.getWindow.window()?.getComputedStyle(this.document?.documentElement).getPropertyValue(clearVar) ?? variableName
     }
     return variableName
   }
@@ -50,7 +61,12 @@ export class ColorsHelper {
         .join('')
     }
 
-    const getColorChannel = (substring: string) => {
+    /**
+     * Retrieves the color channel value based on the given substring and amount.
+     * @param {string} substring - The substring representing the color channel.
+     * @returns {string} The color channel value as a string.
+     */
+    const getColorChannel = (substring: string): string => {
       let colorChannel = Math.max(Math.min(255, parseInt(substring, 16) + amount), 0).toString(16)
       if (colorChannel?.length < 2) {
         colorChannel = `0${colorChannel}`
