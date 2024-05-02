@@ -205,9 +205,10 @@ export class SqOverlayComponent implements OnChanges, OnDestroy {
 
   /**
    * Constructs an instance of SqOverlayComponent.
-   *
+   * @constructor
    * @param {Document} documentImported - The injected Document object for DOM manipulation.
    * @param {Router} router - The Router service for programmatic navigation.
+   * @param {GetWindow} getWindow - The GetWindow service for safely accessing the window object.
    */
   constructor(@Inject(DOCUMENT) public documentImported: Document, public router: Router, public getWindow: GetWindow) {
     this.onKeydown = this.onKeydown.bind(this)
@@ -288,7 +289,7 @@ export class SqOverlayComponent implements OnChanges, OnDestroy {
     if (this.modalNumber <= 1) {
       body?.classList?.remove('block')
       if (window.scrollY !== this.scrollY) {
-        if(this.scrollY) this.getWindow?.window()?.scrollTo(0, this.scrollY)
+        if (this.scrollY) this.getWindow?.window()?.scrollTo(0, this.scrollY)
       }
     }
     const backdrop = this.document.getElementById('modal-backdrop')

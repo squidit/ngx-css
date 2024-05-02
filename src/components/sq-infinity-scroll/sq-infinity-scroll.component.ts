@@ -72,8 +72,9 @@ export class SqInfinityComponent implements AfterViewInit, AfterContentChecked, 
 
   /**
    * Creates an instance of SqInfinityComponent.
-   *
+   * @constructor
    * @param {Document} documentImported Reference to the Document object for interacting with the DOM.
+   * @param {GetWindow} getWindow Reference to the GetWindow service for safely accessing the window object.
    */
   constructor(@Inject(DOCUMENT) public documentImported: Document, public getWindow: GetWindow) {
     this.document = this.documentImported || document

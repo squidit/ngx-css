@@ -18,19 +18,16 @@ import { Injectable, Inject } from '@angular/core'
  * const touch = this.getWindow.touch();]
  * @returns {void}
  */
-
-/**
- * This service provides methods to safely access the window object and its properties in an SSR environment.
- */
 @Injectable({
   providedIn: 'root',
 })
 export class GetWindow {
   /**
-   * @param document - We inject the DOCUMENT to get a reference to the window object in a way that's safe for SSR.
-   * @returns {void}
+   * Initializes a new instance of the `GetWindow` class.
+   * @constructor
+   * @param {Document} document - The injected DOCUMENT to get a reference to the window object in a way that's safe for SSR.
    */
-  constructor(@Inject(DOCUMENT) private document: Document){}
+  constructor(@Inject(DOCUMENT) private document: Document) { }
 
   /**
    * Allow to get the window object inside ssr

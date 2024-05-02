@@ -74,12 +74,13 @@ export class SqTooltipDirective implements OnInit, OnDestroy {
 
   /**
    * Constructs a new SqTooltipDirective.
-   *
+   * @constructor
    * @param {ElementRef} el - The ElementRef of the host element.
    * @param {Renderer2} renderer - The Renderer2 for DOM manipulation.
    * @param {Router} router - The Angular Router service.
    * @param {ViewContainerRef} viewContainerRef - The ViewContainerRef for the tooltip.
    * @param {Document} documentImported - The injected Document object for DOM manipulation.
+   * @param {GetWindow} getWindow - The GetWindow service for accessing the window object.
    */
   constructor(
     private el: ElementRef,

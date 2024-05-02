@@ -94,9 +94,11 @@ export class SqPaginationComponent implements OnInit, OnChanges, OnDestroy {
 
   /**
    * Initializes a new instance of the `SqPaginationComponent` class.
-   *
+   * @constructor
    * @param {ActivatedRoute} route - The ActivatedRoute service for retrieving route information.
    * @param {Router} router - The Router service for programmatic navigation.
+   * @param {GetWindow} getWindow - The GetWindow service for accessing the window object.
+   * @param {NgZone} ngZone - The NgZone service for running code outside Angular's zone.
    */
   constructor(private route: ActivatedRoute, private router: Router, public getWindow: GetWindow, private ngZone: NgZone) { }
 

@@ -23,10 +23,12 @@ import { Inject, Injectable } from '@angular/core'
 export class ColorsHelper {
   /**
    * Initializes a new instance of the `ColorsHelper` class.
-   * @param document
-   * @param getWindow
+   * @constructor
+   * @param {Document} document - The injected DOCUMENT to get a reference to the window object in a way that's safe for SSR.
+   * @param {GetWindow} getWindow - The injected GetWindow service to get the window object.
    */
-  constructor(@Inject(DOCUMENT) private document: Document, public getWindow: GetWindow) {}
+  constructor(@Inject(DOCUMENT) private document: Document, public getWindow: GetWindow) { }
+
   /**
    * Get the value of a CSS variable.
    *
@@ -36,9 +38,6 @@ export class ColorsHelper {
   getCssVariableValue(variableName: string): string {
     if (this.document?.documentElement) {
       const clearVar = variableName?.replace('var(', '')?.replace(')', '')?.trim()
-      /**
-       * Get the value of the CSS variable from the document element.
-       */
       return this.getWindow.window()?.getComputedStyle(this.document?.documentElement).getPropertyValue(clearVar) ?? variableName
     }
     return variableName
@@ -61,11 +60,6 @@ export class ColorsHelper {
         .join('')
     }
 
-    /**
-     * Retrieves the color channel value based on the given substring and amount.
-     * @param {string} substring - The substring representing the color channel.
-     * @returns {string} The color channel value as a string.
-     */
     const getColorChannel = (substring: string): string => {
       let colorChannel = Math.max(Math.min(255, parseInt(substring, 16) + amount), 0).toString(16)
       if (colorChannel?.length < 2) {
