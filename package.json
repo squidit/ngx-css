@@ -20,7 +20,7 @@
     "test:application": "ng test application",
     "lint:application": "ng lint application",
     "start:application": "ng serve application",
-    "dev:ssr": "ng run application:serve-ssr",
+    "dev:ssr": "ng run application:serve",
     "serve:ssr": "node dist/application/server/main.js",
     "build:ssr": "ng build && ng run application:server",
     "prerender": "ng run application:prerender"
@@ -36,6 +36,8 @@
     "@angular/platform-browser-dynamic": "^17.3.5",
     "@angular/platform-server": "^17.3.5",
     "@angular/router": "^17.3.5",
+    "@angular/ssr": "^17.3.7",
+    "@nguniversal/express-engine": "^7.0.2",
     "@ngx-translate/core": "^15.0.0",
     "@ngx-translate/http-loader": "^8.0.0",
     "@squidit/css": "latest",
