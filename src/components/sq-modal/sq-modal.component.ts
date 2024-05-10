@@ -16,7 +16,7 @@ import {
 import { sleep } from '../../helpers/sleep.helper'
 import { NavigationStart, Router } from '@angular/router'
 import { Subscription } from 'rxjs'
-import { GetWindow } from 'src/helpers/window.helper'
+import { GetWindow } from '../../helpers/window.helper'
 
 /**
  * Represents a modal component with customizable options and event handling.

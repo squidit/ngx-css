@@ -2,7 +2,7 @@ import { Directive, ElementRef, HostListener, Inject, Input, OnDestroy, OnInit, 
 import { NavigationEnd, Router } from '@angular/router'
 import { sleep } from '../../helpers/sleep.helper'
 import { DOCUMENT } from '@angular/common'
-import { GetWindow } from 'src/helpers/window.helper'
+import { GetWindow } from '../../helpers/window.helper'
 
 /**
  * Angular directive for creating and managing tooltips.

@@ -1,6 +1,6 @@
 import { DOCUMENT } from '@angular/common'
 import { AfterContentChecked, AfterViewInit, Component, ElementRef, EventEmitter, Inject, Input, OnDestroy, Output, ViewChild } from '@angular/core'
-import { GetWindow } from 'src/helpers/window.helper'
+import { GetWindow } from '../../helpers/window.helper'
 
 /**
  * Represents the SqInfinityComponent, a component for infinite scrolling.

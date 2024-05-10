@@ -1,7 +1,6 @@
 import { isPlatformServer, DOCUMENT } from '@angular/common'
 import { Component, Inject, InjectionToken, OnInit, PLATFORM_ID } from '@angular/core'
-import { GetWindow } from 'src/helpers/window.helper'
-
+import { GetWindow } from '@squidit/ngx-css'
 
 @Component({
   selector: 'main-header',
