@@ -22,8 +22,10 @@ export class HeaderComponent implements OnInit {
 
   toggleTheme() {
     this.theme = this.theme === 'dark' ? 'light' : 'dark'
-    const html = document.getElementsByTagName('html')[0]
-    html.classList.value = `${this.theme}`
-    localStorage.setItem('theme', this.theme)
+    if(!this.isServer) {
+      const html = document.getElementsByTagName('html')[0]
+      html.classList.value = `${this.theme}`
+      localStorage.setItem('theme', this.theme)
+    }
   }
 }

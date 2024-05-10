@@ -26,8 +26,10 @@ ngOnInit() {
 
   toggleTheme() {
     this.theme = this.theme === 'dark' ? 'light' : 'dark'
-    const html = this.document.getElementsByTagName('html')[0]
-    html.classList.value = `${this.theme}`
-    localStorage.setItem('theme', this.theme)
+    if(!this.isServer) {
+      const html = this.document.getElementsByTagName('html')[0]
+      html.classList.value = `${this.theme}`
+      localStorage.setItem('theme', this.theme)
+    }
   }
 }
