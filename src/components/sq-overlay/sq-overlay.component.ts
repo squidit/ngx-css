@@ -16,7 +16,7 @@ import {
 import { sleep } from '../../helpers/sleep.helper'
 import { NavigationStart, Router } from '@angular/router'
 import { Subscription } from 'rxjs'
-import { GetWindow } from 'src/helpers/window.helper'
+import { GetWindow } from '../../helpers/window.helper'
 
 /**
  * Represents an overlay component, an abstraction with differente style but still a modal.

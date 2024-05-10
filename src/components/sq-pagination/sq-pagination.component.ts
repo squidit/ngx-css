@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, NgZone, OnChanges, OnDestroy, OnInit, O
 import { useMemo } from '../../helpers/memo.helper'
 import { ActivatedRoute, Router } from '@angular/router'
 import { Subscription } from 'rxjs'
-import { GetWindow } from 'src/helpers/window.helper'
+import { GetWindow } from '../../helpers/window.helper'
 
 /**
  * Represents a pagination component for navigating through pages.
