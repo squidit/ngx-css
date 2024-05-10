@@ -16,10 +16,10 @@ export class AppComponent implements OnInit {
   public getWindow: GetWindow
 ) {}
 
-theme = !this.isServer && window.matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light'
+theme = this.getWindow.window()?.matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light'
 
 ngOnInit() {
-    this.theme = !this.isServer && localStorage.getItem('theme') || this.theme
+    this.theme = localStorage?.getItem('theme') || this.theme
     const html = this.document.getElementsByTagName('html')[0]
     html.classList.value = `${this.theme}`
   }
