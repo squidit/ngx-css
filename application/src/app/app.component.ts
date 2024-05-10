@@ -1,8 +1,6 @@
 import { DOCUMENT, isPlatformServer } from '@angular/common'
 import { Component, Inject, InjectionToken, OnInit, PLATFORM_ID } from '@angular/core'
-import { GetWindow } from '../../../src/helpers/window.helper'
-
-
+import { GetWindow } from 'src/helpers/window.helper'
 
 @Component({
   selector: 'app-root',
