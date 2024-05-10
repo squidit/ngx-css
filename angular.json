@@ -23,7 +23,7 @@
             "allowedCommonJsDependencies": [
               "lodash.isequal"
             ],
-            "outputPath": "dist/application",
+            "outputPath": "dist/application/browser",
             "index": "application/src/index.html",
             "main": "application/src/main.ts",
             "polyfills": [
@@ -81,10 +81,10 @@
           },
           "configurations": {
             "production": {
-              "browserTarget": "application:build:production"
+              "buildTarget": "application:build:production"
             },
             "development": {
-              "browserTarget": "application:build:development"
+              "buildTarget": "application:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -92,7 +92,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "application:build"
+            "buildTarget": "application:build"
           }
         },
         "test": {
@@ -126,6 +126,61 @@
           "options": {
             "lintFilePatterns": ["application/src/**/*.{ts,html,js,json}"]
           }
+        },
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "dist/application/server",
+            "main": "application/server.ts",
+            "tsConfig": "application/tsconfig.server.json",
+            "inlineStyleLanguage": "scss"
+          },
+          "configurations": {
+            "production": {
+              "outputHashing": "media"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "sourceMap": true,
+              "extractLicenses": false,
+              "vendorChunk": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve-ssr": {
+          "builder": "@nguniversal/builders:ssr-dev-server",
+          "configurations": {
+            "development": {
+              "buildTarget": "application:build:development",
+              "serverTarget": "application:server:development"
+            },
+            "production": {
+              "buildTarget": "application:build:production",
+              "serverTarget": "application:server:production"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "prerender": {
+          "builder": "@nguniversal/builders:prerender",
+          "options": {
+            "routes": [
+              "/"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "application:build:production",
+              "serverTarget": "application:server:production"
+            },
+            "development": {
+              "buildTarget": "application:build:development",
+              "serverTarget": "application:server:development"
+            }
+          },
+          "defaultConfiguration": "production"
         }
       }
     },
