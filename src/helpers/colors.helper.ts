@@ -38,7 +38,7 @@ export class ColorsHelper {
   getCssVariableValue(variableName: string): string {
     if (this.document?.documentElement) {
       const clearVar = variableName?.replace('var(', '')?.replace(')', '')?.trim()
-      return this.getWindow.window()?.getComputedStyle(this.document?.documentElement).getPropertyValue(clearVar) ?? variableName
+      return this.getWindow.window()?.getComputedStyle(this.document?.documentElement).getPropertyValue(clearVar) || variableName
     }
     return variableName
   }
