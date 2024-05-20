@@ -1,7 +1,7 @@
+import { DOCUMENT } from '@angular/common'
 import { Directive, ElementRef, HostListener, Inject, Input, OnDestroy, OnInit, Renderer2, TemplateRef, ViewContainerRef } from '@angular/core'
 import { NavigationEnd, Router } from '@angular/router'
 import { sleep } from '../../helpers/sleep.helper'
-import { DOCUMENT } from '@angular/common'
 import { GetWindow } from '../../helpers/window.helper'
 
 /**
@@ -152,7 +152,8 @@ export class SqTooltipDirective implements OnInit, OnDestroy {
   isTouch(): boolean {
     const window = this.getWindow.window()
     if (window) {
-      return 'ontouchstart' in window || window.navigator.maxTouchPoints > 0
+      const maxTouchPoints = navigator.maxTouchPoints & 0xff
+      return 'ontouchstart' in window || maxTouchPoints > 0
     }
     return false
   }
