@@ -239,9 +239,9 @@ export class SqButtonComponent {
    */
   setHoverBg() {
     if (this.invertedHover) {
-      return this.setHover(this.textColor !== 'transparent' ? this.textColor || '' : 'var(--white-html)')
+      return this.setHover(this.textColor !== 'transparent' ? this.textColor || '' : 'var(--text_color)')
     }
-    return this.setHover(this.color !== 'transparent' ? this.color : 'var(--white-html)')
+    return this.setHover(this.color !== 'transparent' ? this.color : 'var(--color_bg_button_inverse-hover)')
   }
 
   /**
@@ -250,9 +250,9 @@ export class SqButtonComponent {
    */
   setHoverText() {
     if (this.invertedHover) {
-      return this.setHover(this.color !== 'transparent' ? this.color : 'var(--white-html)')
+      return this.setHover(this.color !== 'transparent' ? this.color : 'var(--color_bg_button_inverse-hover)')
     }
-    return this.setHover(this.textColor !== 'transparent' ? this.textColor || '' : 'var(--white-html)')
+    return this.setHover(this.textColor !== 'transparent' ? this.textColor || '' : 'var(--text_color)')
   }
 
   /**
