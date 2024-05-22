@@ -60,6 +60,15 @@ export class ColorsHelper {
         .join('')
     }
 
+    const isHexColor = (value: string): boolean => {
+      const hexColorRegex = /^([a-fA-F0-9]{3}|[a-fA-F0-9]{6})$/
+      return hexColorRegex.test(value)
+    }
+
+    if (!isHexColor(colorWithoutHash)) {
+      return colorWithoutHash
+    }
+
     const getColorChannel = (substring: string): string => {
       let colorChannel = Math.max(Math.min(255, parseInt(substring, 16) + amount), 0).toString(16)
       if (colorChannel?.length < 2) {
