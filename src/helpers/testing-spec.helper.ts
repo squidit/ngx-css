@@ -140,7 +140,7 @@ export function setFieldElementValue(
   // Dispatch an `input` or `change` fake event
   // so Angular form bindings take notice of the change.
   const isSelect = element instanceof HTMLSelectElement
-  dispatchFakeEvent(element, isSelect ? 'change' : 'input', isSelect ? false : true)
+  dispatchFakeEvent(element, isSelect ? 'change' : 'input', !isSelect)
 }
 
 /**
