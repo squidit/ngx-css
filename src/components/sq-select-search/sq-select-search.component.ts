@@ -151,17 +151,17 @@ export class SqSelectSearchComponent implements OnChanges {
   @Input() tooltipIcon = ''
 
   /**
-   * Show cickableIcon for the search-based select input.
+   * Show clickableIcon for the search-based select input.
    */
   @Input() showClickableIcon = false
 
   /**
-   * Set cickableIcon icon for the search-based select input.
+   * Set clickableIcon icon for the search-based select input.
    */
   @Input() clickableIcon = ''
 
   /**
-   * Set cickableIcon color for the search-based select input.
+   * Set clickableIcon color for the search-based select input.
    */
   @Input() clickableIconColor = ''
 
