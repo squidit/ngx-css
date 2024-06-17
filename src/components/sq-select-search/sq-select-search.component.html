@@ -28,7 +28,7 @@
       class="ml-1"
       [icon]="clickableIcon"
       [color]="clickableIconColor"
-      (emitClick)="emitIconClick($event)"
+      (emitClick)="clickableIconAction.emit($event)"
     ></sq-clickable-icon>
   </label>
   <div

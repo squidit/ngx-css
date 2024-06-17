@@ -1,7 +1,7 @@
 <sq-button
   [buttonAsLink]="true"
   [noPadding]="true"
-  (emitClick)="executeFunction($event)"
+  (emitClick)="emitClick.emit($event)"
 >
   <span
     [style.fontSize]="size"

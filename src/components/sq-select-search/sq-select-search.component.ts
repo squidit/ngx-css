@@ -366,12 +366,5 @@ export class SqSelectSearchComponent implements OnChanges {
       this.changeDetector.detectChanges()
     }
   }
-  
-  /**
-   * Executes a function when the icon is clicked.
-   * @param event - The MouseEvent associated with the click event.
-   */
-  emitIconClick(event: MouseEvent) {
-    this.clickableIconAction.emit(event)
-  }
+
 }

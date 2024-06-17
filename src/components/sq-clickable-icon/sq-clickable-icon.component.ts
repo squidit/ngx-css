@@ -21,7 +21,7 @@ export class SqClickableIconComponent {
   /**
    * The clickable icon size.
    */
-  @Input() size = '14px'
+  @Input() size = '1rem'
 
   /**
    * The clickable icon color.
@@ -32,13 +32,5 @@ export class SqClickableIconComponent {
    * Event emitter for when the icon is clicked.
    */
   @Output() emitClick: EventEmitter<MouseEvent> = new EventEmitter()
-
-  /**
-   * Executes a function when the icon is clicked.
-   * @param event - The MouseEvent associated with the click event.
-   */
-  executeFunction(event: MouseEvent) {
-    this.emitClick.emit(event)
-  }
 
 }
