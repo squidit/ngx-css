@@ -4,8 +4,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core'
  * Represents the SqClickableIconComponent, a customizable clickable icon component.
  *
  * @example
- * <sq-clickable-icon type="button" color="pink" [loading]="false" (emitClick)="onClick($event)">
- *   Click Me
+ * <sq-clickable-icon (emitClick)="onClick($event)">
  * </sq-clickable-icon>
  */
 @Component({
