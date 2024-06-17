@@ -17,6 +17,7 @@ export * from './components/sq-tabs/sq-tabs.component'
 export * from './components/sq-tag/sq-tag.component'
 export * from './components/sq-tooltip/sq-tooltip.component'
 
+export * from './components/sq-clickable-icon/sq-clickable-icon.component'
 export * from './components/sq-countdown/sq-countdown.component'
 export * from './components/sq-input-date/sq-input-date.component'
 export * from './components/sq-input-file/sq-input-file.component'

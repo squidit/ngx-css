@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnChanges, Optional, Output, SimpleChanges, TrackByFunction } from '@angular/core'
 import { TranslateService } from '@ngx-translate/core'
-import { Option } from '../../interfaces/option.interface'
 import { useMemo } from '../../helpers/memo.helper'
+import { Option } from '../../interfaces/option.interface'
 
 /**
  * Represents a search-based select component.
@@ -149,6 +149,26 @@ export class SqSelectSearchComponent implements OnChanges {
    * Tooltip icon for the search-based select input.
    */
   @Input() tooltipIcon = ''
+
+  /**
+   * Show cickableIcon for the search-based select input.
+   */
+  @Input() showClickableIcon = false
+
+  /**
+   * Set cickableIcon icon for the search-based select input.
+   */
+  @Input() clickableIcon = ''
+
+  /**
+   * Set cickableIcon color for the search-based select input.
+   */
+  @Input() clickableIconColor = ''
+
+  /**
+   * Event emitted when the ClickableIcon is clicked.
+   */
+  @Output() clickableIconAction: EventEmitter<MouseEvent> = new EventEmitter()
 
   /**
    * Event emitted when the selected value changes.
@@ -345,5 +365,13 @@ export class SqSelectSearchComponent implements OnChanges {
       this.loadingScroll = false
       this.changeDetector.detectChanges()
     }
-  } 
+  }
+  
+  /**
+   * Executes a function when the icon is clicked.
+   * @param event - The MouseEvent associated with the click event.
+   */
+  executeIconFunction(event: MouseEvent) {
+    this.clickableIconAction.emit(event)
+  }
 }

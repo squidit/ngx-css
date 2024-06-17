@@ -1,0 +1,9 @@
+<div
+  class="sq-clickable-icon"
+  [style.color]="color ? color : 'var(--purple-40)'"
+  [style.fontSize]="size"
+  (click)="executeFunction($event)"
+>
+  <div *ngIf="icon" [innerHtml]="icon | universalSafe"></div>
+  <i class="fa-shard fa-solid fa-compass" *ngIf="!icon"></i>
+</div>

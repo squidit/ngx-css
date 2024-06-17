@@ -23,6 +23,13 @@
       [color]="tooltipColor"
       [icon]="tooltipIcon"
     ></sq-tooltip>
+    <sq-clickable-icon
+      *ngIf="showClickableIcon"
+      class="ml-1"
+      [icon]="clickableIcon"
+      [color]="clickableIconColor"
+      (emitClick)="executeIconFunction($event)"
+    ></sq-clickable-icon>
   </label>
   <div
     [class]="'input-fake col  border-' + borderColor"
