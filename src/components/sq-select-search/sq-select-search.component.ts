@@ -151,6 +151,11 @@ export class SqSelectSearchComponent implements OnChanges {
   @Input() tooltipIcon = ''
 
   /**
+   * Indicates whether to apply the text-ellipsis class to limit the text and add an ellipsis.
+   */
+  @Input() textEllipsis = false
+
+  /**
    * Event emitted when the selected value changes.
    */
   @Output() valueChange: EventEmitter<Option> = new EventEmitter()

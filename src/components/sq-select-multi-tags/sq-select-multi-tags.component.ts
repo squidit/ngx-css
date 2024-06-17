@@ -173,6 +173,11 @@ export class SqSelectMultiTagsComponent implements OnChanges {
   @Input() tooltipIcon = ''
 
   /**
+   * Indicates whether to apply the text-ellipsis class to limit the text and add an ellipsis.
+   */
+  @Input() textEllipsis = false
+
+  /**
    * Event emitted when the selected values change.
    */
   @Output() valueChange: EventEmitter<Array<OptionMulti>> = new EventEmitter()

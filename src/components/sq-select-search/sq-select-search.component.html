@@ -52,8 +52,8 @@
         <sq-loader></sq-loader>
       </div>
       <span *ngIf="!value">{{ placeholder }}</span>
-      <div class="input-fake-content-text" *ngIf="value">
-        <span class="text" *ngIf="value">
+      <div class="input-fake-content-text" [ngClass]="{ 'text-ellipsis mr-1': textEllipsis }" *ngIf="value">
+        <span class="text">
           {{ value!.label }}
         </span>
       </div>
@@ -116,6 +116,6 @@
 </div>
 <ng-template #option let-opt="opt" let-i="i">
   <li (click)="emit(opt)">
-    <span class="text m-0 display-inline-block">{{ opt?.label }}</span>
+    <span class="text m-0 display-inline-block" [ngClass]="{ 'text-ellipsis': textEllipsis }">{{ opt?.label }}</span>
   </li>
 </ng-template>

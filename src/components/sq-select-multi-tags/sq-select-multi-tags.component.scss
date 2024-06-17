@@ -160,4 +160,8 @@
       max-height: 9999px;
     }
   }
+
+  .option.no-wrap {
+    flex-wrap: nowrap;
+  }
 }

@@ -56,7 +56,7 @@
         <span *ngIf="!value?.length || !showInside">{{ placeholder }}</span>
         <div class="input-fake-content-text" *ngIf="showInside && value?.length">
           <span class="tag" *ngFor="let opt of value; let i = index" (click)="removeItem(opt, $event)">
-            {{ opt?.label }} <i *ngIf="!readonly" class="fas fa-times"></i>
+            <p [ngClass]="{ 'text-ellipsis': textEllipsis }">{{ opt?.label }}</p> <i *ngIf="!readonly" class="fas fa-times"></i>
           </span>
         </div>
         <span *ngIf="value?.length" class="badge">{{ value!.length }}</span>
@@ -119,7 +119,7 @@
     {{ error && !externalError ? error : '' }}
   </div>
   <ng-template #option let-opt="opt" let-i="i">
-    <li>
+    <li class="option" [ngClass]="{'no-wrap': textEllipsis}">
       <i
         class="icon-collapse fas fa-chevron-down"
         [ngClass]="{ 'fa-rotate-by': !opt.open }"
@@ -137,7 +137,7 @@
         [indeterminate]="verifyIfHasChildrenInValue(opt, value)"
         (valueChange)="emit(opt, $event.checked)"
       ></sq-selector>
-      <span class="text m-0 display-inline-block" [ngClass]="{ 'cursor-pointer': opt?.children?.length }" (click)="handleCollapse(opt)">{{
+      <span class="text m-0 display-inline-block" [ngClass]="{ 'cursor-pointer': opt?.children?.length, 'text-ellipsis': textEllipsis }" (click)="handleCollapse(opt)">{{
         opt?.label
       }}</span>
       <ul class="children" *ngIf="opt?.children?.length" [ngClass]="{open: !opt?.disabled && opt?.open}">
