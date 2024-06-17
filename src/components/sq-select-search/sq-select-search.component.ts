@@ -151,22 +151,22 @@ export class SqSelectSearchComponent implements OnChanges {
   @Input() tooltipIcon = ''
 
   /**
-   * Show clickableIcon for the search-based select input.
+   * Indicates whether the clickable icon should be displayed.
    */
   @Input() showClickableIcon = false
 
   /**
-   * Set clickableIcon icon for the search-based select input.
+   * Specifies the icon for the clickable icon component.
    */
   @Input() clickableIcon = ''
 
   /**
-   * Set clickableIcon color for the search-based select input.
+   * Specifies the color for the clickable icon component.
    */
   @Input() clickableIconColor = ''
 
   /**
-   * Event emitted when the ClickableIcon is clicked.
+   * Event emitted when the clickable icon is clicked.
    */
   @Output() clickableIconAction: EventEmitter<MouseEvent> = new EventEmitter()
 
@@ -371,7 +371,7 @@ export class SqSelectSearchComponent implements OnChanges {
    * Executes a function when the icon is clicked.
    * @param event - The MouseEvent associated with the click event.
    */
-  executeIconFunction(event: MouseEvent) {
+  emitIconClick(event: MouseEvent) {
     this.clickableIconAction.emit(event)
   }
 }

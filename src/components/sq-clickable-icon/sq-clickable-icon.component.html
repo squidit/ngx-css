@@ -1,11 +1,13 @@
-<div
-  role="button"
-  aria-label="Clickable Icon"
-  class="sq-clickable-icon"
-  [style.color]="color ? color : 'var(--purple-40)'"
-  [style.fontSize]="size"
-  (click)="executeFunction($event)"
+<sq-button
+  [buttonAsLink]="true"
+  [noPadding]="true"
+  (emitClick)="executeFunction($event)"
 >
-  <div *ngIf="icon" [innerHtml]="icon | universalSafe"></div>
-  <i class="fa-shard fa-solid fa-compass" *ngIf="!icon"></i>
-</div>
+  <span
+    [style.fontSize]="size"
+    [style.color]="color ? color : 'var(--purple-40)'"
+  >
+    <div *ngIf="icon" [innerHtml]="icon | universalSafe"></div>
+    <i class="fa-shard fa-solid fa-compass" *ngIf="!icon"></i>
+  </span>
+</sq-button>
