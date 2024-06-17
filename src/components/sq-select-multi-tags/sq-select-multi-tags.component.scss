@@ -140,11 +140,10 @@
     width: 100%;
 
     li {
-      margin: 0;
-      min-height: 30px;
-      flex-flow: row wrap;
+      margin: 0 0 0.5rem;
       display: flex;
-      align-items: center;
+      flex-wrap: nowrap;
+      align-items: baseline;
       justify-content: flex-start;
       transition: var(--transition);
     }
