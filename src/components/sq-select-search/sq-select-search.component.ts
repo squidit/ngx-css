@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnChanges, Optional, Output, SimpleChanges, TrackByFunction } from '@angular/core'
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, ElementRef, EventEmitter, Input, OnChanges, Optional, Output, SimpleChanges, TemplateRef, TrackByFunction } from '@angular/core'
 import { TranslateService } from '@ngx-translate/core'
-import { Option } from '../../interfaces/option.interface'
 import { useMemo } from '../../helpers/memo.helper'
+import { Option } from '../../interfaces/option.interface'
 
 /**
  * Represents a search-based select component.
@@ -44,6 +44,12 @@ export class SqSelectSearchComponent implements OnChanges {
    * The label for the search-based select input.
    */
   @Input() label = ''
+
+  /**
+   * The label template for the search-based select input.
+   */
+  @ContentChild('labelTemplate')
+  labelTemplate: TemplateRef<HTMLElement> | null = null
 
   /**
    * Custom CSS class for styling the component.
