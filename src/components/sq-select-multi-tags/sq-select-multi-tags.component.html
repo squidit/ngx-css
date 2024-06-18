@@ -1,13 +1,16 @@
 <div class="wrapper-all-inside-input {{ customClass }}">
   <label
-    class="display-flex"
-    *ngIf="label?.length || tooltipMessage"
+    class="display-flex align-items-center"
+    *ngIf="label?.length || labelTemplate || tooltipMessage"
     [ngClass]="{
       readonly: readonly || isMaxTags
     }"
     [for]="id"
   >
-    <div *ngIf="label" [ngStyle]="{ 'color': labelColor }" [innerHtml]="label | universalSafe"></div>
+    <div *ngIf="label && !labelTemplate" [ngStyle]="{ 'color': labelColor }" [innerHtml]="label | universalSafe"></div>
+    <span *ngIf="labelTemplate">
+      <ng-container *ngTemplateOutlet="labelTemplate"></ng-container>
+    </span>
     <sq-tooltip
       *ngIf="tooltipMessage"
       class="ml-1"
