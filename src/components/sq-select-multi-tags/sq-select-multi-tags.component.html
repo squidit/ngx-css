@@ -123,27 +123,29 @@
   </div>
   <ng-template #option let-opt="opt" let-i="i">
     <li>
-      <i
-        class="icon-collapse fas fa-chevron-down"
-        [ngClass]="{ 'fa-rotate-by': !opt.open }"
-        [ngStyle]="{ color: !opt?.children?.length || opt?.disabled ? 'transparent' : '' }"
-        (click)="handleCollapse(opt)"
-        style="--fa-rotate-angle: -90deg"
-        *ngIf="verifyIfOptionsHasChildren(options)"
-      ></i>
-      <sq-selector
-        [style.minWidth]="'auto'"
-        [id]="(id || name) + '-checkbox-' + opt?.value + '-' + i"
-        [name]="name + '-checkbox'"
-        [value]="opt?.value"
-        [disabled]="opt?.disabled"
-        [checked]="findItemInValue(opt, value)"
-        [indeterminate]="verifyIfHasChildrenInValue(opt, value)"
-        (valueChange)="emit(opt, $event.checked)"
-      ></sq-selector>
-      <span class="text m-0 display-inline-block" [ngClass]="{ 'cursor-pointer': opt?.children?.length }" (click)="handleCollapse(opt)">{{
-        opt?.label
-      }}</span>
+      <div class="label">
+        <i
+          class="icon-collapse fas fa-chevron-down"
+          [ngClass]="{ 'fa-rotate-by': !opt.open }"
+          [ngStyle]="{ color: !opt?.children?.length || opt?.disabled ? 'transparent' : '' }"
+          (click)="handleCollapse(opt)"
+          style="--fa-rotate-angle: -90deg"
+          *ngIf="verifyIfOptionsHasChildren(options)"
+        ></i>
+        <sq-selector
+          [style.minWidth]="'auto'"
+          [id]="(id || name) + '-checkbox-' + opt?.value + '-' + i"
+          [name]="name + '-checkbox'"
+          [value]="opt?.value"
+          [disabled]="opt?.disabled"
+          [checked]="findItemInValue(opt, value)"
+          [indeterminate]="verifyIfHasChildrenInValue(opt, value)"
+          (valueChange)="emit(opt, $event.checked)"
+        ></sq-selector>
+        <span class="text m-0 display-inline-block" [ngClass]="{ 'cursor-pointer': opt?.children?.length }" (click)="handleCollapse(opt)">{{
+          opt?.label
+        }}</span>
+      </div>
       <ul class="children" *ngIf="opt?.children?.length" [ngClass]="{open: !opt?.disabled && opt?.open}">
         <ng-container *ngFor="let child of opt?.children | searchValidValues:searchText; let j = index; trackBy: trackByOptValue">
           <ng-template *ngTemplateOutlet="option; context: { opt: child, i: j }"></ng-template>

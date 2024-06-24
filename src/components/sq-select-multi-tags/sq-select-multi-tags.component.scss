@@ -140,12 +140,15 @@
     width: 100%;
 
     li {
-      margin: 0 0 0.5rem;
-      display: flex;
-      flex-wrap: nowrap;
-      align-items: baseline;
-      justify-content: flex-start;
-      transition: var(--transition);
+      display: grid;
+      .label {
+        margin: 0 0 0.5rem;
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: baseline;
+        justify-content: flex-start;
+        transition: var(--transition);
+      }
     }
   }
 
