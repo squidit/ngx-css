@@ -208,6 +208,12 @@ export class SqInputComponent {
   rightLabel: TemplateRef<HTMLElement> | null = null
 
   /**
+   * Reference to a label template.
+   */
+  @ContentChild('labelTemplate')
+  labelTemplate: TemplateRef<HTMLElement> | null = null
+
+  /**
    * The internal value of the input element.
    */
   _value: any = ''
