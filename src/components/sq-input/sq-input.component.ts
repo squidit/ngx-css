@@ -201,7 +201,7 @@ export class SqInputComponent {
   @Output() valueChange: EventEmitter<any> = new EventEmitter()
 
   /**
-   * Event emitter for input value changes.
+   * Event emitter for campaign tip click.
    */
   @Output() clickCampaignTip: EventEmitter<MouseEvent> = new EventEmitter()
 
