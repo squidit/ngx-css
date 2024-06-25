@@ -171,6 +171,11 @@ export class SqInputComponent {
   @Input() inputMode = ''
 
   /**
+   * Enable campaign tip.
+   */
+  @Input() campaignTip = false
+
+  /**
    * Event emitter for keydown events.
    */
   @Output() keyPressDown: EventEmitter<KeyboardEvent> = new EventEmitter()
@@ -194,6 +199,11 @@ export class SqInputComponent {
    * Event emitter for input value changes.
    */
   @Output() valueChange: EventEmitter<any> = new EventEmitter()
+
+  /**
+   * Event emitter for input value changes.
+   */
+  @Output() clickCampaignTip: EventEmitter<MouseEvent> = new EventEmitter()
 
   /**
    * Reference to a left-aligned label template.
@@ -310,5 +320,13 @@ export class SqInputComponent {
    */
   keyUp(event: KeyboardEvent) {
     this.keyPressUp.emit(event)
+  }
+
+  /**
+   * Campaign tip events.
+   * @param event - The click event.
+   */
+  emmitCampaignTipEvent(event: MouseEvent) {
+    this.clickCampaignTip.emit(event)
   }
 }

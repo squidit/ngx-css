@@ -1,6 +1,6 @@
 <div class="wrapper-all-inside-input {{ customClass }}">
   <label
-    class="display-flex"
+    class="display-flex align-items-center"
     *ngIf="label?.length || tooltipMessage"
     [ngClass]="{
       readonly: readonly
@@ -16,6 +16,11 @@
       [color]="tooltipColor"
       [icon]="tooltipIcon"
     ></sq-tooltip>
+    <i 
+      class="fa-solid fa-compass ml-1 campaign-tip"
+      (click)="emmitCampaignTipEvent($event)"
+      *ngIf="campaignTip"
+    ></i> 
   </label>
   <div
     class="p-0 wrapper-input wrapper-input-squid text-ellipsisarea"
