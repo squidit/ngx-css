@@ -326,7 +326,7 @@ export class SqInputComponent {
    * Campaign tip events.
    * @param event - The click event.
    */
-  emmitCampaignTipEvent(event: MouseEvent) {
+  emitCampaignTipEvent(event: MouseEvent) {
     this.clickCampaignTip.emit(event)
   }
 }
