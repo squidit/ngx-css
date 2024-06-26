@@ -208,7 +208,7 @@ export class SqInputComponent {
   rightLabel: TemplateRef<HTMLElement> | null = null
 
   /**
-   * Reference to a right-aligned label template.
+   * Reference to a label template.
    */
   @ContentChild('labelTemplate')
   labelTemplate: TemplateRef<HTMLElement> | null = null
