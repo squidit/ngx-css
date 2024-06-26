@@ -8,7 +8,7 @@
     [for]="id"
   >
     <div *ngIf="label && !labelTemplate" [ngStyle]="{ 'color': labelColor }" [innerHtml]="label | universalSafe"></div>
-    <div *ngIf="labelTemplate && !label">
+    <div *ngIf="labelTemplate">
       <ng-container *ngTemplateOutlet="labelTemplate"></ng-container>
     </div>
     <sq-tooltip
