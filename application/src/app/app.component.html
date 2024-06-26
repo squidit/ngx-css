@@ -3,5 +3,12 @@
   <main>
     <router-outlet></router-outlet>
     <!-- Use Here to test library components -->
+    <sq-input
+      [placeholder]="'Test Input Placeholder'"
+    >
+      <ng-template #labelTemplate>
+        <span>Test Input</span>
+      </ng-template>
+    </sq-input>
   </main>
 </div>
