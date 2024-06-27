@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, Optional } from "@angular/core"
+import { Component, ContentChild, ElementRef, Input, Optional, TemplateRef } from "@angular/core"
 import { ValidatorHelper } from '../../helpers/validator.helper'
 import { TranslateService } from "@ngx-translate/core"
 import { SqInputComponent } from "../sq-input/sq-input.component"
@@ -74,6 +74,12 @@ export class SqInputMaskComponent extends SqInputComponent {
    * Defines the maximum value that can be accepted as input.
    */
   @Input() maxValue?: number
+
+  /**
+   * Reference to a label template.
+   */
+  @ContentChild('labelTemplate')
+  override labelTemplate: TemplateRef<HTMLElement> | null = null
 
   /**
    * Reference to the native element.

@@ -206,6 +206,12 @@ export class SqSelectorComponent implements OnChanges {
   leftLabel: TemplateRef<HTMLElement> | null = null
 
   /**
+   * Reference to a right-aligned label template.
+   */
+  @ContentChild('labelTemplate')
+  labelTemplate: TemplateRef<HTMLElement> | null = null
+
+  /**
    * Indicates whether the selector input is currently checked.
    */
   thisChecked = false

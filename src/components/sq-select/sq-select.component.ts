@@ -186,6 +186,12 @@ export class SqSelectComponent {
   rightLabel: TemplateRef<HTMLElement> | null = null
 
   /**
+   * Reference to a right-aligned label template.
+   */
+  @ContentChild('labelTemplate')
+  labelTemplate: TemplateRef<HTMLElement> | null = null
+
+  /**
    * The error state of the select input.
    */
   error: boolean | string = false

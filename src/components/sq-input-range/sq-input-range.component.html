@@ -3,14 +3,17 @@
 }">
   <label
     class="display-flex"
-    *ngIf="label?.length"
+    *ngIf="label?.length || labelTemplate"
     [ngClass]="{
       readonly: readonly
     }"
     [for]="id"
   >
-    <div *ngIf="label?.length" [ngStyle]="{ 'color': labelColor }" [innerHtml]="label | universalSafe"></div>
+    <div *ngIf="label?.length && !labelTemplate" [ngStyle]="{ 'color': labelColor }" [innerHtml]="label | universalSafe"></div>
   </label>
+  <div *ngIf="labelTemplate">
+    <ng-container *ngTemplateOutlet="labelTemplate"></ng-container>
+  </div>
   <div
     class="p-0 wrapper-input wrapper-input-squid"
     [ngClass]="{
