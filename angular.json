@@ -124,7 +124,9 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": ["application/src/**/*.{ts,html,js,json}"]
+            "lintFilePatterns": [
+              "application/src/**/*.{ts,html,js,json}"
+            ]
           }
         },
         "server": {
@@ -218,7 +220,39 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": ["src/**/*.{ts,html,js,json}"]
+            "lintFilePatterns": [
+              "src/**/*.{ts,html,js,json}"
+            ]
+          }
+        },
+        "storybook": {
+          "builder": "@storybook/angular:start-storybook",
+          "options": {
+            "configDir": "src/.storybook",
+            "browserTarget": "@squidit/ngx-css:build",
+            "compodoc": true,
+            "compodocArgs": [
+              "-e",
+              "json",
+              "-d",
+              "src"
+            ],
+            "port": 6006
+          }
+        },
+        "build-storybook": {
+          "builder": "@storybook/angular:build-storybook",
+          "options": {
+            "configDir": "src/.storybook",
+            "browserTarget": "@squidit/ngx-css:build",
+            "compodoc": true,
+            "compodocArgs": [
+              "-e",
+              "json",
+              "-d",
+              "src"
+            ],
+            "outputDir": "dist/storybook/@squidit/ngx-css"
           }
         }
       }

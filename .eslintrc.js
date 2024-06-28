@@ -1,6 +1,10 @@
 module.exports = {
   "root": true,
-  "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:storybook/recommended"
+  ],
   "ignorePatterns": ["*.spec.*", ".eslintrc.js", "karma.conf.js", "protractor.conf.js", "tsconfig.*", "tslint.*", "webpack.*", "node_modules/"],
   "overrides": [
     {

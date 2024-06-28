@@ -44,3 +44,4 @@ Thumbs.db
 documentation
 
 /.nx
+*storybook.log
