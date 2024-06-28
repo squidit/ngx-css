@@ -8,10 +8,15 @@
     block: block,
   }"
 >
-  <label [for]="id" *ngIf="leftLabel" [ngClass]="{'label-max-width': hideInput}">
+  <label [for]="id" *ngIf="leftLabel && !labelTemplate" [ngClass]="{'label-max-width': hideInput}">
     <ng-container
       *ngTemplateOutlet="leftLabel; context: context"
     ></ng-container>
+  </label>
+  <label for="id" *ngIf="labelTemplate" [ngClass]="{'label-max-width': hideInput}">
+    <div *ngIf="labelTemplate">
+      <ng-container *ngTemplateOutlet="labelTemplate"></ng-container>
+    </div>
   </label>
   <input
     [id]="id"

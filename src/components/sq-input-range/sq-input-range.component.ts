@@ -1,4 +1,4 @@
-import { AfterContentInit, Component, ElementRef, EventEmitter, Input, OnChanges, Optional, Output, SimpleChanges, ViewChild } from '@angular/core'
+import { AfterContentInit, Component, ContentChild, ElementRef, EventEmitter, Input, OnChanges, Optional, Output, SimpleChanges, TemplateRef, ViewChild } from '@angular/core'
 import { TranslateService } from '@ngx-translate/core'
 import { ValidatorHelper } from '../../helpers/validator.helper'
 import { sleep } from '../../helpers/sleep.helper'
@@ -132,6 +132,13 @@ export class SqInputRangeComponent implements AfterContentInit, OnChanges {
    * A reference to the 'input' element in the component template.
    */
   @ViewChild('input') input!: ElementRef
+
+  /**
+   * Reference to a label template.
+   */
+  @ContentChild('labelTemplate')
+  labelTemplate: TemplateRef<HTMLElement> | null = null
+
 
   /**
    * The error message associated with the input.

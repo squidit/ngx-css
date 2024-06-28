@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, Optional } from '@angular/core'
+import { Component, ContentChild, ElementRef, Input, Optional, TemplateRef } from '@angular/core'
 import { TranslateService } from '@ngx-translate/core'
 import { ValidatorHelper } from '../../helpers/validator.helper'
 import { SqInputComponent } from '../sq-input/sq-input.component'
@@ -54,6 +54,12 @@ export class SqInputDateComponent extends SqInputComponent {
   public override get value(): any {
     return this._value.toISOString().split('T')[0]
   }
+
+  /**
+   * Reference to a label template.
+   */
+  @ContentChild('labelTemplate')
+  override labelTemplate: TemplateRef<HTMLElement> | null = null
 
   /**
    * Constructs a new instance of SqInputDateComponent.
