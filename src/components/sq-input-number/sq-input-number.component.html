@@ -37,6 +37,11 @@
   (keyPressUp)="keyPressUp.emit($event)"
   (keyPressDown)="keyPressDown.emit($event)"
 >
+<ng-container *ngIf="labelTemplateOverwrite">
+  <ng-template #labelTemplate>
+    <ng-container *ngTemplateOutlet="labelTemplateOverwrite"></ng-container>
+  </ng-template>
+</ng-container>
   <ng-container *ngIf="leftLabelOverwrite">
     <ng-template #leftLabel>
       <ng-container *ngTemplateOutlet="leftLabelOverwrite"></ng-container>

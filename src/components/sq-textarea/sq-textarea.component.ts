@@ -184,6 +184,12 @@ export class SqTextAreaComponent {
   rightLabel: TemplateRef<HTMLElement> | null = null
 
   /**
+   * Reference to a label template.
+   */
+  @ContentChild('labelTemplate')
+  labelTemplate: TemplateRef<HTMLElement> | null = null
+
+  /**
    * Represents the error state of the textarea.
    */
   error: boolean | string = false

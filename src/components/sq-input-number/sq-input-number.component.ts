@@ -90,6 +90,12 @@ export class SqInputNumberComponent extends SqInputComponent {
   rightLabelOverwrite: TemplateRef<HTMLElement> | null = null
 
   /**
+   * Reference to a label template.
+   */
+  @ContentChild('labelTemplate')
+  labelTemplateOverwrite: TemplateRef<HTMLElement> | null = null
+
+  /**
    * Reference to the native element.
    */
   override nativeElement: ElementRef

@@ -89,6 +89,12 @@ export class SqInputMoneyComponent extends SqInputComponent implements OnChanges
   rightLabelOverwrite: TemplateRef<HTMLElement> | null = null
 
   /**
+   * Reference to a label template.
+   */
+  @ContentChild('labelTemplate')
+  labelTemplateOverwrite: TemplateRef<HTMLElement> | null = null
+
+  /**
    * Constructs a new instance of SqInputMaskComponent.
    * @param validatorHelper - The ValidatorHelper service for input validation.
    * @param element - Reference to the native element.
