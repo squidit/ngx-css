@@ -26111,6 +26111,36 @@
                 "description": "<p>Array containing a collection of Angular components, directives, and pipes.\nThese elements can be used within the SquidCSSModule for building UI features.</p>\n"
             },
             {
+                "name": "CustomColors",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/components/sq-input/sq-input.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\n    args: {\n        label: 'Custom Colors',\n        placeholder: 'Enter text',\n        value: '',\n        disabled: false,\n        readonly: false,\n        required: false,\n        backgroundColor: '#f0f0f0',\n        borderColor: '#ff5722',\n        labelColor: '#007bff',\n    },\n}"
+            },
+            {
+                "name": "Default",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/components/sq-input/sq-input.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\n    args: {\n        label: 'Example Input',\n        placeholder: 'Enter text',\n        value: '',\n        disabled: false,\n        readonly: false,\n        required: false,\n        tooltipMessage: 'This is a tooltip',\n        tooltipPlacement: 'right center',\n        type: 'text',\n    }\n}"
+            },
+            {
+                "name": "Disabled",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/components/sq-input/sq-input.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\n    args: {\n        label: 'Disabled Input',\n        placeholder: 'Enter text',\n        value: '',\n        disabled: true,\n        readonly: false,\n        required: false,\n    },\n}"
+            },
+            {
                 "name": "Large",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -26164,6 +26194,16 @@
                 "name": "meta",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
+                "file": "src/components/sq-input/sq-input.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Meta<SqInputComponent>",
+                "defaultValue": "{\n    title: 'Example/SqInput',\n    component: SqInputComponent,\n    tags: ['autodocs'],\n    argTypes: {\n        name: { control: 'text' },\n        id: { control: 'text' },\n        label: { control: 'text' },\n        customClass: { control: 'text' },\n        placeholder: { control: 'text' },\n        externalError: { control: 'text' },\n        externalIcon: { control: 'text' },\n        value: { control: 'text' },\n        timeToChange: { control: 'number' },\n        errorSpan: { control: 'boolean' },\n        disabled: { control: 'boolean' },\n        readonly: { control: 'boolean' },\n        required: { control: 'boolean' },\n        useFormErrors: { control: 'boolean' },\n        tooltipMessage: { control: 'text' },\n        tooltipPlacement: {\n            control: 'radio',\n            options: ['center top', 'center bottom', 'left center', 'right center'],\n        },\n        tooltipColor: { control: 'color' },\n        tooltipIcon: { control: 'text' },\n        backgroundColor: { control: 'color' },\n        borderColor: { control: 'color' },\n        labelColor: { control: 'color' },\n        type: {\n            control: 'radio',\n            options: ['text', 'email', 'hidden', 'password', 'tel', 'url', 'file'],\n        },\n        maxLength: { control: 'number' },\n        pattern: { control: 'text' },\n        inputMode: { control: 'text' },\n    },\n}"
+            },
+            {
+                "name": "meta",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
                 "file": "src/src/stories/button.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -26201,6 +26241,16 @@
                 "defaultValue": "{\n  args: {\n    primary: true,\n    label: 'Button',\n  },\n}"
             },
             {
+                "name": "Readonly",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/components/sq-input/sq-input.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\n    args: {\n        label: 'Readonly Input',\n        placeholder: 'Enter text',\n        value: 'Readonly value',\n        disabled: false,\n        readonly: true,\n        required: false,\n    },\n}"
+            },
+            {
                 "name": "Secondary",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -26230,6 +26280,26 @@
                 "type": "Toast",
                 "rawdescription": "Global declare to get from window",
                 "description": "<p>Global declare to get from window</p>\n"
+            },
+            {
+                "name": "WithError",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/components/sq-input/sq-input.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\n    args: {\n        label: 'Example Input',\n        placeholder: 'Enter text',\n        value: '',\n        disabled: false,\n        readonly: false,\n        required: true,\n        externalError: 'This field is required',\n    },\n}"
+            },
+            {
+                "name": "WithIcon",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/components/sq-input/sq-input.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\n    args: {\n        label: 'Input with Icon',\n        placeholder: 'Enter text',\n        value: '',\n        disabled: false,\n        readonly: false,\n        required: false,\n        externalIcon: 'info',\n    },\n}"
             }
         ],
         "functions": [
@@ -27673,6 +27743,17 @@
                 "name": "Story",
                 "ctype": "miscellaneous",
                 "subtype": "typealias",
+                "rawtype": "StoryObj<SqInputComponent>",
+                "file": "src/components/sq-input/sq-input.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "description": "",
+                "kind": 183
+            },
+            {
+                "name": "Story",
+                "ctype": "miscellaneous",
+                "subtype": "typealias",
                 "rawtype": "StoryObj<ButtonComponent>",
                 "file": "src/src/stories/button.stories.ts",
                 "deprecated": false,
@@ -27717,6 +27798,78 @@
                     "defaultValue": "[\n  SqButtonComponent,\n  SqLoaderComponent,\n  SqProgressBarComponent,\n  SqStepsComponent,\n  SqTooltipDirective,\n  SqTooltipComponent,\n  UniversalSafePipe,\n  ThousandSuffixesPipe,\n  SqTabComponent,\n  SqTabsComponent,\n  SqInfinityComponent,\n  SqOverlayComponent,\n  SqModalComponent,\n  SqCollapseComponent,\n  SqPaginationComponent,\n  SqTagComponent,\n  SqAccordionComponent,\n  SqTextAreaComponent,\n  SqSelectComponent,\n  SqSelectorComponent,\n  SqInputComponent,\n  SqInputDateComponent,\n  SqInputRangeComponent,\n  SqInputFileComponent,\n  SqDropdownDirective,\n  SqSelectSearchComponent,\n  SqClickOutsideDirective,\n  SearchPipe,\n  BirthdatePipe,\n  SearchFromAlternativeArrayPipe,\n  SearchValidValuesPipe,\n  SqSelectMultiTagsComponent,\n  SqInputMaskComponent,\n  SqInputMoneyComponent,\n  SqInputNumberComponent,\n  TranslateInternalPipe\n]",
                     "rawdescription": "Array containing a collection of Angular components, directives, and pipes.\nThese elements can be used within the SquidCSSModule for building UI features.",
                     "description": "<p>Array containing a collection of Angular components, directives, and pipes.\nThese elements can be used within the SquidCSSModule for building UI features.</p>\n"
+                }
+            ],
+            "src/components/sq-input/sq-input.stories.ts": [
+                {
+                    "name": "CustomColors",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/components/sq-input/sq-input.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\n    args: {\n        label: 'Custom Colors',\n        placeholder: 'Enter text',\n        value: '',\n        disabled: false,\n        readonly: false,\n        required: false,\n        backgroundColor: '#f0f0f0',\n        borderColor: '#ff5722',\n        labelColor: '#007bff',\n    },\n}"
+                },
+                {
+                    "name": "Default",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/components/sq-input/sq-input.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\n    args: {\n        label: 'Example Input',\n        placeholder: 'Enter text',\n        value: '',\n        disabled: false,\n        readonly: false,\n        required: false,\n        tooltipMessage: 'This is a tooltip',\n        tooltipPlacement: 'right center',\n        type: 'text',\n    }\n}"
+                },
+                {
+                    "name": "Disabled",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/components/sq-input/sq-input.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\n    args: {\n        label: 'Disabled Input',\n        placeholder: 'Enter text',\n        value: '',\n        disabled: true,\n        readonly: false,\n        required: false,\n    },\n}"
+                },
+                {
+                    "name": "meta",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/components/sq-input/sq-input.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Meta<SqInputComponent>",
+                    "defaultValue": "{\n    title: 'Example/SqInput',\n    component: SqInputComponent,\n    tags: ['autodocs'],\n    argTypes: {\n        name: { control: 'text' },\n        id: { control: 'text' },\n        label: { control: 'text' },\n        customClass: { control: 'text' },\n        placeholder: { control: 'text' },\n        externalError: { control: 'text' },\n        externalIcon: { control: 'text' },\n        value: { control: 'text' },\n        timeToChange: { control: 'number' },\n        errorSpan: { control: 'boolean' },\n        disabled: { control: 'boolean' },\n        readonly: { control: 'boolean' },\n        required: { control: 'boolean' },\n        useFormErrors: { control: 'boolean' },\n        tooltipMessage: { control: 'text' },\n        tooltipPlacement: {\n            control: 'radio',\n            options: ['center top', 'center bottom', 'left center', 'right center'],\n        },\n        tooltipColor: { control: 'color' },\n        tooltipIcon: { control: 'text' },\n        backgroundColor: { control: 'color' },\n        borderColor: { control: 'color' },\n        labelColor: { control: 'color' },\n        type: {\n            control: 'radio',\n            options: ['text', 'email', 'hidden', 'password', 'tel', 'url', 'file'],\n        },\n        maxLength: { control: 'number' },\n        pattern: { control: 'text' },\n        inputMode: { control: 'text' },\n    },\n}"
+                },
+                {
+                    "name": "Readonly",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/components/sq-input/sq-input.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\n    args: {\n        label: 'Readonly Input',\n        placeholder: 'Enter text',\n        value: 'Readonly value',\n        disabled: false,\n        readonly: true,\n        required: false,\n    },\n}"
+                },
+                {
+                    "name": "WithError",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/components/sq-input/sq-input.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\n    args: {\n        label: 'Example Input',\n        placeholder: 'Enter text',\n        value: '',\n        disabled: false,\n        readonly: false,\n        required: true,\n        externalError: 'This field is required',\n    },\n}"
+                },
+                {
+                    "name": "WithIcon",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/components/sq-input/sq-input.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\n    args: {\n        label: 'Input with Icon',\n        placeholder: 'Enter text',\n        value: '',\n        disabled: false,\n        readonly: false,\n        required: false,\n        externalIcon: 'info',\n    },\n}"
                 }
             ],
             "src/src/stories/button.stories.ts": [
@@ -29295,6 +29448,19 @@
         },
         "groupedEnumerations": {},
         "groupedTypeAliases": {
+            "src/components/sq-input/sq-input.stories.ts": [
+                {
+                    "name": "Story",
+                    "ctype": "miscellaneous",
+                    "subtype": "typealias",
+                    "rawtype": "StoryObj<SqInputComponent>",
+                    "file": "src/components/sq-input/sq-input.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "description": "",
+                    "kind": 183
+                }
+            ],
             "src/src/stories/button.stories.ts": [
                 {
                     "name": "Story",
@@ -29338,7 +29504,7 @@
     },
     "routes": [],
     "coverage": {
-        "count": 83,
+        "count": 76,
         "status": "very-good",
         "files": [
             {
@@ -29457,6 +29623,76 @@
                 "coveragePercent": 100,
                 "coverageCount": "46/46",
                 "status": "very-good"
+            },
+            {
+                "filePath": "src/components/sq-input/sq-input.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "CustomColors",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/components/sq-input/sq-input.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Default",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/components/sq-input/sq-input.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Disabled",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/components/sq-input/sq-input.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "meta",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/components/sq-input/sq-input.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Readonly",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/components/sq-input/sq-input.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "WithError",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/components/sq-input/sq-input.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "WithIcon",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
             },
             {
                 "filePath": "src/components/sq-loader/sq-loader.component.ts",
