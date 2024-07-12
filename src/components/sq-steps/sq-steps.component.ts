@@ -35,7 +35,7 @@ export class SqStepsComponent {
   /**
    * The color theme for the steps component.
    */
-  @Input() color = 'var(--pink)'
+  @Input() color = 'var(--primary_color)'
 
   /**
    * Flag to enable or disable clicking on steps.

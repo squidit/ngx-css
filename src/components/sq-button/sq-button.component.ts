@@ -10,10 +10,10 @@ import { useMemo } from '../../helpers/memo.helper'
  * @see {@link https://css.squidit.com.br/components/button}
  * 
  * <br>
- * <button type="button" class='button button-pink mb-3'>Click Me</button>
+ * <button type="button" class='button button-primary mb-3'>Click Me</button>
  * 
  * @example
- * <sq-button type="button" color="pink" [loading]="false" (emitClick)="onClick($event)">
+ * <sq-button type="button" color="primary" [loading]="false" (emitClick)="onClick($event)">
  *   Click Me
  * </sq-button>
  */
@@ -31,7 +31,7 @@ export class SqButtonComponent {
   /**
    * The background color of the button.
    */
-  @Input() color = 'pink'
+  @Input() color = 'primary'
 
   /**
    * The text color of the button.

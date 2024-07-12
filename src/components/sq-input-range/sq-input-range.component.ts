@@ -71,7 +71,7 @@ export class SqInputRangeComponent implements AfterContentInit, OnChanges {
   /**
    * The color of the input component.
    */
-  @Input() color = 'var(--pink)'
+  @Input() color = 'var(--primary_color)'
 
   /**
    * The color of the input label.
