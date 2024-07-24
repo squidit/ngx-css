@@ -25,12 +25,12 @@ export class SqInputFileComponent extends SqInputComponent {
   /**
    * Border color for the file input.
    */
-  @Input() override borderColor = 'var(--pink)'
+  @Input() override borderColor = 'var(--primary_color)'
 
   /**
    * Color for the file input.
    */
-  @Input() color = 'var(--pink)'
+  @Input() color = 'var(--primary_color)'
 
   /**
    * Font size for the file input.
