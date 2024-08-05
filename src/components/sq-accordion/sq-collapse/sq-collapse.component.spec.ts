@@ -12,9 +12,7 @@ describe('SqCollapseComponent', () => {
         await TestBed.configureTestingModule({
             declarations: [SqCollapseComponent, SqLoaderComponent],
         }).compileComponents();
-    });
 
-    beforeEach(() => {
         fixture = TestBed.createComponent(SqCollapseComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
