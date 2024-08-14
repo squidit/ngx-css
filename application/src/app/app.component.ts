@@ -23,10 +23,6 @@ export class AppComponent implements OnInit {
     html.classList.value = `${this.theme}`
   }
 
-  log(event: string) {
-    console.log(event)
-  }
-
   toggleTheme() {
     this.theme = this.theme === 'dark' ? 'light' : 'dark'
     if (!this.isServer) {
