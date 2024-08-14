@@ -35,6 +35,7 @@
   (inFocus)="inFocus.emit($event)"
   (keyPressUp)="keyPressUp.emit($event)"
   (keyPressDown)="keyPressDown.emit($event)"
+  (onFocus)="onFocus.emit($event)"
 >
   <ng-container *ngIf="labelTemplateOverwrite">
     <ng-template #labelTemplate>

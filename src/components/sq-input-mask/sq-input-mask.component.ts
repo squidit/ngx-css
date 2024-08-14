@@ -1,4 +1,4 @@
-import { Component, ContentChild, ElementRef, Input, Optional, TemplateRef } from "@angular/core"
+import { Component, ContentChild, ElementRef, EventEmitter, Input, Optional, Output, TemplateRef } from "@angular/core"
 import { ValidatorHelper } from '../../helpers/validator.helper'
 import { TranslateService } from "@ngx-translate/core"
 import { SqInputComponent } from "../sq-input/sq-input.component"
@@ -74,6 +74,11 @@ export class SqInputMaskComponent extends SqInputComponent {
    * Defines the maximum value that can be accepted as input.
    */
   @Input() maxValue?: number
+
+  /**
+   * Event emitter for focus input changes.
+   */
+  @Output() override onFocus: EventEmitter<any> = new EventEmitter()
 
   /**
    * Reference to a label template.

@@ -347,14 +347,14 @@ export class SqSelectMultiTagsComponent implements OnChanges {
    */
   removeItem(item: OptionMulti, event: any) {
     event?.stopPropagation()
-    if(!this.readonly && !this.disabled) {
+    if (!this.readonly && !this.disabled) {
       if (item.children?.length) {
         item.children.forEach((child) => {
           this.value = this.value?.filter((value) => value.value !== child.value)
         })
       }
       this.value = this.value?.filter((value) => value.value !== item.value)
-      
+
       this.valueChange.emit(this.value)
       this.removeTag.emit(item)
       this.validate()
@@ -454,7 +454,7 @@ export class SqSelectMultiTagsComponent implements OnChanges {
       this.setError('forms.required')
       this.valid.emit(false)
     } else if (this.minTags && this.value && this.value?.length < this.minTags) {
-      this.setError('forms.minimumRequired', {minTags: this.minTags})
+      this.setError('forms.minimumRequired', { minTags: this.minTags })
       this.valid.emit(false)
     } else if (this.maxTags && this.value && this.value?.length === this.maxTags) {
       this.renderOptionsList = false

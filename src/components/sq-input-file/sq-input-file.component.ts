@@ -1,4 +1,4 @@
-import { Component, ContentChild, ElementRef, Input, Optional, TemplateRef } from '@angular/core'
+import { Component, ContentChild, ElementRef, EventEmitter, Input, Optional, Output, TemplateRef } from '@angular/core'
 import { TranslateService } from '@ngx-translate/core'
 import { ValidatorHelper } from '../../helpers/validator.helper'
 import { SqInputComponent } from '../sq-input/sq-input.component'
@@ -68,6 +68,12 @@ export class SqInputFileComponent extends SqInputComponent {
   @Input() block = false
 
   /**
+   * Event emitter for focus input changes.
+   */
+  @Output() override onFocus: EventEmitter<any> = new EventEmitter()
+
+
+  /**
    * Custom content to be displayed within the file input.
    */
   @ContentChild('customContent', { static: true })
@@ -99,6 +105,7 @@ export class SqInputFileComponent extends SqInputComponent {
    * @param isBlur - Indicates if the input has lost focus.
    */
   override async validate(isBlur = false) {
+    this.onFocus.emit(true)
     if (this.externalError) {
       this.error = false
     } else if (!!this.required && (!this.value || this.value.length < 1) && this.value !== 0) {
