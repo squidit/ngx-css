@@ -48,6 +48,7 @@
       (blur)="validate(true)"
       [value]="value"
       (change)="change(select?.value)"
+      (focus)="onFocus.emit()"
       #select
     >
       <option *ngIf="placeholder" value="" [selected]="!value" disabled>{{ placeholder }}</option>

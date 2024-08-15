@@ -65,6 +65,7 @@
       [decimalMarker]="decimalMarker"
       [placeHolderCharacter]="placeHolderCharacter"
       [leadZero]="leadZero"
+      (focus)="onFocus.emit($event)"
       ngDefaultControl
     />
     <span class="input-group-text m-0" *ngIf="rightLabel">
