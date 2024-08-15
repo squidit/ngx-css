@@ -75,7 +75,7 @@ export class SqInputMoneyComponent extends SqInputComponent implements OnChanges
   /**
    * Event emitter for focus input changes.
    */
-  @Output() override onFocus: EventEmitter<any> = new EventEmitter()
+  @Output() override onFocus: EventEmitter<FocusEvent> = new EventEmitter<FocusEvent>()
 
   /**
    * Reference to the native element.

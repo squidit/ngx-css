@@ -70,7 +70,7 @@ export class SqInputFileComponent extends SqInputComponent {
   /**
    * Event emitter for focus input changes.
    */
-  @Output() override onFocus: EventEmitter<any> = new EventEmitter()
+  @Output() override onFocus: EventEmitter<any> = new EventEmitter<FocusEvent>()
 
 
   /**

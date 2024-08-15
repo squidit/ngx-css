@@ -126,7 +126,7 @@ export class SqInputRangeComponent implements AfterContentInit, OnChanges {
   /**
    * Event emitter for focus input changes.
    */
-  @Output() onFocus: EventEmitter<any> = new EventEmitter()
+  @Output() onFocus: EventEmitter<FocusEvent> = new EventEmitter<FocusEvent>()
 
   /**
    * A reference to the 'valueFloating' element in the component template.
