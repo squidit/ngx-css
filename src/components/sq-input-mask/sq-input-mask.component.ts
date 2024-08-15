@@ -76,11 +76,6 @@ export class SqInputMaskComponent extends SqInputComponent {
   @Input() maxValue?: number
 
   /**
-   * Event emitter for focus input changes.
-   */
-  @Output() override onFocus: EventEmitter<FocusEvent> = new EventEmitter<FocusEvent>()
-
-  /**
    * Reference to a label template.
    */
   @ContentChild('labelTemplate')

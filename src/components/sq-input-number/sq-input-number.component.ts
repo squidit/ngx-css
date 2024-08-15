@@ -78,11 +78,6 @@ export class SqInputNumberComponent extends SqInputComponent {
   @Output() override valueChange: EventEmitter<number> = new EventEmitter()
 
   /**
-   * Event emitter for focus input changes.
-   */
-  @Output() override onFocus: EventEmitter<FocusEvent> = new EventEmitter<FocusEvent>()
-
-  /**
    * Content child template for the left label override.
    */
   @ContentChild('leftLabelOverwrite')

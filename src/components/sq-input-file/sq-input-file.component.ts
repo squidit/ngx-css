@@ -68,12 +68,6 @@ export class SqInputFileComponent extends SqInputComponent {
   @Input() block = false
 
   /**
-   * Event emitter for focus input changes.
-   */
-  @Output() override onFocus: EventEmitter<any> = new EventEmitter<FocusEvent>()
-
-
-  /**
    * Custom content to be displayed within the file input.
    */
   @ContentChild('customContent', { static: true })
@@ -105,7 +99,7 @@ export class SqInputFileComponent extends SqInputComponent {
    * @param isBlur - Indicates if the input has lost focus.
    */
   override async validate(isBlur = false) {
-    this.onFocus.emit(true)
+    this.onFocus.emit()
     if (this.externalError) {
       this.error = false
     } else if (!!this.required && (!this.value || this.value.length < 1) && this.value !== 0) {
