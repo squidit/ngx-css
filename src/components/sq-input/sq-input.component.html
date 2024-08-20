@@ -57,6 +57,7 @@
       [pattern]="pattern"
       [attr.inputmode]="inputMode"
       (focus)="onFocus.emit()"
+      (blur)="onBlur.emit()"
       ngDefaultControl
     />
     <span class="input-group-text m-0" *ngIf="rightLabel">

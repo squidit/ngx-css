@@ -179,6 +179,11 @@ export class SqSelectComponent {
   @Output() onFocus: EventEmitter<FocusEvent> = new EventEmitter<FocusEvent>()
 
   /**
+   * Event emitter for focus input changes.
+   */
+  @Output() onBlur: EventEmitter<FocusEvent> = new EventEmitter<FocusEvent>()
+
+  /**
    * Reference to a left-aligned label template.
    */
   @ContentChild('leftLabel')

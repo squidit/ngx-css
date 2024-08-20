@@ -37,6 +37,7 @@
       [ngModel]="value"
       (ngModelChange)="change($event)"
       (focus)="onFocus.emit()"
+      (blur)="onBlur.emit()"
       ngDefaultControl
       #input
     />
