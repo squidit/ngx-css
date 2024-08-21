@@ -30,6 +30,7 @@ import { SqSelectSearchComponent } from './components/sq-select-search/sq-select
 import { SqClickOutsideDirective } from './directives/sq-click-outside/sq-click-outside.directive'
 import { SearchPipe } from './pipes/search/search.pipe'
 import { BirthdatePipe } from './pipes/birthdate/birthdate.pipe'
+import { RemoveHtmlTagsPipe } from './pipes/remove-html-tags/remove-html-tags.pipe'
 import { SearchFromAlternativeArrayPipe } from './pipes/search-from-alternative-array/search-from-alternative-array.pipe'
 import { SearchValidValuesPipe } from './pipes/search-valid-values/search-valid-values.pipe'
 import { SqSelectMultiTagsComponent } from './components/sq-select-multi-tags/sq-select-multi-tags.component'
@@ -82,7 +83,8 @@ const components: (Type<any> | any)[] = [
   SqInputMaskComponent,
   SqInputMoneyComponent,
   SqInputNumberComponent,
-  TranslateInternalPipe
+  TranslateInternalPipe,
+  RemoveHtmlTagsPipe
 ]
 
 /**
@@ -108,4 +110,4 @@ const components: (Type<any> | any)[] = [
     NgxMaskPipe
   ]
 })
-export class SquidCSSModule {}
+export class SquidCSSModule { }
