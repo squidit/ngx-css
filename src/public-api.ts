@@ -42,6 +42,7 @@ export * from './pipes/search/search.pipe'
 export * from './pipes/thousands/thousands.pipe'
 export * from './pipes/translate-internal/translate-internal.pipe'
 export * from './pipes/universal-safe/universal-safe.pipe'
+export * from './pipes/remove-html-tags/remove-html-tags.pipe'
 
 export * from './helpers/colors.helper'
 export * from './helpers/date.helper'
