@@ -14,17 +14,17 @@ import { Pipe, PipeTransform } from '@angular/core'
 
 @Pipe({ name: 'removeHtmlTags' })
 export class RemoveHtmlTagsPipe implements PipeTransform {
-    /**
-     * Transforms a string by removing any HTML tags.
-     *
-     * @param {string | null | undefined} value - The input string to transform.
-     * @returns {string} - The transformed string with HTML tags removed.
-     */
-    transform(value: string | null | undefined): string {
-        if (value == null) {
-            return ''
-        }
-        const regex = /<\/?[^>]+(>|$)/g
-        return value.replace(regex, '')
+  /**
+   * Transforms a string by removing any HTML tags.
+   *
+   * @param {string | null | undefined} value - The input string to transform.
+   * @returns {string} - The transformed string with HTML tags removed.
+   */
+  transform(value: string | null | undefined): string {
+    if (value == null) {
+      return ''
     }
+    const regex = /<\/?[^>]+(>|$)/g
+    return value.replace(regex, '')
+  }
 }
