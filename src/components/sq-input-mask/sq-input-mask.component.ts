@@ -1,4 +1,4 @@
-import { Component, ContentChild, ElementRef, EventEmitter, Input, Optional, Output, TemplateRef } from "@angular/core"
+import { Component, ContentChild, ElementRef, Input, Optional, TemplateRef } from "@angular/core"
 import { ValidatorHelper } from '../../helpers/validator.helper'
 import { TranslateService } from "@ngx-translate/core"
 import { SqInputComponent } from "../sq-input/sq-input.component"
