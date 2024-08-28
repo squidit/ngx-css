@@ -12,9 +12,7 @@ describe('SqAccordionComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [SqAccordionComponent, SqCollapseComponent]
     }).compileComponents()
-  })
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(SqAccordionComponent)
     component = fixture.componentInstance
 
