@@ -47,7 +47,8 @@
     <div
       class="input-fake-content"
       [ngClass]="{
-        disabled: disabled
+        disabled: disabled,
+        readonly: readonly
       }"
       (click)="doDropDownAction()"
     >
@@ -63,7 +64,7 @@
       <i *ngIf="!loading" class="icon-down fas fa-chevron-down"></i>
     </div>
     <div
-      *ngIf="!disabled && !loading && renderOptionsList"
+      *ngIf="!disabled && !loading && renderOptionsList && !readonly"
       class="input-window scrollbar"
       id="sq-select-search-scroll"
       [ngClass]="{

@@ -49,7 +49,8 @@
       <div
         class="input-fake-content"
         [ngClass]="{
-          disabled: disabled
+          disabled: disabled,
+          readonly: readonly
         }"
         (click)="doDropDownAction()"
       >
@@ -63,7 +64,7 @@
           </span>
         </div>
         <span *ngIf="value?.length" class="badge">{{ value!.length }}</span>
-        <i *ngIf="!loading && !readonly" class="icon-down fas fa-chevron-down"></i>
+        <i *ngIf="!loading" class="icon-down fas fa-chevron-down"></i>
       </div>
       <div
         *ngIf="!loading && !disabled && !readonly && !isMaxTags && renderOptionsList"

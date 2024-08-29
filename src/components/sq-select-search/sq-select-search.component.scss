@@ -38,6 +38,12 @@
       position: absolute;
       font-size: 0.86rem;
     }
+    &.readonly {
+      cursor: not-allowed;
+      pointer-events: none;
+      background-color: var(--color_border_input);
+      border-color: var(--color_border_input_disabled);
+    }
   }
   .loading-wrapper {
     position: absolute;
