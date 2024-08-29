@@ -71,7 +71,7 @@ export class SqInputRangeComponent implements AfterContentInit, OnChanges {
   /**
    * The color of the input component.
    */
-  @Input() color = 'var(--pink)'
+  @Input() color = 'var(--primary_color)'
 
   /**
    * The color of the input label.
@@ -122,6 +122,11 @@ export class SqInputRangeComponent implements AfterContentInit, OnChanges {
    * Event emitter for indicating the validity of the input.
    */
   @Output() valid: EventEmitter<boolean> = new EventEmitter()
+
+  /**
+   * Event emitter for focus input changes.
+   */
+  @Output() emitFocus: EventEmitter<Event> = new EventEmitter<Event>()
 
   /**
    * A reference to the 'valueFloating' element in the component template.

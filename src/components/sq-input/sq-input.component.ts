@@ -196,6 +196,11 @@ export class SqInputComponent {
   @Output() valueChange: EventEmitter<any> = new EventEmitter()
 
   /**
+   * Event emitter for focus input changes.
+   */
+  @Output() emitFocus: EventEmitter<Event> = new EventEmitter<Event>()
+
+  /**
    * Reference to a left-aligned label template.
    */
   @ContentChild('leftLabel')

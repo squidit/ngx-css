@@ -55,6 +55,7 @@
       (change)="change($event)"
       (keydown)="keyDown($event)"
       (keyup)="keyUp($event)"
+      (focus)="emitFocus.emit()"
     />
     <span class="input-group-text m-0" *ngIf="rightLabel">
       <ng-container *ngTemplateOutlet="rightLabel"></ng-container>

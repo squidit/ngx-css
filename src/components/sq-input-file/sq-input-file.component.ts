@@ -25,12 +25,12 @@ export class SqInputFileComponent extends SqInputComponent {
   /**
    * Border color for the file input.
    */
-  @Input() override borderColor = 'var(--pink)'
+  @Input() override borderColor = 'var(--primary_color)'
 
   /**
    * Color for the file input.
    */
-  @Input() color = 'var(--pink)'
+  @Input() color = 'var(--primary_color)'
 
   /**
    * Font size for the file input.
@@ -99,6 +99,7 @@ export class SqInputFileComponent extends SqInputComponent {
    * @param isBlur - Indicates if the input has lost focus.
    */
   override async validate(isBlur = false) {
+    this.emitFocus.emit()
     if (this.externalError) {
       this.error = false
     } else if (!!this.required && (!this.value || this.value.length < 1) && this.value !== 0) {
