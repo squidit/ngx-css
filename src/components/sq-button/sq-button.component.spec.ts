@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing'
-import { ElementRef } from '@angular/core'
 import { By } from '@angular/platform-browser'
 import { SqButtonComponent } from './sq-button.component'
 import { SqLoaderComponent } from 'src/public-api'
@@ -10,8 +9,7 @@ describe('SqButtonComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [SqButtonComponent, SqLoaderComponent],
-      providers: [{ useValue: new ElementRef(document.createElement('button')) }]
+      declarations: [SqButtonComponent, SqLoaderComponent]
     }).compileComponents()
 
     fixture = TestBed.createComponent(SqButtonComponent)
