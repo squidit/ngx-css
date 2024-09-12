@@ -447,11 +447,11 @@ export class SqSelectMultiTagsComponent implements OnChanges {
   /**
    * Validates the multi-tag select input and sets the error state.
    */
-  validate() {
+  async validate() {
     if (this.externalError) {
       this.error = false
     } else if (this.required && !this.value?.length) {
-      this.setError('forms.required')
+      await this.setError('forms.required')
       this.valid.emit(false)
     } else if (this.minTags && this.value && this.value?.length < this.minTags) {
       this.setError('forms.minimumRequired', { minTags: this.minTags })
