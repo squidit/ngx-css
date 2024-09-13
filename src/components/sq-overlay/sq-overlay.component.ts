@@ -345,7 +345,7 @@ export class SqOverlayComponent implements OnChanges, OnDestroy {
   onKeydown(event: KeyboardEvent) {
     if (this.open) {
       this.modals = this.document.getElementsByClassName('modal open')
-      if (this.modals?.length === this.modalNumber) {
+      if (this.modals?.length && this.modals[this.modals.length - 1]?.id === this.id) {
         this.events(event.key)
       }
     }
