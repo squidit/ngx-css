@@ -25,7 +25,6 @@ describe('SqTooltipComponent', () => {
     component.message = 'Test Tooltip Message'
     fixture.detectChanges()
     const tooltipElement = fixture.debugElement.query(By.css('.wrapper-tooltip'))
-    console.log(tooltipElement.attributes['ng-reflect-content'])
     expect(tooltipElement.attributes['ng-reflect-content']).toContain('Test Tooltip Message')
   })
 
