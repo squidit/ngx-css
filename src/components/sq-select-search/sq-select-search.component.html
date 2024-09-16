@@ -119,7 +119,7 @@
   </div>
 </div>
 <ng-template #option let-opt="opt" let-i="i">
-  <li (click)="emit(opt)">
+  <li (click)="!opt.disabled ? emit(opt) : ''" [ngClass]="{'disabled': opt.disabled}">
     <span class="text m-0 display-inline-block">{{ opt?.label }}</span>
   </li>
 </ng-template>
