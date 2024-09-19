@@ -123,7 +123,7 @@ export class SqInfinityComponent implements AfterViewInit, AfterContentChecked, 
   onScroll = () => {
     if (!this.loading && this.length > 0 && this.hasMore) {
       if (this.elementToScrollId && this.elementToScroll instanceof HTMLElement) {
-        const allScroll = this.elementToScroll?.scrollTop + this.elementToScroll?.scrollHeight
+        const allScroll = this.elementToScroll?.scrollTop + this.elementToScroll?.clientHeight
         if (allScroll >= this.elementToScroll?.scrollHeight) {
           this.elementToScroll?.removeEventListener('scroll', this.onScroll, false)
           this.scrolledEmitter.emit()
