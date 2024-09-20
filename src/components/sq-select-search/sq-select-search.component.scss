@@ -87,7 +87,7 @@
       max-height: 400px;
       background: var(--background_secondary);
       padding: 0 0.7rem 1.1rem;
-      overflow-y: auto;
+      overflow-y: hidden;
       box-shadow: var(--box_shadow);
     }
   }
@@ -97,6 +97,7 @@
     margin: 0;
     width: 100%;
     margin: 0.7rem 0 0;
+    height: 305px;
     li {
       margin: 0;
       cursor: pointer;
