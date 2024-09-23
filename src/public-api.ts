@@ -36,13 +36,12 @@ export * from './directives/sq-dropdown/sq-dropdown.directive'
 export * from './directives/sq-tooltip/sq-tooltip.directive'
 
 export * from './pipes/birthdate/birthdate.pipe'
-export * from './pipes/search-from-alternative-array/search-from-alternative-array.pipe'
+export * from './pipes/remove-html-tags/remove-html-tags.pipe'
 export * from './pipes/search-valid-values/search-valid-values.pipe'
 export * from './pipes/search/search.pipe'
 export * from './pipes/thousands/thousands.pipe'
 export * from './pipes/translate-internal/translate-internal.pipe'
 export * from './pipes/universal-safe/universal-safe.pipe'
-export * from './pipes/remove-html-tags/remove-html-tags.pipe'
 
 export * from './helpers/colors.helper'
 export * from './helpers/date.helper'
@@ -59,3 +58,4 @@ export * from './interfaces/step.interface'
 export * from './interfaces/toast.interface'
 
 export * from './main.module'
+
