@@ -240,29 +240,9 @@ export class SqSelectMultiTagsComponent implements OnChanges {
   nativeElement: ElementRef
 
   /**
-   * Control pagination for options
+   * Control options to render
    */
   _options: Array<OptionMulti> = []
-
-  /**
-   * Indicate if has more options to add on _options
-   */
-  hasMoreOptions = true
-
-  /**
-   * Loading for sq-infinity-scroll
-   */
-  loadingScroll = false
-
-  /**
-   * Control quantity for limit and to addMore on _options
-   */
-  quantity = 15
-
-  /**
-   * Control the _options limit
-   */
-  limit = this.quantity
 
   /**
    * Control the readonly on reach the maxTags
@@ -291,9 +271,6 @@ export class SqSelectMultiTagsComponent implements OnChanges {
    * @param changes - The changes detected in the component's input properties.
    */
   async ngOnChanges(changes: SimpleChanges) {
-    if (this.open && changes.hasOwnProperty('options')) {
-      this.addMoreOptions(true)
-    }
     if (changes.hasOwnProperty('value') || changes.hasOwnProperty('minTags') || changes.hasOwnProperty('maxTags')) {
       this.validate()
     }
@@ -402,7 +379,7 @@ export class SqSelectMultiTagsComponent implements OnChanges {
       }, 300))
       this.changeDetector.detectChanges()
     } else {
-      this.addMoreOptions()
+      this._options = this.options
       this.renderOptionsList = true
       this.open = await new Promise<boolean>(resolve => setTimeout(() => {
         resolve(true)
@@ -417,8 +394,6 @@ export class SqSelectMultiTagsComponent implements OnChanges {
   closeDropdown() {
     this.open = false
     this._options = []
-    this.limit = this.quantity
-    this.hasMoreOptions = true
     this.searchText = ''
     this.closeChange.emit(this.valueChanged)
     this.valueChanged = false
@@ -487,18 +462,4 @@ export class SqSelectMultiTagsComponent implements OnChanges {
     }
   }
 
-  /**
-   * Function to add more values on _options
-   */
-  addMoreOptions(isOnChange = false) {
-    if (this.hasMoreOptions || isOnChange) {
-      this.loadingScroll = true
-      const limitState = this.limit > this.options?.length ? this.options.length : this.limit
-      this._options = this.options.slice(0, limitState)
-      this.limit = this.limit + this.quantity
-      this.hasMoreOptions = limitState !== this.options.length
-      this.loadingScroll = false
-      this.changeDetector.detectChanges()
-    }
-  }
 }

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, ElementRef, EventEmitter, Input, OnChanges, Optional, Output, TemplateRef, TrackByFunction } from '@angular/core'
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, ElementRef, EventEmitter, Input, Optional, Output, TemplateRef, TrackByFunction } from '@angular/core'
 import { TranslateService } from '@ngx-translate/core'
 import { useMemo } from '../../helpers/memo.helper'
 import { Option } from '../../interfaces/option.interface'
@@ -15,8 +15,6 @@ import { Option } from '../../interfaces/option.interface'
  *   (searchChange)="handleSearch($event)"
  * >
  * </sq-select-search>
- * 
- * @implements {OnChanges}
  */
 @Component({
   selector: 'sq-select-search',
