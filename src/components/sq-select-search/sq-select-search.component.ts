@@ -205,6 +205,11 @@ export class SqSelectSearchComponent {
   timeoutInput!: ReturnType<typeof setTimeout>
 
   /**
+   * The height for the cdk-virtual-scroll-viewport (default 305px).
+   */
+  cdkVirtualScrollViewportHeight = '305px'
+
+  /**
    * Constructs a new SqSelectSearchComponent.
    *
    * @param {ElementRef} element - The element reference.
@@ -253,6 +258,9 @@ export class SqSelectSearchComponent {
       }, 300))
       this.changeDetector.detectChanges()
     } else {
+      if (this.options.length < 15) {
+        this.cdkVirtualScrollViewportHeight = this.options.length * 22 + 'px'
+      }
       this._options = this.options
       this.renderOptionsList = true
       this.open = await new Promise<boolean>(resolve => setTimeout(() => {

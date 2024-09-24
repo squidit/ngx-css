@@ -86,7 +86,7 @@
         <span class="icon icon-external textarea-icon"><i class='fas fa-search'></i></span>
       </div>
     </div>
-    <cdk-virtual-scroll-viewport itemSize="22" class="list">
+    <cdk-virtual-scroll-viewport itemSize="22" [ngStyle]="{ 'height': cdkVirtualScrollViewportHeight }" class="list scrollbar">
       <ng-container *cdkVirtualFor="let opt of _options | search:searchText; i as index; trackBy: trackByOptValue">
         <ng-template *ngTemplateOutlet="option; context: { opt: opt, i: index }"></ng-template>
       </ng-container>
