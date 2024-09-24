@@ -260,6 +260,11 @@ export class SqSelectMultiTagsComponent implements OnChanges {
   cdkVirtualScrollViewportHeight = '305px'
 
   /**
+   * The size for the cdk-virtual-scroll-viewport (default 32px).
+   */
+  cdkItemSize: string | null = '32'
+
+  /**
    * Constructs a new SqSelectMultiTagsComponent.
    *
    * @param {ElementRef} element - The element reference.
@@ -408,12 +413,19 @@ export class SqSelectMultiTagsComponent implements OnChanges {
   }
 
   /**
-   * Handles the collapse of an item.
+   * Handles the collapse of an item and set the cdkItemSize if the item is open.
    *
    * @param {OptionMulti} item - The item to collapse.
    */
   handleCollapse(item: OptionMulti) {
     item.open = !item.open
+    if (item.children) {
+      if (this.options.find((option) => option.open) || item.open) {
+        this.cdkItemSize = null
+      } else {
+        this.cdkItemSize = '32'
+      }
+    }
   }
 
   /**
