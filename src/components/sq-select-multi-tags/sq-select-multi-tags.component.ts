@@ -240,9 +240,29 @@ export class SqSelectMultiTagsComponent implements OnChanges {
   nativeElement: ElementRef
 
   /**
-   * Control options to render
+   * Control pagination for options
    */
   _options: Array<OptionMulti> = []
+
+  /**
+   * Indicate if has more options to add on _options
+   */
+  hasMoreOptions = true
+
+  /**
+   * Loading for sq-infinity-scroll
+   */
+  loadingScroll = false
+
+  /**
+   * Control quantity for limit and to addMore on _options
+   */
+  quantity = 15
+
+  /**
+   * Control the _options limit
+   */
+  limit = this.quantity
 
   /**
    * Control the readonly on reach the maxTags
@@ -253,16 +273,6 @@ export class SqSelectMultiTagsComponent implements OnChanges {
    * Timeout for input changes.
    */
   timeoutInput!: ReturnType<typeof setTimeout>
-
-  /**
-   * The height for the cdk-virtual-scroll-viewport (default 305px).
-   */
-  cdkVirtualScrollViewportHeight = '305px'
-
-  /**
-   * The size for the cdk-virtual-scroll-viewport (default 32px).
-   */
-  cdkItemSize: string | null = '32'
 
   /**
    * Constructs a new SqSelectMultiTagsComponent.
@@ -281,6 +291,9 @@ export class SqSelectMultiTagsComponent implements OnChanges {
    * @param changes - The changes detected in the component's input properties.
    */
   async ngOnChanges(changes: SimpleChanges) {
+    if (this.open && changes.hasOwnProperty('options')) {
+      this.addMoreOptions(true)
+    }
     if (changes.hasOwnProperty('value') || changes.hasOwnProperty('minTags') || changes.hasOwnProperty('maxTags')) {
       this.validate()
     }
@@ -389,10 +402,7 @@ export class SqSelectMultiTagsComponent implements OnChanges {
       }, 300))
       this.changeDetector.detectChanges()
     } else {
-      if (this.options.length < 15) {
-        this.cdkVirtualScrollViewportHeight = this.options.length * 32 + 'px'
-      }
-      this._options = this.options
+      this.addMoreOptions()
       this.renderOptionsList = true
       this.open = await new Promise<boolean>(resolve => setTimeout(() => {
         resolve(true)
@@ -407,25 +417,20 @@ export class SqSelectMultiTagsComponent implements OnChanges {
   closeDropdown() {
     this.open = false
     this._options = []
+    this.limit = this.quantity
+    this.hasMoreOptions = true
     this.searchText = ''
     this.closeChange.emit(this.valueChanged)
     this.valueChanged = false
   }
 
   /**
-   * Handles the collapse of an item and set the cdkItemSize if the item is open.
+   * Handles the collapse of an item.
    *
    * @param {OptionMulti} item - The item to collapse.
    */
   handleCollapse(item: OptionMulti) {
     item.open = !item.open
-    if (item.children) {
-      if (this.options.find((option) => option.open) || item.open) {
-        this.cdkItemSize = null
-      } else {
-        this.cdkItemSize = '32'
-      }
-    }
   }
 
   /**
@@ -482,4 +487,18 @@ export class SqSelectMultiTagsComponent implements OnChanges {
     }
   }
 
+  /**
+   * Function to add more values on _options
+   */
+  addMoreOptions(isOnChange = false) {
+    if (this.hasMoreOptions || isOnChange) {
+      this.loadingScroll = true
+      const limitState = this.limit > this.options?.length ? this.options.length : this.limit
+      this._options = this.options.slice(0, limitState)
+      this.limit = this.limit + this.quantity
+      this.hasMoreOptions = limitState !== this.options.length
+      this.loadingScroll = false
+      this.changeDetector.detectChanges()
+    }
+  }
 }

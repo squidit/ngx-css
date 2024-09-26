@@ -90,11 +90,19 @@
             <span class="icon icon-external textarea-icon"><i class='fas fa-search'></i></span>
           </div>
         </div>
-        <cdk-virtual-scroll-viewport [itemSize]="cdkItemSize" [ngStyle]="{ 'height': cdkVirtualScrollViewportHeight }" class="list scrollbar">
-          <ng-container *cdkVirtualFor="let opt of _options | search:searchText; i as index; trackBy: trackByOptValue">
-            <ng-template *ngTemplateOutlet="option; context: { opt: opt, i: index }"></ng-template>
+        <sq-infinity-scroll
+          class="list"
+          elementToScrollId="sq-select-multi-tags-scroll"
+          loaderColor="var(--primary_color)"
+          [length]="_options.length || 0"
+          [hasMore]="hasMoreOptions"
+          [loading]="loadingScroll"
+          (scrolledEmitter)="addMoreOptions()"
+        >
+          <ng-container *ngFor="let opt of _options | searchFromAlternativeArray:searchText:options; let i = index; trackBy: trackByOptValue">
+            <ng-template *ngTemplateOutlet="option; context: { opt: opt, i: i }"></ng-template>
           </ng-container>
-        </cdk-virtual-scroll-viewport>
+        </sq-infinity-scroll>
         <p *ngIf="!_options?.length">
           {{ 'forms.searchSelectEmpty' | translateInternal | async }}
         </p>
