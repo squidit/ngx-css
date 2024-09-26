@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, ElementRef, EventEmitter, Input, OnChanges, Optional, Output, SimpleChanges, TemplateRef, TrackByFunction } from '@angular/core'
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, ElementRef, EventEmitter, Input, Optional, Output, TemplateRef, TrackByFunction } from '@angular/core'
 import { TranslateService } from '@ngx-translate/core'
 import { useMemo } from '../../helpers/memo.helper'
 import { Option } from '../../interfaces/option.interface'
@@ -15,8 +15,6 @@ import { Option } from '../../interfaces/option.interface'
  *   (searchChange)="handleSearch($event)"
  * >
  * </sq-select-search>
- * 
- * @implements {OnChanges}
  */
 @Component({
   selector: 'sq-select-search',
@@ -25,7 +23,7 @@ import { Option } from '../../interfaces/option.interface'
   styleUrls: ['./sq-select-search.component.scss'],
   providers: [],
 })
-export class SqSelectSearchComponent implements OnChanges {
+export class SqSelectSearchComponent {
   /**
    * The name attribute for the search-based select input.
    */
@@ -197,34 +195,19 @@ export class SqSelectSearchComponent implements OnChanges {
   open = false
 
   /**
-   * Control pagination for options
+   * Control options to render
    */
   _options: Array<Option> = []
-
-  /**
-   * Indicate if has more options to add on _options
-   */
-  hasMoreOptions = true
-
-  /**
-   * Loading for sq-infinity-scroll
-   */
-  loadingScroll = false
-
-  /**
-   * Control quantity for limit and to addMore on _options
-   */
-  quantity = 15
-
-  /**
-   * Control the _options limit
-   */
-  limit = this.quantity
 
   /**
    * Timeout for input changes.
    */
   timeoutInput!: ReturnType<typeof setTimeout>
+
+  /**
+   * The height for the cdk-virtual-scroll-viewport (default 305px).
+   */
+  cdkVirtualScrollViewportHeight = '305px'
 
   /**
    * Constructs a new SqSelectSearchComponent.
@@ -235,17 +218,6 @@ export class SqSelectSearchComponent implements OnChanges {
    */
   constructor(public element: ElementRef, @Optional() private translate: TranslateService, private changeDetector: ChangeDetectorRef) {
     this.nativeElement = element.nativeElement
-  }
-
-  /**
-   * Lifecycle hook called when any input properties change.
-   *
-   * @param changes - The changes detected in the component's input properties.
-   */
-  async ngOnChanges(changes: SimpleChanges) {
-    if (this.open && changes.hasOwnProperty('options')) {
-      this.addMoreOptions(true)
-    }
   }
 
   /**
@@ -286,7 +258,10 @@ export class SqSelectSearchComponent implements OnChanges {
       }, 300))
       this.changeDetector.detectChanges()
     } else {
-      this.addMoreOptions()
+      if (this.options.length < 15) {
+        this.cdkVirtualScrollViewportHeight = this.options.length * 22 + 'px'
+      }
+      this._options = this.options
       this.renderOptionsList = true
       this.open = await new Promise<boolean>(resolve => setTimeout(() => {
         resolve(true)
@@ -301,8 +276,6 @@ export class SqSelectSearchComponent implements OnChanges {
   closeDropdown() {
     this.open = false
     this._options = []
-    this.limit = this.quantity
-    this.hasMoreOptions = true
     this.searchText = ''
   }
 
@@ -338,18 +311,4 @@ export class SqSelectSearchComponent implements OnChanges {
     }
   }
 
- /**
-   * Function to add more values on _options
-   */
-  addMoreOptions(isOnChange = false) {
-    if (this.hasMoreOptions || isOnChange) {
-      this.loadingScroll = true
-      const limitState = this.limit > this.options.length ? this.options.length : this.limit
-      this._options = this.options.slice(0, limitState)
-      this.limit = this.limit + this.quantity
-      this.hasMoreOptions = limitState !== this.options.length
-      this.loadingScroll = false
-      this.changeDetector.detectChanges()
-    }
-  } 
 }
