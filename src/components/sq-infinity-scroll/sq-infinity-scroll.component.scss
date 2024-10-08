@@ -1,6 +1,7 @@
 .scroll {
   width: 100%;
   height: auto;
+  position: relative;
   .wrapper-message {
     p {
       text-align: center;
@@ -8,4 +9,11 @@
       margin: 1.1rem auto;
     }
   }
+}
+
+.infinity-loader {
+  position: absolute;
+  bottom: 0;
+  right: 50%;
+  translate: transform(0, -50%);
 }
