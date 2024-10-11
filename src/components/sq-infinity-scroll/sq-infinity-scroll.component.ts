@@ -71,6 +71,11 @@ export class SqInfinityComponent implements AfterViewInit, AfterContentChecked, 
   document: Document
 
   /**
+   * Threshold for scrolling.
+   */
+  tresholdScroll = 25
+
+  /**
    * Creates an instance of SqInfinityComponent.
    * @constructor
    * @param {Document} documentImported Reference to the Document object for interacting with the DOM.
@@ -124,7 +129,7 @@ export class SqInfinityComponent implements AfterViewInit, AfterContentChecked, 
     if (!this.loading && this.length > 0 && this.hasMore) {
       if (this.elementToScrollId && this.elementToScroll instanceof HTMLElement) {
         const allScroll = this.elementToScroll?.scrollTop + this.elementToScroll?.clientHeight
-        if (allScroll >= this.elementToScroll?.scrollHeight) {
+        if (allScroll + this.tresholdScroll >= this.elementToScroll?.scrollHeight) {
           this.elementToScroll?.removeEventListener('scroll', this.onScroll, false)
           this.scrolledEmitter.emit()
           this.elementToScroll?.addEventListener('scroll', this.onScroll, false)
@@ -132,7 +137,7 @@ export class SqInfinityComponent implements AfterViewInit, AfterContentChecked, 
       } else if (this.elementToScroll instanceof Window) {
         const elementHeight = this.elementToScroll?.innerHeight
         const elementY = this.elementToScroll?.scrollY
-        if (elementHeight + elementY >= this.scrollElement?.nativeElement.offsetHeight + this.scrollElement?.nativeElement.offsetTop) {
+        if (elementHeight + elementY + this.tresholdScroll >= this.scrollElement?.nativeElement.offsetHeight + this.scrollElement?.nativeElement.offsetTop) {
           this.elementToScroll?.removeEventListener('scroll', this.onScroll, false)
           this.scrolledEmitter.emit()
           this.elementToScroll?.addEventListener('scroll', this.onScroll, false)
