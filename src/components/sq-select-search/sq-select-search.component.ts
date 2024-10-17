@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, ElementRef, EventEmitter, Input, Optional, Output, TemplateRef, TrackByFunction } from '@angular/core'
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, ElementRef, EventEmitter, Input, OnChanges, Optional, Output, SimpleChanges, TemplateRef, TrackByFunction } from '@angular/core'
 import { TranslateService } from '@ngx-translate/core'
 import { useMemo } from '../../helpers/memo.helper'
 import { Option } from '../../interfaces/option.interface'
@@ -23,7 +23,7 @@ import { Option } from '../../interfaces/option.interface'
   styleUrls: ['./sq-select-search.component.scss'],
   providers: [],
 })
-export class SqSelectSearchComponent {
+export class SqSelectSearchComponent implements OnChanges {
   /**
    * The name attribute for the search-based select input.
    */
@@ -221,6 +221,17 @@ export class SqSelectSearchComponent {
   }
 
   /**
+   * Lifecycle hook called when any input properties change.
+   *
+   * @param changes - The changes detected in the component's input properties.
+   */
+  async ngOnChanges(changes: SimpleChanges) {
+    if (this.open && changes.hasOwnProperty('options')) {
+      this.verifyNewOptions()
+    }
+  }
+
+  /**
    * Emits the selected value and closes the dropdown.
    *
    * @param {any} event - The event containing the selected value.
@@ -258,10 +269,7 @@ export class SqSelectSearchComponent {
       }, 300))
       this.changeDetector.detectChanges()
     } else {
-      if (this.options.length < 15) {
-        this.cdkVirtualScrollViewportHeight = this.options.length * 22 + 'px'
-      }
-      this._options = this.options
+      this.verifyNewOptions()
       this.renderOptionsList = true
       this.open = await new Promise<boolean>(resolve => setTimeout(() => {
         resolve(true)
@@ -310,5 +318,19 @@ export class SqSelectSearchComponent {
       this.error = await this.translate.instant(key)
     }
   }
+
+  /**
+     * Verify new options and set the cdkVirtualScrollViewportHeight
+     */
+  verifyNewOptions() {
+    this._options = this.options
+    if (!this._options.length) {
+      this.cdkVirtualScrollViewportHeight = '12px'
+    } else if (this._options.length < 15) {
+      this.cdkVirtualScrollViewportHeight = this._options.length * 32 + 'px'
+    } else {
+      this.cdkVirtualScrollViewportHeight = '305px'
+    }
+  }  
 
 }
