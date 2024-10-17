@@ -281,6 +281,9 @@ export class SqSelectMultiTagsComponent implements OnChanges {
    * @param changes - The changes detected in the component's input properties.
    */
   async ngOnChanges(changes: SimpleChanges) {
+    if (this.open && changes.hasOwnProperty('options')) {
+      this.verifyNewOptions()
+    }
     if (changes.hasOwnProperty('value') || changes.hasOwnProperty('minTags') || changes.hasOwnProperty('maxTags')) {
       this.validate()
     }
@@ -389,10 +392,7 @@ export class SqSelectMultiTagsComponent implements OnChanges {
       }, 300))
       this.changeDetector.detectChanges()
     } else {
-      if (this.options.length < 15) {
-        this.cdkVirtualScrollViewportHeight = this.options.length * 32 + 'px'
-      }
-      this._options = this.options
+      this.verifyNewOptions()
       this.renderOptionsList = true
       this.open = await new Promise<boolean>(resolve => setTimeout(() => {
         resolve(true)
@@ -479,6 +479,20 @@ export class SqSelectMultiTagsComponent implements OnChanges {
       }, this.timeToChange)) || ''
       this.searchChange.emit(event)
       this.changeDetector.detectChanges()
+    }
+  }
+
+  /**
+   * Verify new options and set the cdkVirtualScrollViewportHeight
+   */
+  verifyNewOptions() {
+    this._options = this.options
+    if (!this._options.length) {
+      this.cdkVirtualScrollViewportHeight = '16px'
+    } else if (this._options.length < 15) {
+      this.cdkVirtualScrollViewportHeight = this._options.length * 32 + 'px'
+    } else {
+      this.cdkVirtualScrollViewportHeight = '305px'
     }
   }
 
