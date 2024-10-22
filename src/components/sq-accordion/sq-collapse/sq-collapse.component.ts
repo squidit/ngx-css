@@ -125,8 +125,9 @@ export class SqCollapseComponent {
   /**
    * Component Constructor
    * @param colorsHelper - The ColorsHelper instance
+   * @param elementRef - The ElementRef instance
    */
-  constructor(public colorsHelper: ColorsHelper) { }
+  constructor(public colorsHelper: ColorsHelper, public elementRef: ElementRef) { }
 
   /**
    * Toggles the state of the collapse component.

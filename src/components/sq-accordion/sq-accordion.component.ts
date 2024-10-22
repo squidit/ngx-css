@@ -4,10 +4,12 @@ import {
   ContentChildren,
   QueryList,
   AfterContentInit,
-  OnDestroy
+  OnDestroy,
+  ElementRef
 } from '@angular/core'
 import { SqCollapseComponent } from './sq-collapse/sq-collapse.component'
 import { sleep } from '../../helpers/sleep.helper'
+import { Subscription } from 'rxjs'
 
 /**
  * Represents the SqAccordionComponent, an accordion component that manages a collection of SqCollapseComponents.
@@ -49,15 +51,40 @@ export class SqAccordionComponent implements AfterContentInit, OnDestroy {
   @Input() openFirst?: boolean
 
   /**
+   * Indicates whether only direct children of the host element should be included in the accordion.
+   * If true, only `SqCollapseComponent` instances that are direct children of the host element will be included in the accordion.
+   * If false, all `SqCollapseComponent` instances within the host element will be included in the accordion.
+   * Default is true.
+   */
+  @Input() directChildrenOnly = true
+
+  /**
    * A QueryList containing the SqCollapseComponent instances within the accordion.
    */
-  @ContentChildren(SqCollapseComponent)
-  collapses: QueryList<SqCollapseComponent> = [] as unknown as QueryList<SqCollapseComponent>
+  @ContentChildren(SqCollapseComponent, { descendants: true }) collapses: QueryList<SqCollapseComponent> = [] as unknown as QueryList<SqCollapseComponent>
+  
+  /**
+   * A subscription to the changes of the collapses QueryList.
+   * This subscription is used to update the collapses QueryList when the content changes.
+   */
+  collapsesSubscription: Subscription = new Subscription()
+
+  /**
+   * Initializes a new instance of the SqAccordionComponent class.
+   * @param elementRef - The ElementRef instance.
+   */
+  constructor(private elementRef: ElementRef) {}
 
   /**
    * Performs actions after the content has been initialized.
    */
   async ngAfterContentInit() {
+    this.filterDirectChildren()
+
+    this.collapsesSubscription = this.collapses.changes.subscribe(() => {
+      this.filterDirectChildren()
+    })
+
     if (this.openFirst) {
       const collapses = this.collapses.toArray()
       if (collapses?.length) {
@@ -88,6 +115,8 @@ export class SqAccordionComponent implements AfterContentInit, OnDestroy {
         collapse.openedEmitter.unsubscribe()
       })
     }
+
+    this.collapsesSubscription?.unsubscribe()
   }
 
   /**
@@ -103,5 +132,20 @@ export class SqAccordionComponent implements AfterContentInit, OnDestroy {
       })
     }
     collapse.toggleCollapse()
+  }
+
+  /**
+   * Filters the collapses to include only direct children of the host element.
+   * If `directChildrenOnly` is true, it will reset the `collapses` QueryList to only include
+   * `SqCollapseComponent` instances that are direct children of the host element.
+   */
+  filterDirectChildren() {
+    if (this.directChildrenOnly) {
+      const hostElement = this.elementRef.nativeElement
+      const directChildren = this.collapses.filter(collapse =>
+        collapse['elementRef'].nativeElement.parentElement.parentElement === hostElement
+      )
+      this.collapses.reset(directChildren)
+    }
   }
 }
