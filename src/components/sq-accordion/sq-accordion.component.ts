@@ -51,14 +51,6 @@ export class SqAccordionComponent implements AfterContentInit, OnDestroy {
   @Input() openFirst?: boolean
 
   /**
-   * Indicates whether only direct children of the host element should be included in the accordion.
-   * If true, only `SqCollapseComponent` instances that are direct children of the host element will be included in the accordion.
-   * If false, all `SqCollapseComponent` instances within the host element will be included in the accordion.
-   * Default is true.
-   */
-  @Input() directChildrenOnly = true
-
-  /**
    * A QueryList containing the SqCollapseComponent instances within the accordion.
    */
   @ContentChildren(SqCollapseComponent, { descendants: true }) collapses: QueryList<SqCollapseComponent> = [] as unknown as QueryList<SqCollapseComponent>
@@ -79,10 +71,10 @@ export class SqAccordionComponent implements AfterContentInit, OnDestroy {
    * Performs actions after the content has been initialized.
    */
   async ngAfterContentInit() {
-    this.filterDirectChildren()
+    this.filterChildren()
 
     this.collapsesSubscription = this.collapses.changes.subscribe(() => {
-      this.filterDirectChildren()
+      this.filterChildren()
     })
 
     if (this.openFirst) {
@@ -135,17 +127,14 @@ export class SqAccordionComponent implements AfterContentInit, OnDestroy {
   }
 
   /**
-   * Filters the collapses to include only direct children of the host element.
-   * If `directChildrenOnly` is true, it will reset the `collapses` QueryList to only include
-   * `SqCollapseComponent` instances that are direct children of the host element.
+   * Filters the children of the accordion.
+   * This method is used to filter the children of the accordion and update the collapses QueryList.
    */
-  filterDirectChildren() {
-    if (this.directChildrenOnly) {
-      const hostElement = this.elementRef.nativeElement
-      const directChildren = this.collapses.filter(collapse =>
-        collapse['elementRef'].nativeElement.parentElement.parentElement === hostElement
-      )
-      this.collapses.reset(directChildren)
-    }
+  filterChildren() {
+    const hostElement = this.elementRef.nativeElement
+    const filteredChildren = this.collapses.filter(collapse => 
+      collapse['elementRef'].nativeElement.parentElement.parentElement === hostElement || collapse['elementRef'].nativeElement.parentElement.parentElement.parentElement === hostElement
+    )
+    this.collapses.reset(filteredChildren)
   }
 }
