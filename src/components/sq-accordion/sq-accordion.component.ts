@@ -132,9 +132,16 @@ export class SqAccordionComponent implements AfterContentInit, OnDestroy {
    */
   filterChildren() {
     const hostElement = this.elementRef.nativeElement
-    const filteredChildren = this.collapses.filter(collapse => 
-      collapse['elementRef'].nativeElement.parentElement.parentElement === hostElement || collapse['elementRef'].nativeElement.parentElement.parentElement.parentElement === hostElement
-    )
+    const filteredChildren = this.collapses.filter(collapse => {
+      let parent = collapse['elementRef'].nativeElement.parentElement
+      for (let i = 0; i < 4; i++) {
+      if (parent === hostElement) {
+        return true
+      }
+      parent = parent.parentElement
+      }
+      return false
+    })
     this.collapses.reset(filteredChildren)
   }
 }
