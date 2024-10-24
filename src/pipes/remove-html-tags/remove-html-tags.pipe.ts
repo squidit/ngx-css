@@ -24,7 +24,7 @@ export class RemoveHtmlTagsPipe implements PipeTransform {
     if (value == null) {
       return ''
     }
-    const regex = /<\/?[^>]+(>|$)/g
+    const regex = /<\/?[^>]+(>|$)|&nbsp;/g
     return value.replace(regex, '')
   }
 }
