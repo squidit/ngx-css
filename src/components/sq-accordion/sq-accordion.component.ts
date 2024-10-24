@@ -4,10 +4,12 @@ import {
   ContentChildren,
   QueryList,
   AfterContentInit,
-  OnDestroy
+  OnDestroy,
+  ElementRef
 } from '@angular/core'
 import { SqCollapseComponent } from './sq-collapse/sq-collapse.component'
 import { sleep } from '../../helpers/sleep.helper'
+import { Subscription } from 'rxjs'
 
 /**
  * Represents the SqAccordionComponent, an accordion component that manages a collection of SqCollapseComponents.
@@ -51,13 +53,30 @@ export class SqAccordionComponent implements AfterContentInit, OnDestroy {
   /**
    * A QueryList containing the SqCollapseComponent instances within the accordion.
    */
-  @ContentChildren(SqCollapseComponent)
-  collapses: QueryList<SqCollapseComponent> = [] as unknown as QueryList<SqCollapseComponent>
+  @ContentChildren(SqCollapseComponent, { descendants: true }) collapses: QueryList<SqCollapseComponent> = [] as unknown as QueryList<SqCollapseComponent>
+  
+  /**
+   * A subscription to the changes of the collapses QueryList.
+   * This subscription is used to update the collapses QueryList when the content changes.
+   */
+  collapsesSubscription: Subscription = new Subscription()
+
+  /**
+   * Initializes a new instance of the SqAccordionComponent class.
+   * @param elementRef - The ElementRef instance.
+   */
+  constructor(private elementRef: ElementRef) {}
 
   /**
    * Performs actions after the content has been initialized.
    */
   async ngAfterContentInit() {
+    this.filterChildren()
+
+    this.collapsesSubscription = this.collapses.changes.subscribe(() => {
+      this.filterChildren()
+    })
+
     if (this.openFirst) {
       const collapses = this.collapses.toArray()
       if (collapses?.length) {
@@ -88,6 +107,8 @@ export class SqAccordionComponent implements AfterContentInit, OnDestroy {
         collapse.openedEmitter.unsubscribe()
       })
     }
+
+    this.collapsesSubscription?.unsubscribe()
   }
 
   /**
@@ -103,5 +124,24 @@ export class SqAccordionComponent implements AfterContentInit, OnDestroy {
       })
     }
     collapse.toggleCollapse()
+  }
+
+  /**
+   * Filters the children of the accordion.
+   * This method is used to filter the children of the accordion and update the collapses QueryList.
+   */
+  filterChildren() {
+    const hostElement = this.elementRef.nativeElement
+    const filteredChildren = this.collapses.filter(collapse => {
+      let parent = collapse['elementRef'].nativeElement.parentElement
+      for (let i = 0; i < 4; i++) {
+      if (parent === hostElement) {
+        return true
+      }
+      parent = parent.parentElement
+      }
+      return false
+    })
+    this.collapses.reset(filteredChildren)
   }
 }
