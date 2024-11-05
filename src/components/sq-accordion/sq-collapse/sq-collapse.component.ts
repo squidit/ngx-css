@@ -44,6 +44,11 @@ export class SqCollapseComponent {
   @Input() collapseButtonDisabled?: boolean
 
   /**
+   * The tooltip for the collapse button.
+   */
+  @Input() collapseButtonTooltip?: string
+
+  /**
    * The color scheme of the collapse component.
    */
   @Input() color = ''
