@@ -39,6 +39,11 @@ export class SqCollapseComponent {
   @Input() disabled?: boolean
 
   /**
+   * Indicates whether just the collapse dropdown button is disabled.
+   */
+  @Input() collapseButtonDisabled?: boolean
+
+  /**
    * The color scheme of the collapse component.
    */
   @Input() color = ''
@@ -133,7 +138,7 @@ export class SqCollapseComponent {
    * Toggles the state of the collapse component.
    */
   public async toggleCollapse() {
-    if (!this.disabled && !this.loading && !this.opening) {
+    if (!this.disabled && !this.collapseButtonDisabled && !this.loading && !this.opening) {
       this.opening = this.wrapper?.nativeElement?.clientHeight + 'px'
       clearTimeout(this.timeout)
       this.timeout = setTimeout(() => {
