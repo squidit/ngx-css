@@ -22,6 +22,9 @@
     </span>
     <div
       class="wrapper-icons"
+      [ngClass]="{
+        disabled: collapseButtonDisabled
+      }"
       [ngStyle]="{
         color: colorIcons,
         'background-color': hoverIcon ? setHover(colorBackgroundIcon) : colorBackgroundIcon,
@@ -29,6 +32,7 @@
         height: heightIcon,
         'line-height': heightIcon
       }"
+      [tooltip]="collapseButtonTooltip"
       (mouseover)="hoverIcon = true"
       (mouseleave)="hoverIcon = false"
     >
