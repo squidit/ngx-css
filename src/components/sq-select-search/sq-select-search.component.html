@@ -71,29 +71,32 @@
         open: !disabled && !loading && renderOptionsList && open
       }"
     >
-    <div class="input-search">
-      <div class="wrapper-all-inside-input">
-        <div class="p-0 wrapper-input wrapper-input-squid text-ellipsisarea">
-          <input
-            [name]="name"
-            [id]="id"
-            [placeholder]="placeholderSearch || ('forms.search' | translateInternal | async) || ''"
-            class="col input"
-            [ngModel]="searchText"
-            (ngModelChange)="onTipSearchChange($event)"
-          />
+      <div class="input-search">
+        <div class="wrapper-all-inside-input">
+          <div class="p-0 wrapper-input wrapper-input-squid text-ellipsisarea">
+            <input
+              [name]="name"
+              [id]="id"
+              [placeholder]="placeholderSearch || ('forms.search' | translateInternal | async) || ''"
+              class="col input"
+              [ngModel]="searchText"
+              (ngModelChange)="onTipSearchChange($event)"
+            />
+          </div>
+          <span class="icon icon-external textarea-icon"><i class='fas fa-search'></i></span>
         </div>
-        <span class="icon icon-external textarea-icon"><i class='fas fa-search'></i></span>
       </div>
-    </div>
-    <cdk-virtual-scroll-viewport itemSize="22" [ngStyle]="{ 'height': cdkVirtualScrollViewportHeight }" class="list scrollbar">
-      <ng-container *cdkVirtualFor="let opt of _options | search:searchText; i as index; trackBy: trackByOptValue">
-        <ng-template *ngTemplateOutlet="option; context: { opt: opt, i: index }"></ng-template>
-      </ng-container>
-    </cdk-virtual-scroll-viewport>
-    <p class="mb-0 mt-3" *ngIf="!_options?.length">
-      {{ 'forms.searchSelectEmpty' | translateInternal | async }}
-    </p>
+      <cdk-virtual-scroll-viewport itemSize="22" [ngStyle]="{ 'height': cdkVirtualScrollViewportHeight }" class="list scrollbar">
+        <ng-container *cdkVirtualFor="let opt of _options | search:searchText; i as index; trackBy: trackByOptValue">
+          <ng-template *ngTemplateOutlet="option; context: { opt: opt, i: index }"></ng-template>
+        </ng-container>
+      </cdk-virtual-scroll-viewport>
+      <p class="mb-0 mt-3" *ngIf="!_options?.length && !selectEmptyTemplate">
+        {{ 'forms.searchSelectEmpty' | translateInternal | async }}
+      </p>
+      <span *ngIf="selectEmptyTemplate">
+        <ng-container *ngTemplateOutlet="selectEmptyTemplate"></ng-container>
+      </span>
     </div>
   </div>
   <div

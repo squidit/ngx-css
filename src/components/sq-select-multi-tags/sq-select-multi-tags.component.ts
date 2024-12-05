@@ -48,12 +48,6 @@ export class SqSelectMultiTagsComponent implements OnChanges {
   @Input() label = ''
 
   /**
-   * The label template for the multi-tag select input.
-   */
-  @ContentChild('labelTemplate')
-  labelTemplate: TemplateRef<HTMLElement> | null = null
-
-  /**
    * Custom CSS class for styling the component.
    */
   @Input() customClass = ''
@@ -202,6 +196,18 @@ export class SqSelectMultiTagsComponent implements OnChanges {
    * Event emitted when the multi-tag select input becomes valid or invalid.
    */
   @Output() valid: EventEmitter<boolean> = new EventEmitter()
+
+  /**
+   * The label template for the search-based select input.
+   */
+  @ContentChild('labelTemplate')
+  labelTemplate: TemplateRef<HTMLElement> | null = null
+
+  /**
+   * The select empty template for the search-based select input.
+   */
+  @ContentChild('selectEmptyTemplate')
+  selectEmptyTemplate: TemplateRef<HTMLElement> | null = null
 
 
   /**

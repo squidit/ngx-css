@@ -95,9 +95,12 @@
             <ng-template *ngTemplateOutlet="option; context: { opt: opt, i: index }"></ng-template>
           </ng-container>
         </cdk-virtual-scroll-viewport>
-        <p *ngIf="!_options?.length">
+        <p *ngIf="!_options?.length && !selectEmptyTemplate">
           {{ 'forms.searchSelectEmpty' | translateInternal | async }}
         </p>
+        <span *ngIf="selectEmptyTemplate">
+          <ng-container *ngTemplateOutlet="selectEmptyTemplate"></ng-container>
+        </span>
       </div>
     </div>
   </div>

@@ -44,12 +44,6 @@ export class SqSelectSearchComponent implements OnChanges {
   @Input() label = ''
 
   /**
-   * The label template for the search-based select input.
-   */
-  @ContentChild('labelTemplate')
-  labelTemplate: TemplateRef<HTMLElement> | null = null
-
-  /**
    * Custom CSS class for styling the component.
    */
   @Input() customClass = ''
@@ -168,6 +162,18 @@ export class SqSelectSearchComponent implements OnChanges {
    * Event emitted when the search-based select input becomes valid or invalid.
    */
   @Output() valid: EventEmitter<boolean> = new EventEmitter()
+
+  /**
+   * The label template for the search-based select input.
+   */
+  @ContentChild('labelTemplate')
+  labelTemplate: TemplateRef<HTMLElement> | null = null
+
+  /**
+   * The select empty template for the search-based select input.
+   */
+  @ContentChild('selectEmptyTemplate')
+  selectEmptyTemplate: TemplateRef<HTMLElement> | null = null
 
   /**
    * Error message associated with the search-based select input.
