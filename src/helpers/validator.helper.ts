@@ -65,7 +65,8 @@ export class ValidatorHelper {
       '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
       '(\\/\\@?[a-zA-Z0-9._%+-]*)*' +
       '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
-      '(\\#[-a-z\\d_]*)?$',
+      '(\\#[-a-z\\d_]*)?' + // query string with #?
+      '(\\?[;&a-z\\d%_.~+=-]*)?$',
       'i'
     ) // fragment locator
     return !!pattern.test(url)
