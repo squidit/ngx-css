@@ -118,6 +118,11 @@ export class SqSelectMultiTagsComponent implements OnChanges {
   @Input() labelColor = ''
 
   /**
+   * Maximum height for the multi-tag values.
+   */
+  @Input() maxHeight = '100%'
+
+  /**
    * Minimum number of characters to perform the searchChange.
    */
   @Input() minCharactersToSearch = 0

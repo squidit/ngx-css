@@ -52,6 +52,7 @@
           disabled: disabled,
           readonly: readonly
         }"
+        [style.maxHeight]="maxHeight"
         (click)="doDropDownAction()"
       >
         <div class="loading-wrapper" *ngIf="loading">
