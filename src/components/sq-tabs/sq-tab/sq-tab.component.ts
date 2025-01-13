@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core'
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core'
 /**
  * Represents a tab component for displaying tabbed content.
  *
@@ -16,6 +16,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core'
   selector: 'sq-tab',
   templateUrl: './sq-tab.component.html',
   styleUrls: ['./sq-tab.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SqTabComponent {
   /**

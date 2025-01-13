@@ -1,7 +1,7 @@
-import { AfterViewChecked, AfterViewInit, Component, ContentChildren, EventEmitter, Input, Output, QueryList } from '@angular/core'
-import { SqTabComponent } from './sq-tab/sq-tab.component'
-import { sleep } from '../../helpers/sleep.helper'
+import { AfterViewChecked, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChildren, EventEmitter, Input, Output, QueryList } from '@angular/core'
 import { useMemo } from '../../helpers/memo.helper'
+import { sleep } from '../../helpers/sleep.helper'
+import { SqTabComponent } from './sq-tab/sq-tab.component'
 
 /**
  * Represents a tab container component for managing a collection of tabs.
@@ -24,6 +24,7 @@ import { useMemo } from '../../helpers/memo.helper'
   selector: 'sq-tabs',
   templateUrl: './sq-tabs.component.html',
   styleUrls: ['./sq-tabs.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SqTabsComponent implements AfterViewInit, AfterViewChecked {
   /**
@@ -87,6 +88,12 @@ export class SqTabsComponent implements AfterViewInit, AfterViewChecked {
   tabsPosition = 'initial'
 
   /**
+   * Constructor for the SqTabs class.
+   * @param cdr - The change detector reference.
+   */
+  constructor(private cdr: ChangeDetectorRef) {}
+
+  /**
    * Lifecycle hook called after the view initialization.
    */
   async ngAfterViewInit() {
@@ -145,6 +152,7 @@ export class SqTabsComponent implements AfterViewInit, AfterViewChecked {
         }
       })
     }
+    this.cdr.detectChanges()
     return null
   }
 
