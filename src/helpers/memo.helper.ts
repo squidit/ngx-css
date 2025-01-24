@@ -40,15 +40,16 @@ export function useMemo<T extends (...args: any[]) => any>(fnToMemoize: T): T {
   const primitiveCache = new Map<string, any>()
   const objectCache = new WeakMap<object, any>()
 
-  return function (...args: any[]) {
+  return function (...args: any[]): ReturnType<T> {
     const primitiveKeyParts: string[] = []
     const objectKeys: object[] = []
 
+    // Separar os argumentos em primitivos e objetos
     args.forEach(arg => {
       if (typeof arg === 'object' && arg !== null) {
-        objectKeys.push(arg) // Guarda a referência do objeto
+        objectKeys.push(arg)
       } else {
-        primitiveKeyParts.push(`${typeof arg}:${String(arg)}`) // Guarda o valor primitivo
+        primitiveKeyParts.push(`${typeof arg}:${String(arg)}`)
       }
     })
 
@@ -74,21 +75,13 @@ export function useMemo<T extends (...args: any[]) => any>(fnToMemoize: T): T {
       currentCache = currentCache.get(obj)
     }
 
-    // Última verificação no cache de objetos
     const resultKey = { key: primitiveKey }
     if (!currentCache.has(resultKey)) {
       const result = fnToMemoize(...args)
-      currentCache.set(resultKey, { key: primitiveKey, value: result })
+      currentCache.set(resultKey, result)
       return result
     }
-
-    const cachedResult = currentCache.get(resultKey)
-    if (cachedResult.key === primitiveKey) {
-      return cachedResult.value
-    }
-
-    const result = fnToMemoize(...args)
-    currentCache.set(resultKey, { key: primitiveKey, value: result })
-    return result
+    return currentCache.get(resultKey)
   } as T
 }
+
