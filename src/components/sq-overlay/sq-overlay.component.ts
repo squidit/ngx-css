@@ -297,9 +297,10 @@ export class SqOverlayComponent implements OnChanges, OnDestroy {
     this.overlayClose.emit()
     this.finishOpening = false
     this.undoCssWidth()
-    backdrop?.removeAttribute('style')
     overlay?.parentNode?.removeChild(overlay)
-    if (this.modalNumber <= 1) {
+    if (this.modalNumber === 2) { 
+      backdrop?.removeAttribute('style')
+    } else if (this.modalNumber <= 1) {
       backdrop?.parentNode?.removeChild(backdrop)
     }
     window.removeEventListener('keydown', this.onKeydown)
