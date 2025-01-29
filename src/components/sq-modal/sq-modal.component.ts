@@ -265,9 +265,10 @@ export class SqModalComponent implements OnChanges, OnDestroy {
     const backdrop = this.document.getElementById('modal-backdrop')
     const modal = this.document.getElementById(this.id)
     this.modalClose.emit()
-    backdrop?.removeAttribute('style')
     modal?.parentNode?.removeChild(modal)
-    if (this.modalNumber <= 1) {
+    if (this.modalNumber === 2) {
+      backdrop?.removeAttribute('style')
+    } else if (this.modalNumber <= 1) {
       backdrop?.parentNode?.removeChild(backdrop)
     }
     this.getWindow?.window()?.removeEventListener('keydown', this.onKeydown)
