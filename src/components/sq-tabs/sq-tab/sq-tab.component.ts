@@ -1,4 +1,4 @@
-import { ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core'
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core'
 /**
  * Represents a tab component for displaying tabbed content.
@@ -87,11 +87,4 @@ export class SqTabComponent {
   @Output() whenOpen: EventEmitter<void> = new EventEmitter()
 
   constructor(private cdr: ChangeDetectorRef) { }
-
-  /**
-   * If you need to call publicly
-   */
-  detectChanges() {
-    this.cdr.markForCheck()
-  }
 }
