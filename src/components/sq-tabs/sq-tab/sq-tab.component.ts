@@ -1,3 +1,4 @@
+import { ChangeDetectorRef } from '@angular/core'
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core'
 /**
  * Represents a tab component for displaying tabbed content.
@@ -22,7 +23,16 @@ export class SqTabComponent {
   /**
    * Flag to indicate if the tab is active (open).
    */
-  @Input() active = false
+  @Input() set active(value: boolean) {
+    this._active = value
+    if (value) {
+      this.cdr.markForCheck()
+    }
+  }
+  get active(): boolean {
+    return this._active
+  }
+  private _active = false
 
   /**
    * The title displayed on the tab.
@@ -62,10 +72,19 @@ export class SqTabComponent {
   /**
    * Flag to hide the tab html.
    */
-  @Input() hideHtml = false
+  @Input() set hideHtml(value: boolean) {
+    this._hideHtml = value
+    this.cdr.markForCheck()
+  }
+  get hideHtml(): boolean {
+    return this._hideHtml
+  }
+  private _hideHtml = false
 
   /**
    * Event emitted when the tab is opened.
    */
   @Output() whenOpen: EventEmitter<void> = new EventEmitter()
+
+  constructor(private cdr: ChangeDetectorRef) { }
 }

@@ -1,7 +1,7 @@
 import { AfterViewChecked, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChildren, EventEmitter, Input, Output, QueryList } from '@angular/core'
 import { useMemo } from '../../helpers/memo.helper'
-import { sleep } from '../../helpers/sleep.helper'
 import { SqTabComponent } from './sq-tab/sq-tab.component'
+import { Subject, takeUntil } from 'rxjs'
 
 /**
  * Represents a tab container component for managing a collection of tabs.
@@ -88,29 +88,43 @@ export class SqTabsComponent implements AfterViewInit, AfterViewChecked {
   tabsPosition = 'initial'
 
   /**
+   * The initial width of the tabs.
+   */
+  private destroy$ = new Subject<void>()
+
+  /**
    * Constructor for the SqTabs class.
    * @param cdr - The change detector reference.
    */
-  constructor(private cdr: ChangeDetectorRef) {}
+  constructor(private cdr: ChangeDetectorRef) { }
 
   /**
    * Lifecycle hook called after the view initialization.
    */
-  async ngAfterViewInit() {
+  ngAfterViewInit() {
+    this.setupTabsSubscription()
+
     const activeTab = {
-      tab: this.tabs.find((tab) => tab.active),
-      index: this.tabs.toArray().findIndex((tab) => tab.active),
+      tab: this.tabs.find((tab: { active: any }) => tab.active),
+      index: this.tabs.toArray().findIndex((tab: { active: any }) => tab.active),
     }
 
-    await sleep(1000)
+    /**
+     * setTimeout sem delay para:
+     *  - Colocar a execução no final da fila de eventos (microtask queue)
+     *  - Evitar ExpressionChangedAfterItHasBeenCheckedError
+     *  - Manter tempo de resposta instantâneo (sem delay artificial)
+     */
+    setTimeout(() => {
+      if (activeTab.tab?.title) {
+        this.selectTab(activeTab.tab, activeTab.index)
+      } else if (this.tabs.first) {
+        this.selectTab(this.tabs.first, 0)
+      }
 
-    if (activeTab.tab?.title) {
-      this.selectTab(activeTab.tab, activeTab.index)
-    } else if (this.tabs.first) {
-      this.selectTab(this.tabs.first, 0)
-    }
-
-    this.total = this.tabs.toArray().length || 1
+      this.total = this.tabs.toArray().length || 1
+      this.cdr.markForCheck()
+    })
   }
 
   /**
@@ -119,7 +133,16 @@ export class SqTabsComponent implements AfterViewInit, AfterViewChecked {
   ngAfterViewChecked(): void {
     if (this.tabs.toArray().length !== this.total) {
       this.total = this.tabs.toArray().length || 1
+      this.cdr.markForCheck()
     }
+  }
+
+  /**
+   * Lifecycle hook called when the component is destroyed.
+   */
+  ngOnDestroy(): void {
+    this.destroy$.next()
+    this.destroy$.complete()
   }
 
   /**
@@ -132,27 +155,26 @@ export class SqTabsComponent implements AfterViewInit, AfterViewChecked {
     if (tab?.disabled || tab?.loading) {
       return null
     }
-    this.tabs.toArray().forEach((tabItem) => (tabItem.active = false))
+
+    this.tabs.toArray().forEach((tabItem: { active: boolean; hideHtml: boolean }) => {
+      tabItem.active = false
+      if (this.hideHtmlForInactives) {
+        tabItem.hideHtml = true
+      }
+    })
+
     if (tab) {
-      this.tabChange.emit({
-        tab,
-        index,
-      })
       tab.active = true
       tab.hideHtml = false
+
+      this.tabChange.emit({ tab, index })
 
       if (tab.whenOpen) {
         tab.whenOpen.emit()
       }
     }
-    if (this.hideHtmlForInactives) {
-      this.tabs.toArray().forEach((tabItem) => {
-        if (!tabItem.active) {
-          tabItem.hideHtml = true
-        }
-      })
-    }
-    this.cdr.detectChanges()
+
+    this.cdr.markForCheck()
     return null
   }
 
@@ -171,8 +193,17 @@ export class SqTabsComponent implements AfterViewInit, AfterViewChecked {
       return tabWidth
     }
     if (lineStyle) {
-     return 'fit-content'
+      return 'fit-content'
     }
     return 'initial'
   })
+
+  private setupTabsSubscription() {
+    this.tabs.changes
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.total = this.tabs.toArray().length || 1;
+        this.cdr.markForCheck()
+      })
+  }
 }
