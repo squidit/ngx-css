@@ -28,7 +28,7 @@ import { Directive, Input, OnInit, TemplateRef, ViewContainerRef } from '@angula
 @Directive({
 	selector: '[skeleton]'
 })
-export class SkeletonDirective implements OnInit {
+export class SqSkeletonDirective implements OnInit {
 	/**
 	 * Controls whether the skeleton should be displayed.
 	 * When true, shows skeleton placeholders when false, shows the actual content.
