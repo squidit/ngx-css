@@ -26,49 +26,54 @@ import { Directive, Input, OnInit, TemplateRef, ViewContainerRef } from '@angula
  * </div>
  */
 @Directive({
-	selector: '[skeleton]'
+	selector: '[skeleton]',
 })
 export class SqSkeletonDirective implements OnInit {
 	/**
 	 * Controls whether the skeleton should be displayed.
 	 * When true, shows skeleton placeholders when false, shows the actual content.
 	 */
-	@Input() skeleton: boolean = false
+	@Input() skeleton = false
 
 	/**
 	 * Width of each skeleton placeholder.
-	 * Default: '100%'
+	 * @default '100%'
 	 */
-	@Input() skeletonWidth: string = '100%'
+	@Input() skeletonWidth = '100%'
 
 	/**
 	 * Height of each skeleton placeholder.
-	 * Default: '100%'
+	 * @default '100%'
 	 */
-	@Input() skeletonHeight: string = '100%'
+	@Input() skeletonHeight = '100%'
 
 	/**
 	 * Number of skeleton placeholders to display.
-	 * Default: 1
+	 * @default 1
 	 */
-	@Input() skeletonRepeat: number = 1
+	@Input() skeletonRepeat = 1
 
 	/**
 	 * Delay between animations of subsequent skeleton placeholders (in milliseconds).
 	 * Creates a wave effect when multiple placeholders are used.
-	 * Default: 0 (no delay)
+	 * @default 0 (no delay)
 	 */
-	@Input() skeletonDelay: number = 0
+	@Input() skeletonDelay = 0
 
 	/**
 	 * Margin around each skeleton placeholder.
-	 * Default: '0'
+	 * @default '0'
 	 */
-	@Input() skeletonMargin: string = '0'
+	@Input() skeletonMargin = '0'
 
+	/**
+	 * Creates an instance of SqSkeletonDirective.
+	 * @param templateRef - Reference to the template where the directive is applied.
+	 * @param viewContainer - Container where the skeleton or content will be rendered.
+	 */
 	constructor(
 		private templateRef: TemplateRef<any>,
-		private viewContainer: ViewContainerRef
+		private viewContainer: ViewContainerRef,
 	) { }
 
 	/**
@@ -86,6 +91,7 @@ export class SqSkeletonDirective implements OnInit {
 	/**
 	 * Creates and displays skeleton placeholder elements.
 	 * Clears any existing content and generates new skeleton elements based on configuration.
+	 * @private
 	 */
 	private showSkeleton() {
 		this.viewContainer.clear()
@@ -103,7 +109,7 @@ export class SqSkeletonDirective implements OnInit {
 
 			this.viewContainer.element.nativeElement.parentNode.insertBefore(
 				skeletonElement,
-				this.viewContainer.element.nativeElement
+				this.viewContainer.element.nativeElement,
 			)
 		}
 	}
@@ -111,6 +117,7 @@ export class SqSkeletonDirective implements OnInit {
 	/**
 	 * Displays the actual content by creating an embedded view from the template.
 	 * Clears any existing skeleton placeholders before showing the content.
+	 * @private
 	 */
 	private showContent() {
 		this.viewContainer.clear()
