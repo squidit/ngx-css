@@ -39,41 +39,49 @@ export class SqTabsComponent implements AfterViewInit, AfterViewChecked {
 
   /**
    * The height of the tab container.
+   * @default undefined
    */
   @Input() height?: string
 
   /**
    * The maximum width of the tab container.
+   * @default 'initial'
    */
   @Input() maxWidth = 'initial'
 
   /**
    * The margin of the tab container.
+   * @default '0 auto'
    */
   @Input() margin = '0 auto'
 
   /**
    * Flag to indicate whether to display a line-style indicator for the selected tab.
+   * @default false
    */
   @Input() lineStyle = false
 
   /**
-   * The width of the tab container.
+   * The width of individual tabs.
+   * @default ''
    */
   @Input() tabWidth = ''
 
   /**
-   * Flag to indicate to use sm class com tabs header.
+   * Flag to indicate to use small size for tabs header.
+   * @default true
    */
   @Input() sm = true
 
   /**
-   * Flag to hide html for inactive tabs.
+   * Flag to hide HTML content for inactive tabs.
+   * @default false
    */
   @Input() hideHtmlForInactives = false
 
   /**
    * Event emitted when a tab is changed.
+   * @eventProperty
    */
   @Output() tabChange: EventEmitter<{ tab: SqTabComponent; index: number }> = new EventEmitter()
 
@@ -83,23 +91,20 @@ export class SqTabsComponent implements AfterViewInit, AfterViewChecked {
   total = 1
 
   /**
-   * The initial position of the tabs.
-   */
-  tabsPosition = 'initial'
-
-  /**
-   * The initial width of the tabs.
+   * Subject used to manage component lifecycle and unsubscribe from observables.
+   * @private
    */
   private destroy$ = new Subject<void>()
 
   /**
-   * Constructor for the SqTabs class.
-   * @param cdr - The change detector reference.
+   * Creates an instance of SqTabsComponent.
+   * @param cdr - The ChangeDetectorRef service for manual change detection control.
    */
   constructor(private cdr: ChangeDetectorRef) { }
 
   /**
-   * Lifecycle hook called after the view initialization.
+   * Angular lifecycle hook called after component's view has been initialized.
+   * Sets up initial tab selection and subscriptions.
    */
   ngAfterViewInit() {
     this.setupTabsSubscription()
@@ -128,7 +133,8 @@ export class SqTabsComponent implements AfterViewInit, AfterViewChecked {
   }
 
   /**
-   * Lifecycle hook called after the view has been checked.
+   * Angular lifecycle hook called after the view has been checked.
+   * Updates the total tab count if it has changed.
    */
   ngAfterViewChecked(): void {
     if (this.tabs.toArray().length !== this.total) {
@@ -138,7 +144,8 @@ export class SqTabsComponent implements AfterViewInit, AfterViewChecked {
   }
 
   /**
-   * Lifecycle hook called when the component is destroyed.
+   * Angular lifecycle hook called when the component is destroyed.
+   * Cleans up subscriptions to prevent memory leaks.
    */
   ngOnDestroy(): void {
     this.destroy$.next()
@@ -150,8 +157,9 @@ export class SqTabsComponent implements AfterViewInit, AfterViewChecked {
    *
    * @param {SqTabComponent} tab - The tab to be selected.
    * @param {number} index - The index of the selected tab.
+   * @returns {null} - Always returns null (no explicit return value).
    */
-  selectTab(tab: SqTabComponent, index: number) {
+  selectTab(tab: SqTabComponent, index: number): null {
     if (tab?.disabled || tab?.loading) {
       return null
     }
@@ -179,14 +187,13 @@ export class SqTabsComponent implements AfterViewInit, AfterViewChecked {
   }
 
   /**
-   * Determines the tab width based on the provided conditions.
+   * Memoized function to determine tab width based on conditions.
    *
    * @param {string} tabWidth - The width of the tab.
    * @param {boolean} lineStyle - A flag to determine if line style is applied.
-   *
-   * @returns {string} - Returns 'fit-content' if lineStyle is true.
-   *                     Returns the provided tabWidth if it exists.
-   *                     Otherwise, returns 'initial'.
+   * @returns {string} - Returns 'fit-content' if lineStyle is true,
+   *                     the provided tabWidth if it exists,
+   *                     otherwise returns 'initial'.
    */
   memoizedTabWidth = useMemo((tabWidth: string, lineStyle: boolean): string => {
     if (tabWidth) {
@@ -198,11 +205,16 @@ export class SqTabsComponent implements AfterViewInit, AfterViewChecked {
     return 'initial'
   })
 
-  private setupTabsSubscription() {
+  /**
+   * Sets up subscription to track changes in the tabs QueryList.
+   * Updates the total tab count when tabs are added/removed.
+   * @private
+   */
+  private setupTabsSubscription(): void {
     this.tabs.changes
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
-        this.total = this.tabs.toArray().length || 1;
+        this.total = this.tabs.toArray().length || 1
         this.cdr.markForCheck()
       })
   }

@@ -1,5 +1,6 @@
 import { ChangeDetectorRef } from '@angular/core'
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core'
+
 /**
  * Represents a tab component for displaying tabbed content.
  *
@@ -11,17 +12,22 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
  * <sq-tab [title]="'Tab Title'" (whenOpen)="handleTabOpen()">
  * <!-- Content Here -->
  * </sq-tab>
- *
  */
 @Component({
   selector: 'sq-tab',
   templateUrl: './sq-tab.component.html',
   styleUrls: ['./sq-tab.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SqTabComponent {
   /**
-   * Flag to indicate if the tab is active (open).
+   * Internal property to track the active state of the tab.
+   */
+  private _active = false
+
+  /**
+   * Sets or gets the active state of the tab.
+   * If set to `true`, triggers change detection.
    */
   @Input() set active(value: boolean) {
     this._active = value
@@ -32,7 +38,6 @@ export class SqTabComponent {
   get active(): boolean {
     return this._active
   }
-  private _active = false
 
   /**
    * The title displayed on the tab.
@@ -70,7 +75,13 @@ export class SqTabComponent {
   @Input() tabName = ''
 
   /**
-   * Flag to hide the tab html.
+   * Internal property to track if the tab HTML should be hidden.
+   */
+  private _hideHtml = false
+
+  /**
+   * Sets or gets whether the tab HTML should be hidden.
+   * Triggers change detection when updated.
    */
   @Input() set hideHtml(value: boolean) {
     this._hideHtml = value
@@ -79,12 +90,15 @@ export class SqTabComponent {
   get hideHtml(): boolean {
     return this._hideHtml
   }
-  private _hideHtml = false
 
   /**
    * Event emitted when the tab is opened.
    */
   @Output() whenOpen: EventEmitter<void> = new EventEmitter()
 
+  /**
+   * Creates an instance of SqTabComponent.
+   * @param cdr - Angular's ChangeDetectorRef for manual change detection control.
+   */
   constructor(private cdr: ChangeDetectorRef) { }
 }
