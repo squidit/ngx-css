@@ -33,6 +33,7 @@ import { SqTooltipComponent } from './components/sq-tooltip/sq-tooltip.component
 import { SqClickOutsideDirective } from './directives/sq-click-outside/sq-click-outside.directive'
 import { SqDropdownDirective } from './directives/sq-dropdown/sq-dropdown.directive'
 import { SqTooltipDirective } from './directives/sq-tooltip/sq-tooltip.directive'
+import { SqSkeletonDirective } from './directives/sq-skeleton/sq-skeleton.directive'
 import { BirthdatePipe } from './pipes/birthdate/birthdate.pipe'
 import { RemoveHtmlTagsPipe } from './pipes/remove-html-tags/remove-html-tags.pipe'
 import { SearchValidValuesPipe } from './pipes/search-valid-values/search-valid-values.pipe'
@@ -82,7 +83,8 @@ const components: (Type<any> | any)[] = [
   SqInputMoneyComponent,
   SqInputNumberComponent,
   TranslateInternalPipe,
-  RemoveHtmlTagsPipe
+  RemoveHtmlTagsPipe,
+  SqSkeletonDirective
 ]
 
 /**
