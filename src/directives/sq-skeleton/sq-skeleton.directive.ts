@@ -1,11 +1,11 @@
-import { Directive, Input, OnChanges, OnInit, SimpleChanges, TemplateRef, ViewContainerRef } from '@angular/core'
+import { Directive, Input, OnChanges, Renderer2, SimpleChanges, TemplateRef, ViewContainerRef } from '@angular/core'
 
 /**
- * Angular directive for creating skeleton loading placeholders.
- *
- * This directive generates animated placeholder elements that mimic the structure of content
- * while it's being loaded. It's particularly useful for improving perceived performance
- * during data fetching operations.
+ * Angular directive for creating customizable skeleton loading placeholders.
+ * 
+ * This directive dynamically generates animated skeleton elements while content is loading,
+ * providing better user experience during data fetching operations. It supports multiple
+ * skeletons with wave animation effects.
  *
  * @example
  * <!-- Basic usage -->
@@ -14,32 +14,26 @@ import { Directive, Input, OnChanges, OnInit, SimpleChanges, TemplateRef, ViewCo
  * </div>
  *
  * @example
- * <!-- Customized skeleton -->
+ * <!-- Customized skeleton with multiple items -->
  * <div 
- *   *skeleton="isLoading"
- *   skeletonWidth="200px"
- *   skeletonHeight="50px"
- *   skeletonRepeat="3"
- *   skeletonDelay="100"
- *   skeletonMargin="10px">
+ *   *skeleton="loading; width: '200px'; height: '50px'">
  *   Content with custom skeleton
  * </div>
  */
 @Directive({
-	selector: '[skeleton]',
+	selector: '[skeleton]'
 })
-export class SqSkeletonDirective implements OnChanges {
+export class AppSkeletonDirective implements OnChanges {
 	/**
 	 * Controls whether the skeleton should be displayed.
-	 * When true, shows skeleton placeholders when false, shows the actual content.
+	 * When true, shows skeleton placeholders; when false, shows the actual content.
 	 */
 	@Input() skeleton = false
-
 	/**
-	 * Width of each skeleton placeholder.
-	 * @default '100%'
-	 */
-	@Input() skeletonWidth = '100%'
+		 * Width of each skeleton placeholder.
+		 * @default '100%'
+		 */
+	@Input() skeletonWidth = '100%';
 
 	/**
 	 * Height of each skeleton placeholder.
@@ -49,6 +43,7 @@ export class SqSkeletonDirective implements OnChanges {
 
 	/**
 	 * Number of skeleton placeholders to display.
+	 * Useful for creating multiple placeholder items.
 	 * @default 1
 	 */
 	@Input() skeletonRepeat = 1
@@ -67,13 +62,21 @@ export class SqSkeletonDirective implements OnChanges {
 	@Input() skeletonMargin = '0'
 
 	/**
+	 * Array to hold references to the created skeleton elements.
+	 * This is used to manage the lifecycle of the skeleton elements.
+	 */
+	private skeletonElements: HTMLElement[] = []
+
+	/**
 	 * Creates an instance of SqSkeletonDirective.
 	 * @param templateRef - Reference to the template where the directive is applied.
 	 * @param viewContainer - Container where the skeleton or content will be rendered.
+	 * @param renderer - Renderer2 service for manipulating the DOM.
 	 */
 	constructor(
 		private templateRef: TemplateRef<any>,
 		private viewContainer: ViewContainerRef,
+		private renderer: Renderer2
 	) { }
 
 	/**
@@ -81,48 +84,79 @@ export class SqSkeletonDirective implements OnChanges {
 	 * Determines whether to show skeleton placeholders or actual content based on input.
 	 */
 	ngOnChanges(changes: SimpleChanges): void {
-		if (changes['skeleton']) {
-			if (this.skeleton) {
-				this.showSkeleton()
-			} else {
-				this.showContent()
-			}
+		if (changes['skeleton'] || changes['skeletonRepeat']) {
+			this.updateView()
+		}
+	}
+
+	/**
+	 * Updates the view based on current state.
+	 * Shows either skeleton placeholders or actual content.
+	 * @private
+	 */
+	private updateView(): void {
+		this.clearSkeletons()
+
+		if (this.skeleton) {
+			this.createSkeletons()
+		} else {
+			this.showContent()
 		}
 	}
 
 	/**
 	 * Creates and displays skeleton placeholder elements.
-	 * Clears any existing content and generates new skeleton elements based on configuration.
+	 * Generates multiple skeletons if skeletonRepeat > 1.
 	 * @private
 	 */
-	private showSkeleton() {
+	private createSkeletons(): void {
 		this.viewContainer.clear()
 
 		for (let i = 0; i < this.skeletonRepeat; i++) {
-			const skeletonElement = document.createElement('div')
-			skeletonElement.className = 'skeleton'
-			skeletonElement.style.width = this.skeletonWidth
-			skeletonElement.style.height = this.skeletonHeight
-			skeletonElement.style.margin = this.skeletonMargin
+			const skeletonElement = this.renderer.createElement('div')
+			this.renderer.addClass(skeletonElement, 'skeleton')
+
+			this.renderer.setStyle(skeletonElement, 'width', this.skeletonWidth)
+			this.renderer.setStyle(skeletonElement, 'height', this.skeletonHeight)
+			this.renderer.setStyle(skeletonElement, 'margin', this.skeletonMargin)
 
 			if (this.skeletonDelay && i > 0) {
-				skeletonElement.style.animationDelay = `${i * this.skeletonDelay}ms`
+				this.renderer.setStyle(
+					skeletonElement,
+					'animation-delay',
+					`${i * this.skeletonDelay}ms`
+				)
 			}
 
-			this.viewContainer.element.nativeElement.parentNode.insertBefore(
+			this.renderer.insertBefore(
+				this.viewContainer.element.nativeElement.parentNode,
 				skeletonElement,
-				this.viewContainer.element.nativeElement,
+				this.viewContainer.element.nativeElement
 			)
+
+			this.skeletonElements.push(skeletonElement)
 		}
 	}
 
 	/**
 	 * Displays the actual content by creating an embedded view from the template.
-	 * Clears any existing skeleton placeholders before showing the content.
 	 * @private
 	 */
-	private showContent() {
+	private showContent(): void {
 		this.viewContainer.clear()
 		this.viewContainer.createEmbeddedView(this.templateRef)
+	}
+
+	/**
+	 * Clears all skeleton elements from the DOM.
+	 * @private
+	 */
+	private clearSkeletons(): void {
+		this.skeletonElements.forEach(element => {
+			if (element.parentNode) {
+				this.renderer.removeChild(element.parentNode, element)
+			}
+		})
+		this.skeletonElements = []
 	}
 }
