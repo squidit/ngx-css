@@ -1,4 +1,4 @@
-import { Directive, Input, OnInit, TemplateRef, ViewContainerRef } from '@angular/core'
+import { Directive, Input, OnChanges, OnInit, SimpleChanges, TemplateRef, ViewContainerRef } from '@angular/core'
 
 /**
  * Angular directive for creating skeleton loading placeholders.
@@ -28,7 +28,7 @@ import { Directive, Input, OnInit, TemplateRef, ViewContainerRef } from '@angula
 @Directive({
 	selector: '[skeleton]',
 })
-export class SqSkeletonDirective implements OnInit {
+export class SqSkeletonDirective implements OnChanges {
 	/**
 	 * Controls whether the skeleton should be displayed.
 	 * When true, shows skeleton placeholders when false, shows the actual content.
@@ -77,14 +77,16 @@ export class SqSkeletonDirective implements OnInit {
 	) { }
 
 	/**
-	 * Angular lifecycle hook that initializes the directive.
+	 * Angular lifecycle hook that responds to changes in input properties.
 	 * Determines whether to show skeleton placeholders or actual content based on input.
 	 */
-	ngOnInit() {
-		if (this.skeleton) {
-			this.showSkeleton()
-		} else {
-			this.showContent()
+	ngOnChanges(changes: SimpleChanges): void {
+		if (changes['skeleton']) {
+			if (this.skeleton) {
+				this.showSkeleton()
+			} else {
+				this.showContent()
+			}
 		}
 	}
 
