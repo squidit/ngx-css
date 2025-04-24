@@ -85,7 +85,7 @@ export class AppSkeletonDirective implements OnChanges {
 	 */
 	ngOnChanges(changes: SimpleChanges): void {
 		if (
-			changes['skeletonn'] ||
+			changes['skeleton'] ||
 			changes['skeletonRepeat'] ||
 			changes['skeletonWidth'] ||
 			changes['skeletonHeight']
