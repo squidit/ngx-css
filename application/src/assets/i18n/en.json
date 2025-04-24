@@ -11,6 +11,7 @@
     "phone": "Invalid phone number",
     "minValueAllowed": "Min value allowed is: {{ min }}",
     "maxValueAllowed": "Max value allowed is: {{ max }}",
-    "rangeDate:": "Date outside valid range"
+    "rangeDate:": "Date outside valid range",
+    "more": "and more"
   }
 }

@@ -11,6 +11,7 @@
     "phone": "Teléfono inválido",
     "minValueAllowed": "Valor mínimo permitido es: {{ min }}",
     "maxValueAllowed": "Valor máximo permitido es: {{ max }}",
-    "rangeDate:": "El rango de fechas no es válido"
+    "rangeDate:": "El rango de fechas no es válido",
+    "more": "y más"
   }
 }
