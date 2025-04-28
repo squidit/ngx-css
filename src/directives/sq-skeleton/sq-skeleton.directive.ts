@@ -23,7 +23,7 @@ import { Directive, Input, OnChanges, Renderer2, SimpleChanges, TemplateRef, Vie
 @Directive({
 	selector: '[skeleton]'
 })
-export class AppSkeletonDirective implements OnChanges {
+export class SqSkeletonDirective implements OnChanges {
 	/**
 	 * Controls whether the skeleton should be displayed.
 	 * When true, shows skeleton placeholders; when false, shows the actual content.
