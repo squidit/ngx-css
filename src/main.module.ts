@@ -21,6 +21,7 @@ import { SqOverlayComponent } from './components/sq-overlay/sq-overlay.component
 import { SqPaginationComponent } from './components/sq-pagination/sq-pagination.component'
 import { SqProgressBarComponent } from './components/sq-progress-bar/sq-progress-bar.component'
 import { SqSelectMultiTagsComponent } from './components/sq-select-multi-tags/sq-select-multi-tags.component'
+import { SqSelectMultiComponent } from './components/sq-select-multi/sq-select-multi.component'
 import { SqSelectSearchComponent } from './components/sq-select-search/sq-select-search.component'
 import { SqSelectComponent } from './components/sq-select/sq-select.component'
 import { SqSelectorComponent } from './components/sq-selector/sq-selector.component'
@@ -84,7 +85,8 @@ const components: (Type<any> | any)[] = [
   SqInputNumberComponent,
   TranslateInternalPipe,
   RemoveHtmlTagsPipe,
-  SqSkeletonDirective
+  SqSkeletonDirective,
+  SqSelectMultiComponent
 ]
 
 /**
