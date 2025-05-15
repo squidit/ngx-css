@@ -110,6 +110,12 @@ export class SqOverlayComponent implements OnChanges, OnDestroy {
   @Input() backdrop = 'static'
 
   /**
+   * The padding applied to the overlay body.
+   *
+   */
+  @Input() bodyPadding?: string
+
+  /**
    * Emits an event when the overlay is closed.
    *
    */
@@ -298,7 +304,7 @@ export class SqOverlayComponent implements OnChanges, OnDestroy {
     this.finishOpening = false
     this.undoCssWidth()
     overlay?.parentNode?.removeChild(overlay)
-    if (this.modalNumber === 2) { 
+    if (this.modalNumber === 2) {
       backdrop?.removeAttribute('style')
     } else if (this.modalNumber <= 1) {
       backdrop?.parentNode?.removeChild(backdrop)
