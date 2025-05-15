@@ -63,7 +63,6 @@
         }
         .modal-body {
           height: calc(100vh - 112px);
-          padding: 2rem;
           overflow-y: auto;
           overflow-x: hidden;
           &.without-footer {

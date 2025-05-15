@@ -113,7 +113,7 @@ export class SqOverlayComponent implements OnChanges, OnDestroy {
    * The padding applied to the overlay body.
    *
    */
-  @Input() bodyPadding?: string
+  @Input() bodyPadding = '2rem'
 
   /**
    * Emits an event when the overlay is closed.
