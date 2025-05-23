@@ -76,7 +76,7 @@
           <span class="selected-value">
             {{ value[0]?.label }}
             <span *ngIf="value.length > 1">
-              {{ 'forms.more' | translateInternal | async }} {{ value.length }}
+              {{ 'forms.more' | translateInternal | async }} {{ value.length - 1 }}
             </span>
           </span>
         </div>
