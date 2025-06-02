@@ -153,7 +153,7 @@ export class SqInputComponent {
   /**
    * Type of the input element (e.g., text, email, password).
    */
-  @Input() type: 'text' | 'email' | 'hidden' | 'password' | 'tel' | 'url' | 'file' = 'text'
+  @Input() type: 'text' | 'email' | 'email-multiple' | 'hidden' | 'password' | 'tel' | 'url' | 'file' = 'text'
 
   /**
    * Maximum length for the input element.
@@ -265,6 +265,16 @@ export class SqInputComponent {
     } else if (this.type === 'email' && !this.validatorHelper.email(this.value)) {
       this.valid.emit(false)
       this.setError('forms.email')
+    } else if (this.type === 'email-multiple') {
+      const emails = this.value.split(',')
+      const invalidEmails = emails.filter((email: string) => !this.validatorHelper.email(email))
+      if ((emails.length === 1 && invalidEmails.length && invalidEmails[0] !== '') || emails.length > 1 && invalidEmails.length) {
+        this.valid.emit(false)
+        this.setError('forms.emailMultiple', { emails: invalidEmails.join(', ') })
+      } else {
+        this.valid.emit(true)
+        this.error = ''
+      }
     } else if (this.type === 'tel' && !this.validatorHelper.phone(this.value)) {
       this.valid.emit(false)
       this.setError('forms.phone')
