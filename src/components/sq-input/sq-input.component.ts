@@ -301,8 +301,8 @@ export class SqInputComponent {
     clearTimeout(this.timeoutInput)
     this.timeoutInput = setTimeout(() => {
       this.valueChange.emit(event)
+      this.validate()
     }, this.timeToChange)
-    this.validate()
   }
 
   /**
