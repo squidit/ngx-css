@@ -41,6 +41,18 @@ module.exports = {
             "type": "attribute",
             "prefix": "camelCase"
           }
+        ],
+        // Regra para desencorajar constructor injection em favor de inject()
+        "no-restricted-syntax": [
+          "warn",
+          {
+            "selector": "MethodDefinition[kind='constructor'] Parameter[decorators.length > 0]",
+            "message": "⚠️  Constructor parameters with decorators (@Inject, @Optional, etc.) are discouraged. Consider using inject() function for better tree-shaking and modern Angular practices."
+          },
+          {
+            "selector": "MethodDefinition[kind='constructor'][value.params.length > 0]:not(:has(Parameter[decorators.length > 0]))",
+            "message": "⚠️  Constructor dependency injection is discouraged. Consider using inject() function for better tree-shaking and modern Angular practices."
+          }
         ]
       }
     },
