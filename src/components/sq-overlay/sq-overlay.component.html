@@ -11,17 +11,24 @@
         class="modal-header"
         [ngClass]="{
           'without-header': !hasHeader,
-          borderless: borderless
+          borderless: borderless,
         }"
         [ngStyle]="{
-          'background-color': headerColor
+          'background-color': headerColor,
         }"
       >
         <ng-container *ngIf="headerTemplate">
           <ng-container *ngTemplateOutlet="headerTemplate"></ng-container>
         </ng-container>
 
-        <button *ngIf="showClose" id="close-button" type="button" class="close button-close" aria-label="Close" (click)="overlayClose.emit()">
+        <button
+          *ngIf="showClose"
+          id="close-button"
+          type="button"
+          class="close button-close"
+          aria-label="Close"
+          (click)="overlayClose.emit()"
+        >
           <i class="fa-solid fa-xmark" [ngStyle]="{ color: headerItemsColor }"></i>
         </button>
       </div>
@@ -29,11 +36,11 @@
       <div
         class="modal-body scrollbar"
         [ngClass]="{
-          'without-footer': !hasFooter
+          'without-footer': !hasFooter,
         }"
         [ngStyle]="{
           'background-color': bodyColor,
-          'padding': bodyPadding,
+          padding: bodyPadding,
         }"
       >
         <ng-content></ng-content>
@@ -43,10 +50,10 @@
         class="modal-footer"
         *ngIf="hasFooter"
         [ngClass]="{
-          borderless: borderless
+          borderless: borderless,
         }"
         [ngStyle]="{
-          'background-color': footerColor
+          'background-color': footerColor,
         }"
       >
         <ng-container *ngIf="footerTemplate">

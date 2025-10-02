@@ -1,10 +1,12 @@
-
-<div class='pagination-wrapper {{ customClass }}'>
+<div class="pagination-wrapper {{ customClass }}">
   <ul class="pagination">
-    <li class='page-item' [ngClass]="{
-      'disabled': page === 1,
-    }">
-      <button (click)='handlePageChange(page - 1)'>
+    <li
+      class="page-item"
+      [ngClass]="{
+        disabled: page === 1,
+      }"
+    >
+      <button (click)="handlePageChange(page - 1)">
         <i class="fa-solid fa-chevrons-left"></i>
       </button>
     </li>
@@ -18,11 +20,11 @@
     <ng-container *ngFor="let p of pages">
       <li
         [ngClass]="{
-          'active': page === p,
+          active: page === p,
         }"
         *ngIf="canShow(p)"
       >
-        <button (click)='handlePageChange(p)'>
+        <button (click)="handlePageChange(p)">
           {{ p }}
         </button>
       </li>
@@ -34,10 +36,13 @@
       </button>
     </li>
 
-    <li class='page-item' [ngClass]="{
-      'disabled': page >= totalPages,
-    }">
-      <button (click)='handlePageChange(page + 1)'>
+    <li
+      class="page-item"
+      [ngClass]="{
+        disabled: page >= totalPages,
+      }"
+    >
+      <button (click)="handlePageChange(page + 1)">
         <i class="fa-solid fa-chevrons-right"></i>
       </button>
     </li>

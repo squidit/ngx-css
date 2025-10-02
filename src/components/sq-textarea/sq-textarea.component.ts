@@ -1,6 +1,10 @@
-import { Component, ContentChild, ElementRef, EventEmitter, Input, Optional, Output, TemplateRef } from "@angular/core"
-import { ValidatorHelper } from '../../helpers/validator.helper'
-import { TranslateService } from '@ngx-translate/core'
+import { Component, ContentChild, ElementRef, EventEmitter, Input, Optional, Output, TemplateRef } from '@angular/core';
+import { NgClass, NgStyle, NgTemplateOutlet } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { ValidatorHelper } from '../../helpers/validator.helper';
+import { TranslateService } from '@ngx-translate/core';
+import { SqTooltipComponent } from '../sq-tooltip/sq-tooltip.component';
+import { UniversalSafePipe } from '../../pipes/universal-safe/universal-safe.pipe';
 
 /**
  * Represents a textarea input component with various configuration options.
@@ -8,7 +12,7 @@ import { TranslateService } from '@ngx-translate/core'
  * Look the link about the component in original framework and the appearance
  *
  * @see {@link https://css.squidit.com.br/forms/textarea}
- * 
+ *
  * <div class='col-6 my-3'>
  *  <label class='display-block' for='textarea-text'>
  *    Label
@@ -23,7 +27,7 @@ import { TranslateService } from '@ngx-translate/core'
  *    ></textarea>
  *  </div>
  *</div>
- * 
+ *
  * @example
  * <sq-textarea [name]="'description'" [id]="'description'" [label]="'Description'"[placeholder]="'Enter a description...'" [(value)]="text"></sq-textarea>
  *
@@ -31,178 +35,180 @@ import { TranslateService } from '@ngx-translate/core'
 @Component({
   selector: 'sq-textarea',
   templateUrl: './sq-textarea.component.html',
-  styleUrls: ['./sq-textarea.component.scss']
+  styleUrls: ['./sq-textarea.component.scss'],
+  standalone: true,
+  imports: [NgClass, NgStyle, NgTemplateOutlet, FormsModule, SqTooltipComponent, UniversalSafePipe],
 })
 export class SqTextAreaComponent {
   /**
    * The name attribute of the textarea.
-   * 
+   *
    * @default 'random-name-[hash-random-code]'
    */
-  @Input() name = `random-name-${(1 + Date.now() + Math.random()).toString().replace('.', '')}`
+  @Input() name = `random-name-${(1 + Date.now() + Math.random()).toString().replace('.', '')}`;
 
   /**
    * The id attribute of the textarea.
    */
-  @Input() id?: string
+  @Input() id?: string;
 
   /**
    * The label to display for the textarea.
    */
-  @Input() label?: string
+  @Input() label?: string;
 
   /**
    * Additional CSS classes for styling the textarea.
    */
-  @Input() customClass = ''
+  @Input() customClass = '';
 
   /**
    * The placeholder text to display in the textarea.
    */
-  @Input() placeholder = ''
+  @Input() placeholder = '';
 
   /**
    * External error message to display for the textarea.
    */
-  @Input() externalError = ''
+  @Input() externalError = '';
 
   /**
    * External icon to display for the textarea.
    */
-  @Input() externalIcon = ''
+  @Input() externalIcon = '';
 
   /**
    * The initial value of the textarea.
    */
-  @Input() value: any = ''
+  @Input() value: any = '';
 
   /**
    * The time interval for input timeout in ms.
    */
-  @Input() timeToChange = 0
+  @Input() timeToChange = 0;
 
   /**
    * Flag to show an error span.
    */
-  @Input() errorSpan = true
+  @Input() errorSpan = true;
 
   /**
    * Flag to disable the textarea.
    */
-  @Input() disabled = false
+  @Input() disabled = false;
 
   /**
    * Flag to make the textarea readonly.
    */
-  @Input() readonly = false
+  @Input() readonly = false;
 
   /**
    * Flag to mark the textarea as required.
    */
-  @Input() required = false
+  @Input() required = false;
 
   /**
    * Flag to use form errors for validation.
    */
-  @Input() useFormErrors = true
+  @Input() useFormErrors = true;
 
   /**
    * The tooltip message to display.
    */
-  @Input() tooltipMessage = ''
+  @Input() tooltipMessage = '';
 
   /**
    * The placement of the tooltip.
    */
-  @Input() tooltipPlacement: 'center top' | 'center bottom' | 'left center' | 'right center' = 'right center'
+  @Input() tooltipPlacement: 'center top' | 'center bottom' | 'left center' | 'right center' = 'right center';
 
   /**
    * The color of the tooltip.
    */
-  @Input() tooltipColor = 'inherit'
+  @Input() tooltipColor = 'inherit';
 
   /**
    * The icon to display in the tooltip.
    */
-  @Input() tooltipIcon = ''
+  @Input() tooltipIcon = '';
 
   /**
    * The background color of the textarea.
    */
-  @Input() backgroundColor = ''
+  @Input() backgroundColor = '';
 
   /**
    * The border color of the textarea.
    */
-  @Input() borderColor = ''
+  @Input() borderColor = '';
 
   /**
    * The color of the textarea label.
    */
-  @Input() labelColor = ''
+  @Input() labelColor = '';
 
   /**
    * The maximum length of the textarea.
    */
-  @Input() maxLength: number | null = null
+  @Input() maxLength: number | null = null;
 
   /**
    * Event emitted when a key is pressed down in the textarea.
    */
-  @Output() keyPressDown: EventEmitter<KeyboardEvent> = new EventEmitter()
+  @Output() keyPressDown: EventEmitter<KeyboardEvent> = new EventEmitter();
 
   /**
    * Event emitted when a key is released in the textarea.
    */
-  @Output() keyPressUp: EventEmitter<KeyboardEvent> = new EventEmitter()
+  @Output() keyPressUp: EventEmitter<KeyboardEvent> = new EventEmitter();
 
   /**
    * Event emitted when the textarea gains or loses focus.
    */
-  @Output() inFocus: EventEmitter<boolean> = new EventEmitter()
+  @Output() inFocus: EventEmitter<boolean> = new EventEmitter();
 
   /**
    * Event emitted when the textarea value changes.
    */
-  @Output() valueChange: EventEmitter<any> = new EventEmitter()
+  @Output() valueChange: EventEmitter<any> = new EventEmitter();
 
   /**
    * Event emitter for validation status.
    */
-  @Output() valid: EventEmitter<boolean> = new EventEmitter()
+  @Output() valid: EventEmitter<boolean> = new EventEmitter();
 
   /**
    * Reference to a left-aligned label template.
    */
   @ContentChild('leftLabel')
-  leftLabel: TemplateRef<HTMLElement> | null = null
+  leftLabel: TemplateRef<HTMLElement> | null = null;
 
   /**
    * Reference to a right-aligned label template.
    */
   @ContentChild('rightLabel')
-  rightLabel: TemplateRef<HTMLElement> | null = null
+  rightLabel: TemplateRef<HTMLElement> | null = null;
 
   /**
    * Reference to a label template.
    */
   @ContentChild('labelTemplate')
-  labelTemplate: TemplateRef<HTMLElement> | null = null
+  labelTemplate: TemplateRef<HTMLElement> | null = null;
 
   /**
    * Represents the error state of the textarea.
    */
-  error: boolean | string = false
+  error: boolean | string = false;
 
   /**
    * Reference to the native element of the textarea.
    */
-  nativeElement: ElementRef
+  nativeElement: ElementRef;
 
   /**
    * Timeout for input changes.
    */
-  timeoutInput!: ReturnType<typeof setTimeout>
+  timeoutInput!: ReturnType<typeof setTimeout>;
 
   /**
    * Constructor for the SqInputComponent class.
@@ -215,7 +221,7 @@ export class SqTextAreaComponent {
     public element: ElementRef,
     @Optional() public translate: TranslateService
   ) {
-    this.nativeElement = element.nativeElement
+    this.nativeElement = element.nativeElement;
   }
 
   /**
@@ -223,16 +229,16 @@ export class SqTextAreaComponent {
    */
   async validate(isBlur = false) {
     if (isBlur) {
-      this.inFocus.emit(false)
+      this.inFocus.emit(false);
     }
     if (this.externalError) {
-      this.error = false
+      this.error = false;
     } else if (this.required && !this.value) {
-      this.valid.emit(false)
-      this.setError('forms.required')
+      this.valid.emit(false);
+      this.setError('forms.required');
     } else {
-      this.valid.emit(true)
-      this.error = ''
+      this.valid.emit(true);
+      this.error = '';
     }
   }
 
@@ -242,13 +248,13 @@ export class SqTextAreaComponent {
    * @param {string} event - The new value of the textarea.
    */
   async change(event: any) {
-    this.inFocus.emit(true)
-    this.value = event
-    clearTimeout(this.timeoutInput)
+    this.inFocus.emit(true);
+    this.value = event;
+    clearTimeout(this.timeoutInput);
     this.timeoutInput = setTimeout(() => {
-      this.valueChange.emit(event)
-    }, this.timeToChange)
-    this.validate()
+      this.valueChange.emit(event);
+    }, this.timeToChange);
+    this.validate();
   }
 
   /**
@@ -258,7 +264,7 @@ export class SqTextAreaComponent {
    */
   async setError(key: string) {
     if (this.useFormErrors && this.translate) {
-      this.error = await this.translate.instant(key)
+      this.error = await this.translate.instant(key);
     }
   }
 
@@ -267,7 +273,7 @@ export class SqTextAreaComponent {
    * @param event - The keydown event.
    */
   keyDown(event: KeyboardEvent) {
-    this.keyPressDown.emit(event)
+    this.keyPressDown.emit(event);
   }
 
   /**
@@ -275,6 +281,6 @@ export class SqTextAreaComponent {
    * @param event - The keyup event.
    */
   keyUp(event: KeyboardEvent) {
-    this.keyPressUp.emit(event)
+    this.keyPressUp.emit(event);
   }
 }

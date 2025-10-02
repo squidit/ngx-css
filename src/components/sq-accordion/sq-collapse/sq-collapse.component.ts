@@ -1,14 +1,23 @@
-import { Component, ContentChild, ElementRef, EventEmitter, Input, Output, TemplateRef, ViewChild } from '@angular/core'
-import { ColorsHelper } from '../../../helpers/colors.helper'
-import { useMemo } from '../../../helpers/memo.helper'
+import {
+  Component,
+  ContentChild,
+  ElementRef,
+  EventEmitter,
+  Input,
+  Output,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
+import { ColorsHelper } from '../../../helpers/colors.helper';
+import { useMemo } from '../../../helpers/memo.helper';
 
 /**
  * Represents the SqCollapseComponent, a collapsible container component with customizable options.
  *
  * Look the link about the component in original framework and the appearance
- * 
+ *
  * @see {@link https://css.squidit.com.br/components/accordion-collapse}
- * 
+ *
  * @example
  * <sq-collapse [open]="true" color="blue" (openedEmitter)="onOpened($event)">
  *   <ng-container header>
@@ -26,62 +35,62 @@ export class SqCollapseComponent {
   /**
    * Indicates whether the collapse is initially open.
    */
-  @Input() open = false
+  @Input() open = false;
 
   /**
    * Indicates whether the collapse is in a loading state.
    */
-  @Input() loading?: boolean
+  @Input() loading?: boolean;
 
   /**
    * Indicates whether the collapse is disabled.
    */
-  @Input() disabled?: boolean
+  @Input() disabled?: boolean;
 
   /**
    * Indicates whether just the collapse dropdown button is disabled.
    */
-  @Input() collapseButtonDisabled?: boolean
+  @Input() collapseButtonDisabled?: boolean;
 
   /**
    * The tooltip for the collapse button.
    */
-  @Input() collapseButtonTooltip?: string
+  @Input() collapseButtonTooltip?: string;
 
   /**
    * The color scheme of the collapse component.
    */
-  @Input() color = ''
+  @Input() color = '';
 
   /**
    * The color of the collapse icons.
    */
-  @Input() colorIcons = ''
+  @Input() colorIcons = '';
 
   /**
    * The background color of the collapse icon.
    */
-  @Input() colorBackgroundIcon = ''
+  @Input() colorBackgroundIcon = '';
 
   /**
    * The font size of the collapse icon.
    */
-  @Input() fontSizeIcon?: string
+  @Input() fontSizeIcon?: string;
 
   /**
    * The height of the collapse icon.
    */
-  @Input() heightIcon?: string
+  @Input() heightIcon?: string;
 
   /**
    * Custom CSS class to be applied to the collapse component.
    */
-  @Input() class = ''
+  @Input() class = '';
 
   /**
    * Indicates whether to remove padding from the collapse content.
    */
-  @Input() noPadding = false
+  @Input() noPadding = false;
 
   /**
    * Event emitter for when the collapse is opened or closed.
@@ -89,67 +98,70 @@ export class SqCollapseComponent {
   @Output() openedEmitter: EventEmitter<{
     open: boolean;
     element: HTMLElement | ElementRef<any> | null;
-  }> = new EventEmitter()
+  }> = new EventEmitter();
 
   /**
    * Reference to the header content template.
    */
   @ContentChild('header')
-  headerTemplate: TemplateRef<HTMLElement> | null = null
+  headerTemplate: TemplateRef<HTMLElement> | null = null;
 
   /**
    * Reference to the element.
    */
-  @ViewChild('element') element?: ElementRef
+  @ViewChild('element') element?: ElementRef;
 
   /**
    * Reference to the content element.
    */
-  @ViewChild('content') content?: ElementRef
+  @ViewChild('content') content?: ElementRef;
 
   /**
    * Wrapper body element.
    */
-  @ViewChild('wrapper') wrapper?: ElementRef
+  @ViewChild('wrapper') wrapper?: ElementRef;
 
   /**
    * Indicates whether the collapse is in the process of opening.
    */
-  opening: boolean | string = false
+  opening: boolean | string = false;
 
   /**
    * Indicates whether the mouse is hovering over the header.
    */
-  hoverHeader = false
+  hoverHeader = false;
 
   /**
    * Indicates whether the mouse is hovering over the collapse icon.
    */
-  hoverIcon = false
+  hoverIcon = false;
 
   /**
    * Timeout handler to open animation
    */
-  timeout!: ReturnType<typeof setTimeout>
+  timeout!: ReturnType<typeof setTimeout>;
 
   /**
    * Component Constructor
    * @param colorsHelper - The ColorsHelper instance
    * @param elementRef - The ElementRef instance
    */
-  constructor(public colorsHelper: ColorsHelper, public elementRef: ElementRef) { }
+  constructor(
+    public colorsHelper: ColorsHelper,
+    public elementRef: ElementRef
+  ) {}
 
   /**
    * Toggles the state of the collapse component.
    */
   public async toggleCollapse() {
     if (!this.disabled && !this.collapseButtonDisabled && !this.loading && !this.opening) {
-      this.opening = this.wrapper?.nativeElement?.clientHeight + 'px'
-      clearTimeout(this.timeout)
+      this.opening = this.wrapper?.nativeElement?.clientHeight + 'px';
+      clearTimeout(this.timeout);
       this.timeout = setTimeout(() => {
-        this.opening = false
-        this.open = !this.open
-      }, 500)
+        this.opening = false;
+        this.open = !this.open;
+      }, 500);
     }
   }
 
@@ -161,7 +173,7 @@ export class SqCollapseComponent {
     this.openedEmitter.emit({
       open: !this.open,
       element,
-    })
+    });
   }
 
   /**
@@ -170,6 +182,6 @@ export class SqCollapseComponent {
    * @returns The modified color.
    */
   setHover = useMemo((color: string) => {
-    return this.colorsHelper?.lightenDarkenColor(this.colorsHelper?.getCssVariableValue(color), -25)
-  })
+    return this.colorsHelper?.lightenDarkenColor(this.colorsHelper?.getCssVariableValue(color), -25);
+  });
 }

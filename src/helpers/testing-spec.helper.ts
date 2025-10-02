@@ -1,6 +1,6 @@
-import { DebugElement } from '@angular/core'
-import { ComponentFixture } from '@angular/core/testing'
-import { By } from '@angular/platform-browser'
+import { DebugElement } from '@angular/core';
+import { ComponentFixture } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 
 /**
  * Spec helpers for working with the DOM
@@ -13,7 +13,7 @@ import { By } from '@angular/platform-browser'
  *
  */
 export function testIdSelector(testId: string): string {
-  return `[data-testid="${testId}"]`
+  return `[data-testid="${testId}"]`;
 }
 
 /**
@@ -24,16 +24,13 @@ export function testIdSelector(testId: string): string {
  * @param selector CSS selector
  *
  */
-export function queryByCss<T>(
-  fixture: ComponentFixture<T>,
-  selector: string,
-): DebugElement {
-  const debugElement = fixture.debugElement.query(By.css(selector))
+export function queryByCss<T>(fixture: ComponentFixture<T>, selector: string): DebugElement {
+  const debugElement = fixture.debugElement.query(By.css(selector));
   // Fail on null so the return type is always DebugElement.
   if (!debugElement) {
-    throw new Error(`queryByCss: Element with ${selector} not found`)
+    throw new Error(`queryByCss: Element with ${selector} not found`);
   }
-  return debugElement
+  return debugElement;
 }
 
 /**
@@ -45,7 +42,7 @@ export function queryByCss<T>(
  *
  */
 export function findEl<T>(fixture: ComponentFixture<T>, testId: string): DebugElement {
-  return queryByCss<T>(fixture, testIdSelector(testId))
+  return queryByCss<T>(fixture, testIdSelector(testId));
 }
 
 /**
@@ -55,7 +52,7 @@ export function findEl<T>(fixture: ComponentFixture<T>, testId: string): DebugEl
  * @param testId Test id set by `data-testid`
  */
 export function findEls<T>(fixture: ComponentFixture<T>, testId: string): DebugElement[] {
-  return fixture.debugElement.queryAll(By.css(testIdSelector(testId)))
+  return fixture.debugElement.queryAll(By.css(testIdSelector(testId)));
 }
 
 /**
@@ -65,7 +62,7 @@ export function findEls<T>(fixture: ComponentFixture<T>, testId: string): DebugE
  * @param testId Test id set by `data-testid`
  */
 export function getText<T>(fixture: ComponentFixture<T>, testId: string): string {
-  return findEl(fixture, testId).nativeElement.textContent
+  return findEl(fixture, testId).nativeElement.textContent;
 }
 
 /**
@@ -76,12 +73,8 @@ export function getText<T>(fixture: ComponentFixture<T>, testId: string): string
  * @param testId Test id set by `data-testid`
  * @param text Expected text
  */
-export function expectText<T>(
-  fixture: ComponentFixture<T>,
-  testId: string,
-  text: string,
-): void {
-  expect(getText(fixture, testId)).toBe(text)
+export function expectText<T>(fixture: ComponentFixture<T>, testId: string, text: string): void {
+  expect(getText(fixture, testId)).toBe(text);
 }
 
 /**
@@ -92,7 +85,7 @@ export function expectText<T>(
  * @param text Expected text
  */
 export function expectContainedText<T>(fixture: ComponentFixture<T>, text: string): void {
-  expect(fixture.nativeElement.textContent).toContain(text)
+  expect(fixture.nativeElement.textContent).toContain(text);
 }
 
 /**
@@ -103,7 +96,7 @@ export function expectContainedText<T>(fixture: ComponentFixture<T>, text: strin
  * @param text Expected text
  */
 export function expectContent<T>(fixture: ComponentFixture<T>, text: string): void {
-  expect(fixture.nativeElement.textContent).toBe(text)
+  expect(fixture.nativeElement.textContent).toBe(text);
 }
 
 /**
@@ -113,14 +106,10 @@ export function expectContent<T>(fixture: ComponentFixture<T>, text: string): vo
  * @param type Event name, e.g. `input`
  * @param bubbles Whether the event bubbles up in the DOM tree
  */
-export function dispatchFakeEvent(
-  element: EventTarget,
-  type: string,
-  bubbles = false,
-): void {
-  const event = document.createEvent('Event')
-  event.initEvent(type, bubbles, false)
-  element.dispatchEvent(event)
+export function dispatchFakeEvent(element: EventTarget, type: string, bubbles = false): void {
+  const event = document.createEvent('Event');
+  event.initEvent(type, bubbles, false);
+  element.dispatchEvent(event);
 }
 
 /**
@@ -134,13 +123,13 @@ export function dispatchFakeEvent(
  */
 export function setFieldElementValue(
   element: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement,
-  value: string,
+  value: string
 ): void {
-  element.value = value
+  element.value = value;
   // Dispatch an `input` or `change` fake event
   // so Angular form bindings take notice of the change.
-  const isSelect = element instanceof HTMLSelectElement
-  dispatchFakeEvent(element, isSelect ? 'change' : 'input', !isSelect)
+  const isSelect = element instanceof HTMLSelectElement;
+  dispatchFakeEvent(element, isSelect ? 'change' : 'input', !isSelect);
 }
 
 /**
@@ -150,12 +139,8 @@ export function setFieldElementValue(
  * @param testId Test id set by `data-testid`
  * @param value Form field value
  */
-export function setFieldValue<T>(
-  fixture: ComponentFixture<T>,
-  testId: string,
-  value: string,
-): void {
-  setFieldElementValue(findEl(fixture, testId).nativeElement, value)
+export function setFieldValue<T>(fixture: ComponentFixture<T>, testId: string, value: string): void {
+  setFieldElementValue(findEl(fixture, testId).nativeElement, value);
 }
 
 /**
@@ -166,15 +151,11 @@ export function setFieldValue<T>(
  * @param testId Test id set by `data-testid`
  * @param checked Whether the checkbox or radio should be checked
  */
-export function checkField<T>(
-  fixture: ComponentFixture<T>,
-  testId: string,
-  checked: boolean,
-): void {
-  const { nativeElement } = findEl(fixture, testId)
-  nativeElement.checked = checked
+export function checkField<T>(fixture: ComponentFixture<T>, testId: string, checked: boolean): void {
+  const { nativeElement } = findEl(fixture, testId);
+  nativeElement.checked = checked;
   // Dispatch a `change` fake event so Angular form bindings take notice of the change.
-  dispatchFakeEvent(nativeElement, 'change')
+  dispatchFakeEvent(nativeElement, 'change');
 }
 
 /**
@@ -186,16 +167,22 @@ export function checkField<T>(
  */
 export function makeClickEvent(target: EventTarget): Partial<MouseEvent> {
   return {
-    preventDefault(): void {undefined},
-    stopPropagation(): void {undefined},
-    stopImmediatePropagation(): void {undefined},
+    preventDefault(): void {
+      undefined;
+    },
+    stopPropagation(): void {
+      undefined;
+    },
+    stopImmediatePropagation(): void {
+      undefined;
+    },
     type: 'click',
     target,
     currentTarget: target,
     bubbles: true,
     cancelable: true,
     button: 0,
-  }
+  };
 }
 
 /**
@@ -205,9 +192,9 @@ export function makeClickEvent(target: EventTarget): Partial<MouseEvent> {
  * @param testId Test id set by `data-testid`
  */
 export function click<T>(fixture: ComponentFixture<T>, testId: string): void {
-  const element = findEl(fixture, testId)
-  const event = makeClickEvent(element.nativeElement)
-  element.triggerEventHandler('click', event)
+  const element = findEl(fixture, testId);
+  const event = makeClickEvent(element.nativeElement);
+  element.triggerEventHandler('click', event);
 }
 
 /**
@@ -219,19 +206,13 @@ export function click<T>(fixture: ComponentFixture<T>, testId: string): void {
  * @param fixture Fixture of the parent Component
  * @param selector Element selector, e.g. `app-example`
  */
-export function findComponent<T>(
-  fixture: ComponentFixture<T>,
-  selector: string,
-): DebugElement {
-  return queryByCss(fixture, selector)
+export function findComponent<T>(fixture: ComponentFixture<T>, selector: string): DebugElement {
+  return queryByCss(fixture, selector);
 }
 
 /**
  * Finds all nested Components by its selector, e.g. `app-example`.
  */
-export function findComponents<T>(
-  fixture: ComponentFixture<T>,
-  selector: string,
-): DebugElement[] {
-  return fixture.debugElement.queryAll(By.css(selector))
+export function findComponents<T>(fixture: ComponentFixture<T>, selector: string): DebugElement[] {
+  return fixture.debugElement.queryAll(By.css(selector));
 }

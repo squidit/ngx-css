@@ -1,7 +1,12 @@
-import { Component, ContentChild, ElementRef, Input, Optional, TemplateRef } from "@angular/core"
-import { ValidatorHelper } from '../../helpers/validator.helper'
-import { TranslateService } from "@ngx-translate/core"
-import { SqInputComponent } from "../sq-input/sq-input.component"
+import { Component, ContentChild, ElementRef, Input, Optional, TemplateRef } from '@angular/core';
+import { NgClass, NgStyle, NgTemplateOutlet } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { NgxMaskDirective } from 'ngx-mask';
+import { ValidatorHelper } from '../../helpers/validator.helper';
+import { TranslateService } from '@ngx-translate/core';
+import { SqInputComponent } from '../sq-input/sq-input.component';
+import { SqTooltipComponent } from '../sq-tooltip/sq-tooltip.component';
+import { UniversalSafePipe } from '../../pipes/universal-safe/universal-safe.pipe';
 
 /**
  * Represents an input field with mask functionality that extends SqInputComponent.
@@ -17,74 +22,76 @@ import { SqInputComponent } from "../sq-input/sq-input.component"
 @Component({
   selector: 'sq-input-mask',
   templateUrl: './sq-input-mask.component.html',
-  styleUrls: ['./sq-input-mask.component.scss']
+  styleUrls: ['./sq-input-mask.component.scss'],
+  standalone: true,
+  imports: [NgClass, NgStyle, NgTemplateOutlet, FormsModule, NgxMaskDirective, SqTooltipComponent, UniversalSafePipe],
 })
 export class SqInputMaskComponent extends SqInputComponent {
   /**
    * The mask pattern for input validation and formatting.
    */
-  @Input() mask = ''
+  @Input() mask = '';
 
   /**
    * The character used as a thousand separator in numeric input.
    */
-  @Input() thousandSeparator = ''
+  @Input() thousandSeparator = '';
 
   /**
    * The suffix to be appended to the input value.
    */
-  @Input() suffix = ''
+  @Input() suffix = '';
 
   /**
    * The prefix to be prepended to the input value.
    */
-  @Input() prefix = ''
+  @Input() prefix = '';
 
   /**
    * Indicates whether the mask should be visible while typing.
    */
-  @Input() showMaskTyped = false
+  @Input() showMaskTyped = false;
 
   /**
    * Indicates whether negative numbers are allowed.
    */
-  @Input() allowNegativeNumbers = false
+  @Input() allowNegativeNumbers = false;
 
   /**
    * The decimal marker character or an array of characters to represent decimal values.
    */
-  @Input() decimalMarker: "." | "," | [".", ","] = [".", ","]
+  @Input() decimalMarker: '.' | ',' | ['.', ','] = ['.', ','];
 
   /**
    * The character to use as a placeholder in empty mask slots.
    */
-  @Input() placeHolderCharacter = ''
+  @Input() placeHolderCharacter = '';
 
   /**
    * Indicates whether leading zeros should be preserved.
    */
-  @Input() leadZero = false
+  @Input() leadZero = false;
 
   /**
    * Defines the minimum value that can be accepted as input.
    */
-  @Input() minValue?: number
+  @Input() minValue?: number;
 
   /**
    * Defines the maximum value that can be accepted as input.
    */
-  @Input() maxValue?: number
+  @Input() maxValue?: number;
 
   /**
    * Reference to a label template.
    */
   @ContentChild('labelTemplate')
-  override labelTemplate: TemplateRef<HTMLElement> | null = null
+  override labelTemplate: TemplateRef<HTMLElement> | null = null;
 
   /**
    * Reference to the native element.
    */
-  override nativeElement: ElementRef
+  override nativeElement: ElementRef;
 
   /**
    * Constructs a new instance of SqInputMaskComponent.
@@ -95,10 +102,10 @@ export class SqInputMaskComponent extends SqInputComponent {
   constructor(
     public override validatorHelper: ValidatorHelper,
     element: ElementRef,
-    @Optional() public override translate: TranslateService,
+    @Optional() public override translate: TranslateService
   ) {
-    super(validatorHelper, element, translate)
-    this.nativeElement = element.nativeElement
+    super(validatorHelper, element, translate);
+    this.nativeElement = element.nativeElement;
   }
 
   /**
@@ -106,26 +113,26 @@ export class SqInputMaskComponent extends SqInputComponent {
    * @param isBlur - Indicates if the input has lost focus.
    */
   override async validate(isBlur = false) {
-    const numericValue = Number(this.value)
+    const numericValue = Number(this.value);
 
     if (this.externalError) {
-      this.error = false
+      this.error = false;
     } else if (this.required && (this.value === null || this.value === undefined || this.value === '')) {
-      this.valid.emit(false)
-      this.setError('forms.required')
+      this.valid.emit(false);
+      this.setError('forms.required');
     } else if (this.maxValue && numericValue > this.maxValue) {
-      this.valid.emit(false)
-      this.setError('forms.maxValueAllowed', { max: this.maxValue })
+      this.valid.emit(false);
+      this.setError('forms.maxValueAllowed', { max: this.maxValue });
     } else if (this.minValue && numericValue < this.minValue) {
-      this.valid.emit(false)
-      this.setError('forms.minValueAllowed', { min: this.minValue })
+      this.valid.emit(false);
+      this.setError('forms.minValueAllowed', { min: this.minValue });
     } else {
-      this.valid.emit(true)
-      this.error = ''
+      this.valid.emit(true);
+      this.error = '';
     }
 
     if (isBlur) {
-      this.inFocus.emit(false)
+      this.inFocus.emit(false);
     }
   }
 }

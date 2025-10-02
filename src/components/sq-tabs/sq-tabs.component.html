@@ -3,43 +3,47 @@
     <div
       class="wrapper {{ customClass }}"
       [ngStyle]="{
-        'width': memoizedTabWidth(tabWidth, lineStyle),
+        width: memoizedTabWidth(tabWidth, lineStyle),
       }"
     >
       <ul
         class="tabs-header tabs-center tabs-width"
         #tabsHeaderContainer
         [ngClass]="{
-          'line-style': lineStyle
+          'line-style': lineStyle,
         }"
         [ngStyle]="{
           'max-width': maxWidth,
-          margin: margin
+          margin: margin,
         }"
       >
-        <li
-          *ngFor="let tab of tabs; let i = index"
-          (click)="!tab?.disabled ? selectTab(tab, i) : null"
-          [ngClass]="{
-            disabled: !tab?.title || tab?.disabled,
-            loading: tab?.title && tab.loading,
-            active: tab?.active,
-            sm: sm
-          }"
-          [ngStyle]="{
-            background: tab?.active && !lineStyle ? tab?.color : null
-          }"
-          #thisTab
-        >
-          <span
-            *ngIf="!tab.loading"
-            [ngStyle]="{
-              color: tab?.active && !lineStyle ? tab?.textColor : null
+        @for (tab of tabs; track tab; let i = $index) {
+          <li
+            (click)="!tab?.disabled ? selectTab(tab, i) : null"
+            [ngClass]="{
+              disabled: !tab?.title || tab?.disabled,
+              loading: tab?.title && tab.loading,
+              active: tab?.active,
+              sm: sm,
             }"
-            [innerHtml]="tab?.title || '' | universalSafe"
-          ></span>
-          <sq-loader *ngIf="tab.loading"></sq-loader>
-        </li>
+            [ngStyle]="{
+              background: tab?.active && !lineStyle ? tab?.color : null,
+            }"
+            #thisTab
+          >
+            @if (!tab.loading) {
+              <span
+                [ngStyle]="{
+                  color: tab?.active && !lineStyle ? tab?.textColor : null,
+                }"
+                [innerHtml]="tab?.title || '' | universalSafe"
+              ></span>
+            }
+            @if (tab.loading) {
+              <sq-loader></sq-loader>
+            }
+          </li>
+        }
       </ul>
     </div>
   </div>

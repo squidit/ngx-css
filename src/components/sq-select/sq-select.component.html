@@ -3,11 +3,11 @@
     class="display-flex"
     *ngIf="label?.length || tooltipMessage || labelTemplate"
     [ngClass]="{
-      readonly: readonly
+      readonly: readonly,
     }"
     [for]="id"
   >
-    <div *ngIf="label && !labelTemplate" [ngStyle]="{ 'color': labelColor }" [innerHtml]="label | universalSafe"></div>
+    <div *ngIf="label && !labelTemplate" [ngStyle]="{ color: labelColor }" [innerHtml]="label | universalSafe"></div>
     <div *ngIf="labelTemplate">
       <ng-container *ngTemplateOutlet="labelTemplate"></ng-container>
     </div>
@@ -25,7 +25,7 @@
     [ngStyle]="{ 'border-color': borderColor }"
     [ngClass]="{
       error: (externalError && externalError !== '') || (error && error !== ''),
-      readonly: readonly
+      readonly: readonly,
     }"
   >
     <span class="input-group-text m-0" *ngIf="leftLabel">
@@ -35,11 +35,11 @@
       class="select"
       [ngClass]="{
         disabled: disabled,
-        readonly: readonly
+        readonly: readonly,
       }"
       [ngStyle]="{
         'background-color': backgroundColor,
-        'border-color': borderColor
+        'border-color': borderColor,
       }"
       [id]="id"
       [name]="name"
@@ -62,7 +62,12 @@
           {{ option?.label }}
         </option>
       </optgroup>
-      <option *ngFor="let option of options" [value]="option?.value" [selected]="value === option?.value" [disabled]="!!option?.disabled">
+      <option
+        *ngFor="let option of options"
+        [value]="option?.value"
+        [selected]="value === option?.value"
+        [disabled]="!!option?.disabled"
+      >
         {{ option?.label }}
       </option>
     </select>

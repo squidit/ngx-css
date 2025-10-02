@@ -8,12 +8,13 @@
   [trigger]="trigger"
   [ngStyle]="{
     color: color,
-    'font-size': fontSize
+    'font-size': fontSize,
   }"
 >
-  <div class="icon" *ngIf="icon" [innerHtml]="icon | universalSafe"></div>
-  <i
-    class="fa-solid fa-circle-question icon"
-    *ngIf="!icon"
-  ></i>
+  @if (icon) {
+    <div class="icon" [innerHtml]="icon | universalSafe"></div>
+  }
+  @if (!icon) {
+    <i class="fa-solid fa-circle-question icon"></i>
+  }
 </div>

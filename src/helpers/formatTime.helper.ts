@@ -9,24 +9,22 @@
  */
 
 export function formatTime(totalSeconds: number): string {
-  const seconds = totalSeconds % 60
-  const minutes = Math.floor(totalSeconds / 60) % 60
-  const hours = Math.floor(totalSeconds / 3600) % 24
-  const days = Math.floor(totalSeconds / 86400)
+  const seconds = totalSeconds % 60;
+  const minutes = Math.floor(totalSeconds / 60) % 60;
+  const hours = Math.floor(totalSeconds / 3600) % 24;
+  const days = Math.floor(totalSeconds / 86400);
 
   if (days > 0) {
     return `${days}d ${hours.toString().padStart(2, '0')}h ${minutes
       .toString()
-      .padStart(2, '0')}m ${seconds.toString().padStart(2, '0')}s`
+      .padStart(2, '0')}m ${seconds.toString().padStart(2, '0')}s`;
   } else if (hours > 0) {
     return `${hours.toString().padStart(2, '0')}h ${minutes
       .toString()
-      .padStart(2, '0')}m ${seconds.toString().padStart(2, '0')}s`
+      .padStart(2, '0')}m ${seconds.toString().padStart(2, '0')}s`;
   } else if (minutes > 0) {
-    return `${minutes.toString().padStart(2, '0')}m ${seconds
-      .toString()
-      .padStart(2, '0')}s`
+    return `${minutes.toString().padStart(2, '0')}m ${seconds.toString().padStart(2, '0')}s`;
   } else {
-    return `${seconds.toString().padStart(2, '0')}s`
+    return `${seconds.toString().padStart(2, '0')}s`;
   }
 }

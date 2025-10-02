@@ -1,13 +1,17 @@
-import { Component, ContentChild, ElementRef, Input, Optional, TemplateRef } from '@angular/core'
-import { TranslateService } from '@ngx-translate/core'
-import { ValidatorHelper } from '../../helpers/validator.helper'
-import { SqInputComponent } from '../sq-input/sq-input.component'
+import { Component, ContentChild, ElementRef, Input, Optional, TemplateRef } from '@angular/core';
+import { NgClass, NgStyle, NgTemplateOutlet } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
+import { ValidatorHelper } from '../../helpers/validator.helper';
+import { SqInputComponent } from '../sq-input/sq-input.component';
+import { SqTooltipComponent } from '../sq-tooltip/sq-tooltip.component';
+import { UniversalSafePipe } from '../../pipes/universal-safe/universal-safe.pipe';
 
 /**
  * Represents a date input component that extends SqInputComponent.
- * 
+ *
  * This component extends the {@link SqInputComponent} and adds additional properties and behavior for handling money input.
- * 
+ *
  * <br>
  * <label for='id-exemple-date'>
  *  Example Input
@@ -18,48 +22,50 @@ import { SqInputComponent } from '../sq-input/sq-input.component'
  *   id="id-exemple-date"
  *   type="date"
  * ></input>
- * 
+ *
  * @example
  * <sq-input-date [name]="'date-input'" [id]="'date-input'" [label]="'Date'" [(value)]='date'></sq-input-date>
  */
 @Component({
   selector: 'sq-input-date',
   templateUrl: './sq-input-date.component.html',
-  styleUrls: ['./sq-input-date.component.scss']
+  styleUrls: ['./sq-input-date.component.scss'],
+  standalone: true,
+  imports: [NgClass, NgStyle, NgTemplateOutlet, FormsModule, SqTooltipComponent, UniversalSafePipe],
 })
 export class SqInputDateComponent extends SqInputComponent {
   /**
    * Minimum allowed date in 'yyyy-mm-dd' format.
    */
-  @Input() minDate = '0001-01-01'
+  @Input() minDate = '0001-01-01';
 
   /**
    * Maximum allowed date in 'yyyy-mm-dd' format.
    */
-  @Input() maxDate = '9999-12-31'
+  @Input() maxDate = '9999-12-31';
 
   /**
    * Placeholder text for the date input.
    */
-  @Input() override placeholder = 'dd-mm-yyyy'
+  @Input() override placeholder = 'dd-mm-yyyy';
 
   /**
    * The value of the input element in 'yyyy-mm-dd' format.
    */
   @Input()
   public override set value(value: any) {
-    value = value.split('T')[0] || value
-    this._value = new Date(value)
+    value = value.split('T')[0] || value;
+    this._value = new Date(value);
   }
   public override get value(): any {
-    return this._value.toISOString().split('T')[0]
+    return this._value.toISOString().split('T')[0];
   }
 
   /**
    * Reference to a label template.
    */
   @ContentChild('labelTemplate')
-  override labelTemplate: TemplateRef<HTMLElement> | null = null
+  override labelTemplate: TemplateRef<HTMLElement> | null = null;
 
   /**
    * Constructs a new instance of SqInputDateComponent.
@@ -70,10 +76,10 @@ export class SqInputDateComponent extends SqInputComponent {
   constructor(
     public override validatorHelper: ValidatorHelper,
     element: ElementRef,
-    @Optional() public override translate: TranslateService,
+    @Optional() public override translate: TranslateService
   ) {
-    super(validatorHelper, element, translate)
-    this.nativeElement = element.nativeElement
+    super(validatorHelper, element, translate);
+    this.nativeElement = element.nativeElement;
   }
 
   /**
@@ -82,26 +88,26 @@ export class SqInputDateComponent extends SqInputComponent {
    */
   override async validate(isBlur = false) {
     if (this.externalError) {
-      this.error = false
+      this.error = false;
     } else if (!!this.required && !this._value) {
-      this.valid.emit(false)
-      this.setError('forms.required')
+      this.valid.emit(false);
+      this.setError('forms.required');
     } else if (!this.validatorHelper.date(this._value)) {
-      this.valid.emit(false)
-      this.setError('forms.date')
+      this.valid.emit(false);
+      this.setError('forms.date');
     } else if (this.formatDate(this.minDate) > this._value) {
-      this.valid.emit(false)
-      this.setError('forms.rangeDate')
+      this.valid.emit(false);
+      this.setError('forms.rangeDate');
     } else if (this.formatDate(this.maxDate) < this._value) {
-      this.valid.emit(false)
-      this.setError('forms.rangeDate')
+      this.valid.emit(false);
+      this.setError('forms.rangeDate');
     } else {
-      this.valid.emit(true)
-      this.error = ''
+      this.valid.emit(true);
+      this.error = '';
     }
 
     if (isBlur) {
-      this.inFocus.emit(false)
+      this.inFocus.emit(false);
     }
   }
 
@@ -110,15 +116,15 @@ export class SqInputDateComponent extends SqInputComponent {
    * @param event - The input change event.
    */
   override async change(event: any) {
-    event = event?.target?.valueAsDate ? event.target.valueAsDate : event?.target?.value || event
+    event = event?.target?.valueAsDate ? event.target.valueAsDate : event?.target?.value || event;
     if (!this.disabled && !this.readonly) {
-      this.inFocus.emit(true)
-      this._value = event
-      clearTimeout(this.timeoutInput)
+      this.inFocus.emit(true);
+      this._value = event;
+      clearTimeout(this.timeoutInput);
       this.timeoutInput = setTimeout(() => {
-        this.valueChange.emit(this.getISOValidDate(event))
-      }, this.timeToChange)
-      this.validate()
+        this.valueChange.emit(this.getISOValidDate(event));
+      }, this.timeToChange);
+      this.validate();
     }
   }
 
@@ -129,16 +135,16 @@ export class SqInputDateComponent extends SqInputComponent {
    */
   getISOValidDate(value: Date) {
     try {
-      let isoDate = ''
+      let isoDate = '';
       if (value) {
-        isoDate = new Date(value)?.toISOString().split('T')[0] + 'T00:00:00.000Z'
+        isoDate = new Date(value)?.toISOString().split('T')[0] + 'T00:00:00.000Z';
       }
       if (isoDate === 'Invalid date') {
-        return ''
+        return '';
       }
-      return isoDate
+      return isoDate;
     } catch (error) {
-      return ''
+      return '';
     }
   }
 
@@ -149,12 +155,12 @@ export class SqInputDateComponent extends SqInputComponent {
    */
   formatDate(value: any) {
     if (!value) {
-      return ''
+      return '';
     }
     try {
-      return new Date(value).toISOString().split('T')[0]
+      return new Date(value).toISOString().split('T')[0];
     } catch (error) {
-      return ''
+      return '';
     }
   }
 }

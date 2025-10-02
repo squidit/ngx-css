@@ -12,6 +12,8 @@
     "test": "ng test @squidit/ngx-css",
     "lint": "ng lint @squidit/ngx-css",
     "lint:docs": "compodoc -p tsconfig.doc.json --coverageMinimumPerFile 100",
+    "format": "prettier --write \"src/**/*.{ts,html,scss,css,json}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,html,scss,css,json}\"",
     "build:docs": "compodoc -p tsconfig.doc.json -n 'NGX CSS - Angular Components Squid Style' --customFavicon='./application/src/favicon.ico' --includes='./docs/additional-docs' -y './docs/custom-style' -a './docs/js'  --templates './docs/templates'",
     "start:docs": "npx compodoc -r 5050 -p tsconfig.doc.json -n 'NGX CSS - Angular Components Squid Style' -s -w --customFavicon='./application/src/favicon.ico' --includes='./docs/additional-docs' -y './docs/custom-style' -a './docs/js' --templates './docs/templates'",
     "serve:docs": "compodoc -r 5050 -s --customFavicon='./application/src/favicon.ico' -n 'NGX CSS - Angular Components Squid Style' --includes='./docs/additional-docs' -y './docs/custom-style' -a './docs/js'  --templates './docs/templates'",
@@ -28,8 +30,8 @@
   "private": false,
   "dependencies": {
     "@angular/animations": "^17.3.5",
-    "@angular/common": "^17.3.5",
     "@angular/cdk": "^17.3.5",
+    "@angular/common": "^17.3.5",
     "@angular/compiler": "^17.3.5",
     "@angular/core": "^17.3.5",
     "@angular/forms": "^17.3.5",
@@ -76,6 +78,7 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
     "ng-packagr": "^17.3.0",
+    "prettier": "^3.6.2",
     "typescript": "~5.2.0"
   },
   "keywords": [

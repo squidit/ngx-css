@@ -1,5 +1,5 @@
-import { DOCUMENT } from '@angular/common'
-import { Injectable, Inject } from '@angular/core'
+import { DOCUMENT } from '@angular/common';
+import { Injectable, Inject } from '@angular/core';
 
 /**
  * A utility service for working with the window object in Angular applications.
@@ -27,14 +27,14 @@ export class GetWindow {
    * @constructor
    * @param {Document} document - The injected DOCUMENT to get a reference to the window object in a way that's safe for SSR.
    */
-  constructor(@Inject(DOCUMENT) private document: Document) { }
+  constructor(@Inject(DOCUMENT) private document: Document) {}
 
   /**
    * Allow to get the window object inside ssr
    * @returns {Window | null} - The window object.
    */
-  window(): Window & typeof globalThis | null {
-    return this.document.defaultView
+  window(): (Window & typeof globalThis) | null {
+    return this.document.defaultView;
   }
 
   /**
@@ -42,11 +42,11 @@ export class GetWindow {
    * @returns {string | URL} - The href location object.
    */
   href(): string | URL {
-    const window = this.window()
+    const window = this.window();
     if (window) {
-      return window.location.href
+      return window.location.href;
     }
-    return ''
+    return '';
   }
 
   /**
@@ -54,10 +54,10 @@ export class GetWindow {
    * @returns {boolean} - `true` if the browser supports touch events, otherwise `false`.
    */
   touch(): boolean {
-    const window = this.window()
+    const window = this.window();
     if (window) {
-      return 'ontouchstart' in window || navigator.maxTouchPoints > 0
+      return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
     }
-    return false
+    return false;
   }
 }

@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform } from '@angular/core'
+import { Pipe, PipeTransform } from '@angular/core';
 
 /**
  * A custom Angular pipe for filtering an array of objects based on a search string.
@@ -26,19 +26,19 @@ export class SearchPipe implements PipeTransform {
    */
   transform(value: any, search: string): any {
     if (!search) {
-      return value
+      return value;
     }
     if (!value) {
-      return ''
+      return '';
     }
 
     const solution = value?.filter((v: any) => {
       if (!v) {
-        return false
+        return false;
       }
-      return JSON.stringify(v).toLowerCase().indexOf(search.toLowerCase()) > -1
-    })
+      return JSON.stringify(v).toLowerCase().indexOf(search.toLowerCase()) > -1;
+    });
 
-    return solution
+    return solution;
   }
 }

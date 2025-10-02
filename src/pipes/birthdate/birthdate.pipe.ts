@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform } from '@angular/core'
+import { Pipe, PipeTransform } from '@angular/core';
 
 /**
  * A custom Angular pipe for getting the age from a birthdate.
@@ -16,19 +16,19 @@ export class BirthdatePipe implements PipeTransform {
    * @returns {string} - The age from the birthdate.
    */
   transform(date: string): string {
-    const epochYear = 1970 // Used as the base year for age calculation
-    if(date > new Date().toISOString().split('T')[0]) {
-      return '0'
+    const epochYear = 1970; // Used as the base year for age calculation
+    if (date > new Date().toISOString().split('T')[0]) {
+      return '0';
     }
     if (date) {
-      const ageDifMs = Date.now() - new Date(date).getTime()
-      const ageDate = new Date(ageDifMs)
-      const age = Math.abs(ageDate.getUTCFullYear() - epochYear).toString()
-      if(isNaN(parseInt(age))) {
-        return '0'
+      const ageDifMs = Date.now() - new Date(date).getTime();
+      const ageDate = new Date(ageDifMs);
+      const age = Math.abs(ageDate.getUTCFullYear() - epochYear).toString();
+      if (isNaN(parseInt(age))) {
+        return '0';
       }
-      return age
+      return age;
     }
-    return '0'
+    return '0';
   }
 }

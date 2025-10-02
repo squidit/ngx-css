@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core'
+import { Injectable } from '@angular/core';
 
 /**
  * A utility service for performing various types of validation tasks, such as email, URL, date,
@@ -38,7 +38,7 @@ export class ValidatorHelper {
    * @returns {boolean} - `true` if the is an xor logic, otherwise `false`.
    */
   XOR(x: any, y: any): boolean {
-    return (x || y) && !(x && y)
+    return (x || y) && !(x && y);
   }
 
   /**
@@ -48,7 +48,7 @@ export class ValidatorHelper {
    * @returns {boolean} - `true` if the email is valid, otherwise `false`.
    */
   email(email: string): boolean {
-    return /^[_\-a-z0-9]+(\.[-_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]+)$/i.test(email)
+    return /^[_\-a-z0-9]+(\.[-_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]+)$/i.test(email);
   }
 
   /**
@@ -60,16 +60,16 @@ export class ValidatorHelper {
   url(url: string): boolean {
     const pattern = new RegExp(
       '^(https?:\\/\\/)' + // protocol
-      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
-      '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
-      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
-      '(\\/\\@?[a-zA-Z0-9._%+-]*)*' +
-      '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
-      '(\\#[-a-z\\d_]*)?' + // query string with #?
-      '(\\?[;&a-z\\d%_.~+=-]*)?$',
+        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+        '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+        '(\\/\\@?[a-zA-Z0-9._%+-]*)*' +
+        '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+        '(\\#[-a-z\\d_]*)?' + // query string with #?
+        '(\\?[;&a-z\\d%_.~+=-]*)?$',
       'i'
-    ) // fragment locator
-    return !!pattern.test(url)
+    ); // fragment locator
+    return !!pattern.test(url);
   }
 
   /**
@@ -79,7 +79,7 @@ export class ValidatorHelper {
    * @returns {boolean} - `true` if the date is valid, otherwise `false`.
    */
   date(date: string): boolean {
-    return !!Date.parse(date)
+    return !!Date.parse(date);
   }
 
   /**
@@ -89,43 +89,43 @@ export class ValidatorHelper {
    */
   cnpj(value = ''): boolean {
     if (value.length !== 14) {
-      return false
+      return false;
     }
     for (const digit of Array.from(Array(10).keys())) {
       if (Array(14).fill(digit).join('') === value) {
-        return false
+        return false;
       }
     }
 
-    let size = value.length - 2
-    let numbers = value.substring(0, size)
-    const digits = value.substring(size)
-    let sum = 0
-    let pos = size - 7
+    let size = value.length - 2;
+    let numbers = value.substring(0, size);
+    const digits = value.substring(size);
+    let sum = 0;
+    let pos = size - 7;
     for (let i = size; i >= 1; i--) {
-      sum += parseFloat(numbers.charAt(size - i)) * pos--
+      sum += parseFloat(numbers.charAt(size - i)) * pos--;
       if (pos < 2) {
-        pos = 9
+        pos = 9;
       }
     }
     if (sum % 11 < 2 ? 0 : 11 - (sum % 11) !== parseInt(digits.charAt(0), 10)) {
-      return false
+      return false;
     }
 
-    size = size + 1
-    numbers = value.substring(0, size)
-    sum = 0
-    pos = size - 7
+    size = size + 1;
+    numbers = value.substring(0, size);
+    sum = 0;
+    pos = size - 7;
     for (let i = size; i >= 1; i--) {
-      sum += parseFloat(numbers.charAt(size - i)) * pos--
+      sum += parseFloat(numbers.charAt(size - i)) * pos--;
       if (pos < 2) {
-        pos = 9
+        pos = 9;
       }
     }
     if (sum % 11 < 2 ? 0 : 11 - (sum % 11) !== parseInt(digits.charAt(1), 10)) {
-      return false
+      return false;
     }
-    return true
+    return true;
   }
 
   /**
@@ -135,8 +135,8 @@ export class ValidatorHelper {
    * @returns {boolean} - `true` if the phone number is valid, otherwise `false`.
    */
   phone(phone = ''): boolean {
-    const regex = /(\d{2})(\d{0,1})(\d{4})(\d{4})/
-    return phone.match(regex) !== null
+    const regex = /(\d{2})(\d{0,1})(\d{4})(\d{4})/;
+    return phone.match(regex) !== null;
   }
 
   /**
@@ -146,37 +146,37 @@ export class ValidatorHelper {
    * @returns {boolean} - `true` if the CPF is valid, otherwise `false`.
    */
   cpf(value = '') {
-    let sum = 0
-    let rest
+    let sum = 0;
+    let rest;
     if (/^(.)\1+$/.test(value)) {
-      return false
+      return false;
     }
 
     for (let i = 1; i <= 9; i++) {
-      sum = sum + parseInt(value.substring(i - 1, i), 10) * (11 - i)
+      sum = sum + parseInt(value.substring(i - 1, i), 10) * (11 - i);
     }
-    rest = (sum * 10) % 11
+    rest = (sum * 10) % 11;
 
     if (rest === 10 || rest === 11) {
-      rest = 0
+      rest = 0;
     }
     if (rest !== parseInt(value.substring(9, 10), 10)) {
-      return false
+      return false;
     }
 
-    sum = 0
+    sum = 0;
     for (let i = 1; i <= 10; i++) {
-      sum = sum + parseInt(value.substring(i - 1, i), 10) * (12 - i)
+      sum = sum + parseInt(value.substring(i - 1, i), 10) * (12 - i);
     }
-    rest = (sum * 10) % 11
+    rest = (sum * 10) % 11;
 
     if (rest === 10 || rest === 11) {
-      rest = 0
+      rest = 0;
     }
     if (rest !== parseInt(value.substring(10, 11), 10)) {
-      return false
+      return false;
     }
-    return true
+    return true;
   }
 
   /**
@@ -186,33 +186,33 @@ export class ValidatorHelper {
    * @returns {boolean} - `true` if the record employment number is valid, otherwise `false`.
    */
   recordEmployment(recordEmployment = '') {
-    let total = 0
-    let residual = 0
-    let strResto = ''
+    let total = 0;
+    let residual = 0;
+    let strResto = '';
 
     if (recordEmployment === '00000000000') {
-      return false
+      return false;
     }
 
     for (let i = 0, ftap = '3298765432', resultado = 0; i <= 9; i++) {
-      resultado = Number(recordEmployment.slice(i, i + 1)) * Number(ftap.slice(i, i + 1))
-      total = total + resultado
+      resultado = Number(recordEmployment.slice(i, i + 1)) * Number(ftap.slice(i, i + 1));
+      total = total + resultado;
     }
 
-    residual = total % 11
+    residual = total % 11;
     if (residual !== 0) {
-      residual = 11 - residual
+      residual = 11 - residual;
     }
 
     if (residual === 10 || residual === 11) {
-      strResto = residual.toString()
-      residual = Number(strResto.slice(1, 2))
+      strResto = residual.toString();
+      residual = Number(strResto.slice(1, 2));
     }
 
     if (residual !== Number(recordEmployment.slice(10, 11))) {
-      return false
+      return false;
     }
 
-    return true
+    return true;
   }
 }

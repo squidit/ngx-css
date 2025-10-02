@@ -8,12 +8,10 @@
     block: block,
   }"
 >
-  <label [for]="id" *ngIf="leftLabel && !labelTemplate" [ngClass]="{'label-max-width': hideInput}">
-    <ng-container
-      *ngTemplateOutlet="leftLabel; context: context"
-    ></ng-container>
+  <label [for]="id" *ngIf="leftLabel && !labelTemplate" [ngClass]="{ 'label-max-width': hideInput }">
+    <ng-container *ngTemplateOutlet="leftLabel; context: context"></ng-container>
   </label>
-  <label for="id" *ngIf="labelTemplate" [ngClass]="{'label-max-width': hideInput}">
+  <label for="id" *ngIf="labelTemplate" [ngClass]="{ 'label-max-width': hideInput }">
     <div *ngIf="labelTemplate">
       <ng-container *ngTemplateOutlet="labelTemplate"></ng-container>
     </div>
@@ -29,7 +27,7 @@
     [required]="required"
     [checked]="thisChecked"
     [ngClass]="{
-      indeterminate: !(checked || thisChecked) ? indeterminate || thisIndeterminate : null
+      indeterminate: !(checked || thisChecked) ? indeterminate || thisIndeterminate : null,
     }"
     [indeterminate]="!(checked || thisChecked) ? indeterminate || thisIndeterminate : null"
   />
@@ -37,21 +35,21 @@
     [for]="id"
     [ngClass]="{
       disabled: disabled,
-      'hide-input': hideInput
+      'hide-input': hideInput,
     }"
     class="checkbox {{ type }}"
   ></label>
-  <label [for]="id" *ngIf="label" [innerHtml]="label | universalSafe" [ngClass]="{'label-max-width': hideInput}"></label>
-  <label [for]="id" *ngIf="rightLabel" [ngClass]="{'label-max-width': hideInput}">
-    <ng-container
-      *ngTemplateOutlet="rightLabel; context: context"
-    ></ng-container>
+  <label
+    [for]="id"
+    *ngIf="label"
+    [innerHtml]="label | universalSafe"
+    [ngClass]="{ 'label-max-width': hideInput }"
+  ></label>
+  <label [for]="id" *ngIf="rightLabel" [ngClass]="{ 'label-max-width': hideInput }">
+    <ng-container *ngTemplateOutlet="rightLabel; context: context"></ng-container>
   </label>
 </div>
-<div
-  class="box-validation box-invalid show"
-  *ngIf="errorSpan"
->
+<div class="box-validation box-invalid show" *ngIf="errorSpan">
   <ng-container *ngIf="externalError || error">
     <i class="fa-solid fa-triangle-exclamation"></i>
   </ng-container>

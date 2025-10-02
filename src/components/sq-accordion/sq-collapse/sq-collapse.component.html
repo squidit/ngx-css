@@ -12,7 +12,7 @@
       loading: loading,
       'not-header': !headerTemplate,
       opened: open,
-      'p-0': noPadding
+      'p-0': noPadding,
     }"
     (mouseover)="hoverHeader = true"
     (mouseleave)="hoverHeader = false"
@@ -23,14 +23,14 @@
     <div
       class="wrapper-icons"
       [ngClass]="{
-        disabled: collapseButtonDisabled
+        disabled: collapseButtonDisabled,
       }"
       [ngStyle]="{
         color: colorIcons,
         'background-color': hoverIcon ? setHover(colorBackgroundIcon) : colorBackgroundIcon,
         'font-size': fontSizeIcon,
         height: heightIcon,
-        'line-height': heightIcon
+        'line-height': heightIcon,
       }"
       [tooltip]="collapseButtonTooltip"
       (mouseover)="hoverIcon = true"
@@ -39,7 +39,7 @@
       <i
         class="fa-solid fa-chevron-down icon"
         [ngClass]="{
-          'fa-rotate-180': !disabled && open
+          'fa-rotate-180': !disabled && open,
         }"
         *ngIf="!loading"
       ></i>
@@ -54,17 +54,17 @@
       open: open && !disabled && !loading,
       disabled: disabled,
       loading: loading,
-      opening: opening
+      opening: opening,
     }"
     [ngStyle]="{
-      height: this.opening ? this.opening : null
+      height: this.opening ? this.opening : null,
     }"
     #content
   >
-  @if(open) {
-    <div #wrapper>
-      <ng-content></ng-content>
-    </div>
-  }
+    @if (open) {
+      <div #wrapper>
+        <ng-content></ng-content>
+      </div>
+    }
   </div>
 </div>

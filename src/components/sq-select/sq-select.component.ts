@@ -1,6 +1,6 @@
-import { Component, ContentChild, EventEmitter, Input, Output, TemplateRef, Optional, ElementRef } from '@angular/core'
-import { TranslateService } from '@ngx-translate/core'
-import { Option } from '../../interfaces/option.interface'
+import { Component, ContentChild, EventEmitter, Input, Output, TemplateRef, Optional, ElementRef } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { Option } from '../../interfaces/option.interface';
 
 /**
  * Represents a select input component for choosing options from a dropdown.
@@ -8,7 +8,7 @@ import { Option } from '../../interfaces/option.interface'
  * Look the link about the component in original framework and the appearance
  *
  * @see {@link https://css.squidit.com.br/forms/select}
- * 
+ *
  * <br>
  * <label for='select-name'>
  * Label select
@@ -21,7 +21,7 @@ import { Option } from '../../interfaces/option.interface'
  *  <option value="1">Option 1</option>
  *  <option value="2">Option 2</option>
  * </select>
- * 
+ *
  * @example
  * <sq-select
  *   [name]="'select-name'"
@@ -35,55 +35,55 @@ import { Option } from '../../interfaces/option.interface'
 @Component({
   selector: 'sq-select',
   templateUrl: './sq-select.component.html',
-  styleUrls: ['./sq-select.component.scss']
+  styleUrls: ['./sq-select.component.scss'],
 })
 export class SqSelectComponent {
   /**
    * The name attribute for the select input.
-   * 
+   *
    * @default 'random-name-[hash-random-code]'
    */
-  @Input() name = `random-name-${(1 + Date.now() + Math.random()).toString().replace('.', '')}`
+  @Input() name = `random-name-${(1 + Date.now() + Math.random()).toString().replace('.', '')}`;
 
   /**
    * The selected value of the select input.
    */
-  @Input() value?: any
+  @Input() value?: any;
 
   /**
    * The id attribute for the select input.
    */
-  @Input() id?: string
+  @Input() id?: string;
 
   /**
    * The label for the select input.
    */
-  @Input() label = ''
+  @Input() label = '';
 
   /**
    * Custom CSS class for the select input.
    */
-  @Input() customClass = ''
+  @Input() customClass = '';
 
   /**
    * Placeholder text for the select input.
    */
-  @Input() placeholder = ''
+  @Input() placeholder = '';
 
   /**
    * External error message for the select input.
    */
-  @Input() externalError = ''
+  @Input() externalError = '';
 
   /**
    * External icon for the select input.
    */
-  @Input() externalIcon = ''
+  @Input() externalIcon = '';
 
   /**
    * An array of options for populating the select input.
    */
-  @Input() options: Option[] = []
+  @Input() options: Option[] = [];
 
   /**
    * Options with groups for populating the select input.
@@ -91,120 +91,120 @@ export class SqSelectComponent {
   @Input() optionsWithGroups: Array<{
     label: string;
     options: Option[];
-  }> = []
+  }> = [];
 
   /**
    * Indicates whether to display an error span.
    */
-  @Input() errorSpan = true
+  @Input() errorSpan = true;
 
   /**
    * Indicates whether the select input is disabled.
    */
-  @Input() disabled = false
+  @Input() disabled = false;
 
   /**
    * Indicates whether the select input is readonly.
    */
-  @Input() readonly = false
+  @Input() readonly = false;
 
   /**
    * Indicates whether the select input is required.
    */
-  @Input() required = false
+  @Input() required = false;
 
   /**
    * Indicates whether the select input is in a loading state.
    */
-  @Input() loading = false
+  @Input() loading = false;
 
   /**
    * Indicates whether to use form errors for validation.
    */
-  @Input() useFormErrors = true
+  @Input() useFormErrors = true;
 
   /**
    * Tooltip message for the select input.
    */
-  @Input() tooltipMessage = ''
+  @Input() tooltipMessage = '';
 
   /**
    * Tooltip placement for the select input.
    */
-  @Input() tooltipPlacement: 'center top' | 'center bottom' | 'left center' | 'right center' = 'right center'
+  @Input() tooltipPlacement: 'center top' | 'center bottom' | 'left center' | 'right center' = 'right center';
 
   /**
    * Tooltip color for the select input.
    */
-  @Input() tooltipColor = 'inherit'
+  @Input() tooltipColor = 'inherit';
 
   /**
    * Tooltip icon for the select input.
    */
-  @Input() tooltipIcon = ''
+  @Input() tooltipIcon = '';
 
   /**
    * Background color for the select input.
    */
-  @Input() backgroundColor = ''
+  @Input() backgroundColor = '';
 
   /**
    * Border color for the select input.
    */
-  @Input() borderColor = ''
+  @Input() borderColor = '';
 
   /**
    * Label color for the select input.
    */
-  @Input() labelColor = ''
+  @Input() labelColor = '';
 
   /**
    * Event emitted when the select input gains or loses focus.
    */
-  @Output() inFocus: EventEmitter<boolean> = new EventEmitter()
+  @Output() inFocus: EventEmitter<boolean> = new EventEmitter();
 
   /**
    * Event emitted when the select input becomes valid or invalid.
    */
-  @Output() valid: EventEmitter<boolean> = new EventEmitter()
+  @Output() valid: EventEmitter<boolean> = new EventEmitter();
 
   /**
    * Event emitted when the value of the select input changes.
    */
-  @Output() valueChange: EventEmitter<any> = new EventEmitter()
+  @Output() valueChange: EventEmitter<any> = new EventEmitter();
 
   /**
    * Event emitter for focus input changes.
    */
-  @Output() emitFocus: EventEmitter<Event> = new EventEmitter<Event>()
+  @Output() emitFocus: EventEmitter<Event> = new EventEmitter<Event>();
 
   /**
    * Reference to a left-aligned label template.
    */
   @ContentChild('leftLabel')
-  leftLabel: TemplateRef<HTMLElement> | null = null
+  leftLabel: TemplateRef<HTMLElement> | null = null;
 
   /**
    * Reference to a right-aligned label template.
    */
   @ContentChild('rightLabel')
-  rightLabel: TemplateRef<HTMLElement> | null = null
+  rightLabel: TemplateRef<HTMLElement> | null = null;
 
   /**
    * Reference to a right-aligned label template.
    */
   @ContentChild('labelTemplate')
-  labelTemplate: TemplateRef<HTMLElement> | null = null
+  labelTemplate: TemplateRef<HTMLElement> | null = null;
 
   /**
    * The error state of the select input.
    */
-  error: boolean | string = false
+  error: boolean | string = false;
 
   /**
    * ElementRef for the native select input element.
    */
-  nativeElement: ElementRef
+  nativeElement: ElementRef;
 
   /**
    * Constructs a new SqSelectComponent.
@@ -212,8 +212,11 @@ export class SqSelectComponent {
    * @param {ElementRef} element - The ElementRef for the component.
    * @param {TranslateService} translate - The optional TranslateService for internationalization.
    */
-  constructor(public element: ElementRef, @Optional() private translate: TranslateService) {
-    this.nativeElement = element.nativeElement
+  constructor(
+    public element: ElementRef,
+    @Optional() private translate: TranslateService
+  ) {
+    this.nativeElement = element.nativeElement;
   }
 
   /**
@@ -223,17 +226,17 @@ export class SqSelectComponent {
    */
   validate(isBlur = false) {
     if (this.externalError) {
-      this.error = false
+      this.error = false;
     } else if (this.required && !this.value) {
-      this.valid.emit(false)
-      this.setError('forms.required')
+      this.valid.emit(false);
+      this.setError('forms.required');
     } else {
-      this.valid.emit(true)
-      this.error = ''
+      this.valid.emit(true);
+      this.error = '';
     }
 
     if (isBlur) {
-      this.inFocus.emit(false)
+      this.inFocus.emit(false);
     }
   }
 
@@ -244,7 +247,7 @@ export class SqSelectComponent {
    */
   async setError(key: string) {
     if (this.useFormErrors && this.translate) {
-      this.error = await this.translate.instant(key)
+      this.error = await this.translate.instant(key);
     }
   }
 
@@ -254,9 +257,9 @@ export class SqSelectComponent {
    * @param {any} value - The selected value.
    */
   change(value: any): void {
-    this.inFocus.emit(true)
-    this.value = value
-    this.valueChange.emit(value)
-    this.validate()
+    this.inFocus.emit(true);
+    this.value = value;
+    this.valueChange.emit(value);
+    this.validate();
   }
 }

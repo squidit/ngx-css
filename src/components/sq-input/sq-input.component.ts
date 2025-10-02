@@ -1,6 +1,10 @@
-import { Component, ContentChild, ElementRef, EventEmitter, Input, Optional, Output, TemplateRef } from '@angular/core'
-import { TranslateService } from '@ngx-translate/core'
-import { ValidatorHelper } from '../../helpers/validator.helper'
+import { Component, ContentChild, ElementRef, EventEmitter, Input, Optional, Output, TemplateRef } from '@angular/core';
+import { NgClass, NgStyle, NgTemplateOutlet } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
+import { ValidatorHelper } from '../../helpers/validator.helper';
+import { SqTooltipComponent } from '../sq-tooltip/sq-tooltip.component';
+import { UniversalSafePipe } from '../../pipes/universal-safe/universal-safe.pipe';
 
 /**
  * Represents the SqInputComponent, a customizable input component.
@@ -34,7 +38,9 @@ import { ValidatorHelper } from '../../helpers/validator.helper'
 @Component({
   selector: 'sq-input',
   templateUrl: './sq-input.component.html',
-  styleUrls: ['./sq-input.component.scss']
+  styleUrls: ['./sq-input.component.scss'],
+  standalone: true,
+  imports: [NgClass, NgStyle, NgTemplateOutlet, FormsModule, SqTooltipComponent, UniversalSafePipe],
 })
 export class SqInputComponent {
   /**
@@ -42,201 +48,201 @@ export class SqInputComponent {
    *
    * @default 'random-name-[hash-random-code]'
    */
-  @Input() name = `random-name-${(1 + Date.now() + Math.random()).toString().replace('.', '')}`
+  @Input() name = `random-name-${(1 + Date.now() + Math.random()).toString().replace('.', '')}`;
 
   /**
    * The id attribute for the input element.
    */
-  @Input() id?: string
+  @Input() id?: string;
 
   /**
    * An optional label for the input.
    */
-  @Input() label?: string
+  @Input() label?: string;
 
   /**
    * Custom CSS class for the input element.
    */
-  @Input() customClass = ''
+  @Input() customClass = '';
 
   /**
    * Placeholder text for the input element.
    */
-  @Input() placeholder = ''
+  @Input() placeholder = '';
 
   /**
    * External error message to display.
    */
-  @Input() externalError = ''
+  @Input() externalError = '';
 
   /**
    * External icon to display.
    */
-  @Input() externalIcon = ''
+  @Input() externalIcon = '';
 
   /**
    * The value of the input element.
    */
   @Input()
   public set value(value: any) {
-    this._value = value
+    this._value = value;
   }
   public get value(): any {
-    return this._value
+    return this._value;
   }
 
   /**
    * Time in milliseconds before triggering input timeout.
    */
-  @Input() timeToChange = 0
+  @Input() timeToChange = 0;
 
   /**
    * Flag to display an error span.
    */
-  @Input() errorSpan = true
+  @Input() errorSpan = true;
 
   /**
    * Flag to disable the input element.
    */
-  @Input() disabled = false
+  @Input() disabled = false;
 
   /**
    * Flag to make the input element readonly.
    */
-  @Input() readonly = false
+  @Input() readonly = false;
 
   /**
    * Flag to mark the input as required.
    */
-  @Input() required = false
+  @Input() required = false;
 
   /**
    * Flag to use form errors for validation messages.
    */
-  @Input() useFormErrors = true
+  @Input() useFormErrors = true;
 
   /**
    * Tooltip message to display.
    */
-  @Input() tooltipMessage = ''
+  @Input() tooltipMessage = '';
 
   /**
    * Placement of the tooltip.
    */
-  @Input() tooltipPlacement: 'center top' | 'center bottom' | 'left center' | 'right center' = 'right center'
+  @Input() tooltipPlacement: 'center top' | 'center bottom' | 'left center' | 'right center' = 'right center';
 
   /**
    * Color of the tooltip.
    */
-  @Input() tooltipColor = 'inherit'
+  @Input() tooltipColor = 'inherit';
 
   /**
    * Icon for the tooltip.
    */
-  @Input() tooltipIcon = ''
+  @Input() tooltipIcon = '';
 
   /**
    * Background color of the input element.
    */
-  @Input() backgroundColor = ''
+  @Input() backgroundColor = '';
 
   /**
    * Border color of the input element.
    */
-  @Input() borderColor = ''
+  @Input() borderColor = '';
 
   /**
    * Color of the input label.
    */
-  @Input() labelColor = ''
+  @Input() labelColor = '';
 
   /**
    * Type of the input element (e.g., text, email, password).
    */
-  @Input() type: 'text' | 'email' | 'email-multiple' | 'hidden' | 'password' | 'tel' | 'url' | 'file' = 'text'
+  @Input() type: 'text' | 'email' | 'email-multiple' | 'hidden' | 'password' | 'tel' | 'url' | 'file' = 'text';
 
   /**
    * Maximum length for the input element.
    */
-  @Input() maxLength: number | null = null
+  @Input() maxLength: number | null = null;
 
   /**
    * Regular expression pattern for input validation.
    */
-  @Input() pattern = ''
+  @Input() pattern = '';
 
   /**
    * Input mode for mobile devices.
    */
-  @Input() inputMode = ''
+  @Input() inputMode = '';
 
   /**
    * Event emitter for keydown events.
    */
-  @Output() keyPressDown: EventEmitter<KeyboardEvent> = new EventEmitter()
+  @Output() keyPressDown: EventEmitter<KeyboardEvent> = new EventEmitter();
 
   /**
    * Event emitter for keyup events.
    */
-  @Output() keyPressUp: EventEmitter<KeyboardEvent> = new EventEmitter()
+  @Output() keyPressUp: EventEmitter<KeyboardEvent> = new EventEmitter();
 
   /**
    * Event emitter for input focus events.
    */
-  @Output() inFocus: EventEmitter<boolean> = new EventEmitter()
+  @Output() inFocus: EventEmitter<boolean> = new EventEmitter();
 
   /**
    * Event emitter for validation status.
    */
-  @Output() valid: EventEmitter<boolean> = new EventEmitter()
+  @Output() valid: EventEmitter<boolean> = new EventEmitter();
 
   /**
    * Event emitter for input value changes.
    */
-  @Output() valueChange: EventEmitter<any> = new EventEmitter()
+  @Output() valueChange: EventEmitter<any> = new EventEmitter();
 
   /**
    * Event emitter for focus input changes.
    */
-  @Output() emitFocus: EventEmitter<Event> = new EventEmitter<Event>()
+  @Output() emitFocus: EventEmitter<Event> = new EventEmitter<Event>();
 
   /**
    * Reference to a left-aligned label template.
    */
   @ContentChild('leftLabel')
-  leftLabel: TemplateRef<HTMLElement> | null = null
+  leftLabel: TemplateRef<HTMLElement> | null = null;
 
   /**
    * Reference to a right-aligned label template.
    */
   @ContentChild('rightLabel')
-  rightLabel: TemplateRef<HTMLElement> | null = null
+  rightLabel: TemplateRef<HTMLElement> | null = null;
 
   /**
    * Reference to a label template.
    */
   @ContentChild('labelTemplate')
-  labelTemplate: TemplateRef<HTMLElement> | null = null
+  labelTemplate: TemplateRef<HTMLElement> | null = null;
 
   /**
    * The internal value of the input element.
    */
-  _value: any = ''
+  _value: any = '';
 
   /**
    * Error message to display.
    */
-  error: boolean | string = false
+  error: boolean | string = false;
 
   /**
    * Reference to the native element.
    */
-  nativeElement: ElementRef
+  nativeElement: ElementRef;
 
   /**
    * Timeout for input changes.
    */
-  timeoutInput!: ReturnType<typeof setTimeout>
+  timeoutInput!: ReturnType<typeof setTimeout>;
 
   /**
    * Constructor for the SqInputComponent class.
@@ -247,9 +253,9 @@ export class SqInputComponent {
   constructor(
     public validatorHelper: ValidatorHelper,
     element: ElementRef,
-    @Optional() public translate: TranslateService,
+    @Optional() public translate: TranslateService
   ) {
-    this.nativeElement = element.nativeElement
+    this.nativeElement = element.nativeElement;
   }
 
   /**
@@ -258,36 +264,41 @@ export class SqInputComponent {
    */
   async validate(isBlur = false) {
     if (this.externalError) {
-      this.error = false
+      this.error = false;
     } else if (!!this.required && !this.value) {
-      this.valid.emit(false)
-      this.setError('forms.required')
+      this.valid.emit(false);
+      this.setError('forms.required');
     } else if (this.type === 'email' && !this.validatorHelper.email(this.value)) {
-      this.valid.emit(false)
-      this.setError('forms.email')
+      this.valid.emit(false);
+      this.setError('forms.email');
     } else if (this.type === 'email-multiple') {
-      const emails = this.value.split(',')
-      const invalidEmails = emails.filter((email: string) => !this.validatorHelper.email(email))
-      if ((emails.length === 1 && invalidEmails.length && invalidEmails[0] !== '') || emails.length > 1 && invalidEmails.length) {
-        this.valid.emit(false)
-        this.setError('forms.emailMultiple', { emails: invalidEmails.join(', ') })
+      const emails = this.value.split(',');
+      const invalidEmails = emails.filter((email: string) => !this.validatorHelper.email(email));
+      if (
+        (emails.length === 1 && invalidEmails.length && invalidEmails[0] !== '') ||
+        (emails.length > 1 && invalidEmails.length)
+      ) {
+        this.valid.emit(false);
+        this.setError('forms.emailMultiple', {
+          emails: invalidEmails.join(', '),
+        });
       } else {
-        this.valid.emit(true)
-        this.error = ''
+        this.valid.emit(true);
+        this.error = '';
       }
     } else if (this.type === 'tel' && !this.validatorHelper.phone(this.value)) {
-      this.valid.emit(false)
-      this.setError('forms.phone')
+      this.valid.emit(false);
+      this.setError('forms.phone');
     } else if (this.type === 'url' && this.value && this.value.length && !this.validatorHelper.url(this.value)) {
-      this.valid.emit(false)
-      this.setError('forms.url')
+      this.valid.emit(false);
+      this.setError('forms.url');
     } else {
-      this.valid.emit(true)
-      this.error = ''
+      this.valid.emit(true);
+      this.error = '';
     }
 
     if (isBlur) {
-      this.inFocus.emit(false)
+      this.inFocus.emit(false);
     }
   }
 
@@ -296,13 +307,13 @@ export class SqInputComponent {
    * @param event - The input change event.
    */
   async change(event: any) {
-    this.inFocus.emit(true)
-    this.value = event
-    clearTimeout(this.timeoutInput)
+    this.inFocus.emit(true);
+    this.value = event;
+    clearTimeout(this.timeoutInput);
     this.timeoutInput = setTimeout(() => {
-      this.valueChange.emit(event)
-      this.validate()
-    }, this.timeToChange)
+      this.valueChange.emit(event);
+      this.validate();
+    }, this.timeToChange);
   }
 
   /**
@@ -313,7 +324,7 @@ export class SqInputComponent {
    */
   async setError(key: string, interpolateParams: Object = {}) {
     if (this.useFormErrors && this.translate) {
-      this.error = await this.translate.instant(key, interpolateParams)
+      this.error = await this.translate.instant(key, interpolateParams);
     }
   }
 
@@ -322,7 +333,7 @@ export class SqInputComponent {
    * @param event - The keydown event.
    */
   keyDown(event: KeyboardEvent) {
-    this.keyPressDown.emit(event)
+    this.keyPressDown.emit(event);
   }
 
   /**
@@ -330,6 +341,6 @@ export class SqInputComponent {
    * @param event - The keyup event.
    */
   keyUp(event: KeyboardEvent) {
-    this.keyPressUp.emit(event)
+    this.keyPressUp.emit(event);
   }
 }

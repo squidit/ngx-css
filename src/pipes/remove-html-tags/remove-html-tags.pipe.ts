@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform } from '@angular/core'
+import { Pipe, PipeTransform } from '@angular/core';
 
 /**
  * A custom Angular pipe for removing HTML tags from a given string.
@@ -22,9 +22,9 @@ export class RemoveHtmlTagsPipe implements PipeTransform {
    */
   transform(value: string | null | undefined): string {
     if (value == null) {
-      return ''
+      return '';
     }
-    const regex = /<\/?[^>]+(>|$)|&nbsp;/g
-    return value.replace(regex, '')
+    const regex = /<\/?[^>]+(>|$)|&nbsp;/g;
+    return value.replace(regex, '');
   }
 }

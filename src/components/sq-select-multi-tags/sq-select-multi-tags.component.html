@@ -3,11 +3,11 @@
     class="display-flex align-items-center"
     *ngIf="label?.length || labelTemplate || tooltipMessage"
     [ngClass]="{
-      readonly: readonly || isMaxTags
+      readonly: readonly || isMaxTags,
     }"
     [for]="id"
   >
-    <div *ngIf="label && !labelTemplate" [ngStyle]="{ 'color': labelColor }" [innerHtml]="label | universalSafe"></div>
+    <div *ngIf="label && !labelTemplate" [ngStyle]="{ color: labelColor }" [innerHtml]="label | universalSafe"></div>
     <span *ngIf="labelTemplate">
       <ng-container *ngTemplateOutlet="labelTemplate"></ng-container>
     </span>
@@ -26,7 +26,7 @@
       error: (externalError && externalError !== '') || (error && error !== ''),
       disabled: disabled,
       readonly: readonly || isMaxTags,
-      loading: loading
+      loading: loading,
     }"
   >
     <div
@@ -37,11 +37,11 @@
         'no-label': !(label && label.length > 0),
         'has-icon': error || externalError,
         disabled: disabled,
-        readonly: readonly || isMaxTags
+        readonly: readonly || isMaxTags,
       }"
       [ngStyle]="{
         'background-color': backgroundColor,
-        'border-color': borderColor
+        'border-color': borderColor,
       }"
       [clickOutsideEnabled]="open"
       (clickOutside)="closeDropdown()"
@@ -50,7 +50,7 @@
         class="input-fake-content"
         [ngClass]="{
           disabled: disabled,
-          readonly: readonly
+          readonly: readonly,
         }"
         [style.maxHeight]="maxHeight"
         (click)="doDropDownAction()"
@@ -72,7 +72,7 @@
         id="sq-select-multi-tags-scroll"
         class="input-window scrollbar"
         [ngClass]="{
-          open: !loading && !disabled && !isMaxTags && renderOptionsList && open
+          open: !loading && !disabled && !isMaxTags && renderOptionsList && open,
         }"
       >
         <div class="input-search">
@@ -88,11 +88,15 @@
                 *ngIf="!hideSearch"
               />
             </div>
-            <span class="icon icon-external textarea-icon"><i class='fas fa-search'></i></span>
+            <span class="icon icon-external textarea-icon"><i class="fas fa-search"></i></span>
           </div>
         </div>
-        <cdk-virtual-scroll-viewport [itemSize]="cdkItemSize" [ngStyle]="{ 'height': cdkVirtualScrollViewportHeight }" class="list scrollbar">
-          <ng-container *cdkVirtualFor="let opt of _options | search:searchText; i as index; trackBy: trackByOptValue">
+        <cdk-virtual-scroll-viewport
+          [itemSize]="cdkItemSize"
+          [ngStyle]="{ height: cdkVirtualScrollViewportHeight }"
+          class="list scrollbar"
+        >
+          <ng-container *cdkVirtualFor="let opt of _options | search: searchText; i as index; trackBy: trackByOptValue">
             <ng-template *ngTemplateOutlet="option; context: { opt: opt, i: index }"></ng-template>
           </ng-container>
         </cdk-virtual-scroll-viewport>
@@ -111,12 +115,16 @@
     class="box-validation box-invalid show"
     *ngIf="errorSpan"
     [ngClass]="{
-      'visibility-hidden-force': ((!externalError || externalError === '') && (!error || error === '')) || disabled || readonly
+      'visibility-hidden-force':
+        ((!externalError || externalError === '') && (!error || error === '')) || disabled || readonly,
     }"
   >
-    <i [ngClass]="{
-      'visibility-hidden-force': !error && !externalError
-    }" class="fa-solid fa-triangle-exclamation"></i>
+    <i
+      [ngClass]="{
+        'visibility-hidden-force': !error && !externalError,
+      }"
+      class="fa-solid fa-triangle-exclamation"
+    ></i>
     {{ externalError ? externalError : '' }}
     {{ error && !externalError ? error : '' }}
   </div>
@@ -141,12 +149,17 @@
           [indeterminate]="verifyIfHasChildrenInValue(opt, value)"
           (valueChange)="emit(opt, $event.checked)"
         ></sq-selector>
-        <span class="text m-0 display-inline-block" [ngClass]="{ 'cursor-pointer': opt?.children?.length }" (click)="handleCollapse(opt)">{{
-          opt?.label
-        }}</span>
+        <span
+          class="text m-0 display-inline-block"
+          [ngClass]="{ 'cursor-pointer': opt?.children?.length }"
+          (click)="handleCollapse(opt)"
+          >{{ opt?.label }}</span
+        >
       </div>
-      <ul class="children" *ngIf="opt?.children?.length" [ngClass]="{open: !opt?.disabled && opt?.open}">
-        <ng-container *ngFor="let child of opt?.children | searchValidValues:searchText; let j = index; trackBy: trackByOptValue">
+      <ul class="children" *ngIf="opt?.children?.length" [ngClass]="{ open: !opt?.disabled && opt?.open }">
+        <ng-container
+          *ngFor="let child of opt?.children | searchValidValues: searchText; let j = index; trackBy: trackByOptValue"
+        >
           <ng-template *ngTemplateOutlet="option; context: { opt: child, i: j }"></ng-template>
         </ng-container>
       </ul>

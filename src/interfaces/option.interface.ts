@@ -6,22 +6,22 @@ export interface Option {
   /**
    * The value associated with the option.
    */
-  value: any
+  value: any;
 
   /**
    * The label to display for the option.
    */
-  label: string
+  label: string;
 
   /**
    * (Optional) Indicates if the option is disabled.
    */
-  disabled?: boolean
+  disabled?: boolean;
 
   /**
    * (Optional) Additional data
    */
-  data?: any
+  data?: any;
 }
 
 /**
@@ -32,30 +32,30 @@ export interface OptionMulti {
   /**
    * The label to display for the option.
    */
-  label: string
+  label: string;
 
   /**
    * The value associated with the option.
    */
-  value: any
+  value: any;
 
   /**
    * (Optional) Indicates if the option is disabled.
    */
-  disabled?: boolean
+  disabled?: boolean;
 
   /**
    * (Optional) An array of child options for this multi-select option.
    */
-  children?: Array<OptionMulti>
+  children?: Array<OptionMulti>;
 
   /**
    * (Optional) Indicates whether the option's children should be displayed (open) in a dropdown.
    */
-  open?: boolean
+  open?: boolean;
 
   /**
    * (Optional) Additional data
    */
-  data?: any
+  data?: any;
 }

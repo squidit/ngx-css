@@ -1,25 +1,30 @@
 <div class="steps">
   <ul>
-    <li
-      *ngFor="let step of steps; let i = index"
-      [ngClass]="{
-        active: i === active,
-        old: i < active
-      }"
-      [ngStyle]="{
-        background:
-          i === active ? 'linear-gradient(90deg, ' + color + ' 0%, ' + color + ' 50%, transparent 51%)' : i < active ? color : null
-      }"
-    >
-      <span
-        (click)="click ? (active = i) : null; emitClick.emit({ step, i })"
-        [tooltip]="step?.tip || ''"
-        placement="center top"
-        container="body"
+    @for (step of steps; track step; let i = $index) {
+      <li
         [ngClass]="{
-          pointer: click
+          active: i === active,
+          old: i < active,
         }"
-      ></span>
-    </li>
+        [ngStyle]="{
+          background:
+            i === active
+              ? 'linear-gradient(90deg, ' + color + ' 0%, ' + color + ' 50%, transparent 51%)'
+              : i < active
+                ? color
+                : null,
+        }"
+      >
+        <span
+          (click)="click ? (active = i) : null; emitClick.emit({ step, i })"
+          [tooltip]="step?.tip || ''"
+          placement="center top"
+          container="body"
+          [ngClass]="{
+            pointer: click,
+          }"
+        ></span>
+      </li>
+    }
   </ul>
 </div>

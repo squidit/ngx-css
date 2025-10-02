@@ -1,15 +1,22 @@
-<div class="wrapper-all-inside-input {{ customClass }}" [ngClass]="{
-  'no-label': !label.length
-}">
+<div
+  class="wrapper-all-inside-input {{ customClass }}"
+  [ngClass]="{
+    'no-label': !label.length,
+  }"
+>
   <label
     class="display-flex"
     *ngIf="label?.length || labelTemplate"
     [ngClass]="{
-      readonly: readonly
+      readonly: readonly,
     }"
     [for]="id"
   >
-    <div *ngIf="label?.length && !labelTemplate" [ngStyle]="{ 'color': labelColor }" [innerHtml]="label | universalSafe"></div>
+    <div
+      *ngIf="label?.length && !labelTemplate"
+      [ngStyle]="{ color: labelColor }"
+      [innerHtml]="label | universalSafe"
+    ></div>
   </label>
   <div *ngIf="labelTemplate">
     <ng-container *ngTemplateOutlet="labelTemplate"></ng-container>
@@ -42,9 +49,12 @@
     />
   </div>
   <div class="box-validation box-invalid show" *ngIf="errorSpan">
-    <i [ngClass]="{
-      'visibility-hidden-force': !error && !externalError
-    }" class="fa-solid fa-triangle-exclamation"></i>
+    <i
+      [ngClass]="{
+        'visibility-hidden-force': !error && !externalError,
+      }"
+      class="fa-solid fa-triangle-exclamation"
+    ></i>
     {{ externalError ? externalError : '' }}
     {{ error && !externalError ? error : '' }}
   </div>

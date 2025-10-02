@@ -3,18 +3,18 @@
   [ngClass]="{
     error: (externalError && externalError !== '') || (error && error !== ''),
     readonly: readonly,
-    loading: loading
+    loading: loading,
   }"
 >
   <label
     class="display-flex align-items-center"
     *ngIf="label?.length || labelTemplate || tooltipMessage"
     [ngClass]="{
-      readonly: readonly
+      readonly: readonly,
     }"
     [for]="id"
   >
-    <div *ngIf="label && !labelTemplate" [ngStyle]="{ 'color': labelColor }" [innerHtml]="label | universalSafe"></div>
+    <div *ngIf="label && !labelTemplate" [ngStyle]="{ color: labelColor }" [innerHtml]="label | universalSafe"></div>
     <span *ngIf="labelTemplate">
       <ng-container *ngTemplateOutlet="labelTemplate"></ng-container>
     </span>
@@ -35,11 +35,11 @@
       'no-label': !label.length,
       'has-icon': error || externalError,
       disabled: disabled,
-      readonly: readonly
+      readonly: readonly,
     }"
     [ngStyle]="{
       'background-color': backgroundColor,
-      'border-color': borderColor
+      'border-color': borderColor,
     }"
     (clickOutside)="closeDropdown()"
     [clickOutsideEnabled]="open"
@@ -48,7 +48,7 @@
       class="input-fake-content"
       [ngClass]="{
         disabled: disabled,
-        readonly: readonly
+        readonly: readonly,
       }"
       (click)="doDropDownAction()"
     >
@@ -68,7 +68,7 @@
       class="input-window scrollbar"
       id="sq-select-search-scroll"
       [ngClass]="{
-        open: !disabled && !loading && renderOptionsList && open
+        open: !disabled && !loading && renderOptionsList && open,
       }"
     >
       <div class="input-search">
@@ -83,11 +83,15 @@
               (ngModelChange)="onTipSearchChange($event)"
             />
           </div>
-          <span class="icon icon-external textarea-icon"><i class='fas fa-search'></i></span>
+          <span class="icon icon-external textarea-icon"><i class="fas fa-search"></i></span>
         </div>
       </div>
-      <cdk-virtual-scroll-viewport itemSize="22" [ngStyle]="{ 'height': cdkVirtualScrollViewportHeight }" class="list scrollbar">
-        <ng-container *cdkVirtualFor="let opt of _options | search:searchText; i as index; trackBy: trackByOptValue">
+      <cdk-virtual-scroll-viewport
+        itemSize="22"
+        [ngStyle]="{ height: cdkVirtualScrollViewportHeight }"
+        class="list scrollbar"
+      >
+        <ng-container *cdkVirtualFor="let opt of _options | search: searchText; i as index; trackBy: trackByOptValue">
           <ng-template *ngTemplateOutlet="option; context: { opt: opt, i: index }"></ng-template>
         </ng-container>
       </cdk-virtual-scroll-viewport>
@@ -105,18 +109,22 @@
     class="box-validation box-invalid show"
     *ngIf="errorSpan"
     [ngClass]="{
-      'visibility-hidden-force': ((!externalError || externalError === '') && (!error || error === '')) || disabled || readonly
+      'visibility-hidden-force':
+        ((!externalError || externalError === '') && (!error || error === '')) || disabled || readonly,
     }"
   >
-    <i [ngClass]="{
-      'visibility-hidden-force': !error && !externalError
-    }" class="fa-solid fa-triangle-exclamation"></i>
+    <i
+      [ngClass]="{
+        'visibility-hidden-force': !error && !externalError,
+      }"
+      class="fa-solid fa-triangle-exclamation"
+    ></i>
     {{ externalError ? externalError : '' }}
     {{ error && !externalError ? error : '' }}
   </div>
 </div>
 <ng-template #option let-opt="opt" let-i="i">
-  <li (click)="!opt.disabled ? emit(opt) : ''" [ngClass]="{'disabled': opt.disabled}">
+  <li (click)="!opt.disabled ? emit(opt) : ''" [ngClass]="{ disabled: opt.disabled }">
     <span class="text m-0 display-inline-block">{{ opt?.label }}</span>
   </li>
 </ng-template>

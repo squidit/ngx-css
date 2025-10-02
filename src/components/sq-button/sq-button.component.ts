@@ -1,17 +1,19 @@
-import { Component, ElementRef, EventEmitter, Input, Output } from '@angular/core'
-import { ColorsHelper } from '../../helpers/colors.helper'
-import { useMemo } from '../../helpers/memo.helper'
+import { Component, ElementRef, EventEmitter, Input, Output } from '@angular/core';
+import { NgClass, NgStyle } from '@angular/common';
+import { ColorsHelper } from '../../helpers/colors.helper';
+import { useMemo } from '../../helpers/memo.helper';
+import { SqLoaderComponent } from '../sq-loader/sq-loader.component';
 
 /**
  * Represents the SqButtonComponent, a customizable button component.
- * 
+ *
  * Look the link about the component in original framework and the appearance
- * 
+ *
  * @see {@link https://css.squidit.com.br/components/button}
- * 
+ *
  * <br>
  * <button type="button" class='button button-primary mb-3'>Click Me</button>
- * 
+ *
  * @example
  * <sq-button type="button" color="primary" [loading]="false" (emitClick)="onClick($event)">
  *   Click Me
@@ -21,135 +23,140 @@ import { useMemo } from '../../helpers/memo.helper'
   selector: 'sq-button',
   templateUrl: './sq-button.component.html',
   styleUrls: ['./sq-button.component.scss'],
+  standalone: true,
+  imports: [NgClass, NgStyle, SqLoaderComponent],
 })
 export class SqButtonComponent {
   /**
    * The type of the button (e.g., 'button', 'submit', 'reset').
    */
-  @Input() type: 'submit' | 'reset' | 'button' = 'button'
+  @Input() type: 'submit' | 'reset' | 'button' = 'button';
 
   /**
    * The background color of the button.
    */
-  @Input() color = 'primary'
+  @Input() color = 'primary';
 
   /**
    * The text color of the button.
    */
-  @Input() textColor = ''
+  @Input() textColor = '';
 
   /**
    * The border color of the button.
    */
-  @Input() borderColor = ''
+  @Input() borderColor = '';
 
   /**
    * The border style of the button.
    */
-  @Input() borderStyle = ''
+  @Input() borderStyle = '';
 
   /**
    * The text transformation of the button text (e.g., 'uppercase', 'lowercase').
    */
-  @Input() textTransform = ''
+  @Input() textTransform = '';
 
   /**
    * The width of the button border.
    */
-  @Input() borderWidth = ''
+  @Input() borderWidth = '';
 
   /**
    * The border radius of the button.
    */
-  @Input() borderRadius = ''
+  @Input() borderRadius = '';
 
   /**
    * The size of the button ('sm', 'md', 'lg', 'xl').
    */
-  @Input() size: 'sm' | 'md' | 'lg' | 'xl' = 'md'
+  @Input() size: 'sm' | 'md' | 'lg' | 'xl' = 'md';
 
   /**
    * The font size of the button.
    */
-  @Input() fontSize?: string
+  @Input() fontSize?: string;
 
   /**
    * Indicates whether the button is in a loading state.
    */
-  @Input() loading?: boolean
+  @Input() loading?: boolean;
 
   /**
    * Indicates whether the button is disabled.
    */
-  @Input() disabled?: boolean
+  @Input() disabled?: boolean;
 
   /**
    * Indicates whether the button should occupy the full width of its container.
    */
-  @Input() block?: boolean
+  @Input() block?: boolean;
 
   /**
    * Indicates whether to remove padding from the button.
    */
-  @Input() noPadding?: boolean
+  @Input() noPadding?: boolean;
 
   /**
    * The ID attribute of the button.
    */
-  @Input() id?: string
+  @Input() id?: string;
 
   /**
    * Indicates whether the button should be styled as a link.
    */
-  @Input() buttonAsLink?: boolean
+  @Input() buttonAsLink?: boolean;
 
   /**
    * Indicates whether the button should be hidden during the loading state.
    */
-  @Input() hideOnLoading?: boolean
+  @Input() hideOnLoading?: boolean;
 
   /**
    * Indicates whether the button should have inverted hover colors.
    */
-  @Input() invertedHover = false
+  @Input() invertedHover = false;
 
   /**
    * Indicates whether the button text should have no underline.
    */
-  @Input() noUnderline?: boolean
+  @Input() noUnderline?: boolean;
 
   /**
    * The box shadow of the button.
    */
-  @Input() boxShadow?: string
+  @Input() boxShadow?: string;
 
   /**
    * The width of the button.
    */
-  @Input() width?: string
+  @Input() width?: string;
 
   /**
    * Event emitter for when the button is clicked.
    */
-  @Output() emitClick: EventEmitter<MouseEvent> = new EventEmitter()
+  @Output() emitClick: EventEmitter<MouseEvent> = new EventEmitter();
 
   /**
    * The native element of the button.
    */
-  nativeElement: ElementRef
+  nativeElement: ElementRef;
 
   /**
    * Indicates whether the mouse is hovering over the button.
    */
-  hover = false
+  hover = false;
 
   /**
    * Constructor for the SqButtonComponent class.
    * @param element - The ElementRef representing the button element.
    * @param colorsHelper - The ColorsHelper service for color manipulation.
    */
-  constructor(public element: ElementRef, public colorsHelper: ColorsHelper) {
-    this.nativeElement = element.nativeElement
+  constructor(
+    public element: ElementRef,
+    public colorsHelper: ColorsHelper
+  ) {
+    this.nativeElement = element.nativeElement;
   }
 
   /**
@@ -164,9 +171,9 @@ export class SqButtonComponent {
       !this.color.startsWith('hsl') &&
       !this.color.startsWith('transparent')
     ) {
-      return !!this.colorsHelper?.getCssVariableValue(this.color)
+      return !!this.colorsHelper?.getCssVariableValue(this.color);
     }
-    return false
+    return false;
   }
 
   /**
@@ -175,9 +182,9 @@ export class SqButtonComponent {
    */
   doHoverOnText() {
     if (this.hover) {
-      return this.setHoverText()
+      return this.setHoverText();
     }
-    return this.textColor
+    return this.textColor;
   }
 
   /**
@@ -186,9 +193,9 @@ export class SqButtonComponent {
    */
   doHoverOnBackground() {
     if (this.hover) {
-      return this.setHoverBg()
+      return this.setHoverBg();
     }
-    return this.color
+    return this.color;
   }
 
   /**
@@ -197,9 +204,9 @@ export class SqButtonComponent {
    */
   doHoverOnBorder() {
     if (this.hover) {
-      return this.setHover(this.borderColor || this.textColor || '')
+      return this.setHover(this.borderColor || this.textColor || '');
     }
-    return this.borderColor || this.textColor || ''
+    return this.borderColor || this.textColor || '';
   }
 
   /**
@@ -209,20 +216,20 @@ export class SqButtonComponent {
    */
   doHoverAction = useMemo((type: 'text' | 'background' | 'border') => {
     if (this.validatePresetColors()) {
-      return ''
+      return '';
     }
 
     switch (type) {
       case 'text':
-        return this.doHoverOnText()
+        return this.doHoverOnText();
       case 'background':
-        return this.doHoverOnBackground()
+        return this.doHoverOnBackground();
       case 'border':
-        return this.doHoverOnBorder()
+        return this.doHoverOnBorder();
       default:
-        return ''
+        return '';
     }
-  })
+  });
 
   /**
    * Sets the hover color.
@@ -230,7 +237,7 @@ export class SqButtonComponent {
    * @returns The color with the hover effect applied.
    */
   setHover(color: string) {
-    return this.colorsHelper?.lightenDarkenColor(this.colorsHelper?.getCssVariableValue(color), -25)
+    return this.colorsHelper?.lightenDarkenColor(this.colorsHelper?.getCssVariableValue(color), -25);
   }
 
   /**
@@ -239,9 +246,9 @@ export class SqButtonComponent {
    */
   setHoverBg() {
     if (this.invertedHover) {
-      return this.setHover(this.textColor !== 'transparent' ? this.textColor || '' : 'var(--text_color)')
+      return this.setHover(this.textColor !== 'transparent' ? this.textColor || '' : 'var(--text_color)');
     }
-    return this.setHover(this.color !== 'transparent' ? this.color : 'var(--color_bg_button_inverse-hover)')
+    return this.setHover(this.color !== 'transparent' ? this.color : 'var(--color_bg_button_inverse-hover)');
   }
 
   /**
@@ -250,9 +257,9 @@ export class SqButtonComponent {
    */
   setHoverText() {
     if (this.invertedHover) {
-      return this.setHover(this.color !== 'transparent' ? this.color : 'var(--color_bg_button_inverse-hover)')
+      return this.setHover(this.color !== 'transparent' ? this.color : 'var(--color_bg_button_inverse-hover)');
     }
-    return this.setHover(this.textColor !== 'transparent' ? this.textColor || '' : 'var(--text_color)')
+    return this.setHover(this.textColor !== 'transparent' ? this.textColor || '' : 'var(--text_color)');
   }
 
   /**
@@ -260,9 +267,9 @@ export class SqButtonComponent {
    * @param event - The MouseEvent associated with the click event.
    */
   executeFunction(event: MouseEvent) {
-    const { loading, disabled } = this
+    const { loading, disabled } = this;
     if (!loading && !disabled) {
-      this.emitClick.emit(event)
+      this.emitClick.emit(event);
     }
   }
 }

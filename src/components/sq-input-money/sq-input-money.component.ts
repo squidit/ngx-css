@@ -1,7 +1,19 @@
-import { Component, ContentChild, ElementRef, EventEmitter, Input, OnChanges, Optional, Output, SimpleChanges, TemplateRef } from "@angular/core"
-import { ValidatorHelper } from '../../helpers/validator.helper'
-import { TranslateService } from "@ngx-translate/core"
-import { SqInputComponent } from "../sq-input/sq-input.component"
+import {
+  Component,
+  ContentChild,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Optional,
+  Output,
+  SimpleChanges,
+  TemplateRef,
+} from '@angular/core';
+import { ValidatorHelper } from '../../helpers/validator.helper';
+import { TranslateService } from '@ngx-translate/core';
+import { SqInputComponent } from '../sq-input/sq-input.component';
+import { SqInputMaskComponent } from '../sq-input-mask/sq-input-mask.component';
 
 /**
  * Represents an input component for handling money values.
@@ -19,7 +31,9 @@ import { SqInputComponent } from "../sq-input/sq-input.component"
 @Component({
   selector: 'sq-input-money',
   templateUrl: './sq-input-money.component.html',
-  styleUrls: ['./sq-input-money.component.scss']
+  styleUrls: ['./sq-input-money.component.scss'],
+  standalone: true,
+  imports: [SqInputMaskComponent],
 })
 export class SqInputMoneyComponent extends SqInputComponent implements OnChanges {
   /**
@@ -28,71 +42,71 @@ export class SqInputMoneyComponent extends SqInputComponent implements OnChanges
   @Input()
   public override set value(value: any) {
     if (typeof value === 'number') {
-      this._value = value.toString()
+      this._value = value.toString();
     } else {
-      this._value = value || ''
+      this._value = value || '';
     }
   }
   public override get value(): any {
-    return parseFloat(this._value)
+    return parseFloat(this._value);
   }
 
   /**
    * The character used for thousand separators (e.g., ',' or '.').
    */
-  @Input() thousandSeparator = '.'
+  @Input() thousandSeparator = '.';
 
   /**
    * Whether to display the input mask as the user types.
    */
-  @Input() showMaskTyped = false
+  @Input() showMaskTyped = false;
 
   /**
    * Whether to allow negative numbers.
    */
-  @Input() allowNegativeNumbers = false
+  @Input() allowNegativeNumbers = false;
 
   /**
    * The character used as a placeholder for empty positions.
    */
-  @Input() placeHolderCharacter = ''
+  @Input() placeHolderCharacter = '';
 
   /**
    * The character used as a decimal marker (e.g., ',' or '.').
    */
-  @Input() decimalMarker: "." | "," | [".", ","] = ","
+  @Input() decimalMarker: '.' | ',' | ['.', ','] = ',';
 
   /**
    * The currency symbol (e.g., 'USD', 'EUR', 'BRL').
    */
-  @Input() currency = 'BRL'
+  @Input() currency = 'BRL';
 
   /**
    * Event emitter for changes in the money value.
    */
-  @Output() override valueChange: EventEmitter<number> = new EventEmitter()
+  @Output() override valueChange: EventEmitter<number> = new EventEmitter();
 
   /**
    * Reference to the native element.
    */
-  override nativeElement: ElementRef
+  override nativeElement: ElementRef;
 
   /**
    * The currency prefix based on the current currency.
    */
-  prefix = this.getCurrencyPrefix()
+  prefix = this.getCurrencyPrefix();
 
   /**
    * Content child template for the right label override.
    */
   @ContentChild('rightLabelOverwrite')
-  rightLabelOverwrite: TemplateRef<HTMLElement> | null = null
+  rightLabelOverwrite: TemplateRef<HTMLElement> | null = null;
 
   /**
    * Reference to a label template.
    */
   @ContentChild('labelTemplate')
-  labelTemplateOverwrite: TemplateRef<HTMLElement> | null = null
+  labelTemplateOverwrite: TemplateRef<HTMLElement> | null = null;
 
   /**
    * Constructs a new instance of SqInputMaskComponent.
@@ -103,10 +117,10 @@ export class SqInputMoneyComponent extends SqInputComponent implements OnChanges
   constructor(
     public override validatorHelper: ValidatorHelper,
     element: ElementRef,
-    @Optional() public override translate: TranslateService,
+    @Optional() public override translate: TranslateService
   ) {
-    super(validatorHelper, element, translate)
-    this.nativeElement = element.nativeElement
+    super(validatorHelper, element, translate);
+    this.nativeElement = element.nativeElement;
   }
 
   /**
@@ -114,8 +128,12 @@ export class SqInputMoneyComponent extends SqInputComponent implements OnChanges
    * @param changes - An object containing changed properties and their previous and current values.
    */
   ngOnChanges(changes: SimpleChanges) {
-    if (changes["currency"] && changes["currency"].currentValue !== changes["currency"].previousValue && changes["currency"].currentValue) {
-      this.prefix = this.getCurrencyPrefix()
+    if (
+      changes['currency'] &&
+      changes['currency'].currentValue !== changes['currency'].previousValue &&
+      changes['currency'].currentValue
+    ) {
+      this.prefix = this.getCurrencyPrefix();
     }
   }
 
@@ -124,6 +142,13 @@ export class SqInputMoneyComponent extends SqInputComponent implements OnChanges
    * @returns The currency prefix as a string.
    */
   getCurrencyPrefix() {
-    return Intl.NumberFormat(undefined, { style: 'currency', currency: this.currency, }).format(0).replace(/\d/g, '').replace('.', '').replace(',', '')
+    return Intl.NumberFormat(undefined, {
+      style: 'currency',
+      currency: this.currency,
+    })
+      .format(0)
+      .replace(/\d/g, '')
+      .replace('.', '')
+      .replace(',', '');
   }
 }
