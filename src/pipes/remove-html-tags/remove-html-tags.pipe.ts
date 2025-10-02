@@ -12,7 +12,7 @@ import { Pipe, PipeTransform } from '@angular/core';
  * @returns {string} - The string with HTML tags removed.
  */
 
-@Pipe({ name: 'removeHtmlTags' })
+@Pipe({ name: 'removeHtmlTags', standalone: true })
 export class RemoveHtmlTagsPipe implements PipeTransform {
   /**
    * Transforms a string by removing any HTML tags.

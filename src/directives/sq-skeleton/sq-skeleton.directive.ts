@@ -22,6 +22,7 @@ import { Directive, Input, OnChanges, Renderer2, SimpleChanges, TemplateRef, Vie
  */
 @Directive({
   selector: '[skeleton]',
+  standalone: true,
 })
 export class SqSkeletonDirective implements OnChanges {
   /**

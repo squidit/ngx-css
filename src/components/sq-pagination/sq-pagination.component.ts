@@ -9,6 +9,7 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
+import { NgClass } from '@angular/common';
 import { useMemo } from '../../helpers/memo.helper';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -54,6 +55,8 @@ import { GetWindow } from '../../helpers/window.helper';
   selector: 'sq-pagination',
   templateUrl: './sq-pagination.component.html',
   styleUrls: ['./sq-pagination.component.scss'],
+  standalone: true,
+  imports: [NgClass],
 })
 export class SqPaginationComponent implements OnInit, OnChanges, OnDestroy {
   /**

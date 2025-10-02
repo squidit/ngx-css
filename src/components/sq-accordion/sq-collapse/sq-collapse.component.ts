@@ -8,8 +8,11 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
+import { NgClass, NgStyle, NgTemplateOutlet } from '@angular/common';
 import { ColorsHelper } from '../../../helpers/colors.helper';
 import { useMemo } from '../../../helpers/memo.helper';
+import { SqLoaderComponent } from '../../sq-loader/sq-loader.component';
+import { SqTooltipDirective } from '../../../directives/sq-tooltip/sq-tooltip.directive';
 
 /**
  * Represents the SqCollapseComponent, a collapsible container component with customizable options.
@@ -30,6 +33,8 @@ import { useMemo } from '../../../helpers/memo.helper';
   selector: 'sq-collapse',
   templateUrl: './sq-collapse.component.html',
   styleUrls: ['./sq-collapse.component.scss'],
+  standalone: true,
+  imports: [NgClass, NgStyle, NgTemplateOutlet, SqLoaderComponent, SqTooltipDirective],
 })
 export class SqCollapseComponent {
   /**

@@ -11,30 +11,35 @@
       </button>
     </li>
 
-    <li class="disabled" *ngIf="showDotMin(page)">
-      <button>
-        <i class="fa-solid fa-ellipsis"></i>
-      </button>
-    </li>
-
-    <ng-container *ngFor="let p of pages">
-      <li
-        [ngClass]="{
-          active: page === p,
-        }"
-        *ngIf="canShow(p)"
-      >
-        <button (click)="handlePageChange(p)">
-          {{ p }}
+    @if (showDotMin(page)) {
+      <li class="disabled">
+        <button>
+          <i class="fa-solid fa-ellipsis"></i>
         </button>
       </li>
-    </ng-container>
+    }
 
-    <li class="disabled" *ngIf="showDotMax(page)">
-      <button>
-        <i class="fa-solid fa-ellipsis"></i>
-      </button>
-    </li>
+    @for (p of pages; track p) {
+      @if (canShow(p)) {
+        <li
+          [ngClass]="{
+            active: page === p,
+          }"
+        >
+          <button (click)="handlePageChange(p)">
+            {{ p }}
+          </button>
+        </li>
+      }
+    }
+
+    @if (showDotMax(page)) {
+      <li class="disabled">
+        <button>
+          <i class="fa-solid fa-ellipsis"></i>
+        </button>
+      </li>
+    }
 
     <li
       class="page-item"

@@ -1,4 +1,4 @@
-import { DOCUMENT } from '@angular/common';
+import { DOCUMENT, NgClass, NgStyle, NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   ContentChild,
@@ -17,6 +17,7 @@ import { sleep } from '../../helpers/sleep.helper';
 import { NavigationStart, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { GetWindow } from '../../helpers/window.helper';
+import { SqClickOutsideDirective } from '../../directives/sq-click-outside/sq-click-outside.directive';
 
 /**
  * Represents an overlay component, an abstraction with differente style but still a modal.
@@ -42,6 +43,8 @@ import { GetWindow } from '../../helpers/window.helper';
   selector: 'sq-overlay',
   templateUrl: './sq-overlay.component.html',
   styleUrls: ['./sq-overlay.component.scss'],
+  standalone: true,
+  imports: [NgClass, NgStyle, NgTemplateOutlet, SqClickOutsideDirective],
 })
 export class SqOverlayComponent implements OnChanges, OnDestroy {
   /**

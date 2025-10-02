@@ -17,9 +17,11 @@
     (mouseover)="hoverHeader = true"
     (mouseleave)="hoverHeader = false"
   >
-    <span class="html" *ngIf="headerTemplate">
-      <ng-container *ngTemplateOutlet="headerTemplate"></ng-container>
-    </span>
+    @if (headerTemplate) {
+      <span class="html">
+        <ng-container *ngTemplateOutlet="headerTemplate"></ng-container>
+      </span>
+    }
     <div
       class="wrapper-icons"
       [ngClass]="{
@@ -36,16 +38,19 @@
       (mouseover)="hoverIcon = true"
       (mouseleave)="hoverIcon = false"
     >
-      <i
-        class="fa-solid fa-chevron-down icon"
-        [ngClass]="{
-          'fa-rotate-180': !disabled && open,
-        }"
-        *ngIf="!loading"
-      ></i>
-      <div *ngIf="loading" class="display-flex justify-content-center align-items-center" style="height: 100%">
-        <sq-loader color="inherit"></sq-loader>
-      </div>
+      @if (!loading) {
+        <i
+          class="fa-solid fa-chevron-down icon"
+          [ngClass]="{
+            'fa-rotate-180': !disabled && open,
+          }"
+        ></i>
+      }
+      @if (loading) {
+        <div class="display-flex justify-content-center align-items-center" style="height: 100%">
+          <sq-loader color="inherit"></sq-loader>
+        </div>
+      }
     </div>
   </header>
   <div

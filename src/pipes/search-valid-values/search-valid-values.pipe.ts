@@ -15,7 +15,7 @@ import { Pipe, PipeTransform } from '@angular/core';
  * @returns {any[]} - The filtered array of objects.
  */
 
-@Pipe({ name: 'searchValidValues' })
+@Pipe({ name: 'searchValidValues', standalone: true })
 export class SearchValidValuesPipe implements PipeTransform {
   /**
    * Transforms an array of objects with the searched value or the original value if it does not have the searched result by filtering based on a search string.

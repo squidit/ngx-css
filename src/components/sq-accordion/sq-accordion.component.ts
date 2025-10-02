@@ -30,6 +30,7 @@ import { Subscription } from 'rxjs';
   selector: 'sq-accordion',
   templateUrl: './sq-accordion.component.html',
   styleUrls: ['./sq-accordion.component.scss'],
+  standalone: true,
 })
 export class SqAccordionComponent implements AfterContentInit, OnDestroy {
   /**

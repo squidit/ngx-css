@@ -50,24 +50,13 @@ import { UniversalSafePipe } from './pipes/universal-safe/universal-safe.pipe';
  */
 // Components that are still in the module (not yet migrated to standalone)
 const moduleComponents: (Type<any> | any)[] = [
-  ThousandSuffixesPipe,
   SqInfinityComponent,
-  SqOverlayComponent,
-  SqCollapseComponent,
-  SqPaginationComponent,
-  SqAccordionComponent,
   SqSelectComponent,
   SqSelectorComponent,
   SqInputRangeComponent,
   SqDropdownDirective,
   SqSelectSearchComponent,
-  SearchPipe,
-  BirthdatePipe,
-  SearchValidValuesPipe,
   SqSelectMultiTagsComponent,
-  TranslateInternalPipe,
-  RemoveHtmlTagsPipe,
-  SqSkeletonDirective,
   SqSelectMultiComponent,
 ];
 
@@ -98,6 +87,17 @@ const standaloneComponents = [
   SqInputMoneyComponent,
   SqInputNumberComponent,
   SqTextAreaComponent,
+  SqAccordionComponent,
+  SqCollapseComponent,
+  SqOverlayComponent,
+  SqPaginationComponent,
+  ThousandSuffixesPipe,
+  SearchPipe,
+  BirthdatePipe,
+  SearchValidValuesPipe,
+  TranslateInternalPipe,
+  RemoveHtmlTagsPipe,
+  SqSkeletonDirective,
 ];
 
 /**

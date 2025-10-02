@@ -24,7 +24,7 @@ import { lastValueFrom } from 'rxjs';
  *
  * @see {@link https://github.com/ngx-translate/core|ngx-translate/core}
  */
-@Pipe({ name: 'translateInternal' })
+@Pipe({ name: 'translateInternal', standalone: true })
 export class TranslateInternalPipe implements PipeTransform {
   /**
    * Creates a new instance of the TranslateInternalPipe.

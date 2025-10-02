@@ -90,12 +90,25 @@ export class AppModule { }
 - `SqInputNumberComponent`
 - `SqTextAreaComponent`
 
+**Componentes Estruturais:**
+- `SqAccordionComponent`
+- `SqCollapseComponent`
+- `SqOverlayComponent`
+- `SqPaginationComponent`
+
 **Diretivas:**
 - `SqClickOutsideDirective`
 - `SqTooltipDirective`
+- `SqSkeletonDirective`
 
 **Pipes:**
 - `UniversalSafePipe`
+- `ThousandSuffixesPipe`
+- `SearchPipe`
+- `BirthdatePipe`
+- `SearchValidValuesPipe`
+- `TranslateInternalPipe`
+- `RemoveHtmlTagsPipe`
 
 ### 🔄 Em Migração
 
@@ -135,8 +148,9 @@ Os componentes migrados agora usam a nova sintaxe de controle de fluxo do Angula
 - **Fase 3** ✅: Componentes de navegação (Steps, Tabs, Tooltip)
 - **Fase 4** ✅: Componentes de formulário básicos (Input, TextArea, InputFile, InputDate)
 - **Fase 5** ✅: Componentes de formulário especializados (InputMask, InputMoney, InputNumber)
-- **Fase 6** 📅: Componentes de seleção (Select, SelectMulti, etc.)
-- **Fase 7** 📅: Componentes complexos (Accordion, Overlay, etc.)
+- **Fase 6** ✅: Componentes estruturais (Accordion, Collapse, Overlay)
+- **Fase 7** ✅: Componentes utilitários (Pagination, Pipes, Skeleton)
+- **Fase 8** 📅: Componentes de seleção (Select, SelectMulti, etc.)
 - **Fase 8** 📅: Remoção do SquidCSSModule (breaking change)
 
 ## Suporte
@@ -166,7 +180,18 @@ import {
   SqInputMaskComponent,
   SqInputMoneyComponent,
   SqInputNumberComponent,
-  SqTextAreaComponent
+  SqTextAreaComponent,
+  SqAccordionComponent,
+  SqCollapseComponent,
+  SqOverlayComponent,
+  SqPaginationComponent,
+  ThousandSuffixesPipe,
+  SearchPipe,
+  BirthdatePipe,
+  SearchValidValuesPipe,
+  TranslateInternalPipe,
+  RemoveHtmlTagsPipe,
+  SqSkeletonDirective
 } from 'ngx-css';
 
 @Component({
@@ -188,7 +213,18 @@ import {
     SqInputMaskComponent,
     SqInputMoneyComponent,
     SqInputNumberComponent,
-    SqTextAreaComponent
+    SqTextAreaComponent,
+    SqAccordionComponent,
+    SqCollapseComponent,
+    SqOverlayComponent,
+    SqPaginationComponent,
+    ThousandSuffixesPipe,
+    SearchPipe,
+    BirthdatePipe,
+    SearchValidValuesPipe,
+    TranslateInternalPipe,
+    RemoveHtmlTagsPipe,
+    SqSkeletonDirective
   ],
   template: `
     <sq-button 
@@ -266,6 +302,45 @@ import {
       [(value)]="quantity">
     </sq-input-number>
 
+    <sq-accordion [onlyOne]="true">
+      <sq-collapse [open]="true" color="var(--primary)">
+        <ng-container header>
+          <h4>Seção 1</h4>
+        </ng-container>
+        <p>Conteúdo da primeira seção do accordion.</p>
+      </sq-collapse>
+      <sq-collapse color="var(--secondary)">
+        <ng-container header>
+          <h4>Seção 2</h4>
+        </ng-container>
+        <p>Conteúdo da segunda seção do accordion.</p>
+      </sq-collapse>
+    </sq-accordion>
+
+    <sq-overlay 
+      [open]="showOverlay" 
+      (overlayClose)="closeOverlay()">
+      <ng-template #headerOverlay>
+        <h3>Título do Overlay</h3>
+      </ng-template>
+      <p>Conteúdo do overlay</p>
+    </sq-overlay>
+
+    <sq-pagination 
+      [currentPage]="currentPage" 
+      [totalPages]="totalPages" 
+      [showPages]="5"
+      (pageChange)="onPageChange($event)">
+    </sq-pagination>
+
+    <div skeleton="loading" style="width: 200px; height: 20px;">
+      Conteúdo com skeleton loading
+    </div>
+
+    <p>{{ 1500000 | thousandSuff }}</p>
+    <p>{{ birthDate | birthdate }}</p>
+    <p [innerHTML]="htmlContent | removeHtmlTags"></p>
+
     <sq-modal 
       [open]="showModal" 
       (modalClose)="closeModal()">
@@ -295,6 +370,11 @@ export class ExemploComponent {
   phone = '';
   amount = 0;
   quantity = 0;
+  showOverlay = false;
+  currentPage = 1;
+  totalPages = 10;
+  loading = false;
+  htmlContent = '<p>Conteúdo com <strong>HTML</strong></p>';
   stepsList = [
     { tip: 'Primeiro passo' },
     { tip: 'Segundo passo' },
@@ -315,6 +395,15 @@ export class ExemploComponent {
 
   onTabChange(event: any) {
     console.log('Tab alterada:', event);
+  }
+
+  closeOverlay() {
+    this.showOverlay = false;
+  }
+
+  onPageChange(page: number) {
+    this.currentPage = page;
+    console.log('Página alterada para:', page);
   }
 }
 ```

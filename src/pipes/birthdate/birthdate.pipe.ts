@@ -7,7 +7,7 @@ import { Pipe, PipeTransform } from '@angular/core';
  * @returns {string} - The age from the birthdate.
  */
 
-@Pipe({ name: 'birthdate' })
+@Pipe({ name: 'birthdate', standalone: true })
 export class BirthdatePipe implements PipeTransform {
   /**
    * A custom Angular pipe for getting the age from a birthdate.

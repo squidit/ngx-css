@@ -14,7 +14,7 @@ import { Pipe, PipeTransform } from '@angular/core';
  * @returns {string} - The formatted number with suffix.
  */
 
-@Pipe({ name: 'thousandSuff' })
+@Pipe({ name: 'thousandSuff', standalone: true })
 export class ThousandSuffixesPipe implements PipeTransform {
   /**
    * Transforms a number into a formatted string with thousand suffixes (e.g., K, M, G).
