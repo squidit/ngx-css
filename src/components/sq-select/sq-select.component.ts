@@ -1,6 +1,10 @@
 import { Component, ContentChild, EventEmitter, Input, Output, TemplateRef, Optional, ElementRef } from '@angular/core';
+import { NgClass, NgStyle, NgTemplateOutlet } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { Option } from '../../interfaces/option.interface';
+import { SqTooltipComponent } from '../sq-tooltip/sq-tooltip.component';
+import { UniversalSafePipe } from '../../pipes/universal-safe/universal-safe.pipe';
 
 /**
  * Represents a select input component for choosing options from a dropdown.
@@ -36,6 +40,8 @@ import { Option } from '../../interfaces/option.interface';
   selector: 'sq-select',
   templateUrl: './sq-select.component.html',
   styleUrls: ['./sq-select.component.scss'],
+  standalone: true,
+  imports: [NgClass, NgStyle, NgTemplateOutlet, FormsModule, SqTooltipComponent, UniversalSafePipe],
 })
 export class SqSelectComponent {
   /**

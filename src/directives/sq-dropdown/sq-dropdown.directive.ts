@@ -36,6 +36,7 @@ import { DOCUMENT } from '@angular/common';
  */
 @Directive({
   selector: '[dropdown]',
+  standalone: true,
 })
 export class SqDropdownDirective implements OnInit, OnDestroy {
   /**

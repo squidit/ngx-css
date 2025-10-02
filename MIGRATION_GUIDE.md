@@ -96,10 +96,15 @@ export class AppModule { }
 - `SqOverlayComponent`
 - `SqPaginationComponent`
 
+**Componentes de Seleção:**
+- `SqSelectComponent`
+- `SqInfinityComponent`
+
 **Diretivas:**
 - `SqClickOutsideDirective`
 - `SqTooltipDirective`
 - `SqSkeletonDirective`
+- `SqDropdownDirective`
 
 **Pipes:**
 - `UniversalSafePipe`
@@ -110,9 +115,16 @@ export class AppModule { }
 - `TranslateInternalPipe`
 - `RemoveHtmlTagsPipe`
 
-### 🔄 Em Migração
+### 🔄 Ainda no Módulo (4 componentes)
 
-Os demais componentes ainda estão sendo migrados. Eles continuam disponíveis através do `SquidCSSModule`.
+Os seguintes componentes complexos ainda estão no módulo e requerem migração de templates mais extensa:
+
+- `SqSelectorComponent` - Seletor customizado
+- `SqSelectSearchComponent` - Select com busca
+- `SqSelectMultiTagsComponent` - Select múltiplo com tags
+- `SqSelectMultiComponent` - Select múltiplo
+
+Estes componentes continuam disponíveis através do `SquidCSSModule` e serão migrados em futuras versões.
 
 ## Novidades nos Templates
 
@@ -150,7 +162,8 @@ Os componentes migrados agora usam a nova sintaxe de controle de fluxo do Angula
 - **Fase 5** ✅: Componentes de formulário especializados (InputMask, InputMoney, InputNumber)
 - **Fase 6** ✅: Componentes estruturais (Accordion, Collapse, Overlay)
 - **Fase 7** ✅: Componentes utilitários (Pagination, Pipes, Skeleton)
-- **Fase 8** 📅: Componentes de seleção (Select, SelectMulti, etc.)
+- **Fase 8** ✅: Componentes principais de seleção (Select, InputRange, Dropdown, Infinity)
+- **Fase 9** 📅: Componentes de seleção complexos (SelectMulti, SelectSearch, etc.) - Requer migração de templates
 - **Fase 8** 📅: Remoção do SquidCSSModule (breaking change)
 
 ## Suporte
@@ -185,6 +198,9 @@ import {
   SqCollapseComponent,
   SqOverlayComponent,
   SqPaginationComponent,
+  SqSelectComponent,
+  SqInputRangeComponent,
+  SqDropdownDirective,
   ThousandSuffixesPipe,
   SearchPipe,
   BirthdatePipe,
@@ -218,6 +234,9 @@ import {
     SqCollapseComponent,
     SqOverlayComponent,
     SqPaginationComponent,
+    SqSelectComponent,
+    SqInputRangeComponent,
+    SqDropdownDirective,
     ThousandSuffixesPipe,
     SearchPipe,
     BirthdatePipe,
@@ -337,6 +356,27 @@ import {
       Conteúdo com skeleton loading
     </div>
 
+    <sq-select 
+      label="Selecione uma opção"
+      [(value)]="selectedOption"
+      [options]="selectOptions">
+    </sq-select>
+
+    <sq-input-range 
+      label="Faixa de valores"
+      [(value)]="rangeValue"
+      [minNumber]="0"
+      [maxNumber]="100">
+    </sq-input-range>
+
+    <sq-infinity-scroll 
+      [length]="items.length"
+      [hasMore]="hasMoreItems"
+      [loading]="loadingMore"
+      (scrolledEmitter)="loadMoreItems()">
+      <div *ngFor="let item of items">{{ item.name }}</div>
+    </sq-infinity-scroll>
+
     <p>{{ 1500000 | thousandSuff }}</p>
     <p>{{ birthDate | birthdate }}</p>
     <p [innerHTML]="htmlContent | removeHtmlTags"></p>
@@ -375,6 +415,20 @@ export class ExemploComponent {
   totalPages = 10;
   loading = false;
   htmlContent = '<p>Conteúdo com <strong>HTML</strong></p>';
+  selectedOption = '';
+  rangeValue = 50;
+  selectOptions = [
+    { value: 'option1', label: 'Opção 1' },
+    { value: 'option2', label: 'Opção 2' },
+    { value: 'option3', label: 'Opção 3' }
+  ];
+  items = [
+    { name: 'Item 1' },
+    { name: 'Item 2' },
+    { name: 'Item 3' }
+  ];
+  hasMoreItems = true;
+  loadingMore = false;
   stepsList = [
     { tip: 'Primeiro passo' },
     { tip: 'Segundo passo' },
@@ -404,6 +458,18 @@ export class ExemploComponent {
   onPageChange(page: number) {
     this.currentPage = page;
     console.log('Página alterada para:', page);
+  }
+
+  loadMoreItems() {
+    this.loadingMore = true;
+    // Simular carregamento
+    setTimeout(() => {
+      this.items.push({ name: `Item ${this.items.length + 1}` });
+      this.loadingMore = false;
+      if (this.items.length >= 20) {
+        this.hasMoreItems = false;
+      }
+    }, 1000);
   }
 }
 ```

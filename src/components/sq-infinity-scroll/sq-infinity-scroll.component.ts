@@ -12,6 +12,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { GetWindow } from '../../helpers/window.helper';
+import { SqLoaderComponent } from '../sq-loader/sq-loader.component';
 
 /**
  * Represents the SqInfinityComponent, a component for infinite scrolling.
@@ -29,6 +30,8 @@ import { GetWindow } from '../../helpers/window.helper';
   selector: 'sq-infinity-scroll',
   templateUrl: './sq-infinity-scroll.component.html',
   styleUrls: ['./sq-infinity-scroll.component.scss'],
+  standalone: true,
+  imports: [SqLoaderComponent],
 })
 export class SqInfinityComponent implements AfterViewInit, AfterContentChecked, OnDestroy {
   /**

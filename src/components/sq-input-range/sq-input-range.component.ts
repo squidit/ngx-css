@@ -12,9 +12,12 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
+import { NgClass, NgStyle, NgTemplateOutlet } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { ValidatorHelper } from '../../helpers/validator.helper';
 import { sleep } from '../../helpers/sleep.helper';
+import { UniversalSafePipe } from '../../pipes/universal-safe/universal-safe.pipe';
 
 /**
  * Represents an input component for selecting a numeric value within a specified range.
@@ -42,6 +45,8 @@ import { sleep } from '../../helpers/sleep.helper';
   selector: 'sq-input-range',
   templateUrl: './sq-input-range.component.html',
   styleUrls: ['./sq-input-range.component.scss'],
+  standalone: true,
+  imports: [NgClass, NgStyle, NgTemplateOutlet, FormsModule, UniversalSafePipe],
 })
 export class SqInputRangeComponent implements AfterContentInit, OnChanges {
   /**
