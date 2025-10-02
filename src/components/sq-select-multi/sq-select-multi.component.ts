@@ -26,7 +26,7 @@ import { UniversalSafePipe } from '../../pipes/universal-safe/universal-safe.pip
 import { TranslateInternalPipe } from '../../pipes/translate-internal/translate-internal.pipe';
 import { SearchPipe } from '../../pipes/search/search.pipe';
 import { SqClickOutsideDirective } from '../../directives/sq-click-outside/sq-click-outside.directive';
-import { SearchValidValuesPipe } from 'src/pipes/search-valid-values/search-valid-values.pipe';
+import { SearchValidValuesPipe } from '../../pipes/search-valid-values/search-valid-values.pipe';
 
 /**
  * Multi-select dropdown component with advanced features including:
