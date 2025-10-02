@@ -24,7 +24,7 @@ import { NgClass, NgStyle } from '@angular/common';
   templateUrl: './sq-loader.component.html',
   styleUrls: ['./sq-loader.component.scss'],
   standalone: true,
-  imports: [NgClass, NgStyle],
+  imports: [NgStyle],
 })
 export class SqLoaderComponent {
   /**

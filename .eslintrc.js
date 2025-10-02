@@ -47,7 +47,11 @@ module.exports = {
     {
       "files": ["*.html"],
       "extends": ["plugin:@angular-eslint/template/recommended"],
-      "rules": {}
+      "rules": {
+        // Regra para desencorajar uso de *ngIf e *ngFor em favor da nova sintaxe @if/@for
+        "@angular-eslint/template/no-any": "off",
+        "@angular-eslint/template/prefer-control-flow": "error"
+      }
     }
   ]
 }

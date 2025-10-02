@@ -13,9 +13,18 @@ import {
   TemplateRef,
   TrackByFunction,
 } from '@angular/core';
+import { NgClass, NgStyle, NgTemplateOutlet, AsyncPipe } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 import { TranslateService } from '@ngx-translate/core';
 import { useMemo } from '../../helpers/memo.helper';
 import { Option } from '../../interfaces/option.interface';
+import { SqLoaderComponent } from '../sq-loader/sq-loader.component';
+import { SqTooltipComponent } from '../sq-tooltip/sq-tooltip.component';
+import { UniversalSafePipe } from '../../pipes/universal-safe/universal-safe.pipe';
+import { TranslateInternalPipe } from '../../pipes/translate-internal/translate-internal.pipe';
+import { SearchPipe } from '../../pipes/search/search.pipe';
+import { SqClickOutsideDirective } from '../../directives/sq-click-outside/sq-click-outside.directive';
 
 /**
  * Represents a search-based select component.
@@ -35,6 +44,21 @@ import { Option } from '../../interfaces/option.interface';
   templateUrl: './sq-select-search.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./sq-select-search.component.scss'],
+  standalone: true,
+  imports: [
+    NgClass,
+    NgStyle,
+    NgTemplateOutlet,
+    AsyncPipe,
+    FormsModule,
+    ScrollingModule,
+    SqLoaderComponent,
+    SqTooltipComponent,
+    UniversalSafePipe,
+    TranslateInternalPipe,
+    SearchPipe,
+    SqClickOutsideDirective,
+  ],
   providers: [],
 })
 export class SqSelectSearchComponent implements OnChanges {

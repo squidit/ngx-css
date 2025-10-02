@@ -9,7 +9,10 @@ import {
   SimpleChanges,
   TemplateRef,
 } from '@angular/core';
+import { NgClass, NgTemplateOutlet } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
+import { UniversalSafePipe } from '../../pipes/universal-safe/universal-safe.pipe';
 
 /**
  * Represents a selector input component for checkboxes or radio buttons.
@@ -88,6 +91,8 @@ import { TranslateService } from '@ngx-translate/core';
   selector: 'sq-selector',
   templateUrl: './sq-selector.component.html',
   styleUrls: ['./sq-selector.component.scss'],
+  standalone: true,
+  imports: [NgClass, NgTemplateOutlet, FormsModule, UniversalSafePipe],
 })
 export class SqSelectorComponent implements OnChanges {
   /**

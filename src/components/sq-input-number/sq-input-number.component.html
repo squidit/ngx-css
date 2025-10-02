@@ -38,19 +38,25 @@
   (keyPressDown)="keyPressDown.emit($event)"
   (onFocus)="emitFocus.emit()"
 >
-  <ng-container *ngIf="labelTemplateOverwrite">
-    <ng-template #labelTemplate>
-      <ng-container *ngTemplateOutlet="labelTemplateOverwrite"></ng-container>
-    </ng-template>
-  </ng-container>
-  <ng-container *ngIf="leftLabelOverwrite">
-    <ng-template #leftLabel>
-      <ng-container *ngTemplateOutlet="leftLabelOverwrite"></ng-container>
-    </ng-template>
-  </ng-container>
-  <ng-container *ngIf="rightLabelOverwrite">
-    <ng-template #rightLabel>
-      <ng-container *ngTemplateOutlet="rightLabelOverwrite"></ng-container>
-    </ng-template>
-  </ng-container>
+  @if (labelTemplateOverwrite) {
+    <ng-container>
+      <ng-template #labelTemplate>
+        <ng-container *ngTemplateOutlet="labelTemplateOverwrite"></ng-container>
+      </ng-template>
+    </ng-container>
+  }
+  @if (leftLabelOverwrite) {
+    <ng-container>
+      <ng-template #leftLabel>
+        <ng-container *ngTemplateOutlet="leftLabelOverwrite"></ng-container>
+      </ng-template>
+    </ng-container>
+  }
+  @if (rightLabelOverwrite) {
+    <ng-container>
+      <ng-template #rightLabel>
+        <ng-container *ngTemplateOutlet="rightLabelOverwrite"></ng-container>
+      </ng-template>
+    </ng-container>
+  }
 </sq-input-mask>

@@ -48,18 +48,13 @@ import { UniversalSafePipe } from './pipes/universal-safe/universal-safe.pipe';
  *
  * @type {(Type<any> | any)[]}
  */
-// Complex selection components still in module (require extensive template updates)
-const moduleComponents: (Type<any> | any)[] = [
-  SqSelectorComponent,
-  SqSelectSearchComponent,
-  SqSelectMultiTagsComponent,
-  SqSelectMultiComponent,
-];
+// All components are now standalone! 🎉
+const moduleComponents: (Type<any> | any)[] = [];
 
 /**
  * Array containing standalone Angular components, directives, and pipes.
- * 🎉 35/39 components migrated to standalone! (90% complete) 🎉
- * These components are available as standalone and can be imported individually.
+ * 🎉🎉🎉 39/39 components migrated to standalone! (100% COMPLETE!) 🎉🎉🎉
+ * ALL components are now available as standalone and can be imported individually.
  * They are included here for backward compatibility in module exports.
  *
  * @type {(Type<any> | any)[]}
@@ -94,8 +89,12 @@ const standaloneComponents = [
   SqOverlayComponent,
   SqPaginationComponent,
 
-  // Selection Components (2)
+  // Selection Components (6)
   SqSelectComponent,
+  SqSelectorComponent,
+  SqSelectSearchComponent,
+  SqSelectMultiTagsComponent,
+  SqSelectMultiComponent,
   SqInfinityComponent,
 
   // Directives (4)

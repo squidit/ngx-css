@@ -98,6 +98,10 @@ export class AppModule { }
 
 **Componentes de Seleção:**
 - `SqSelectComponent`
+- `SqSelectorComponent`
+- `SqSelectSearchComponent`
+- `SqSelectMultiTagsComponent`
+- `SqSelectMultiComponent`
 - `SqInfinityComponent`
 
 **Diretivas:**
@@ -115,16 +119,11 @@ export class AppModule { }
 - `TranslateInternalPipe`
 - `RemoveHtmlTagsPipe`
 
-### 🔄 Ainda no Módulo (4 componentes)
+### 🎉 **MIGRAÇÃO 100% COMPLETA!** 🎉
 
-Os seguintes componentes complexos ainda estão no módulo e requerem migração de templates mais extensa:
+**TODOS os 39 componentes foram migrados para standalone com sucesso!**
 
-- `SqSelectorComponent` - Seletor customizado
-- `SqSelectSearchComponent` - Select com busca
-- `SqSelectMultiTagsComponent` - Select múltiplo com tags
-- `SqSelectMultiComponent` - Select múltiplo
-
-Estes componentes continuam disponíveis através do `SquidCSSModule` e serão migrados em futuras versões.
+Não há mais componentes no módulo - toda a biblioteca foi modernizada!
 
 ## Novidades nos Templates
 
@@ -199,6 +198,10 @@ import {
   SqOverlayComponent,
   SqPaginationComponent,
   SqSelectComponent,
+  SqSelectorComponent,
+  SqSelectSearchComponent,
+  SqSelectMultiTagsComponent,
+  SqSelectMultiComponent,
   SqInputRangeComponent,
   SqDropdownDirective,
   ThousandSuffixesPipe,
@@ -235,6 +238,10 @@ import {
     SqOverlayComponent,
     SqPaginationComponent,
     SqSelectComponent,
+    SqSelectorComponent,
+    SqSelectSearchComponent,
+    SqSelectMultiTagsComponent,
+    SqSelectMultiComponent,
     SqInputRangeComponent,
     SqDropdownDirective,
     ThousandSuffixesPipe,
@@ -362,6 +369,30 @@ import {
       [options]="selectOptions">
     </sq-select>
 
+    <sq-selector 
+      type="checkbox"
+      label="Aceito os termos"
+      [(checked)]="acceptTerms">
+    </sq-selector>
+
+    <sq-select-multi-tags 
+      label="Tags múltiplas"
+      [(value)]="selectedTags"
+      [options]="tagOptions">
+    </sq-select-multi-tags>
+
+    <sq-select-multi 
+      label="Seleção múltipla"
+      [(value)]="selectedMultiple"
+      [options]="multiOptions">
+    </sq-select-multi>
+
+    <sq-select-search 
+      label="Select com busca"
+      [(value)]="selectedSearch"
+      [options]="searchOptions">
+    </sq-select-search>
+
     <sq-input-range 
       label="Faixa de valores"
       [(value)]="rangeValue"
@@ -417,6 +448,25 @@ export class ExemploComponent {
   htmlContent = '<p>Conteúdo com <strong>HTML</strong></p>';
   selectedOption = '';
   rangeValue = 50;
+  acceptTerms = false;
+  selectedTags: any[] = [];
+  selectedMultiple: any[] = [];
+  selectedSearch = null;
+  tagOptions = [
+    { value: 'tag1', label: 'Tag 1' },
+    { value: 'tag2', label: 'Tag 2' },
+    { value: 'tag3', label: 'Tag 3' }
+  ];
+  multiOptions = [
+    { value: 'multi1', label: 'Opção Múltipla 1' },
+    { value: 'multi2', label: 'Opção Múltipla 2' },
+    { value: 'multi3', label: 'Opção Múltipla 3' }
+  ];
+  searchOptions = [
+    { value: 'search1', label: 'Busca 1' },
+    { value: 'search2', label: 'Busca 2' },
+    { value: 'search3', label: 'Busca 3' }
+  ];
   selectOptions = [
     { value: 'option1', label: 'Opção 1' },
     { value: 'option2', label: 'Opção 2' },

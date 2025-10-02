@@ -13,9 +13,20 @@ import {
   TemplateRef,
   TrackByFunction,
 } from '@angular/core';
+import { NgClass, NgStyle, NgTemplateOutlet, AsyncPipe } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 import { TranslateService } from '@ngx-translate/core';
 import { useMemo } from '../../helpers/memo.helper';
 import { OptionMulti } from '../../interfaces/option.interface';
+import { SqLoaderComponent } from '../sq-loader/sq-loader.component';
+import { SqTooltipComponent } from '../sq-tooltip/sq-tooltip.component';
+import { SqSelectorComponent } from '../sq-selector/sq-selector.component';
+import { UniversalSafePipe } from '../../pipes/universal-safe/universal-safe.pipe';
+import { TranslateInternalPipe } from '../../pipes/translate-internal/translate-internal.pipe';
+import { SearchPipe } from '../../pipes/search/search.pipe';
+import { SqClickOutsideDirective } from '../../directives/sq-click-outside/sq-click-outside.directive';
+import { SearchValidValuesPipe } from 'src/pipes/search-valid-values/search-valid-values.pipe';
 
 /**
  * Multi-select dropdown component with advanced features including:
@@ -40,6 +51,23 @@ import { OptionMulti } from '../../interfaces/option.interface';
   templateUrl: './sq-select-multi.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./sq-select-multi.component.scss'],
+  standalone: true,
+  imports: [
+    NgClass,
+    NgStyle,
+    NgTemplateOutlet,
+    AsyncPipe,
+    FormsModule,
+    ScrollingModule,
+    SqLoaderComponent,
+    SqTooltipComponent,
+    SqSelectorComponent,
+    UniversalSafePipe,
+    TranslateInternalPipe,
+    SearchPipe,
+    SearchValidValuesPipe,
+    SqClickOutsideDirective,
+  ],
   providers: [],
 })
 export class SqSelectMultiComponent implements OnChanges {

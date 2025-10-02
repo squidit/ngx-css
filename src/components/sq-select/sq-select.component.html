@@ -1,30 +1,31 @@
 <div class="wrapper-all-inside-input {{ customClass }}">
-  <label
-    class="display-flex"
-    *ngIf="label?.length || tooltipMessage || labelTemplate"
-    [ngClass]="{
-      readonly: readonly,
-    }"
-    [for]="id"
-  >
-    @if (label && !labelTemplate) {
-      <div [ngStyle]="{ color: labelColor }" [innerHtml]="label | universalSafe"></div>
-    }
-    @if (labelTemplate) {
-      <div>
-        <ng-container *ngTemplateOutlet="labelTemplate"></ng-container>
-      </div>
-    }
-    @if (tooltipMessage) {
-      <sq-tooltip
-        class="ml-1"
-        [message]="tooltipMessage"
-        [placement]="tooltipPlacement"
-        [color]="tooltipColor"
-        [icon]="tooltipIcon"
-      ></sq-tooltip>
-    }
-  </label>
+  @if (label?.length || tooltipMessage || labelTemplate) {
+    <label
+      class="display-flex"
+      [ngClass]="{
+        readonly: readonly,
+      }"
+      [for]="id"
+    >
+      @if (label && !labelTemplate) {
+        <div [ngStyle]="{ color: labelColor }" [innerHtml]="label | universalSafe"></div>
+      }
+      @if (labelTemplate) {
+        <div>
+          <ng-container *ngTemplateOutlet="labelTemplate"></ng-container>
+        </div>
+      }
+      @if (tooltipMessage) {
+        <sq-tooltip
+          class="ml-1"
+          [message]="tooltipMessage"
+          [placement]="tooltipPlacement"
+          [color]="tooltipColor"
+          [icon]="tooltipIcon"
+        ></sq-tooltip>
+      }
+    </label>
+  }
   <div
     class="p-0 wrapper-input wrapper-input-squid"
     [ngStyle]="{ 'border-color': borderColor }"
@@ -33,9 +34,11 @@
       readonly: readonly,
     }"
   >
-    <span class="input-group-text m-0" *ngIf="leftLabel">
-      <ng-container *ngTemplateOutlet="leftLabel"></ng-container>
-    </span>
+    @if (leftLabel) {
+      <span class="input-group-text m-0">
+        <ng-container *ngTemplateOutlet="leftLabel"></ng-container>
+      </span>
+    }
     <select
       class="select"
       [ngClass]="{
@@ -56,36 +59,40 @@
       (focus)="emitFocus.emit()"
       #select
     >
-      <option *ngIf="placeholder" value="" [selected]="!value" disabled>{{ placeholder }}</option>
-      <optgroup *ngFor="let group of optionsWithGroups" [label]="group?.label">
-        <option
-          *ngFor="let option of group?.options"
-          [value]="option?.value"
-          [selected]="value === option?.value"
-          [disabled]="!!option?.disabled"
-        >
+      @if (placeholder) {
+        <option value="" [selected]="!value" disabled>{{ placeholder }}</option>
+      }
+      @for (group of optionsWithGroups; track group) {
+        <optgroup [label]="group?.label">
+          @for (option of group?.options; track option) {
+            <option [value]="option?.value" [selected]="value === option?.value" [disabled]="!!option?.disabled">
+              {{ option?.label }}
+            </option>
+          }
+        </optgroup>
+      }
+      @for (option of options; track option) {
+        <option [value]="option?.value" [selected]="value === option?.value" [disabled]="!!option?.disabled">
           {{ option?.label }}
         </option>
-      </optgroup>
-      <option
-        *ngFor="let option of options"
-        [value]="option?.value"
-        [selected]="value === option?.value"
-        [disabled]="!!option?.disabled"
-      >
-        {{ option?.label }}
-      </option>
+      }
     </select>
-    <span class="input-group-text m-0" *ngIf="rightLabel">
-      <ng-container *ngTemplateOutlet="rightLabel"></ng-container>
-    </span>
+    @if (rightLabel) {
+      <span class="input-group-text m-0">
+        <ng-container *ngTemplateOutlet="rightLabel"></ng-container>
+      </span>
+    }
   </div>
-  <span *ngIf="externalIcon" class="icon icon-external" [innerHtml]="externalIcon || '' | universalSafe"></span>
-  <div class="box-validation box-invalid show" *ngIf="errorSpan">
-    <ng-container *ngIf="externalError || error">
-      <i class="fa-solid fa-triangle-exclamation"></i>
-    </ng-container>
-    {{ externalError ? externalError : '' }}
-    {{ error && !externalError ? error : '' }}
-  </div>
+  @if (externalIcon) {
+    <span class="icon icon-external" [innerHtml]="externalIcon || '' | universalSafe"></span>
+  }
+  @if (errorSpan) {
+    <div class="box-validation box-invalid show">
+      @if (externalError || error) {
+        <i class="fa-solid fa-triangle-exclamation"></i>
+      }
+      {{ externalError ? externalError : '' }}
+      {{ error && !externalError ? error : '' }}
+    </div>
+  }
 </div>
