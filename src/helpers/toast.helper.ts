@@ -1,17 +1,17 @@
-import { Injectable } from '@angular/core'
-import { Toast, ToastConfig, ToastResponse } from '../interfaces/toast.interface'
+import { Injectable } from '@angular/core';
+import { Toast, ToastConfig, ToastResponse } from '../interfaces/toast.interface';
 
 /**
  * Global declare to get from window
  */
-declare const Toast: Toast
+declare const Toast: Toast;
 
 /**
  * A service for displaying toast messages in Angular applications.
  *
  * Toast messages are often used to provide feedback to users in a non-intrusive way. This service
  * provides methods to display different types of toast messages with various configurations.
- * 
+ *
  * Look the link about the component in original framework and the appearance
  *
  * @see {@link https://css.squidit.com.br/components/toast}
@@ -48,13 +48,13 @@ export class ToastHelper {
     default: (message: string, config?: ToastConfig) => this.toastLogSrr(message, config),
     show: (message: string, config?: ToastConfig) => this.toastLogSrr(message, config),
     theme: (message: string, config?: ToastConfig) => this.toastLogSrr(message, config),
-  }
+  };
 
   /**
    * Creates an instance of the ToastHelper service.
    */
   constructor() {
-    this.toast = Toast || window['Toast' as any] as unknown as Toast
+    this.toast = Toast || (window['Toast' as any] as unknown as Toast);
   }
 
   /**
@@ -67,6 +67,6 @@ export class ToastHelper {
     return {
       message,
       config,
-    }
+    };
   }
 }

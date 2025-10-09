@@ -1,11 +1,15 @@
 <div #scroll class="scroll">
   <ng-content></ng-content>
-  <div *ngIf="loading" class="infinity-loader">
-    <sq-loader color="{{ loaderColor }}"></sq-loader>
-  </div>
-  <div class="wrapper-message" *ngIf="!hasMore && endMessage">
-    <p>
-      {{ endMessage || '' }}
-    </p>
-  </div>
+  @if (loading) {
+    <div class="infinity-loader">
+      <sq-loader color="{{ loaderColor }}"></sq-loader>
+    </div>
+  }
+  @if (!hasMore && endMessage) {
+    <div class="wrapper-message">
+      <p>
+        {{ endMessage || '' }}
+      </p>
+    </div>
+  }
 </div>

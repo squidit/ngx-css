@@ -1,7 +1,33 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, ElementRef, EventEmitter, Input, OnChanges, Optional, Output, SimpleChanges, TemplateRef, TrackByFunction } from '@angular/core'
-import { TranslateService } from '@ngx-translate/core'
-import { useMemo } from '../../helpers/memo.helper'
-import { OptionMulti } from '../../interfaces/option.interface'
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ContentChild,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Optional,
+  Output,
+  SimpleChanges,
+  TemplateRef,
+  TrackByFunction,
+} from '@angular/core';
+import { NgClass, NgStyle, NgTemplateOutlet, AsyncPipe } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { ScrollingModule } from '@angular/cdk/scrolling';
+import { TranslateService } from '@ngx-translate/core';
+import { useMemo } from '../../helpers/memo.helper';
+import { OptionMulti } from '../../interfaces/option.interface';
+import { SqLoaderComponent } from '../sq-loader/sq-loader.component';
+import { SqTooltipComponent } from '../sq-tooltip/sq-tooltip.component';
+import { SqTagComponent } from '../sq-tag/sq-tag.component';
+import { SqSelectorComponent } from '../sq-selector/sq-selector.component';
+import { UniversalSafePipe } from '../../pipes/universal-safe/universal-safe.pipe';
+import { TranslateInternalPipe } from '../../pipes/translate-internal/translate-internal.pipe';
+import { SearchPipe } from '../../pipes/search/search.pipe';
+import { SearchValidValuesPipe } from '../../pipes/search-valid-values/search-valid-values.pipe';
+import { SqClickOutsideDirective } from '../../directives/sq-click-outside/sq-click-outside.directive';
 
 /**
  * Represents a multi-tag select component.
@@ -14,7 +40,7 @@ import { OptionMulti } from '../../interfaces/option.interface'
  *   (valueChange)="handleTagSelection($event)"
  * >
  * </sq-select-multi-tags>
- * 
+ *
  * @implements {OnChanges}
  */
 @Component({
@@ -22,258 +48,275 @@ import { OptionMulti } from '../../interfaces/option.interface'
   templateUrl: './sq-select-multi-tags.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./sq-select-multi-tags.component.scss'],
+  standalone: true,
+  imports: [
+    NgClass,
+    NgStyle,
+    NgTemplateOutlet,
+    AsyncPipe,
+    FormsModule,
+    ScrollingModule,
+    SqLoaderComponent,
+    SqTooltipComponent,
+    SqTagComponent,
+    SqSelectorComponent,
+    UniversalSafePipe,
+    TranslateInternalPipe,
+    SearchPipe,
+    SearchValidValuesPipe,
+    SqClickOutsideDirective,
+  ],
   providers: [],
 })
 export class SqSelectMultiTagsComponent implements OnChanges {
   /**
    * The name attribute for the multi-tag select input.
-   * 
+   *
    * @default 'random-name-[hash-random-code]'
    */
-  @Input() name = `random-name-${(1 + Date.now() + Math.random()).toString().replace('.', '')}`
+  @Input() name = `random-name-${(1 + Date.now() + Math.random()).toString().replace('.', '')}`;
 
   /**
    * The selected values for the multi-tag select input.
    */
-  @Input() value?: OptionMulti[] = []
+  @Input() value?: OptionMulti[] = [];
 
   /**
    * The id attribute for the multi-tag select input.
    */
-  @Input() id?: string
+  @Input() id?: string;
 
   /**
    * The label for the multi-tag select input.
    */
-  @Input() label = ''
+  @Input() label = '';
 
   /**
    * Custom CSS class for styling the component.
    */
-  @Input() customClass = ''
+  @Input() customClass = '';
 
   /**
    * Placeholder text for the input field.
    */
-  @Input() placeholder = ''
+  @Input() placeholder = '';
 
   /**
    * External error message for the multi-tag select input.
    */
-  @Input() externalError = ''
+  @Input() externalError = '';
 
   /**
    * External icon for the multi-tag select input.
    */
-  @Input() externalIcon = ''
+  @Input() externalIcon = '';
 
   /**
    * Placeholder text for the search input field.
    */
-  @Input() placeholderSearch = ''
+  @Input() placeholderSearch = '';
 
   /**
    * Indicates whether the multi-tag select input is disabled.
    */
-  @Input() disabled = false
+  @Input() disabled = false;
 
   /**
    * Indicates whether the multi-tag select input is readonly.
    */
-  @Input() readonly = false
+  @Input() readonly = false;
 
   /**
    * Indicates whether the multi-tag select input is required.
    */
-  @Input() required = false
+  @Input() required = false;
 
   /**
    * Indicates whether the multi-tag select input is in a loading state.
    */
-  @Input() loading = false
+  @Input() loading = false;
 
   /**
    * Indicates whether to use form errors for validation.
    */
-  @Input() useFormErrors = true
+  @Input() useFormErrors = true;
 
   /**
    * Indicates whether to display an error span.
    */
-  @Input() errorSpan = true
+  @Input() errorSpan = true;
 
   /**
    * Background color for the multi-tag select input.
    */
-  @Input() backgroundColor = ''
+  @Input() backgroundColor = '';
 
   /**
    * Border color for the multi-tag select input.
    */
-  @Input() borderColor = ''
+  @Input() borderColor = '';
 
   /**
    * Color for the label of the multi-tag select input.
    */
-  @Input() labelColor = ''
+  @Input() labelColor = '';
 
   /**
    * Maximum height for the multi-tag values.
    */
-  @Input() maxHeight = '100%'
+  @Input() maxHeight = '100%';
 
   /**
    * Minimum number of characters to perform the searchChange.
    */
-  @Input() minCharactersToSearch = 0
+  @Input() minCharactersToSearch = 0;
 
   /**
    * The time interval for input timeout in ms.
    */
-  @Input() timeToChange = 800
+  @Input() timeToChange = 800;
 
   /**
    * Options available for selection.
    */
-  @Input() options: Array<OptionMulti> = []
+  @Input() options: Array<OptionMulti> = [];
 
   /**
    * Maximum number of tags that can be chosen.
    */
-  @Input() maxTags?: number
+  @Input() maxTags?: number;
 
   /**
    * Minimum number of tags that can be chosen.
    */
-  @Input() minTags?: number
+  @Input() minTags?: number;
 
   /**
    * Indicates whether to show selected tags inside the input.
    */
-  @Input() showInside = true
+  @Input() showInside = true;
 
   /**
    * Indicates whether to hide the search input.
    */
-  @Input() hideSearch = false
+  @Input() hideSearch = false;
 
   /**
    * Tooltip message for the multi-tag select input.
    */
-  @Input() tooltipMessage = ''
+  @Input() tooltipMessage = '';
 
   /**
    * Tooltip placement for the multi-tag select input.
    */
-  @Input() tooltipPlacement: 'center top' | 'center bottom' | 'left center' | 'right center' = 'right center'
+  @Input() tooltipPlacement: 'center top' | 'center bottom' | 'left center' | 'right center' = 'right center';
 
   /**
    * Tooltip color for the multi-tag select input.
    */
-  @Input() tooltipColor = 'inherit'
+  @Input() tooltipColor = 'inherit';
 
   /**
    * Tooltip icon for the multi-tag select input.
    */
-  @Input() tooltipIcon = ''
+  @Input() tooltipIcon = '';
 
   /**
    * Event emitted when the selected values change.
    */
-  @Output() valueChange: EventEmitter<Array<OptionMulti>> = new EventEmitter()
+  @Output() valueChange: EventEmitter<Array<OptionMulti>> = new EventEmitter();
 
   /**
    * Event emitted when the search input value changes.
    */
-  @Output() searchChange: EventEmitter<string> = new EventEmitter()
+  @Output() searchChange: EventEmitter<string> = new EventEmitter();
 
   /**
    * Event emitted when the multi-tag select dropdown is closed.
    */
-  @Output() closeChange: EventEmitter<boolean> = new EventEmitter()
+  @Output() closeChange: EventEmitter<boolean> = new EventEmitter();
 
   /**
    * Event emitted when a tag is removed.
    */
-  @Output() removeTag: EventEmitter<OptionMulti> = new EventEmitter()
+  @Output() removeTag: EventEmitter<OptionMulti> = new EventEmitter();
 
   /**
    * Event emitted when the multi-tag select input becomes valid or invalid.
    */
-  @Output() valid: EventEmitter<boolean> = new EventEmitter()
+  @Output() valid: EventEmitter<boolean> = new EventEmitter();
 
   /**
    * The label template for the search-based select input.
    */
   @ContentChild('labelTemplate')
-  labelTemplate: TemplateRef<HTMLElement> | null = null
+  labelTemplate: TemplateRef<HTMLElement> | null = null;
 
   /**
    * The select empty template for the search-based select input.
    */
   @ContentChild('selectEmptyTemplate')
-  selectEmptyTemplate: TemplateRef<HTMLElement> | null = null
-
+  selectEmptyTemplate: TemplateRef<HTMLElement> | null = null;
 
   /**
    * Indicates when is the time to render the multi-tag select dropdown.
    */
-  renderOptionsList = false
+  renderOptionsList = false;
 
   /**
    * Indicates whether the multi-tag select dropdown is open.
    */
-  open = false
+  open = false;
 
   /**
    * Text entered in the search input field.
    */
-  searchText = ''
+  searchText = '';
 
   /**
    * Indicates whether the value has changed.
    */
-  valueChanged = false
+  valueChanged = false;
 
   /**
    * Indicates whether a timeout has occurred for input changes.
    */
-  timeouted = false
+  timeouted = false;
 
   /**
    * Error message associated with the multi-tag select input.
    */
-  error: boolean | string = ''
+  error: boolean | string = '';
 
   /**
    * Native element reference.
    */
-  nativeElement: ElementRef
+  nativeElement: ElementRef;
 
   /**
    * Control options to render
    */
-  _options: Array<OptionMulti> = []
+  _options: Array<OptionMulti> = [];
 
   /**
    * Control the readonly on reach the maxTags
    */
-  isMaxTags = false
+  isMaxTags = false;
 
   /**
    * Timeout for input changes.
    */
-  timeoutInput!: ReturnType<typeof setTimeout>
+  timeoutInput!: ReturnType<typeof setTimeout>;
 
   /**
    * The height for the cdk-virtual-scroll-viewport (default 305px).
    */
-  cdkVirtualScrollViewportHeight = '305px'
+  cdkVirtualScrollViewportHeight = '305px';
 
   /**
    * The size for the cdk-virtual-scroll-viewport (default 32px).
    */
-  cdkItemSize: string | null = '32'
+  cdkItemSize: string | null = '32';
 
   /**
    * Constructs a new SqSelectMultiTagsComponent.
@@ -282,8 +325,12 @@ export class SqSelectMultiTagsComponent implements OnChanges {
    * @param {TranslateService} translate - The optional TranslateService for internationalization.
    * @param {ChangeDetectorRef} changeDetector - Base class that provides change detection functionality.
    */
-  constructor(public element: ElementRef, @Optional() private translate: TranslateService, private changeDetector: ChangeDetectorRef) {
-    this.nativeElement = element.nativeElement
+  constructor(
+    public element: ElementRef,
+    @Optional() private translate: TranslateService,
+    private changeDetector: ChangeDetectorRef
+  ) {
+    this.nativeElement = element.nativeElement;
   }
 
   /**
@@ -293,10 +340,10 @@ export class SqSelectMultiTagsComponent implements OnChanges {
    */
   async ngOnChanges(changes: SimpleChanges) {
     if (this.open && changes.hasOwnProperty('options')) {
-      this.verifyNewOptions()
+      this.verifyNewOptions();
     }
     if (changes.hasOwnProperty('value') || changes.hasOwnProperty('minTags') || changes.hasOwnProperty('maxTags')) {
-      this.validate()
+      this.validate();
     }
   }
 
@@ -307,8 +354,8 @@ export class SqSelectMultiTagsComponent implements OnChanges {
    * @returns {boolean} True if the item exists in the selected values; otherwise, false.
    */
   findItemInValue = useMemo((item: OptionMulti, value?: Array<OptionMulti>) => {
-    return !!value?.find((value) => value.value === item.value)
-  })
+    return !!value?.find(value => value.value === item.value);
+  });
 
   /**
    * Verifies if any options have children.
@@ -317,8 +364,8 @@ export class SqSelectMultiTagsComponent implements OnChanges {
    * @returns {boolean} True if any option has children; otherwise, false.
    */
   verifyIfOptionsHasChildren = useMemo((options: OptionMulti[]) => {
-    return options.some((item) => item.children?.length)
-  })
+    return options.some(item => item.children?.length);
+  });
 
   /**
    * Verifies if an item has children that are selected.
@@ -328,18 +375,18 @@ export class SqSelectMultiTagsComponent implements OnChanges {
    */
   verifyIfHasChildrenInValue = useMemo((item: OptionMulti, value?: Array<OptionMulti>) => {
     if (item.children?.length) {
-      const hasAllChildren = item.children.every((child) => this.findItemInValue(child, value))
+      const hasAllChildren = item.children.every(child => this.findItemInValue(child, value));
       if (hasAllChildren && !this.findItemInValue(item, value) && !this.timeouted) {
-        this.timeouted = true
+        this.timeouted = true;
         setTimeout(() => {
-          this.emit(item, true)
-          this.timeouted = false
-        }, 0)
+          this.emit(item, true);
+          this.timeouted = false;
+        }, 0);
       }
-      return !!item.children.find((child) => this.findItemInValue(child, value))
+      return !!item.children.find(child => this.findItemInValue(child, value));
     }
-    return false
-  })
+    return false;
+  });
 
   /**
    * Removes an item from the selected values.
@@ -347,18 +394,18 @@ export class SqSelectMultiTagsComponent implements OnChanges {
    * @param {OptionMulti} item - The item to remove.
    */
   removeItem(item: OptionMulti, event: any) {
-    event?.stopPropagation()
+    event?.stopPropagation();
     if (!this.readonly && !this.disabled) {
       if (item.children?.length) {
-        item.children.forEach((child) => {
-          this.value = this.value?.filter((value) => value.value !== child.value)
-        })
+        item.children.forEach(child => {
+          this.value = this.value?.filter(value => value.value !== child.value);
+        });
       }
-      this.value = this.value?.filter((value) => value.value !== item.value)
+      this.value = this.value?.filter(value => value.value !== item.value);
 
-      this.valueChange.emit(this.value)
-      this.removeTag.emit(item)
-      this.validate()
+      this.valueChange.emit(this.value);
+      this.removeTag.emit(item);
+      this.validate();
     }
   }
 
@@ -370,7 +417,7 @@ export class SqSelectMultiTagsComponent implements OnChanges {
    */
   emit(object: OptionMulti, checked: boolean) {
     if (checked) {
-      this.value?.push(object)
+      this.value?.push(object);
       // This code adds all children of a parent to value. Commented out for now as it is not the desired behavior.
       // if (object.children?.length) {
       //   object.children.forEach((item) => {
@@ -380,16 +427,16 @@ export class SqSelectMultiTagsComponent implements OnChanges {
       //   })
       // }
     } else {
-      this.value = this.value?.filter((item) => item.value !== object.value)
+      this.value = this.value?.filter(item => item.value !== object.value);
       if (object.children?.length) {
-        object.children.forEach((item) => {
-          this.value = this.value?.filter((child) => child.value !== item.value)
-        })
+        object.children.forEach(item => {
+          this.value = this.value?.filter(child => child.value !== item.value);
+        });
       }
     }
-    this.valueChanged = true
-    this.valueChange.emit(this.value)
-    this.validate()
+    this.valueChanged = true;
+    this.valueChange.emit(this.value);
+    this.validate();
   }
 
   /**
@@ -397,18 +444,22 @@ export class SqSelectMultiTagsComponent implements OnChanges {
    */
   async doDropDownAction() {
     if (this.open) {
-      this.closeDropdown()
-      this.renderOptionsList = await new Promise<boolean>(resolve => setTimeout(() => {
-        resolve(false)
-      }, 300))
-      this.changeDetector.detectChanges()
+      this.closeDropdown();
+      this.renderOptionsList = await new Promise<boolean>(resolve =>
+        setTimeout(() => {
+          resolve(false);
+        }, 300)
+      );
+      this.changeDetector.detectChanges();
     } else {
-      this.verifyNewOptions()
-      this.renderOptionsList = true
-      this.open = await new Promise<boolean>(resolve => setTimeout(() => {
-        resolve(true)
-      }, 100))
-      this.changeDetector.detectChanges()
+      this.verifyNewOptions();
+      this.renderOptionsList = true;
+      this.open = await new Promise<boolean>(resolve =>
+        setTimeout(() => {
+          resolve(true);
+        }, 100)
+      );
+      this.changeDetector.detectChanges();
     }
   }
 
@@ -416,11 +467,11 @@ export class SqSelectMultiTagsComponent implements OnChanges {
    * Closes the multi-tag select dropdown.
    */
   closeDropdown() {
-    this.open = false
-    this._options = []
-    this.searchText = ''
-    this.closeChange.emit(this.valueChanged)
-    this.valueChanged = false
+    this.open = false;
+    this._options = [];
+    this.searchText = '';
+    this.closeChange.emit(this.valueChanged);
+    this.valueChanged = false;
   }
 
   /**
@@ -429,12 +480,12 @@ export class SqSelectMultiTagsComponent implements OnChanges {
    * @param {OptionMulti} item - The item to collapse.
    */
   handleCollapse(item: OptionMulti) {
-    item.open = !item.open
+    item.open = !item.open;
     if (item.children) {
-      if (this.options.find((option) => option.open) || item.open) {
-        this.cdkItemSize = null
+      if (this.options.find(option => option.open) || item.open) {
+        this.cdkItemSize = null;
       } else {
-        this.cdkItemSize = '32'
+        this.cdkItemSize = '32';
       }
     }
   }
@@ -446,7 +497,7 @@ export class SqSelectMultiTagsComponent implements OnChanges {
    */
   async setError(key: string, interpolateParams: Object = {}) {
     if (this.useFormErrors && this.translate) {
-      this.error = await this.translate.instant(key, interpolateParams)
+      this.error = await this.translate.instant(key, interpolateParams);
     }
   }
 
@@ -455,41 +506,45 @@ export class SqSelectMultiTagsComponent implements OnChanges {
    */
   validate() {
     if (this.externalError) {
-      this.error = false
+      this.error = false;
     } else if (this.required && !this.value?.length) {
-      this.setError('forms.required')
-      this.valid.emit(false)
+      this.setError('forms.required');
+      this.valid.emit(false);
     } else if (this.minTags && this.value && this.value?.length < this.minTags) {
-      this.setError('forms.minimumRequired', { minTags: this.minTags })
-      this.valid.emit(false)
+      this.setError('forms.minimumRequired', { minTags: this.minTags });
+      this.valid.emit(false);
     } else if (this.maxTags && this.value && this.value?.length === this.maxTags) {
-      this.renderOptionsList = false
-      this.isMaxTags = true
-      this.error = ''
-      this.valid.emit(true)
+      this.renderOptionsList = false;
+      this.isMaxTags = true;
+      this.error = '';
+      this.valid.emit(true);
     } else {
-      this.isMaxTags = false
-      this.error = ''
-      this.valid.emit(true)
+      this.isMaxTags = false;
+      this.error = '';
+      this.valid.emit(true);
     }
   }
 
   /**
    * Return trackBy for ngFor
    */
-  trackByOptValue: TrackByFunction<any> = useMemo((index, opt) => opt.value)
+  trackByOptValue: TrackByFunction<any> = useMemo((index, opt) => opt.value);
 
   /**
    * Change searchtext with timeout and detect detectChanges
    */
   async modelChange(event: any) {
     if (!this.minCharactersToSearch || !event.length || event.length >= this.minCharactersToSearch) {
-      clearTimeout(this.timeoutInput)
-      this.searchText = await new Promise<string>(resolve => this.timeoutInput = setTimeout(() => {
-        resolve(event)
-      }, this.timeToChange)) || ''
-      this.searchChange.emit(event)
-      this.changeDetector.detectChanges()
+      clearTimeout(this.timeoutInput);
+      this.searchText =
+        (await new Promise<string>(
+          resolve =>
+            (this.timeoutInput = setTimeout(() => {
+              resolve(event);
+            }, this.timeToChange))
+        )) || '';
+      this.searchChange.emit(event);
+      this.changeDetector.detectChanges();
     }
   }
 
@@ -497,14 +552,13 @@ export class SqSelectMultiTagsComponent implements OnChanges {
    * Verify new options and set the cdkVirtualScrollViewportHeight
    */
   verifyNewOptions() {
-    this._options = this.options
+    this._options = this.options;
     if (!this._options.length) {
-      this.cdkVirtualScrollViewportHeight = '16px'
+      this.cdkVirtualScrollViewportHeight = '16px';
     } else if (this._options.length < 15) {
-      this.cdkVirtualScrollViewportHeight = this._options.length * 32 + 'px'
+      this.cdkVirtualScrollViewportHeight = this._options.length * 32 + 'px';
     } else {
-      this.cdkVirtualScrollViewportHeight = '305px'
+      this.cdkVirtualScrollViewportHeight = '305px';
     }
   }
-
 }

@@ -21,9 +21,9 @@ module.exports = {
         "@typescript-eslint/no-explicit-any": "off",
         "no-underscore-dangle": "off",
         "no-prototype-builtins": "off",
-        "semi": [2, "never"],
+        "semi": [2, "always"],
         "arrow-body-style": ["off"],
-        "@typescript-eslint/semi": ["off"],
+        "@typescript-eslint/semi": [2, "always"],
         "@typescript-eslint/ban-types": ["off"],
         "@typescriot-eslint/experimental-decorators": ["off"],
         "@typescript-eslint/explicit-module-boundary-types": "off",
@@ -41,13 +41,29 @@ module.exports = {
             "type": "attribute",
             "prefix": "camelCase"
           }
+        ],
+        // Regra para desencorajar constructor injection em favor de inject()
+        "no-restricted-syntax": [
+          "warn",
+          {
+            "selector": "MethodDefinition[kind='constructor'] Parameter[decorators.length > 0]",
+            "message": "⚠️  Constructor parameters with decorators (@Inject, @Optional, etc.) are discouraged. Consider using inject() function for better tree-shaking and modern Angular practices."
+          },
+          {
+            "selector": "MethodDefinition[kind='constructor'][value.params.length > 0]:not(:has(Parameter[decorators.length > 0]))",
+            "message": "⚠️  Constructor dependency injection is discouraged. Consider using inject() function for better tree-shaking and modern Angular practices."
+          }
         ]
       }
     },
     {
       "files": ["*.html"],
       "extends": ["plugin:@angular-eslint/template/recommended"],
-      "rules": {}
+      "rules": {
+        // Regra para desencorajar uso de *ngIf e *ngFor em favor da nova sintaxe @if/@for
+        "@angular-eslint/template/no-any": "off",
+        "@angular-eslint/template/prefer-control-flow": "error"
+      }
     }
   ]
 }

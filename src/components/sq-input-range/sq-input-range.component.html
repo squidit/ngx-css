@@ -1,19 +1,27 @@
-<div class="wrapper-all-inside-input {{ customClass }}" [ngClass]="{
-  'no-label': !label.length
-}">
-  <label
-    class="display-flex"
-    *ngIf="label?.length || labelTemplate"
-    [ngClass]="{
-      readonly: readonly
-    }"
-    [for]="id"
-  >
-    <div *ngIf="label?.length && !labelTemplate" [ngStyle]="{ 'color': labelColor }" [innerHtml]="label | universalSafe"></div>
-  </label>
-  <div *ngIf="labelTemplate">
-    <ng-container *ngTemplateOutlet="labelTemplate"></ng-container>
-  </div>
+<div
+  class="wrapper-all-inside-input {{ customClass }}"
+  [ngClass]="{
+    'no-label': !label.length,
+  }"
+>
+  @if (label?.length || labelTemplate) {
+    <label
+      class="display-flex"
+      [ngClass]="{
+        readonly: readonly,
+      }"
+      [for]="id"
+    >
+      @if (label?.length && !labelTemplate) {
+        <div [ngStyle]="{ color: labelColor }" [innerHtml]="label | universalSafe"></div>
+      }
+    </label>
+  }
+  @if (labelTemplate) {
+    <div>
+      <ng-container *ngTemplateOutlet="labelTemplate"></ng-container>
+    </div>
+  }
   <div
     class="p-0 wrapper-input wrapper-input-squid"
     [ngClass]="{
@@ -41,11 +49,16 @@
       #input
     />
   </div>
-  <div class="box-validation box-invalid show" *ngIf="errorSpan">
-    <i [ngClass]="{
-      'visibility-hidden-force': !error && !externalError
-    }" class="fa-solid fa-triangle-exclamation"></i>
-    {{ externalError ? externalError : '' }}
-    {{ error && !externalError ? error : '' }}
-  </div>
+  @if (errorSpan) {
+    <div class="box-validation box-invalid show">
+      <i
+        [ngClass]="{
+          'visibility-hidden-force': !error && !externalError,
+        }"
+        class="fa-solid fa-triangle-exclamation"
+      ></i>
+      {{ externalError ? externalError : '' }}
+      {{ error && !externalError ? error : '' }}
+    </div>
+  }
 </div>

@@ -1,7 +1,12 @@
-import { Component, ContentChild, ElementRef, EventEmitter, Input, Optional, Output, TemplateRef } from "@angular/core"
-import { ValidatorHelper } from '../../helpers/validator.helper'
-import { TranslateService } from "@ngx-translate/core"
-import { SqInputComponent } from "../sq-input/sq-input.component"
+import { Component, ContentChild, ElementRef, EventEmitter, Input, Optional, Output, TemplateRef } from '@angular/core';
+import { NgClass, NgStyle, NgTemplateOutlet } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { ValidatorHelper } from '../../helpers/validator.helper';
+import { TranslateService } from '@ngx-translate/core';
+import { SqInputComponent } from '../sq-input/sq-input.component';
+import { SqTooltipComponent } from '../sq-tooltip/sq-tooltip.component';
+import { UniversalSafePipe } from '../../pipes/universal-safe/universal-safe.pipe';
+import { SqInputMaskComponent } from '../sq-input-mask/sq-input-mask.component';
 
 /**
  * Represents an input component for handling numeric values.
@@ -14,7 +19,17 @@ import { SqInputComponent } from "../sq-input/sq-input.component"
 @Component({
   selector: 'sq-input-number',
   templateUrl: './sq-input-number.component.html',
-  styleUrls: ['./sq-input-number.component.scss']
+  styleUrls: ['./sq-input-number.component.scss'],
+  standalone: true,
+  imports: [
+    NgClass,
+    NgStyle,
+    NgTemplateOutlet,
+    FormsModule,
+    SqTooltipComponent,
+    UniversalSafePipe,
+    SqInputMaskComponent,
+  ],
 })
 export class SqInputNumberComponent extends SqInputComponent {
   /**
@@ -23,95 +38,95 @@ export class SqInputNumberComponent extends SqInputComponent {
   @Input()
   public override set value(value: any) {
     if (typeof value === 'number') {
-      this._value = value.toString()
+      this._value = value.toString();
     } else {
-      this._value = value || ''
+      this._value = value || '';
     }
   }
   public override get value(): any {
-    return parseFloat(this._value)
+    return parseFloat(this._value);
   }
 
   /**
    * The character used for thousand separators (e.g., ',' or '.').
    */
-  @Input() thousandSeparator = '.'
+  @Input() thousandSeparator = '.';
 
   /**
    * Whether to display the input mask as the user types.
    */
-  @Input() showMaskTyped = false
+  @Input() showMaskTyped = false;
 
   /**
    * Whether to allow negative numbers.
    */
-  @Input() allowNegativeNumbers = false
+  @Input() allowNegativeNumbers = false;
 
   /**
    * Whether to add a leading zero for single-digit numbers (e.g., '01' instead of '1').
    */
-  @Input() leadZero = false
+  @Input() leadZero = false;
 
   /**
    * The character used as a placeholder for empty positions.
    */
-  @Input() placeHolderCharacter = ''
+  @Input() placeHolderCharacter = '';
 
   /**
    * The character used as a decimal marker (e.g., ',' or '.').
    */
-  @Input() decimalMarker: "." | "," | [".", ","] = ','
+  @Input() decimalMarker: '.' | ',' | ['.', ','] = ',';
 
   /**
    * Defines the minimum value that can be accepted as input.
    */
-  @Input() minValue?: number
+  @Input() minValue?: number;
 
   /**
    * Defines the maximum value that can be accepted as input.
    */
-  @Input() maxValue?: number
+  @Input() maxValue?: number;
 
   /**
    * Event emitter for changes in the numeric value.
    */
-  @Output() override valueChange: EventEmitter<number> = new EventEmitter()
+  @Output() override valueChange: EventEmitter<number> = new EventEmitter();
 
   /**
    * Content child template for the left label override.
    */
   @ContentChild('leftLabelOverwrite')
-  leftLabelOverwrite: TemplateRef<HTMLElement> | null = null
+  leftLabelOverwrite: TemplateRef<HTMLElement> | null = null;
 
   /**
    * Content child template for the right label override.
    */
   @ContentChild('rightLabelOverwrite')
-  rightLabelOverwrite: TemplateRef<HTMLElement> | null = null
+  rightLabelOverwrite: TemplateRef<HTMLElement> | null = null;
 
   /**
    * Reference to a label template.
    */
   @ContentChild('labelTemplate')
-  labelTemplateOverwrite: TemplateRef<HTMLElement> | null = null
+  labelTemplateOverwrite: TemplateRef<HTMLElement> | null = null;
 
   /**
    * Reference to the native element.
    */
-  override nativeElement: ElementRef
+  override nativeElement: ElementRef;
 
   /**
- * Constructs a new instance of SqInputMaskComponent.
- * @param validatorHelper - The ValidatorHelper service for input validation.
- * @param element - Reference to the native element.
- * @param translate - The TranslateService for translation support (optional).
- */
+   * Constructs a new instance of SqInputMaskComponent.
+   * @param validatorHelper - The ValidatorHelper service for input validation.
+   * @param element - Reference to the native element.
+   * @param translate - The TranslateService for translation support (optional).
+   */
   constructor(
     public override validatorHelper: ValidatorHelper,
     element: ElementRef,
-    @Optional() public override translate: TranslateService,
+    @Optional() public override translate: TranslateService
   ) {
-    super(validatorHelper, element, translate)
-    this.nativeElement = element.nativeElement
+    super(validatorHelper, element, translate);
+    this.nativeElement = element.nativeElement;
   }
 }

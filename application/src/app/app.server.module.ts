@@ -1,11 +1,11 @@
-import { NgModule } from '@angular/core'
-import { ServerModule } from '@angular/platform-server'
+import { NgModule } from '@angular/core';
+import { ServerModule } from '@angular/platform-server';
 
-import { AppModule } from './app.module'
-import { AppComponent } from './app.component'
+import { AppModule } from './app.module';
+import { AppComponent } from './app.component';
 
-import { UniversalRelativeInterceptor } from '../universal-relative.interceptor'
-import { HTTP_INTERCEPTORS } from '@angular/common/http'
+import { UniversalRelativeInterceptor } from '../universal-relative.interceptor';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 @NgModule({
   imports: [

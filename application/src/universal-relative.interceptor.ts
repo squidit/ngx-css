@@ -1,15 +1,15 @@
-import { HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http'
-import { Inject, Injectable, Optional } from '@angular/core'
-import { REQUEST } from '@nguniversal/express-engine/tokens'
-import { Request } from 'express'
+import { HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import { Inject, Injectable, Optional } from '@angular/core';
+import { REQUEST } from '@nguniversal/express-engine/tokens';
+import { Request } from 'express';
 
 // case insensitive check against config and value
 const startsWithAny = (arr: string[] = []) => (value = '') => {
-    return arr.some(test => value.toLowerCase().startsWith(test.toLowerCase()))
-}
+    return arr.some(test => value.toLowerCase().startsWith(test.toLowerCase()));
+};
 
 // http, https, protocol relative
-const isAbsoluteURL = startsWithAny(['http', '//'])
+const isAbsoluteURL = startsWithAny(['http', '//']);
 
 @Injectable()
 export class UniversalRelativeInterceptor implements HttpInterceptor {
@@ -19,13 +19,13 @@ export class UniversalRelativeInterceptor implements HttpInterceptor {
         if (this.request && !isAbsoluteURL(req.url)) {
             const protocolHost = `${this.request.protocol}://${this.request.get(
                 'host'
-            )}`
-            const pathSeparator = !req.url.startsWith('/') ? '/' : ''
-            const url = protocolHost + pathSeparator + req.url
-            const serverRequest = req.clone({ url })
-            return next.handle(serverRequest)
+            )}`;
+            const pathSeparator = !req.url.startsWith('/') ? '/' : '';
+            const url = protocolHost + pathSeparator + req.url;
+            const serverRequest = req.clone({ url });
+            return next.handle(serverRequest);
         } else {
-            return next.handle(req)
+            return next.handle(req);
         }
     }
 }

@@ -8,5 +8,13 @@
     "inlineSources": true,
     "types": ["jasmine"]
   },
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true,
+    "strictPropertyInitialization": true,
+    "strictNullChecks": true
+  },
   "exclude": ["**/*.spec.ts"]
 }

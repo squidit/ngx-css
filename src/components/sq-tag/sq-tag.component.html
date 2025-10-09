@@ -1,13 +1,13 @@
 <div
-  class='tag-box background-{{ backgroundColor }} {{ color }}'
+  class="tag-box background-{{ backgroundColor }} {{ color }}"
   [ngClass]="{
     'readonly-tag': readonly,
-    'disabled': disabled,
-    'rounded': rounded,
-    'pointer': pointer,
+    disabled: disabled,
+    rounded: rounded,
+    pointer: pointer,
   }"
   [ngStyle]="{
-    'color': getColor(),
+    color: getColor(),
     'background-color': getBackgroundColor(),
   }"
   (click)="handleClick()"

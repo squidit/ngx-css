@@ -7,9 +7,12 @@ import {
   Optional,
   Output,
   SimpleChanges,
-  TemplateRef
-} from '@angular/core'
-import { TranslateService } from '@ngx-translate/core'
+  TemplateRef,
+} from '@angular/core';
+import { NgClass, NgTemplateOutlet } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
+import { UniversalSafePipe } from '../../pipes/universal-safe/universal-safe.pipe';
 
 /**
  * Represents a selector input component for checkboxes or radio buttons.
@@ -17,7 +20,7 @@ import { TranslateService } from '@ngx-translate/core'
  * Look the link about the component in original framework and the appearance
  *
  * @see {@link https://css.squidit.com.br/forms/selectors}
- * 
+ *
  * <br />
  * <div class='row'>
  *  <div class='col-md-4'>
@@ -75,7 +78,7 @@ import { TranslateService } from '@ngx-translate/core'
  *    </div>
  *  </div>
  *</div>
- * 
+ *
  * @example
  * <sq-selector
  *   [label]="'Check this box'"
@@ -88,97 +91,99 @@ import { TranslateService } from '@ngx-translate/core'
   selector: 'sq-selector',
   templateUrl: './sq-selector.component.html',
   styleUrls: ['./sq-selector.component.scss'],
+  standalone: true,
+  imports: [NgClass, NgTemplateOutlet, FormsModule, UniversalSafePipe],
 })
 export class SqSelectorComponent implements OnChanges {
   /**
    * The name attribute for the selector input.
    */
-  @Input() name = ''
+  @Input() name = '';
 
   /**
    * The type of selector: 'checkbox' or 'radio'.
    */
-  @Input() type: 'checkbox' | 'radio' = 'checkbox'
+  @Input() type: 'checkbox' | 'radio' = 'checkbox';
 
   /**
    * The id attribute for the selector input.
    */
-  @Input() id?: string
+  @Input() id?: string;
 
   /**
    * The selected value of the selector input.
    */
-  @Input() value: any = ''
+  @Input() value: any = '';
 
   /**
    * Indicates whether the selector input is checked.
    */
-  @Input() checked = false
+  @Input() checked = false;
 
   /**
    * Indicates whether the selector input is in an indeterminate state.
    */
-  @Input() indeterminate = false
+  @Input() indeterminate = false;
 
   /**
    * Indicates whether the selector input is disabled.
    */
-  @Input() disabled?: boolean
+  @Input() disabled?: boolean;
 
   /**
    * Indicates whether the selector input is readonly.
    */
-  @Input() readonly?: boolean
+  @Input() readonly?: boolean;
 
   /**
    * Indicates whether the selector input is required.
    */
-  @Input() required?: boolean
+  @Input() required?: boolean;
 
   /**
    * Text color for the selector input.
    */
-  @Input() colorText = ''
+  @Input() colorText = '';
 
   /**
    * Background color for the selector input when checked.
    */
-  @Input() colorBackground = 'green'
+  @Input() colorBackground = 'green';
 
   /**
    * Indicates whether to hide the actual input element.
    */
-  @Input() hideInput = false
+  @Input() hideInput = false;
 
   /**
    * Indicates whether the selector input supports toggle behavior.
    */
-  @Input() toggle = false
+  @Input() toggle = false;
 
   /**
    * External error message for the selector input.
    */
-  @Input() externalError = ''
+  @Input() externalError = '';
 
   /**
    * Indicates whether to use form errors for validation.
    */
-  @Input() useFormErrors = true
+  @Input() useFormErrors = true;
 
   /**
    * The label for the selector input.
    */
-  @Input() label = ''
+  @Input() label = '';
 
   /**
    * Indicates whether to display an error span.
    */
-  @Input() errorSpan = true
+  @Input() errorSpan = true;
 
   /**
    * Block (width: 100%) the selector input.
    */
-  @Input() block = false
+  @Input() block = false;
 
   /**
    * Event emitted when the value of the selector input changes.
@@ -186,45 +191,45 @@ export class SqSelectorComponent implements OnChanges {
   @Output() valueChange: EventEmitter<{
     value: any;
     checked: boolean;
-  }> = new EventEmitter()
+  }> = new EventEmitter();
 
   /**
    * Event emitted when the selector input becomes valid or invalid.
    */
-  @Output() valid: EventEmitter<boolean> = new EventEmitter()
+  @Output() valid: EventEmitter<boolean> = new EventEmitter();
 
   /**
    * Content child for the right label template.
    */
   @ContentChild('rightLabel')
-  rightLabel: TemplateRef<HTMLElement> | null = null
+  rightLabel: TemplateRef<HTMLElement> | null = null;
 
   /**
    * Content child for the left label template.
    */
   @ContentChild('leftLabel')
-  leftLabel: TemplateRef<HTMLElement> | null = null
+  leftLabel: TemplateRef<HTMLElement> | null = null;
 
   /**
    * Reference to a right-aligned label template.
    */
   @ContentChild('labelTemplate')
-  labelTemplate: TemplateRef<HTMLElement> | null = null
+  labelTemplate: TemplateRef<HTMLElement> | null = null;
 
   /**
    * Indicates whether the selector input is currently checked.
    */
-  thisChecked = false
+  thisChecked = false;
 
   /**
    * Indicates whether the selector input is in an indeterminate state.
    */
-  thisIndeterminate = false
+  thisIndeterminate = false;
 
   /**
    * Error message associated with the selector input.
    */
-  error = ''
+  error = '';
 
   /**
    * Context object containing selector properties.
@@ -232,17 +237,15 @@ export class SqSelectorComponent implements OnChanges {
   context: any = {
     checked: this.thisChecked,
     indeterminate: !this.thisChecked ? this.thisIndeterminate : false,
-    value: this.value
-  }
+    value: this.value,
+  };
 
   /**
    * Constructs a new SqSelectorComponent.
    *
    * @param {TranslateService} translate - The optional TranslateService for internationalization.
    */
-  constructor(
-    @Optional() public translate: TranslateService
-  ) { }
+  constructor(@Optional() public translate: TranslateService) {}
 
   /**
    * Lifecycle hook called when any input properties change.
@@ -251,15 +254,15 @@ export class SqSelectorComponent implements OnChanges {
    */
   async ngOnChanges(changes: SimpleChanges) {
     if (changes.hasOwnProperty('checked')) {
-      this.thisChecked = this.checked
-      this.context.checked = this.thisChecked
+      this.thisChecked = this.checked;
+      this.context.checked = this.thisChecked;
     }
     if (changes.hasOwnProperty('indeterminate')) {
-      this.thisIndeterminate = this.indeterminate
-      this.context.indeterminate = !this.thisChecked ? this.thisIndeterminate : false
+      this.thisIndeterminate = this.indeterminate;
+      this.context.indeterminate = !this.thisChecked ? this.thisIndeterminate : false;
     }
     if (changes.hasOwnProperty('value')) {
-      this.context.value = this.value
+      this.context.value = this.value;
     }
   }
 
@@ -268,13 +271,13 @@ export class SqSelectorComponent implements OnChanges {
    */
   async validate() {
     if (this.externalError) {
-      this.error = ''
+      this.error = '';
     } else if (this.required && !this.thisChecked) {
-      this.valid.emit(false)
-      this.error = await this.translate.instant('forms.required')
+      this.valid.emit(false);
+      this.error = await this.translate.instant('forms.required');
     } else {
-      this.valid.emit(true)
-      this.error = ''
+      this.valid.emit(true);
+      this.error = '';
     }
   }
 
@@ -285,7 +288,7 @@ export class SqSelectorComponent implements OnChanges {
    */
   async setError(key: string) {
     if (this.useFormErrors && this.translate) {
-      this.error = await this.translate.instant(key)
+      this.error = await this.translate.instant(key);
     }
   }
 
@@ -299,9 +302,9 @@ export class SqSelectorComponent implements OnChanges {
       this.valueChange.emit({
         value: this.value,
         checked: event?.target?.checked,
-      })
-      this.thisChecked = event?.target?.checked
+      });
+      this.thisChecked = event?.target?.checked;
     }
-    this.validate()
+    this.validate();
   }
 }

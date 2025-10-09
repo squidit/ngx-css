@@ -8,16 +8,18 @@
     block: block,
   }"
 >
-  <label [for]="id" *ngIf="leftLabel && !labelTemplate" [ngClass]="{'label-max-width': hideInput}">
-    <ng-container
-      *ngTemplateOutlet="leftLabel; context: context"
-    ></ng-container>
-  </label>
-  <label for="id" *ngIf="labelTemplate" [ngClass]="{'label-max-width': hideInput}">
-    <div *ngIf="labelTemplate">
-      <ng-container *ngTemplateOutlet="labelTemplate"></ng-container>
-    </div>
-  </label>
+  @if (leftLabel && !labelTemplate) {
+    <label [for]="id" [ngClass]="{ 'label-max-width': hideInput }">
+      <ng-container *ngTemplateOutlet="leftLabel; context: context"></ng-container>
+    </label>
+  }
+  @if (labelTemplate) {
+    <label for="id" [ngClass]="{ 'label-max-width': hideInput }">
+      <div>
+        <ng-container *ngTemplateOutlet="labelTemplate"></ng-container>
+      </div>
+    </label>
+  }
   <input
     [id]="id"
     [name]="name"
@@ -29,7 +31,7 @@
     [required]="required"
     [checked]="thisChecked"
     [ngClass]="{
-      indeterminate: !(checked || thisChecked) ? indeterminate || thisIndeterminate : null
+      indeterminate: !(checked || thisChecked) ? indeterminate || thisIndeterminate : null,
     }"
     [indeterminate]="!(checked || thisChecked) ? indeterminate || thisIndeterminate : null"
   />
@@ -37,24 +39,25 @@
     [for]="id"
     [ngClass]="{
       disabled: disabled,
-      'hide-input': hideInput
+      'hide-input': hideInput,
     }"
     class="checkbox {{ type }}"
   ></label>
-  <label [for]="id" *ngIf="label" [innerHtml]="label | universalSafe" [ngClass]="{'label-max-width': hideInput}"></label>
-  <label [for]="id" *ngIf="rightLabel" [ngClass]="{'label-max-width': hideInput}">
-    <ng-container
-      *ngTemplateOutlet="rightLabel; context: context"
-    ></ng-container>
-  </label>
+  @if (label) {
+    <label [for]="id" [innerHtml]="label | universalSafe" [ngClass]="{ 'label-max-width': hideInput }"></label>
+  }
+  @if (rightLabel) {
+    <label [for]="id" [ngClass]="{ 'label-max-width': hideInput }">
+      <ng-container *ngTemplateOutlet="rightLabel; context: context"></ng-container>
+    </label>
+  }
 </div>
-<div
-  class="box-validation box-invalid show"
-  *ngIf="errorSpan"
->
-  <ng-container *ngIf="externalError || error">
-    <i class="fa-solid fa-triangle-exclamation"></i>
-  </ng-container>
-  {{ externalError ? externalError : '' }}
-  {{ error && !externalError ? error : '' }}
-</div>
+@if (errorSpan) {
+  <div class="box-validation box-invalid show">
+    @if (externalError || error) {
+      <i class="fa-solid fa-triangle-exclamation"></i>
+    }
+    {{ externalError ? externalError : '' }}
+    {{ error && !externalError ? error : '' }}
+  </div>
+}

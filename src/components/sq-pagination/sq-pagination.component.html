@@ -1,43 +1,53 @@
-
-<div class='pagination-wrapper {{ customClass }}'>
+<div class="pagination-wrapper {{ customClass }}">
   <ul class="pagination">
-    <li class='page-item' [ngClass]="{
-      'disabled': page === 1,
-    }">
-      <button (click)='handlePageChange(page - 1)'>
+    <li
+      class="page-item"
+      [ngClass]="{
+        disabled: page === 1,
+      }"
+    >
+      <button (click)="handlePageChange(page - 1)">
         <i class="fa-solid fa-chevrons-left"></i>
       </button>
     </li>
 
-    <li class="disabled" *ngIf="showDotMin(page)">
-      <button>
-        <i class="fa-solid fa-ellipsis"></i>
-      </button>
-    </li>
-
-    <ng-container *ngFor="let p of pages">
-      <li
-        [ngClass]="{
-          'active': page === p,
-        }"
-        *ngIf="canShow(p)"
-      >
-        <button (click)='handlePageChange(p)'>
-          {{ p }}
+    @if (showDotMin(page)) {
+      <li class="disabled">
+        <button>
+          <i class="fa-solid fa-ellipsis"></i>
         </button>
       </li>
-    </ng-container>
+    }
 
-    <li class="disabled" *ngIf="showDotMax(page)">
-      <button>
-        <i class="fa-solid fa-ellipsis"></i>
-      </button>
-    </li>
+    @for (p of pages; track p) {
+      @if (canShow(p)) {
+        <li
+          [ngClass]="{
+            active: page === p,
+          }"
+        >
+          <button (click)="handlePageChange(p)">
+            {{ p }}
+          </button>
+        </li>
+      }
+    }
 
-    <li class='page-item' [ngClass]="{
-      'disabled': page >= totalPages,
-    }">
-      <button (click)='handlePageChange(page + 1)'>
+    @if (showDotMax(page)) {
+      <li class="disabled">
+        <button>
+          <i class="fa-solid fa-ellipsis"></i>
+        </button>
+      </li>
+    }
+
+    <li
+      class="page-item"
+      [ngClass]="{
+        disabled: page >= totalPages,
+      }"
+    >
+      <button (click)="handlePageChange(page + 1)">
         <i class="fa-solid fa-chevrons-right"></i>
       </button>
     </li>

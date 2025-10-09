@@ -1,46 +1,54 @@
 <div class="wrapper-all-inside-input {{ customClass }}">
-  <label
-    class="display-flex"
-    *ngIf="label?.length || tooltipMessage || labelTemplate"
-    [ngClass]="{
-      readonly: readonly
-    }"
-    [for]="id"
-  >
-    <div *ngIf="label && !labelTemplate" [ngStyle]="{ 'color': labelColor }" [innerHtml]="label | universalSafe"></div>
-    <div *ngIf="labelTemplate">
-      <ng-container *ngTemplateOutlet="labelTemplate"></ng-container>
-    </div>
-    <sq-tooltip
-      *ngIf="tooltipMessage"
-      class="ml-1"
-      [message]="tooltipMessage"
-      [placement]="tooltipPlacement"
-      [color]="tooltipColor"
-      [icon]="tooltipIcon"
-    ></sq-tooltip>
-  </label>
+  @if (label?.length || tooltipMessage || labelTemplate) {
+    <label
+      class="display-flex"
+      [ngClass]="{
+        readonly: readonly,
+      }"
+      [for]="id"
+    >
+      @if (label && !labelTemplate) {
+        <div [ngStyle]="{ color: labelColor }" [innerHtml]="label | universalSafe"></div>
+      }
+      @if (labelTemplate) {
+        <div>
+          <ng-container *ngTemplateOutlet="labelTemplate"></ng-container>
+        </div>
+      }
+      @if (tooltipMessage) {
+        <sq-tooltip
+          class="ml-1"
+          [message]="tooltipMessage"
+          [placement]="tooltipPlacement"
+          [color]="tooltipColor"
+          [icon]="tooltipIcon"
+        ></sq-tooltip>
+      }
+    </label>
+  }
   <div
     class="p-0 wrapper-input wrapper-input-squid text-ellipsisarea"
     [ngClass]="{
       error: (externalError && externalError !== '') || (error && error !== ''),
-      readonly: readonly
+      readonly: readonly,
     }"
   >
-    <span class="input-group-text m-0" *ngIf="leftLabel">
-      <ng-container *ngTemplateOutlet="leftLabel"></ng-container>
-    </span>
+    @if (leftLabel) {
+      <span class="input-group-text m-0">
+        <ng-container *ngTemplateOutlet="leftLabel"></ng-container>
+      </span>
+    }
     <textarea
       class="col textarea scrollbar"
       [ngStyle]="{
         'background-color': backgroundColor,
-        'border-color': borderColor
+        'border-color': borderColor,
       }"
       [ngClass]="{
         error: (externalError && externalError !== '') || (error && error !== ''),
         disabled: disabled,
         readonly: readonly,
-        'has-icon-external': externalIcon
+        'has-icon-external': externalIcon,
       }"
       [id]="id"
       [name]="name"
@@ -57,38 +65,43 @@
       ngDefaultControl
       >{{ value }}</textarea
     >
-    <span class="input-group-text m-0" *ngIf="rightLabel">
-      <ng-container *ngTemplateOutlet="rightLabel"></ng-container>
-    </span>
+    @if (rightLabel) {
+      <span class="input-group-text m-0">
+        <ng-container *ngTemplateOutlet="rightLabel"></ng-container>
+      </span>
+    }
   </div>
-  <span
-    *ngIf="externalIcon"
-    class="icon icon-external textarea-icon"
-    [ngClass]="{
-      'no-label': !label?.length
-    }"
-    [innerHtml]="externalIcon || '' | universalSafe"
-  ></span>
-  <div
-    class="box-validation box-invalid show"
-    *ngIf="errorSpan"
-    [ngClass]="{
-      'has-max-length': maxLength
-    }"
-  >
-    <ng-container *ngIf="externalError || error">
-      <i class="fa-solid fa-triangle-exclamation"></i>
-    </ng-container>
-    {{ externalError ? externalError : '' }}
-    {{ error && !externalError ? error : '' }}
+  @if (externalIcon) {
     <span
-      class="max-length-name"
+      class="icon icon-external textarea-icon"
       [ngClass]="{
-        'visibility-hidden-force': disabled || readonly
+        'no-label': !label?.length,
       }"
-      *ngIf="maxLength"
+      [innerHtml]="externalIcon || '' | universalSafe"
+    ></span>
+  }
+  @if (errorSpan) {
+    <div
+      class="box-validation box-invalid show"
+      [ngClass]="{
+        'has-max-length': maxLength,
+      }"
     >
-      {{ maxLength - (value?.length || 0) }}
-    </span>
-  </div>
+      @if (externalError || error) {
+        <i class="fa-solid fa-triangle-exclamation"></i>
+      }
+      {{ externalError ? externalError : '' }}
+      {{ error && !externalError ? error : '' }}
+      @if (maxLength) {
+        <span
+          class="max-length-name"
+          [ngClass]="{
+            'visibility-hidden-force': disabled || readonly,
+          }"
+        >
+          {{ maxLength - (value?.length || 0) }}
+        </span>
+      }
+    </div>
+  }
 </div>

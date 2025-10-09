@@ -2,44 +2,50 @@
   class="wrapper-input-file-squid"
   [ngClass]="{
     error: (externalError && externalError !== '') || (error && error !== ''),
-    block: block
+    block: block,
   }"
 >
-  <label
-    *ngIf="label?.length"
-    class="label"
-    [ngClass]="{
-      loading: loading
-    }"
-  >
-    {{ label }}
-  </label>
-  <label *ngIf="customContent" [for]="id" class="label-custom">
-    <ng-container *ngTemplateOutlet="customContent"></ng-container>
-  </label>
-  <label
-    *ngIf="!customContent"
-    class="placeholder button"
-    [for]="id"
-    [ngStyle]="{
-      'font-size': fontSize,
-      color: textColor,
-      'background-color': color,
-      'border-color': borderColor || textColor
-    }"
-    [ngClass]="{
-      loading: loading,
-      'p-0': noPadding
-    }"
-  >
-    <span
-      [innerHtml]="placeholder || '' | universalSafe"
-      [ngStyle]="{
-        'font-size': fontSize
+  @if (label?.length) {
+    <label
+      class="label"
+      [ngClass]="{
+        loading: loading,
       }"
-    ></span>
-    <sq-loader *ngIf="loading" color="{{ textColor }}"></sq-loader>
-  </label>
+    >
+      {{ label }}
+    </label>
+  }
+  @if (customContent) {
+    <label [for]="id" class="label-custom">
+      <ng-container *ngTemplateOutlet="customContent"></ng-container>
+    </label>
+  }
+  @if (!customContent) {
+    <label
+      class="placeholder button"
+      [for]="id"
+      [ngStyle]="{
+        'font-size': fontSize,
+        color: textColor,
+        'background-color': color,
+        'border-color': borderColor || textColor,
+      }"
+      [ngClass]="{
+        loading: loading,
+        'p-0': noPadding,
+      }"
+    >
+      <span
+        [innerHtml]="placeholder || '' | universalSafe"
+        [ngStyle]="{
+          'font-size': fontSize,
+        }"
+      ></span>
+      @if (loading) {
+        <sq-loader color="{{ textColor }}"></sq-loader>
+      }
+    </label>
+  }
   <input
     #inputFile
     type="file"
@@ -54,17 +60,22 @@
     (keydown)="keyDown($event)"
     [multiple]="multiple"
   />
-  <div
-    class="box-validation box-invalid show"
-    *ngIf="errorSpan"
-    [ngClass]="{
-      'visibility-hidden-force': ((!externalError || externalError === '') && (!error || error === '')) || disabled || readonly
-    }"
-  >
-    <i [ngClass]="{
-      'visibility-hidden-force': !error && !externalError
-    }" class="fa-solid fa-triangle-exclamation"></i>
-    {{ externalError ? externalError : '' }}
-    {{ error && !externalError ? error : '' }}
-  </div>
+  @if (errorSpan) {
+    <div
+      class="box-validation box-invalid show"
+      [ngClass]="{
+        'visibility-hidden-force':
+          ((!externalError || externalError === '') && (!error || error === '')) || disabled || readonly,
+      }"
+    >
+      <i
+        [ngClass]="{
+          'visibility-hidden-force': !error && !externalError,
+        }"
+        class="fa-solid fa-triangle-exclamation"
+      ></i>
+      {{ externalError ? externalError : '' }}
+      {{ error && !externalError ? error : '' }}
+    </div>
+  }
 </div>

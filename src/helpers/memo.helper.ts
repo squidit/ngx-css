@@ -37,51 +37,50 @@
  */
 
 export function useMemo<T extends (...args: any[]) => any>(fnToMemoize: T): T {
-  const primitiveCache = new Map<string, any>()
-  const objectCache = new WeakMap<object, any>()
+  const primitiveCache = new Map<string, any>();
+  const objectCache = new WeakMap<object, any>();
 
   return function (...args: any[]): ReturnType<T> {
-    const primitiveKeyParts: string[] = []
-    const objectKeys: object[] = []
+    const primitiveKeyParts: string[] = [];
+    const objectKeys: object[] = [];
 
     // Separar os argumentos em primitivos e objetos
     args.forEach(arg => {
       if (typeof arg === 'object' && arg !== null) {
-        objectKeys.push(arg)
+        objectKeys.push(arg);
       } else {
-        primitiveKeyParts.push(`${typeof arg}:${String(arg)}`)
+        primitiveKeyParts.push(`${typeof arg}:${String(arg)}`);
       }
-    })
+    });
 
-    const primitiveKey = primitiveKeyParts.join('|')
+    const primitiveKey = primitiveKeyParts.join('|');
 
     // Caso 1: Apenas valores primitivos
     if (objectKeys.length === 0) {
       if (primitiveCache.has(primitiveKey)) {
-        return primitiveCache.get(primitiveKey)
+        return primitiveCache.get(primitiveKey);
       }
-      const result = fnToMemoize(...args)
-      primitiveCache.set(primitiveKey, result)
-      return result
+      const result = fnToMemoize(...args);
+      primitiveCache.set(primitiveKey, result);
+      return result;
     }
 
     // Caso 2: Valores com objetos
-    let currentCache = objectCache
+    let currentCache = objectCache;
 
     for (const obj of objectKeys) {
       if (!currentCache.has(obj)) {
-        currentCache.set(obj, new WeakMap())
+        currentCache.set(obj, new WeakMap());
       }
-      currentCache = currentCache.get(obj)
+      currentCache = currentCache.get(obj);
     }
 
-    const resultKey = { key: primitiveKey }
+    const resultKey = { key: primitiveKey };
     if (!currentCache.has(resultKey)) {
-      const result = fnToMemoize(...args)
-      currentCache.set(resultKey, result)
-      return result
+      const result = fnToMemoize(...args);
+      currentCache.set(resultKey, result);
+      return result;
     }
-    return currentCache.get(resultKey)
-  } as T
+    return currentCache.get(resultKey);
+  } as T;
 }
-

@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform } from '@angular/core'
+import { Pipe, PipeTransform } from '@angular/core';
 
 /**
  * A custom Angular channel to filter an array of objects where it returns the searched value or the original value if it does not have the searched result based on a search string.
@@ -15,7 +15,7 @@ import { Pipe, PipeTransform } from '@angular/core'
  * @returns {any[]} - The filtered array of objects.
  */
 
-@Pipe({ name: 'searchValidValues' })
+@Pipe({ name: 'searchValidValues', standalone: true })
 export class SearchValidValuesPipe implements PipeTransform {
   /**
    * Transforms an array of objects with the searched value or the original value if it does not have the searched result by filtering based on a search string.
@@ -26,23 +26,23 @@ export class SearchValidValuesPipe implements PipeTransform {
    */
   transform(value: any, search: string): any {
     if (!search) {
-      return value
+      return value;
     }
     if (!value) {
-      return ''
+      return '';
     }
 
     const solution = value?.filter((v: any) => {
       if (!v) {
-        return false
+        return false;
       }
-      return JSON.stringify(v).toLowerCase().indexOf(search.toLowerCase()) > -1
-    })
+      return JSON.stringify(v).toLowerCase().indexOf(search.toLowerCase()) > -1;
+    });
 
     if (!solution?.length) {
-      return value
+      return value;
     }
 
-    return solution
+    return solution;
   }
 }

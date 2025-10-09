@@ -1,6 +1,6 @@
-import { GetWindow } from './window.helper'
-import { DOCUMENT } from '@angular/common'
-import { Inject, Injectable } from '@angular/core'
+import { GetWindow } from './window.helper';
+import { DOCUMENT } from '@angular/common';
+import { Inject, Injectable } from '@angular/core';
 
 /**
  * A utility service for working with colors in Angular applications.
@@ -27,7 +27,10 @@ export class ColorsHelper {
    * @param {Document} document - The injected DOCUMENT to get a reference to the window object in a way that's safe for SSR.
    * @param {GetWindow} getWindow - The injected GetWindow service to get the window object.
    */
-  constructor(@Inject(DOCUMENT) private document: Document, public getWindow: GetWindow) { }
+  constructor(
+    @Inject(DOCUMENT) private document: Document,
+    public getWindow: GetWindow
+  ) {}
 
   /**
    * Get the value of a CSS variable.
@@ -37,10 +40,13 @@ export class ColorsHelper {
    */
   getCssVariableValue(variableName: string): string {
     if (this.document?.documentElement) {
-      const clearVar = variableName?.replace('var(', '')?.replace(')', '')?.trim()
-      return this.getWindow.window()?.getComputedStyle(this.document?.documentElement).getPropertyValue(clearVar) || variableName
+      const clearVar = variableName?.replace('var(', '')?.replace(')', '')?.trim();
+      return (
+        this.getWindow.window()?.getComputedStyle(this.document?.documentElement).getPropertyValue(clearVar) ||
+        variableName
+      );
     }
-    return variableName
+    return variableName;
   }
 
   /**
@@ -51,36 +57,36 @@ export class ColorsHelper {
    * @returns {string} The adjusted color in hexadecimal format (e.g., '#FF5733').
    */
   lightenDarkenColor(color: string, amount: number): string {
-    color = color?.trim()
-    let colorWithoutHash = color?.replace('var(', '')?.replace(')', '')?.replace('#', '')
+    color = color?.trim();
+    let colorWithoutHash = color?.replace('var(', '')?.replace(')', '')?.replace('#', '');
     if (colorWithoutHash?.length === 3) {
       colorWithoutHash = colorWithoutHash
         .split('')
-        .map((c) => `${c}${c}`)
-        .join('')
+        .map(c => `${c}${c}`)
+        .join('');
     }
 
     const isHexColor = (value: string): boolean => {
-      const hexColorRegex = /^([a-fA-F0-9]{3}|[a-fA-F0-9]{6})$/
-      return hexColorRegex.test(value)
-    }
+      const hexColorRegex = /^([a-fA-F0-9]{3}|[a-fA-F0-9]{6})$/;
+      return hexColorRegex.test(value);
+    };
 
     if (!isHexColor(colorWithoutHash)) {
-      return colorWithoutHash
+      return colorWithoutHash;
     }
 
     const getColorChannel = (substring: string): string => {
-      let colorChannel = Math.max(Math.min(255, parseInt(substring, 16) + amount), 0).toString(16)
+      let colorChannel = Math.max(Math.min(255, parseInt(substring, 16) + amount), 0).toString(16);
       if (colorChannel?.length < 2) {
-        colorChannel = `0${colorChannel}`
+        colorChannel = `0${colorChannel}`;
       }
-      return colorChannel
-    }
+      return colorChannel;
+    };
 
-    const colorChannelRed = getColorChannel(colorWithoutHash?.substring(0, 2))
-    const colorChannelGreen = getColorChannel(colorWithoutHash?.substring(2, 4))
-    const colorChannelBlue = getColorChannel(colorWithoutHash?.substring(4, 6))
+    const colorChannelRed = getColorChannel(colorWithoutHash?.substring(0, 2));
+    const colorChannelGreen = getColorChannel(colorWithoutHash?.substring(2, 4));
+    const colorChannelBlue = getColorChannel(colorWithoutHash?.substring(4, 6));
 
-    return `#${colorChannelRed}${colorChannelGreen}${colorChannelBlue}`
+    return `#${colorChannelRed}${colorChannelGreen}${colorChannelBlue}`;
   }
 }

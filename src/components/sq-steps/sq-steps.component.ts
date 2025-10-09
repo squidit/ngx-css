@@ -1,5 +1,7 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core'
-import { Step } from '../../interfaces/step.interface'
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { NgClass, NgStyle } from '@angular/common';
+import { Step } from '../../interfaces/step.interface';
+import { SqTooltipDirective } from '../../directives/sq-tooltip/sq-tooltip.directive';
 
 /**
  * Represents a component for displaying a sequence of steps.
@@ -7,7 +9,7 @@ import { Step } from '../../interfaces/step.interface'
  * Look the link about the component in original framework and the appearance
  *
  * @see {@link https://css.squidit.com.br/components/steps}
- * 
+ *
  * <div class="steps my-3">
  *  <ul>
  *    <li class="old">
@@ -21,7 +23,7 @@ import { Step } from '../../interfaces/step.interface'
  *    </li>
  *  </ul>
  * </div>
- * 
+ *
  * @example
  * <sq-steps [active]="0" [steps]="stepArray"></sq-steps>
  *
@@ -30,32 +32,34 @@ import { Step } from '../../interfaces/step.interface'
   selector: 'sq-steps',
   templateUrl: './sq-steps.component.html',
   styleUrls: ['./sq-steps.component.scss'],
+  standalone: true,
+  imports: [NgClass, NgStyle, SqTooltipDirective],
 })
 export class SqStepsComponent {
   /**
    * The color theme for the steps component.
    */
-  @Input() color = 'var(--primary_color)'
+  @Input() color = 'var(--primary_color)';
 
   /**
    * Flag to enable or disable clicking on steps.
    */
-  @Input() click = false
+  @Input() click = false;
 
   /**
    * The index of the currently active step.
    */
-  @Input() active = 0
+  @Input() active = 0;
 
   /**
    * An array of step objects representing the steps in the sequence.
    */
-  @Input() steps: Step[] = []
+  @Input() steps: Step[] = [];
 
   /**
    * Event emitted when a step is clicked.
    */
-  @Output() emitClick: EventEmitter<{ step?: Step, i: number }> = new EventEmitter()
+  @Output() emitClick: EventEmitter<{ step?: Step; i: number }> = new EventEmitter();
 
   /**
    * Handles the click event on a step.
@@ -65,7 +69,7 @@ export class SqStepsComponent {
    */
   handleClick(index: number): void {
     if (this.click && index >= 0 && index < this.steps.length) {
-      this.emitClick.emit({ step: this.steps[index], i: index })
+      this.emitClick.emit({ step: this.steps[index], i: index });
     }
   }
 }

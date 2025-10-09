@@ -1,207 +1,202 @@
-<div 
-  class="wrapper-all-inside-input {{ customClass }}" 
-  [style.width]="width" 
-  [style.min-width]="minWidth"
->
-  <label 
-    class="display-flex align-items-center" 
-    *ngIf="label?.length || labelTemplate || tooltipMessage" 
-    [ngClass]="{ readonly: readonly || ismaxSelects }" 
-    [for]="id"
-  >
-    <div 
-      *ngIf="label && !labelTemplate" 
-      [ngStyle]="{ 'color': labelColor }" 
-      [innerHtml]="label | universalSafe">
-    </div>
-    
-    <span *ngIf="labelTemplate">
-      <ng-container *ngTemplateOutlet="labelTemplate"></ng-container>
-    </span>
-    
-    <sq-tooltip 
-      *ngIf="tooltipMessage" 
-      class="ml-1" 
-      [message]="tooltipMessage" 
-      [placement]="tooltipPlacement" 
-      [color]="tooltipColor" 
-      [icon]="tooltipIcon">
-    </sq-tooltip>
-  </label>
-  
-  <div 
-    class="wrapper-select-multi" 
+<div class="wrapper-all-inside-input {{ customClass }}" [style.width]="width" [style.min-width]="minWidth">
+  @if (label || labelTemplate || tooltipMessage) {
+    <label class="display-flex align-items-center" [ngClass]="{ readonly: readonly || ismaxSelects }" [for]="id">
+      @if (label && !labelTemplate) {
+        <div [ngStyle]="{ color: labelColor }" [innerHtml]="label | universalSafe"></div>
+      }
+
+      @if (labelTemplate) {
+        <span>
+          <ng-container *ngTemplateOutlet="labelTemplate"></ng-container>
+        </span>
+      }
+
+      @if (tooltipMessage) {
+        <sq-tooltip
+          class="ml-1"
+          [message]="tooltipMessage"
+          [placement]="tooltipPlacement"
+          [color]="tooltipColor"
+          [icon]="tooltipIcon"
+        ></sq-tooltip>
+      }
+    </label>
+  }
+
+  <div
+    class="wrapper-select-multi"
     [ngClass]="{
       error: (externalError && externalError !== '') || (error && error !== ''),
       disabled: disabled,
       readonly: readonly || ismaxSelects,
-      loading: loading
+      loading: loading,
     }"
   >
-    <div 
-      [class]="'input-fake col  border-' + borderColor" 
-      style="min-height: auto" 
-      [ngStyle]="{ 'border-color': borderColor }" 
+    <div
+      [class]="'input-fake col  border-' + borderColor"
+      style="min-height: auto"
+      [ngStyle]="{ 'border-color': borderColor }"
       [ngClass]="{
         'no-label': !(label && label.length > 0),
         'has-icon': error || externalError,
         disabled: disabled,
-        readonly: readonly || ismaxSelects
-      }" 
+        readonly: readonly || ismaxSelects,
+      }"
       [ngStyle]="{
         'background-color': backgroundColor,
-        'border-color': borderColor
-      }" 
-      [clickOutsideEnabled]="open" 
+        'border-color': borderColor,
+      }"
+      [clickOutsideEnabled]="open"
       (clickOutside)="closeDropdown()"
     >
-      <div 
-        class="input-fake-content" 
+      <div
+        class="input-fake-content"
         [ngClass]="{ disabled: disabled, readonly: readonly }"
         (click)="doDropDownAction()"
-      >  
-        <div 
-          class="loading-wrapper" 
-          *ngIf="loading">
-          <sq-loader></sq-loader>
-        </div>
-        
-        <span *ngIf="!value?.length">
-          {{ placeholder }}
-        </span>
-        
-        <div 
-          class="input-fake-content-text" 
-          *ngIf="value?.length">
-          <span class="selected-value">
-            {{ value[0]?.label }}
-            <span *ngIf="value.length > 1">
-              {{ 'forms.more' | translateInternal | async }} {{ value.length - 1 }}
-            </span>
-          </span>
-        </div>
-        
-        <i 
-          *ngIf="!loading" 
-          class="icon-down fas fa-chevron-down">
-        </i>
-      </div>
-      
-      <div 
-        *ngIf="!loading && !disabled && !readonly && !ismaxSelects && renderOptionsList" 
-        id="sq-select-multi-tags-scroll" 
-        class="input-window scrollbar" 
-        [ngClass]="{
-          open: !loading && !disabled && !ismaxSelects && renderOptionsList && open
-        }"
-      >  
-        <div class="input-search">
-          <div class="wrapper-all-inside-input">
-            <div 
-              class="p-0 wrapper-input wrapper-input-squid text-ellipsisarea">
-              <input 
-                [name]="name" 
-                [id]="id" 
-                [placeholder]="placeholderSearch || ('forms.search' | translateInternal | async) || ''" 
-                class="col input" 
-                [ngModel]="searchText" 
-                (ngModelChange)="modelChange($event)" 
-                *ngIf="!hideSearch" />
-            </div>
-            <span 
-              class="icon icon-external textarea-icon">
-              <i class='fas fa-search'></i>
+      >
+        @if (loading) {
+          <div class="loading-wrapper">
+            <sq-loader></sq-loader>
+          </div>
+        }
+
+        @if (!value?.length) {
+          <span>{{ placeholder }}</span>
+
+          <div class="input-fake-content-text">
+            <span class="selected-value">
+              {{ value[0]?.label }}
+              @if (value.length > 1) {
+                <span> {{ 'forms.more' | translateInternal | async }} {{ value.length - 1 }} </span>
+              }
             </span>
           </div>
-        </div>
-        
-        <cdk-virtual-scroll-viewport 
-          [itemSize]="cdkItemSize" 
-          [ngStyle]="{ 'height': cdkVirtualScrollViewportHeight }" 
-          class="list scrollbar"
-        >
-          <ng-container *cdkVirtualFor="let opt of _options | search:searchText; i as index; trackBy: trackByOptValue">
-            <ng-template *ngTemplateOutlet="option; context: { opt: opt, i: index }"></ng-template>
-          </ng-container>
-        </cdk-virtual-scroll-viewport>
-        
-        <ng-container *ngIf="!_options?.length">
-          <p 
-            class="mb-0 mt-3" 
-            *ngIf="!selectEmptyTemplate">
-            {{ 'forms.searchSelectEmpty' | translateInternal | async }}
-          </p>
-          <span 
-            *ngIf="selectEmptyTemplate">
-            <ng-container 
-              *ngTemplateOutlet="selectEmptyTemplate">
-            </ng-container>
-          </span>
-        </ng-container>
+        }
+
+        @if (!loading) {
+          <i class="icon-down fas fa-chevron-down"> </i>
+        }
       </div>
+
+      @if (!loading && !disabled && !readonly && !ismaxSelects && renderOptionsList) {
+        <div
+          id="sq-select-multi-tags-scroll"
+          class="input-window scrollbar"
+          [ngClass]="{
+            open: !loading && !disabled && !ismaxSelects && renderOptionsList && open,
+          }"
+        >
+          <div class="input-search">
+            <div class="wrapper-all-inside-input">
+              <div class="p-0 wrapper-input wrapper-input-squid text-ellipsisarea">
+                @if (!hideSearch) {
+                  <input
+                    [name]="name"
+                    [id]="id"
+                    [placeholder]="placeholderSearch || ('forms.search' | translateInternal | async) || ''"
+                    class="col input"
+                    [ngModel]="searchText"
+                    (ngModelChange)="modelChange($event)"
+                  />
+                }
+              </div>
+              <span class="icon icon-external textarea-icon">
+                <i class="fas fa-search"></i>
+              </span>
+            </div>
+          </div>
+
+          <cdk-virtual-scroll-viewport
+            [itemSize]="cdkItemSize"
+            [ngStyle]="{ height: cdkVirtualScrollViewportHeight }"
+            class="list scrollbar"
+          >
+            <ng-container
+              *cdkVirtualFor="let opt of _options | search: searchText; i as index; trackBy: trackByOptValue"
+            >
+              <ng-template *ngTemplateOutlet="option; context: { opt: opt, i: index }"></ng-template>
+            </ng-container>
+          </cdk-virtual-scroll-viewport>
+
+          @if (!_options?.length) {
+            @if (!selectEmptyTemplate) {
+              <p class="mb-0 mt-3">
+                {{ 'forms.searchSelectEmpty' | translateInternal | async }}
+              </p>
+            } @else {
+              <span>
+                <ng-container *ngTemplateOutlet="selectEmptyTemplate"> </ng-container>
+              </span>
+            }
+          }
+        </div>
+      }
     </div>
   </div>
-  
-  <div 
-    class="box-validation box-invalid show" 
-    *ngIf="errorSpan" 
-    [ngClass]="{
-      'visibility-hidden-force': ((!externalError || externalError === '') && (!error || error === '')) || disabled || readonly
-    }"
-  >
-    <i 
+
+  @if (errorSpan) {
+    <div
+      class="box-validation box-invalid show"
       [ngClass]="{
-        'visibility-hidden-force': !error && !externalError
-      }" 
-      class="fa-solid fa-triangle-exclamation">
-    </i>
-    {{ externalError ? externalError : '' }}
-    {{ error && !externalError ? error : '' }}
-  </div>
-  
-  <ng-template 
-    #option 
-    let-opt="opt" 
-    let-i="i"
-  >
+        'visibility-hidden-force':
+          ((!externalError || externalError === '') && (!error || error === '')) || disabled || readonly,
+      }"
+    >
+      <i
+        [ngClass]="{
+          'visibility-hidden-force': !error && !externalError,
+        }"
+        class="fa-solid fa-triangle-exclamation"
+      >
+      </i>
+      {{ externalError ? externalError : '' }}
+      {{ error && !externalError ? error : '' }}
+    </div>
+  }
+
+  <ng-template #option let-opt="opt" let-i="i">
     <li>
       <div class="label">
-        <i 
-          class="icon-collapse fas fa-chevron-down" 
-          [ngClass]="{ 'fa-rotate-by': !opt.open }" 
-          [ngStyle]="{ color: !opt?.children?.length || opt?.disabled ? 'transparent' : '' }" 
-          (click)="handleCollapse(opt)" 
-          style="--fa-rotate-angle: -90deg" 
-          *ngIf="verifyIfOptionsHasChildren(options)">
-        </i>
-        <sq-selector 
-          [style.minWidth]="'auto'" 
-          [id]="(id || name) + '-checkbox-' + opt?.value + '-' + i" 
-          [name]="name + '-checkbox'" 
-          [value]="opt?.value" 
-          [disabled]="opt?.disabled" 
-          [checked]="findItemInValue(opt, value)" 
-          [indeterminate]="verifyIfHasChildrenInValue(opt, value)" 
-          (valueChange)="emit(opt, $event.checked)">
+        @if (verifyIfOptionsHasChildren(options)) {
+          <i
+            class="icon-collapse fas fa-chevron-down"
+            [ngClass]="{ 'fa-rotate-by': !opt.open }"
+            [ngStyle]="{ color: !opt?.children?.length || opt?.disabled ? 'transparent' : '' }"
+            (click)="handleCollapse(opt)"
+            style="--fa-rotate-angle: -90deg"
+          ></i>
+        }
+
+        <sq-selector
+          [style.minWidth]="'auto'"
+          [id]="(id || name) + '-checkbox-' + opt?.value + '-' + i"
+          [name]="name + '-checkbox'"
+          [value]="opt?.value"
+          [disabled]="opt?.disabled"
+          [checked]="findItemInValue(opt, value)"
+          [indeterminate]="verifyIfHasChildrenInValue(opt, value)"
+          (valueChange)="emit(opt, $event.checked)"
+        >
         </sq-selector>
-        <span 
-          class="text m-0 display-inline-block" 
-          [ngClass]="{ 'cursor-pointer': opt?.children?.length }" 
-          (click)="handleCollapse(opt)">
+        <span
+          class="text m-0 display-inline-block"
+          [ngClass]="{ 'cursor-pointer': opt?.children?.length }"
+          (click)="handleCollapse(opt)"
+        >
           {{ opt?.label }}
         </span>
       </div>
-      <ul 
-        class="children" 
-        *ngIf="opt?.children?.length" 
-        [ngClass]="{open: !opt?.disabled && opt?.open}"
-      >
-        <ng-container *ngFor="let child of opt?.children | searchValidValues:searchText; let j = index; trackBy: trackByOptValue">
-          <ng-template 
-            *ngTemplateOutlet="option; context: { opt: child, i: j }">
-          </ng-template>
-        </ng-container>
-      </ul>
+      @if (opt?.children?.length) {
+        <ul class="children" [ngClass]="{ open: !opt?.disabled && opt?.open }">
+          @for (
+            child of opt?.children | searchValidValues: searchText;
+            track trackByOptValue(j, child);
+            let j = $index
+          ) {
+            <ng-template *ngTemplateOutlet="option; context: { opt: child, i: j }"></ng-template>
+          }
+        </ul>
+      }
     </li>
   </ng-template>
 </div>

@@ -11,7 +11,7 @@
     'border-width': borderWidth,
     'box-shadow': boxShadow,
     width: width,
-    'text-transform': textTransform
+    'text-transform': textTransform,
   }"
   [ngClass]="{
     disabled: disabled,
@@ -20,7 +20,7 @@
     'p-0': noPadding,
     'button-as-link': buttonAsLink,
     'no-underline': noUnderline,
-    'inverted': invertedHover
+    inverted: invertedHover,
   }"
   [type]="type || 'button'"
   (click)="executeFunction($event)"
@@ -28,11 +28,14 @@
   (mouseleave)="hover = false"
   [disabled]="disabled"
 >
-  <ng-content *ngIf="!hideOnLoading || (hideOnLoading && !loading)"></ng-content>
-  <sq-loader
-    class="{{ hideOnLoading ? 'hide-on-loading' : '' }}"
-    *ngIf="loading"
-    customSize="1rem"
-    color="{{ textColor }}"
-  ></sq-loader>
+  @if (!hideOnLoading || (hideOnLoading && !loading)) {
+    <ng-content></ng-content>
+  }
+  @if (loading) {
+    <sq-loader
+      class="{{ hideOnLoading ? 'hide-on-loading' : '' }}"
+      customSize="1rem"
+      color="{{ textColor }}"
+    ></sq-loader>
+  }
 </button>

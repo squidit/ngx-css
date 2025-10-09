@@ -1,7 +1,22 @@
-import { AfterViewChecked, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChildren, EventEmitter, Input, Output, QueryList } from '@angular/core'
-import { useMemo } from '../../helpers/memo.helper'
-import { SqTabComponent } from './sq-tab/sq-tab.component'
-import { Subject, takeUntil } from 'rxjs'
+import {
+  AfterViewChecked,
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ContentChildren,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  Output,
+  QueryList,
+} from '@angular/core';
+import { NgClass, NgStyle } from '@angular/common';
+import { useMemo } from '../../helpers/memo.helper';
+import { SqTabComponent } from './sq-tab/sq-tab.component';
+import { Subject, takeUntil } from 'rxjs';
+import { SqLoaderComponent } from '../sq-loader/sq-loader.component';
+import { UniversalSafePipe } from '../../pipes/universal-safe/universal-safe.pipe';
 
 /**
  * Represents a tab container component for managing a collection of tabs.
@@ -24,95 +39,97 @@ import { Subject, takeUntil } from 'rxjs'
   selector: 'sq-tabs',
   templateUrl: './sq-tabs.component.html',
   styleUrls: ['./sq-tabs.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [NgClass, NgStyle, SqLoaderComponent, UniversalSafePipe],
 })
-export class SqTabsComponent implements AfterViewInit, AfterViewChecked {
+export class SqTabsComponent implements AfterViewInit, AfterViewChecked, OnDestroy {
   /**
    * A query list of `SqTabComponent` elements representing the tabs.
    */
-  @ContentChildren(SqTabComponent) tabs: QueryList<SqTabComponent> = [] as unknown as QueryList<SqTabComponent>
+  @ContentChildren(SqTabComponent) tabs: QueryList<SqTabComponent> = [] as unknown as QueryList<SqTabComponent>;
 
   /**
    * Custom CSS class for the input element.
    */
-  @Input() customClass = ''
+  @Input() customClass = '';
 
   /**
    * The height of the tab container.
    * @default undefined
    */
-  @Input() height?: string
+  @Input() height?: string;
 
   /**
    * The maximum width of the tab container.
    * @default 'initial'
    */
-  @Input() maxWidth = 'initial'
+  @Input() maxWidth = 'initial';
 
   /**
    * The margin of the tab container.
    * @default '0 auto'
    */
-  @Input() margin = '0 auto'
+  @Input() margin = '0 auto';
 
   /**
    * Flag to indicate whether to display a line-style indicator for the selected tab.
    * @default false
    */
-  @Input() lineStyle = false
+  @Input() lineStyle = false;
 
   /**
    * The width of individual tabs.
    * @default ''
    */
-  @Input() tabWidth = ''
+  @Input() tabWidth = '';
 
   /**
    * Flag to indicate to use small size for tabs header.
    * @default true
    */
-  @Input() sm = true
+  @Input() sm = true;
 
   /**
    * Flag to hide HTML content for inactive tabs.
    * @default false
    */
-  @Input() hideHtmlForInactives = false
+  @Input() hideHtmlForInactives = false;
 
   /**
    * Event emitted when a tab is changed.
    * @eventProperty
    */
-  @Output() tabChange: EventEmitter<{ tab: SqTabComponent; index: number }> = new EventEmitter()
+  @Output() tabChange: EventEmitter<{ tab: SqTabComponent; index: number }> = new EventEmitter();
 
   /**
    * The total number of tabs in the container.
    */
-  total = 1
+  total = 1;
 
   /**
    * Subject used to manage component lifecycle and unsubscribe from observables.
    * @private
    */
-  private destroy$ = new Subject<void>()
+  private destroy$ = new Subject<void>();
 
   /**
    * Creates an instance of SqTabsComponent.
    * @param cdr - The ChangeDetectorRef service for manual change detection control.
    */
-  constructor(private cdr: ChangeDetectorRef) { }
+  constructor(private cdr: ChangeDetectorRef) {}
 
   /**
    * Angular lifecycle hook called after component's view has been initialized.
    * Sets up initial tab selection and subscriptions.
    */
   ngAfterViewInit() {
-    this.setupTabsSubscription()
+    this.setupTabsSubscription();
 
     const activeTab = {
       tab: this.tabs.find((tab: { active: any }) => tab.active),
       index: this.tabs.toArray().findIndex((tab: { active: any }) => tab.active),
-    }
+    };
 
     /**
      * setTimeout sem delay para:
@@ -122,14 +139,14 @@ export class SqTabsComponent implements AfterViewInit, AfterViewChecked {
      */
     setTimeout(() => {
       if (activeTab.tab?.title) {
-        this.selectTab(activeTab.tab, activeTab.index)
+        this.selectTab(activeTab.tab, activeTab.index);
       } else if (this.tabs.first) {
-        this.selectTab(this.tabs.first, 0)
+        this.selectTab(this.tabs.first, 0);
       }
 
-      this.total = this.tabs.toArray().length || 1
-      this.cdr.markForCheck()
-    })
+      this.total = this.tabs.toArray().length || 1;
+      this.cdr.markForCheck();
+    });
   }
 
   /**
@@ -138,8 +155,8 @@ export class SqTabsComponent implements AfterViewInit, AfterViewChecked {
    */
   ngAfterViewChecked(): void {
     if (this.tabs.toArray().length !== this.total) {
-      this.total = this.tabs.toArray().length || 1
-      this.cdr.markForCheck()
+      this.total = this.tabs.toArray().length || 1;
+      this.cdr.markForCheck();
     }
   }
 
@@ -148,8 +165,8 @@ export class SqTabsComponent implements AfterViewInit, AfterViewChecked {
    * Cleans up subscriptions to prevent memory leaks.
    */
   ngOnDestroy(): void {
-    this.destroy$.next()
-    this.destroy$.complete()
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   /**
@@ -161,29 +178,29 @@ export class SqTabsComponent implements AfterViewInit, AfterViewChecked {
    */
   selectTab(tab: SqTabComponent, index: number): null {
     if (tab?.disabled || tab?.loading) {
-      return null
+      return null;
     }
 
     this.tabs.toArray().forEach((tabItem: { active: boolean; hideHtml: boolean }) => {
-      tabItem.active = false
+      tabItem.active = false;
       if (this.hideHtmlForInactives) {
-        tabItem.hideHtml = true
+        tabItem.hideHtml = true;
       }
-    })
+    });
 
     if (tab) {
-      tab.active = true
-      tab.hideHtml = false
+      tab.active = true;
+      tab.hideHtml = false;
 
-      this.tabChange.emit({ tab, index })
+      this.tabChange.emit({ tab, index });
 
       if (tab.whenOpen) {
-        tab.whenOpen.emit()
+        tab.whenOpen.emit();
       }
     }
 
-    this.cdr.markForCheck()
-    return null
+    this.cdr.markForCheck();
+    return null;
   }
 
   /**
@@ -197,13 +214,13 @@ export class SqTabsComponent implements AfterViewInit, AfterViewChecked {
    */
   memoizedTabWidth = useMemo((tabWidth: string, lineStyle: boolean): string => {
     if (tabWidth) {
-      return tabWidth
+      return tabWidth;
     }
     if (lineStyle) {
-      return 'fit-content'
+      return 'fit-content';
     }
-    return 'initial'
-  })
+    return 'initial';
+  });
 
   /**
    * Sets up subscription to track changes in the tabs QueryList.
@@ -211,11 +228,9 @@ export class SqTabsComponent implements AfterViewInit, AfterViewChecked {
    * @private
    */
   private setupTabsSubscription(): void {
-    this.tabs.changes
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => {
-        this.total = this.tabs.toArray().length || 1
-        this.cdr.markForCheck()
-      })
+    this.tabs.changes.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      this.total = this.tabs.toArray().length || 1;
+      this.cdr.markForCheck();
+    });
   }
 }
