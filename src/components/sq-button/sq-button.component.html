@@ -3,9 +3,9 @@
   class="button button-{{ color }} button-{{ size }}"
   [ngStyle]="{
     'font-size': fontSize,
-    color: doHoverAction('text'),
-    'background-color': doHoverAction('background'),
-    'border-color': doHoverAction('border'),
+    color: doHoverAction('text', textColor),
+    'background-color': doHoverAction('background', color),
+    'border-color': doHoverAction('border', borderColor),
     'border-style': borderStyle,
     'border-radius': borderRadius,
     'border-width': borderWidth,
