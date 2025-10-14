@@ -180,11 +180,11 @@ export class SqButtonComponent {
    * Determines the text color when hovering.
    * @returns The text color when hovering.
    */
-  doHoverOnText() {
+  doHoverOnText(textColor: string) {
     if (this.hover) {
       return this.setHoverText();
     }
-    return this.textColor;
+    return textColor;
   }
 
   /**
@@ -202,11 +202,11 @@ export class SqButtonComponent {
    * Determines the border color when hovering.
    * @returns The border color when hovering.
    */
-  doHoverOnBorder() {
+  doHoverOnBorder(borderColor: string) {
     if (this.hover) {
-      return this.setHover(this.borderColor || this.textColor || '');
+      return this.setHover(borderColor || this.textColor || '');
     }
-    return this.borderColor || this.textColor || '';
+    return borderColor || this.textColor || '';
   }
 
   /**
@@ -221,11 +221,11 @@ export class SqButtonComponent {
 
     switch (type) {
       case 'text':
-        return this.doHoverOnText();
+        return this.doHoverOnText(currentColor);
       case 'background':
         return this.doHoverOnBackground(currentColor);
       case 'border':
-        return this.doHoverOnBorder();
+        return this.doHoverOnBorder(currentColor);
       default:
         return '';
     }
@@ -255,11 +255,11 @@ export class SqButtonComponent {
    * Sets the hover text color.
    * @returns The text color with the hover effect applied.
    */
-  setHoverText() {
+  setHoverText(textColor: string) {
     if (this.invertedHover) {
-      return this.setHover(this.color !== 'transparent' ? this.color : 'var(--color_bg_button_inverse-hover)');
+      return this.setHover(textColor !== 'transparent' ? textColor : 'var(--color_bg_button_inverse-hover)');
     }
-    return this.setHover(this.textColor !== 'transparent' ? this.textColor || '' : 'var(--text_color)');
+    return this.setHover(textColor !== 'transparent' ? textColor || '' : 'var(--text_color)');
   }
 
   /**
