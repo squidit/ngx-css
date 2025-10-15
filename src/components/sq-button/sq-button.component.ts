@@ -45,7 +45,7 @@ export class SqButtonComponent {
   /**
    * The border color of the button.
    */
-  @Input() borderColor = 'var(--primary_color)';
+  @Input() borderColor = '';
 
   /**
    * The border style of the button.
