@@ -222,7 +222,7 @@ export class SqButtonComponent {
 
     switch (type) {
       case 'text':
-        return '#fff'
+        return this.doHoverOnText(currentColor);
       case 'background':
         return this.doHoverOnBackground(currentColor);
       case 'border':
