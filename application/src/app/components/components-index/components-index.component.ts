@@ -51,6 +51,21 @@ export class ComponentsIndexComponent {
       ],
     },
     {
+      title: 'sq-selector-form-control',
+      description: 'Componente de checkbox, radio e toggle baseado em Reactive Forms',
+      icon: '✅',
+      status: 'new',
+      route: '/selector-comparison',
+      features: [
+        'Checkbox, Radio e Toggle',
+        'Reactive Forms integrado',
+        'Cores customizáveis',
+        'Estado indeterminado',
+        'Templates customizados',
+        'ChangeDetectionStrategy.OnPush',
+      ],
+    },
+    {
       title: 'sq-validation-message',
       description: 'Componente reutilizável para exibir mensagens de validação de formulários',
       icon: '⚠️',
@@ -93,6 +108,14 @@ export class ComponentsIndexComponent {
       status: 'legacy',
       route: '/date-comparison',
       features: ['Two-way binding', 'minDate/maxDate básico', 'Mantido para compatibilidade'],
+    },
+    {
+      title: 'sq-selector (Legacy)',
+      description: 'Componente legado de seletor - use sq-selector-form-control em novos projetos',
+      icon: '🔴',
+      status: 'legacy',
+      route: '/selector-comparison',
+      features: ['Two-way binding', 'Checkbox/Radio/Toggle', 'Mantido para compatibilidade'],
     },
   ];
 

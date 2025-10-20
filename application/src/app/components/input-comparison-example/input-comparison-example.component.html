@@ -1,26 +1,26 @@
 <div class="container-fluid">
   <app-breadcrumb [items]="breadcrumbItems"></app-breadcrumb>
 
-  <div class="content-wrapper py-5">
-    <div class="row">
-      <div class="col-12">
+  <div class="content-wrapper">
+    <div class="row no-spacings">
+      <div class="col-24">
         <h1 class="mb-2">🎯 Comparação: sq-input vs sq-input-form-control</h1>
-        <p class="lead mb-5">Demonstração completa dos dois componentes em diversas situações</p>
+        <p class="lead mb-2">Demonstração completa dos dois componentes em diversas situações</p>
       </div>
     </div>
 
     <!-- SEÇÃO 1: Comparação Básica -->
-    <div class="row mb-5">
-      <div class="col-12">
+    <div class="row no-spacings">
+      <div class="col-24">
         <div class="card">
           <div class="card-header">
             <h2>1️⃣ Comparação Básica</h2>
             <p class="mb-0">Input simples lado a lado</p>
           </div>
           <div class="card-body">
-            <div class="row">
+            <div class="row no-spacings">
               <!-- Componente Antigo -->
-              <div class="col-md-6">
+              <div class="col-md-12">
                 <div class="component-demo old-component">
                   <h5 class="mb-3"><span class="badge bg-secondary">ANTIGO</span> sq-input</h5>
                   <sq-input
@@ -36,7 +36,7 @@
               </div>
 
               <!-- Componente Novo -->
-              <div class="col-md-6">
+              <div class="col-md-12">
                 <div class="component-demo new-component">
                   <h5 class="mb-3"><span class="badge bg-success">NOVO</span> sq-input-form-control</h5>
                   <sq-input-form-control
@@ -61,8 +61,8 @@
     </div>
 
     <!-- SEÇÃO 2: Validações por Tipo -->
-    <div class="row mb-5">
-      <div class="col-12">
+    <div class="row mb-2">
+      <div class="col-24">
         <div class="card">
           <div class="card-header">
             <h2>2️⃣ Validações Automáticas por Tipo</h2>
@@ -71,7 +71,7 @@
           <div class="card-body">
             <!-- Email -->
             <div class="row mb-4">
-              <div class="col-md-6">
+              <div class="col-md-12">
                 <div class="component-demo old-component">
                   <h6 class="mb-3"><span class="badge bg-secondary">ANTIGO</span> Email - Validação Interna</h6>
                   <sq-input
@@ -89,7 +89,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-md-6">
+              <div class="col-md-12">
                 <div class="component-demo new-component">
                   <h6 class="mb-3">
                     <span class="badge bg-success">NOVO</span> Email - Validator Automático + sq-validation-message
@@ -113,7 +113,7 @@
 
             <!-- Telefone -->
             <div class="row mb-4">
-              <div class="col-md-6">
+              <div class="col-md-12">
                 <div class="component-demo old-component">
                   <h6 class="mb-3"><span class="badge bg-secondary">ANTIGO</span> Telefone</h6>
                   <sq-input
@@ -125,7 +125,7 @@
                   ></sq-input>
                 </div>
               </div>
-              <div class="col-md-6">
+              <div class="col-md-12">
                 <div class="component-demo new-component">
                   <h6 class="mb-3"><span class="badge bg-success">NOVO</span> Telefone</h6>
                   <sq-input-form-control
@@ -142,7 +142,7 @@
 
             <!-- URL -->
             <div class="row mb-4">
-              <div class="col-md-6">
+              <div class="col-md-12">
                 <div class="component-demo old-component">
                   <h6 class="mb-3"><span class="badge bg-secondary">ANTIGO</span> URL</h6>
                   <sq-input
@@ -154,7 +154,7 @@
                   ></sq-input>
                 </div>
               </div>
-              <div class="col-md-6">
+              <div class="col-md-12">
                 <div class="component-demo new-component">
                   <h6 class="mb-3"><span class="badge bg-success">NOVO</span> URL</h6>
                   <sq-input-form-control
@@ -169,8 +169,8 @@
             </div>
 
             <!-- Email Múltiplo -->
-            <div class="row">
-              <div class="col-md-6">
+            <div class="row no-spacings">
+              <div class="col-md-12">
                 <div class="component-demo old-component">
                   <h6 class="mb-3"><span class="badge bg-secondary">ANTIGO</span> Email Múltiplo</h6>
                   <sq-input
@@ -182,7 +182,7 @@
                   ></sq-input>
                 </div>
               </div>
-              <div class="col-md-6">
+              <div class="col-md-12">
                 <div class="component-demo new-component">
                   <h6 class="mb-3"><span class="badge bg-success">NOVO</span> Email Múltiplo</h6>
                   <sq-input-form-control
@@ -209,8 +209,8 @@
     </div>
 
     <!-- SEÇÃO 3: Validações Brasileiras -->
-    <div class="row mb-5">
-      <div class="col-12">
+    <div class="row mb-2">
+      <div class="col-24">
         <div class="card">
           <div class="card-header">
             <h2>3️⃣ Validações Brasileiras (CPF e CNPJ)</h2>
@@ -219,9 +219,9 @@
             </p>
           </div>
           <div class="card-body">
-            <div class="row">
+            <div class="row no-spacings">
               <!-- CPF -->
-              <div class="col-md-6 mb-3">
+              <div class="col-md-12 mb-3">
                 <div class="component-demo new-component">
                   <h6 class="mb-3"><span class="badge bg-success">NOVO</span> CPF</h6>
                   <sq-input-form-control
@@ -241,7 +241,7 @@
               </div>
 
               <!-- CNPJ -->
-              <div class="col-md-6 mb-3">
+              <div class="col-md-12 mb-3">
                 <div class="component-demo new-component">
                   <h6 class="mb-3"><span class="badge bg-success">NOVO</span> CNPJ</h6>
                   <sq-input-form-control
@@ -282,8 +282,8 @@
     </div>
 
     <!-- SEÇÃO 4: Formulário Completo - Antigo -->
-    <div class="row mb-5">
-      <div class="col-12">
+    <div class="row mb-2">
+      <div class="col-24">
         <div class="card">
           <div class="card-header">
             <h2>4️⃣ Formulário Completo - Componente Antigo</h2>
@@ -292,8 +292,8 @@
           <div class="card-body">
             <div class="component-demo old-component">
               <form (ngSubmit)="onOldFormSubmit()">
-                <div class="row">
-                  <div class="col-md-6 mb-3">
+                <div class="row no-spacings">
+                  <div class="col-md-12 mb-3">
                     <sq-input
                       [(value)]="oldFormData.name"
                       [label]="'Nome Completo'"
@@ -301,7 +301,7 @@
                       [required]="true"
                     ></sq-input>
                   </div>
-                  <div class="col-md-6 mb-3">
+                  <div class="col-md-12 mb-3">
                     <sq-input
                       [(value)]="oldFormData.email"
                       [type]="'email'"
@@ -359,8 +359,8 @@
     </div>
 
     <!-- SEÇÃO 5: Formulário Completo - Novo -->
-    <div class="row mb-5">
-      <div class="col-12">
+    <div class="row mb-2">
+      <div class="col-24">
         <div class="card">
           <div class="card-header">
             <h2>5️⃣ Formulário Completo - Componente Novo</h2>
@@ -369,8 +369,8 @@
           <div class="card-body">
             <div class="component-demo new-component">
               <form [formGroup]="newForm" (ngSubmit)="onNewFormSubmit()">
-                <div class="row">
-                  <div class="col-md-6 mb-3">
+                <div class="row no-spacings">
+                  <div class="col-md-12 mb-3">
                     <sq-input-form-control
                       formControlName="name"
                       [label]="'Nome Completo'"
@@ -380,7 +380,7 @@
                       <small class="text-danger">{{ getErrorMessage('name') }}</small>
                     }
                   </div>
-                  <div class="col-md-6 mb-3">
+                  <div class="col-md-12 mb-3">
                     <sq-input-form-control
                       formControlName="email"
                       [type]="'email'"
@@ -433,7 +433,7 @@
 
                 <div class="mt-4 p-3 bg-light rounded">
                   <h6>Estado do Formulário:</h6>
-                  <div class="row">
+                  <div class="row no-spacings">
                     <div class="col-md-4">
                       <strong>Válido:</strong>
                       <span [class]="newForm.valid ? 'text-success' : 'text-danger'">
@@ -470,15 +470,15 @@
     </div>
 
     <!-- SEÇÃO 6: Estados e Customizações -->
-    <div class="row mb-5">
-      <div class="col-12">
+    <div class="row mb-2">
+      <div class="col-24">
         <div class="card">
           <div class="card-header">
             <h2>6️⃣ Estados e Customizações</h2>
             <p class="mb-0">Disabled, Readonly, MaxLength</p>
           </div>
           <div class="card-body">
-            <div class="row">
+            <div class="row no-spacings">
               <div class="col-md-4 mb-3">
                 <div class="component-demo new-component">
                   <sq-input-form-control
@@ -517,16 +517,16 @@
     </div>
 
     <!-- SEÇÃO 7: Debounce -->
-    <div class="row mb-5">
-      <div class="col-12">
+    <div class="row mb-2">
+      <div class="col-24">
         <div class="card">
           <div class="card-header">
             <h2>7️⃣ Debounce / timeToChange</h2>
             <p class="mb-0">Útil para campos de busca</p>
           </div>
           <div class="card-body">
-            <div class="row">
-              <div class="col-md-6 mb-3">
+            <div class="row no-spacings">
+              <div class="col-md-12 mb-3">
                 <div class="component-demo old-component">
                   <h6 class="mb-3"><span class="badge bg-secondary">ANTIGO</span> Com Debounce (500ms)</h6>
                   <sq-input
@@ -538,7 +538,7 @@
                   ></sq-input>
                 </div>
               </div>
-              <div class="col-md-6 mb-3">
+              <div class="col-md-12 mb-3">
                 <div class="component-demo new-component">
                   <h6 class="mb-3"><span class="badge bg-success">NOVO</span> Com Debounce (500ms)</h6>
                   <sq-input-form-control
@@ -576,8 +576,8 @@
     </div>
 
     <!-- SEÇÃO 8: Validações Customizadas -->
-    <div class="row mb-5">
-      <div class="col-12">
+    <div class="row mb-2">
+      <div class="col-24">
         <div class="card">
           <div class="card-header">
             <h2>8️⃣ Validações Customizadas</h2>
@@ -585,9 +585,9 @@
           </div>
           <div class="card-body">
             <div class="component-demo new-component">
-              <div class="row">
+              <div class="row no-spacings">
                 <!-- Username com validação customizada -->
-                <div class="col-md-6 mb-3">
+                <div class="col-md-12 mb-3">
                   <sq-input-form-control
                     [formControl]="usernameControl"
                     [label]="'Username'"
@@ -609,7 +609,7 @@
                 </div>
 
                 <!-- Senha com indicador de força -->
-                <div class="col-md-6 mb-3">
+                <div class="col-md-12 mb-3">
                   <sq-input-form-control
                     [formControl]="passwordControl"
                     [type]="'password'"
@@ -664,8 +664,8 @@
     </div>
 
     <!-- SEÇÃO 9: Diretiva sqValidation -->
-    <div class="row mb-5">
-      <div class="col-12">
+    <div class="row mb-2">
+      <div class="col-24">
         <div class="card">
           <div class="card-header">
             <h2>9️⃣ Diretiva sqValidation - Validação Automática 🎯</h2>
@@ -684,9 +684,9 @@
               </p>
             </div>
 
-            <div class="row">
+            <div class="row no-spacings">
               <!-- Sem Diretiva (Manual) -->
-              <div class="col-md-6 mb-3">
+              <div class="col-md-12 mb-3">
                 <div class="component-demo old-component">
                   <h6 class="mb-3"><span class="badge bg-secondary">SEM Diretiva</span> Manual</h6>
                   <sq-input-form-control
@@ -706,7 +706,7 @@
               </div>
 
               <!-- Com Diretiva (Automático) -->
-              <div class="col-md-6 mb-3">
+              <div class="col-md-12 mb-3">
                 <div class="component-demo new-component">
                   <h6 class="mb-3"><span class="badge bg-success">COM Diretiva</span> Automático!</h6>
                   <sq-input-form-control
@@ -794,15 +794,15 @@
     </div>
 
     <!-- SEÇÃO 10: Resumo das Vantagens -->
-    <div class="row mb-5">
-      <div class="col-12">
+    <div class="row mb-2">
+      <div class="col-24">
         <div class="card">
           <div class="card-header">
             <h2>🔟 Resumo: Por que usar o novo componente?</h2>
           </div>
           <div class="card-body">
-            <div class="row">
-              <div class="col-md-6">
+            <div class="row no-spacings">
+              <div class="col-md-12">
                 <h5 class="text-secondary"><i class="fa-solid fa-circle-xmark"></i> sq-input (Antigo)</h5>
                 <ul class="list-unstyled">
                   <li class="mb-2">
@@ -827,7 +827,7 @@
                   </li>
                 </ul>
               </div>
-              <div class="col-md-6">
+              <div class="col-md-12">
                 <h5 class="text-success"><i class="fa-solid fa-circle-check"></i> sq-input-form-control (Novo)</h5>
                 <ul class="list-unstyled">
                   <li class="mb-2">

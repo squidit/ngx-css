@@ -1,4 +1,13 @@
-import { Directive, Input, OnChanges, Renderer2, SimpleChanges, TemplateRef, ViewContainerRef } from '@angular/core';
+import {
+  Directive,
+  Input,
+  OnChanges,
+  Renderer2,
+  SimpleChanges,
+  TemplateRef,
+  ViewContainerRef,
+  inject,
+} from '@angular/core';
 
 /**
  * Angular directive for creating customizable skeleton loading placeholders.
@@ -69,16 +78,19 @@ export class SqSkeletonDirective implements OnChanges {
   private skeletonElements: HTMLElement[] = [];
 
   /**
-   * Creates an instance of SqSkeletonDirective.
-   * @param templateRef - Reference to the template where the directive is applied.
-   * @param viewContainer - Container where the skeleton or content will be rendered.
-   * @param renderer - Renderer2 service for manipulating the DOM.
+   * Reference to the template where the directive is applied.
    */
-  constructor(
-    private templateRef: TemplateRef<any>,
-    private viewContainer: ViewContainerRef,
-    private renderer: Renderer2
-  ) {}
+  private templateRef = inject(TemplateRef);
+
+  /**
+   * Container where the skeleton or content will be rendered.
+   */
+  private viewContainer = inject(ViewContainerRef);
+
+  /**
+   * Renderer2 service for manipulating the DOM.
+   */
+  private renderer = inject(Renderer2);
 
   /**
    * Angular lifecycle hook that responds to changes in input properties.

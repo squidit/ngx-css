@@ -1,6 +1,6 @@
 import { GetWindow } from './window.helper';
 import { DOCUMENT } from '@angular/common';
-import { Inject, Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 
 /**
  * A utility service for working with colors in Angular applications.
@@ -22,15 +22,14 @@ import { Inject, Injectable } from '@angular/core';
 })
 export class ColorsHelper {
   /**
-   * Initializes a new instance of the `ColorsHelper` class.
-   * @constructor
-   * @param {Document} document - The injected DOCUMENT to get a reference to the window object in a way that's safe for SSR.
-   * @param {GetWindow} getWindow - The injected GetWindow service to get the window object.
+   * The injected DOCUMENT to get a reference to the window object in a way that's safe for SSR.
    */
-  constructor(
-    @Inject(DOCUMENT) private document: Document,
-    public getWindow: GetWindow
-  ) {}
+  private document = inject(DOCUMENT);
+
+  /**
+   * The injected GetWindow service to get the window object.
+   */
+  public getWindow = inject(GetWindow);
 
   /**
    * Get the value of a CSS variable.

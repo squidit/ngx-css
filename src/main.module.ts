@@ -29,6 +29,7 @@ import { SqSelectMultiComponent } from './components/sq-select-multi/sq-select-m
 import { SqSelectSearchComponent } from './components/sq-select-search/sq-select-search.component';
 import { SqSelectComponent } from './components/sq-select/sq-select.component';
 import { SqSelectorComponent } from './components/sq-selector/sq-selector.component';
+import { SqSelectorFormControlComponent } from './components/sq-selector-form-control/sq-selector-form-control.component';
 import { SqStepsComponent } from './components/sq-steps/sq-steps.component';
 import { SqTabComponent } from './components/sq-tabs/sq-tab/sq-tab.component';
 import { SqTabsComponent } from './components/sq-tabs/sq-tabs.component';
@@ -97,9 +98,10 @@ const standaloneComponents = [
   SqOverlayComponent,
   SqPaginationComponent,
 
-  // Selection Components (6)
+  // Selection Components (7)
   SqSelectComponent,
   SqSelectorComponent,
+  SqSelectorFormControlComponent,
   SqSelectSearchComponent,
   SqSelectMultiTagsComponent,
   SqSelectMultiComponent,

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { InputComparisonExampleComponent } from './components/input-comparison-example/input-comparison-example.component';
 import { DateComparisonExampleComponent } from './components/date-comparison-example/date-comparison-example.component';
+import { SelectorComparisonExampleComponent } from './components/selector-comparison-example/selector-comparison-example.component';
 import { ComponentsIndexComponent } from './components/components-index/components-index.component';
 
 export const routes: Routes = [
@@ -24,6 +25,11 @@ export const routes: Routes = [
     path: 'date-comparison',
     component: DateComparisonExampleComponent,
     title: 'Comparação: sq-input-date vs sq-input-date-form-control',
+  },
+  {
+    path: 'selector-comparison',
+    component: SelectorComparisonExampleComponent,
+    title: 'Comparação: sq-selector vs sq-selector-form-control',
   },
 ];
 

@@ -1,0 +1,345 @@
+// Floating Action Button
+.fab-back {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 999;
+  cursor: pointer;
+
+  i {
+    font-size: 1.25rem;
+    transition: transform 0.3s ease;
+  }
+
+  &:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+    color: white;
+
+    i {
+      transform: translateX(-3px);
+    }
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  // Animação de entrada
+  animation: fadeInUp 0.5s ease-out 0.5s both;
+}
+
+// Animação de entrada do FAB
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Responsividade do FAB
+@media (max-width: 768px) {
+  .fab-back {
+    bottom: 1.5rem;
+    right: 1.5rem;
+    width: 48px;
+    height: 48px;
+
+    i {
+      font-size: 1.1rem;
+    }
+  }
+}
+
+// MÁXIMO APROVEITAMENTO DE ESPAÇO - Squid CSS
+::ng-deep {
+  .container-fluid {
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  // Usa a classe no-spacings do Squid CSS
+  .row.no-spacings {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+
+    > * {
+      padding-left: 0.25rem !important;
+      padding-right: 0.25rem !important;
+    }
+  }
+
+  .row:not(.no-spacings) {
+    margin-left: -0.25rem !important;
+    margin-right: -0.25rem !important;
+
+    > * {
+      padding-left: 0.25rem !important;
+      padding-right: 0.25rem !important;
+    }
+  }
+}
+
+.content-wrapper {
+  padding: 0.5rem 0 !important;
+  max-width: 100% !important;
+  width: 100% !important;
+  margin: 0 !important;
+}
+
+// Comparison Card
+.comparison-card {
+  background: white;
+  border-radius: 6px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  margin-bottom: 0.75rem;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  }
+
+  .comparison-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 0.65rem 0.75rem;
+
+    h2 {
+      margin: 0;
+      font-size: 1.1rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      line-height: 1.3;
+
+      .badge {
+        font-size: 0.8rem;
+        padding: 0.3rem 0.55rem;
+      }
+    }
+  }
+}
+
+// Component Demo
+.component-demo {
+  padding: 0.65rem;
+  border-radius: 4px;
+  background: #f8f9fa;
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+
+  &.old {
+    border: 2px solid #6c757d;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  }
+
+  &.new {
+    border: 2px solid #667eea;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e7f3ff 100%);
+  }
+
+  .component-label {
+    font-weight: 600;
+    font-size: 0.85rem;
+    margin-bottom: 0.6rem;
+    padding: 0.4rem 0.65rem;
+    border-radius: 4px;
+    display: inline-block;
+    align-self: flex-start;
+    line-height: 1.2;
+
+    .old & {
+      background: #6c757d;
+      color: white;
+    }
+
+    .new & {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+  }
+
+  .demo-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+// Radio Group Styles
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  ::ng-deep .wrapper-selectors {
+    margin-bottom: 0.5rem;
+  }
+}
+
+// Alert Customizations
+.alert {
+  border-radius: 12px;
+  border: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+  &.alert-info {
+    background: linear-gradient(135deg, #d1ecf1 0%, #bee5eb 100%);
+    color: #0c5460;
+  }
+
+  &.alert-success {
+    background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+    color: #155724;
+  }
+
+  h4,
+  h5,
+  h6 {
+    margin-top: 0;
+  }
+
+  ul {
+    margin-bottom: 0.5rem;
+  }
+}
+
+// Pre/Code Styles
+pre {
+  background: #2d3748;
+  color: #e2e8f0;
+  padding: 1rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  overflow-x: auto;
+}
+
+code {
+  background: #f1f3f5;
+  color: #667eea;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  font-size: 0.9em;
+  font-weight: 500;
+}
+
+// Badge Customization
+.badge {
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+}
+
+// Text Color Utilities
+.text-info {
+  color: #17a2b8 !important;
+}
+
+.text-success {
+  color: #28a745 !important;
+}
+
+.text-danger {
+  color: #dc3545 !important;
+}
+
+.text-muted {
+  color: #6c757d !important;
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .content-wrapper {
+    padding: 0.5rem;
+  }
+
+  .comparison-card {
+    margin-bottom: 1.25rem;
+
+    .comparison-header {
+      padding: 1rem;
+
+      h2 {
+        font-size: 1.25rem;
+
+        .badge {
+          font-size: 0.9rem;
+          padding: 0.35rem 0.6rem;
+        }
+      }
+    }
+  }
+
+  .component-demo {
+    padding: 1rem;
+    min-height: auto;
+
+    .component-label {
+      font-size: 0.9rem;
+      padding: 0.5rem 0.7rem;
+      margin-bottom: 0.75rem;
+    }
+  }
+
+  .radio-group {
+    gap: 0.6rem;
+  }
+}
+
+// Animation for cards
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.comparison-card {
+  animation: slideInUp 0.6s ease-out both;
+
+  &:nth-child(1) {
+    animation-delay: 0.1s;
+  }
+  &:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+  &:nth-child(3) {
+    animation-delay: 0.3s;
+  }
+  &:nth-child(4) {
+    animation-delay: 0.4s;
+  }
+  &:nth-child(5) {
+    animation-delay: 0.5s;
+  }
+  &:nth-child(6) {
+    animation-delay: 0.6s;
+  }
+  &:nth-child(7) {
+    animation-delay: 0.7s;
+  }
+}
+

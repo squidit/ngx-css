@@ -8,6 +8,7 @@ import {
   Input,
   OnChanges,
   SimpleChanges,
+  inject,
 } from '@angular/core';
 /**
  * Directive that emits an event when a click occurs outside of the bound element.
@@ -39,15 +40,14 @@ export class SqClickOutsideDirective implements OnDestroy, OnChanges {
   listener!: () => void;
 
   /**
-   * Constructs a new SqClickOutsideDirective.
-   *
-   * @param {ElementRef} elementRef - The ElementRef of the bound element.
-   * @param {Renderer2} renderer - The Renderer2 for DOM manipulation.
+   * The ElementRef of the bound element.
    */
-  constructor(
-    private elementRef: ElementRef,
-    private renderer: Renderer2
-  ) {}
+  private elementRef = inject(ElementRef);
+
+  /**
+   * The Renderer2 for DOM manipulation.
+   */
+  private renderer = inject(Renderer2);
 
   /**
    * Lifecycle hook that handles changes to the clickOutsideEnabled property.

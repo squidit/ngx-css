@@ -32,6 +32,7 @@ export * from './components/sq-select-multi/sq-select-multi.component';
 export * from './components/sq-select-search/sq-select-search.component';
 export * from './components/sq-select/sq-select.component';
 export * from './components/sq-selector/sq-selector.component';
+export * from './components/sq-selector-form-control/sq-selector-form-control.component';
 export * from './components/sq-textarea/sq-textarea.component';
 
 export * from './directives/sq-click-outside/sq-click-outside.directive';
