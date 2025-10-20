@@ -1,0 +1,216 @@
+// Floating Action Button
+.fab-back {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 999;
+  cursor: pointer;
+
+  i {
+    font-size: 1.25rem;
+    transition: transform 0.3s ease;
+  }
+
+  &:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+    color: white;
+
+    i {
+      transform: translateX(-3px);
+    }
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+// Animação de entrada do FAB
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fab-back {
+  animation: fadeInUp 0.5s ease-out 0.5s both;
+}
+
+// Responsividade do FAB
+@media (max-width: 768px) {
+  .fab-back {
+    bottom: 1.5rem;
+    right: 1.5rem;
+    width: 48px;
+    height: 48px;
+
+    i {
+      font-size: 1.1rem;
+    }
+  }
+}
+
+.content-wrapper {
+  padding-top: 1rem;
+}
+
+.header-section {
+  text-align: center;
+  border-bottom: 3px solid #007bff;
+  padding-bottom: 2rem;
+
+  h1 {
+    color: #2c3e50;
+    font-weight: 700;
+  }
+
+  .lead {
+    font-size: 1.1rem;
+  }
+}
+
+.comparison-section {
+  padding: 2rem 0;
+  border-bottom: 1px solid #e0e0e0;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.section-title {
+  color: #2c3e50;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.section-description {
+  color: #6c757d;
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.example-box {
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  &.old-component {
+    background: linear-gradient(135deg, #fff5f5 0%, #ffe5e5 100%);
+    border-left: 4px solid #dc3545;
+  }
+
+  &.new-component {
+    background: linear-gradient(135deg, #f0fff4 0%, #e5ffe5 100%);
+    border-left: 4px solid #28a745;
+  }
+
+  .component-label {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .value-display {
+    padding: 0.75rem;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+
+    small {
+      display: block;
+      margin-bottom: 0.25rem;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+.form-status {
+  .alert {
+    pre {
+      background: rgba(0, 0, 0, 0.05);
+      padding: 0.5rem;
+      border-radius: 4px;
+      font-size: 0.875rem;
+    }
+  }
+}
+
+.advantages-section {
+  padding: 2rem 0;
+  margin-top: 2rem;
+}
+
+.advantage-card {
+  padding: 1.5rem;
+  border-radius: 8px;
+  height: 100%;
+
+  &.old {
+    background: linear-gradient(135deg, #fff5f5 0%, #ffe5e5 100%);
+    border: 2px solid #dc3545;
+  }
+
+  &.new {
+    background: linear-gradient(135deg, #f0fff4 0%, #e5ffe5 100%);
+    border: 2px solid #28a745;
+  }
+
+  h3 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+      padding: 0.5rem 0;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+  }
+}
+
+// Código inline
+code {
+  background: #f8f9fa;
+  padding: 0.2rem 0.4rem;
+  border-radius: 3px;
+  font-family: 'Courier New', monospace;
+  color: #e83e8c;
+  font-size: 0.9em;
+}
+

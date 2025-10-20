@@ -1,0 +1,142 @@
+<div class="container-fluid py-5">
+  <div class="hero-section text-center mb-5">
+    <h1 class="display-3 fw-bold mb-3">🚀 Novos Componentes de Formulário</h1>
+    <p class="lead text-muted mb-4">
+      Componentes modernos baseados em Reactive Forms para construir formulários poderosos e validados
+    </p>
+    <div class="hero-tags">
+      <span class="tag">✅ Reactive Forms</span>
+      <span class="tag">✅ Type Safe</span>
+      <span class="tag">✅ Validações Compostas</span>
+      <span class="tag">✅ Performance OnPush</span>
+      <span class="tag">✅ Testável</span>
+    </div>
+  </div>
+
+  <div class="components-grid">
+    @for (component of components; track component.title) {
+      <div class="component-card" [ngClass]="getStatusClass(component.status)">
+        <div class="card-header">
+          <div class="icon">{{ component.icon }}</div>
+          <div class="title-section">
+            <h3 class="component-title">{{ component.title }}</h3>
+            <span class="status-badge" [ngClass]="getStatusClass(component.status)">
+              {{ getStatusLabel(component.status) }}
+            </span>
+          </div>
+        </div>
+
+        <p class="component-description">{{ component.description }}</p>
+
+        <div class="features-list">
+          <h4 class="features-title">Recursos:</h4>
+          <ul>
+            @for (feature of component.features; track feature) {
+              <li>{{ feature }}</li>
+            }
+          </ul>
+        </div>
+
+        <div class="card-footer">
+          <a [routerLink]="component.route" class="btn-explore">
+            @if (component.status === 'new') {
+              🎉 Explorar Documentação →
+            } @else if (component.status === 'legacy') {
+              📖 Ver Comparação →
+            } @else {
+              📚 Ver Documentação →
+            }
+          </a>
+        </div>
+      </div>
+    }
+  </div>
+
+  <section class="migration-guide mt-5">
+    <div class="guide-card">
+      <h2 class="guide-title">📘 Guia de Migração</h2>
+      <p class="guide-description">
+        Migrando de componentes legados para os novos componentes baseados em Reactive Forms
+      </p>
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="migration-step">
+            <h3>🔴 Forma Antiga (sq-input)</h3>
+            <pre><code>&lt;sq-input
+  [label]="'Email'"
+  [required]="true"
+  [(value)]="email"
+&gt;&lt;/sq-input&gt;</code></pre>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="migration-step">
+            <h3>🟢 Forma Nova (sq-input-form-control)</h3>
+            <pre><code>&lt;sq-input-form-control
+  [label]="'Email'"
+  [formControl]="emailControl"
+  sqValidation
+  [fieldName]="'Email'"
+&gt;&lt;/sq-input-form-control&gt;
+
+// TypeScript
+emailControl = new FormControl('', [
+  Validators.required,
+  Validators.email
+]);</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="migration-benefits mt-4">
+        <h4>🎯 Benefícios da Migração:</h4>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="benefit-item">
+              <span class="benefit-icon">⚡</span>
+              <strong>Performance</strong>
+              <p>OnPush strategy reduz re-renders desnecessários</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="benefit-item">
+              <span class="benefit-icon">🔒</span>
+              <strong>Type Safety</strong>
+              <p>Validações tipadas e reutilizáveis</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="benefit-item">
+              <span class="benefit-icon">🧪</span>
+              <strong>Testabilidade</strong>
+              <p>Fácil de testar com Reactive Forms</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="quick-links mt-5">
+    <h2 class="text-center mb-4">🔗 Links Rápidos</h2>
+    <div class="links-grid">
+      <a routerLink="/input-comparison" class="link-card">
+        <span class="link-icon">📝</span>
+        <h3>Input Comparison</h3>
+        <p>Exemplos completos de sq-input vs sq-input-form-control</p>
+      </a>
+      <a routerLink="/date-comparison" class="link-card">
+        <span class="link-icon">📅</span>
+        <h3>Date Comparison</h3>
+        <p>Exemplos de sq-input-date vs sq-input-date-form-control</p>
+      </a>
+      <a href="https://github.com/squidit/ngx-css" target="_blank" class="link-card">
+        <span class="link-icon">📦</span>
+        <h3>GitHub Repository</h3>
+        <p>Código fonte e contribuições</p>
+      </a>
+    </div>
+  </section>
+</div>

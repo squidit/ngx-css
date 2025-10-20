@@ -25,6 +25,8 @@ export * from './components/sq-input-money/sq-input-money.component';
 export * from './components/sq-input-number/sq-input-number.component';
 export * from './components/sq-input-range/sq-input-range.component';
 export * from './components/sq-input/sq-input.component';
+export * from './components/sq-input-form-control/sq-input-form-control.component';
+export * from './components/sq-validation-message/sq-validation-message.component';
 export * from './components/sq-select-multi-tags/sq-select-multi-tags.component';
 export * from './components/sq-select-multi/sq-select-multi.component';
 export * from './components/sq-select-search/sq-select-search.component';
@@ -58,5 +60,12 @@ export * from './helpers/window.helper';
 export * from './interfaces/option.interface';
 export * from './interfaces/step.interface';
 export * from './interfaces/toast.interface';
+
+export * from './validators/input.validators';
+export * from './validators/date.validators';
+
+export * from './directives/sq-validation.directive';
+
+export * from './components/sq-input-date-form-control/sq-input-date-form-control.component';
 
 export * from './main.module';

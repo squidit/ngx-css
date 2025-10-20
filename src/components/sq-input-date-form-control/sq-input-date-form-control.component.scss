@@ -1,0 +1,18 @@
+.wrapper-all-inside-input {
+  position: relative;
+  .icon {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 700;
+    position: absolute;
+    right: 24px;
+    top: 40px;
+    &.no-label {
+      top: 12px;
+    }
+  }
+  .icon-external {
+    color: inherit !important;
+  }
+}
+

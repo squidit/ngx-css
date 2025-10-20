@@ -15,6 +15,10 @@ import { SqInputMoneyComponent } from './components/sq-input-money/sq-input-mone
 import { SqInputNumberComponent } from './components/sq-input-number/sq-input-number.component';
 import { SqInputRangeComponent } from './components/sq-input-range/sq-input-range.component';
 import { SqInputComponent } from './components/sq-input/sq-input.component';
+import { SqInputFormControlComponent } from './components/sq-input-form-control/sq-input-form-control.component';
+import { SqInputDateFormControlComponent } from './components/sq-input-date-form-control/sq-input-date-form-control.component';
+import { SqValidationMessageComponent } from './components/sq-validation-message/sq-validation-message.component';
+import { SqValidationDirective } from './directives/sq-validation.directive';
 import { SqLoaderComponent } from './components/sq-loader/sq-loader.component';
 import { SqModalComponent } from './components/sq-modal/sq-modal.component';
 import { SqOverlayComponent } from './components/sq-overlay/sq-overlay.component';
@@ -53,7 +57,7 @@ const moduleComponents: (Type<any> | any)[] = [];
 
 /**
  * Array containing standalone Angular components, directives, and pipes.
- * 🎉🎉🎉 39/39 components migrated to standalone! (100% COMPLETE!) 🎉🎉🎉
+ * 🎉🎉🎉 41/41 components migrated to standalone! (100% COMPLETE!) 🎉🎉🎉
  * ALL components are now available as standalone and can be imported individually.
  * They are included here for backward compatibility in module exports.
  *
@@ -73,8 +77,12 @@ const standaloneComponents = [
   SqTabComponent,
   SqTabsComponent,
 
-  // Form Components (8)
+  // Form Components (11)
   SqInputComponent,
+  SqInputFormControlComponent,
+  SqInputDateFormControlComponent,
+  SqValidationMessageComponent,
+  SqValidationDirective,
   SqInputFileComponent,
   SqInputDateComponent,
   SqInputMaskComponent,

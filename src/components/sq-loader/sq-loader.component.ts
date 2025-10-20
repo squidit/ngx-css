@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { NgClass, NgStyle } from '@angular/common';
+import { NgStyle } from '@angular/common';
 
 /**
  * Represents the SqLoaderComponent which displays a loading spinner with customizable options.
