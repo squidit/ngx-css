@@ -5,6 +5,7 @@ import {
   TemplateRef,
   forwardRef,
   OnDestroy,
+  OnInit,
   OnChanges,
   SimpleChanges,
   ChangeDetectionStrategy,
@@ -78,7 +79,7 @@ import { Subject, takeUntil } from 'rxjs';
     },
   ],
 })
-export class SqSelectorFormControlComponent implements ControlValueAccessor, Validator, OnChanges, OnDestroy {
+export class SqSelectorFormControlComponent implements ControlValueAccessor, Validator, OnInit, OnChanges, OnDestroy {
   /**
    * The name attribute for the selector input.
    */
@@ -89,11 +90,6 @@ export class SqSelectorFormControlComponent implements ControlValueAccessor, Val
    * @default 'checkbox'
    */
   @Input() type: 'checkbox' | 'radio' = 'checkbox';
-
-  /**
-   * The id attribute for the selector input.
-   */
-  @Input() id?: string;
 
   /**
    * The value associated with the selector (useful for radio buttons and multi-select scenarios).
@@ -145,6 +141,11 @@ export class SqSelectorFormControlComponent implements ControlValueAccessor, Val
   @Input() block = false;
 
   /**
+   * Explicitly set the disabled state (can also be controlled via FormControl).
+   */
+  @Input() disabled = false;
+
+  /**
    * Content child for the left label template.
    */
   @ContentChild('leftLabel')
@@ -164,13 +165,9 @@ export class SqSelectorFormControlComponent implements ControlValueAccessor, Val
 
   /**
    * Internal FormControl for managing the checked state.
+   * Esta é a fonte única de verdade para o estado do componente.
    */
   control = new FormControl(false);
-
-  /**
-   * Indicates whether the selector input is currently checked (internal state).
-   */
-  thisChecked = false;
 
   /**
    * Indicates whether the selector input is in an indeterminate state (internal state).
@@ -178,18 +175,38 @@ export class SqSelectorFormControlComponent implements ControlValueAccessor, Val
   thisIndeterminate = false;
 
   /**
-   * Context object containing selector properties for template usage.
+   * ID único gerado automaticamente para o input interno.
+   * Sempre aleatório para evitar conflitos, independente do @Input id.
    */
-  context: any = {
-    checked: this.thisChecked,
-    indeterminate: !this.thisChecked ? this.thisIndeterminate : false,
-    value: this.value,
-  };
+  private readonly internalInputId = `sq-selector-${Math.random().toString(36).substring(2, 11)}`;
 
   /**
    * ChangeDetectorRef for manual change detection with OnPush strategy.
    */
   private cdr = inject(ChangeDetectorRef);
+
+  /**
+   * Getter para o estado checked.
+   * Fonte única de verdade: control.value
+   */
+  get isChecked(): boolean {
+    if (this.type === 'radio') {
+      return this.control.value === this.value;
+    }
+    return !!this.control.value;
+  }
+
+  /**
+   * Context object para templates customizados.
+   * Calculado dinamicamente a partir do control.value
+   */
+  get context(): any {
+    return {
+      checked: this.isChecked,
+      indeterminate: !this.isChecked ? this.thisIndeterminate : false,
+      value: this.value,
+    };
+  }
 
   /**
    * Subject for managing subscriptions.
@@ -218,27 +235,26 @@ export class SqSelectorFormControlComponent implements ControlValueAccessor, Val
 
   /**
    * Constructor that initializes the component.
-   * Sets up value change subscriptions.
+   * Sets up value change subscriptions to propagate to the parent FormControl.
    */
   constructor() {
-    // Subscribe to internal control value changes
+    // Propaga mudanças do FormControl interno para o FormControl pai
     this.control.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(value => {
-      // Para radio buttons, checked é determinado comparando valores
-      // Para checkbox/toggle, checked é o valor booleano
-      if (this.type === 'radio') {
-        this.thisChecked = value === this.value;
-        this.onChange(value);
-      } else {
-        this.thisChecked = !!value;
-        this.onChange(!!value);
-      }
-
-      this.context.checked = this.thisChecked;
-      this.context.indeterminate = !this.thisChecked ? this.thisIndeterminate : false;
-
-      // valueChange removido - use control.valueChanges
+      this.onChange(value);
       this.cdr.markForCheck();
     });
+  }
+
+  /**
+   * Lifecycle hook called on component initialization.
+   * Ensures initial disabled state is set correctly.
+   */
+  ngOnInit(): void {
+    // Se o input disabled foi definido na inicialização, sincroniza com o control interno
+    if (this.disabled) {
+      this.control.disable({ emitEvent: false });
+      this.cdr.markForCheck();
+    }
   }
 
   /**
@@ -247,25 +263,26 @@ export class SqSelectorFormControlComponent implements ControlValueAccessor, Val
    * @param changes - An object containing changed input properties
    */
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['checked']) {
-      this.thisChecked = this.checked;
-      if (this.type !== 'radio') {
-        this.control.setValue(this.checked, { emitEvent: false });
-      }
-      this.context.checked = this.thisChecked;
+    if (changes['checked'] && this.type !== 'radio') {
+      // Para checkbox/toggle, sincroniza o @Input checked com o control
+      this.control.setValue(this.checked, { emitEvent: false });
       this.cdr.markForCheck();
     }
+
     if (changes['indeterminate']) {
       this.thisIndeterminate = this.indeterminate;
-      this.context.indeterminate = !this.thisChecked ? this.thisIndeterminate : false;
       this.cdr.markForCheck();
     }
-    if (changes['value']) {
-      this.context.value = this.value;
-      // Para radio, precisamos recalcular checked quando o valor muda
-      if (this.type === 'radio') {
-        this.thisChecked = this.control.value === this.value;
-        this.context.checked = this.thisChecked;
+
+    if (changes['value'] || changes['disabled']) {
+      // Para radio, o valor muda como isChecked é calculado
+      // Para disabled, sincroniza com o control
+      if (changes['disabled']) {
+        if (this.disabled) {
+          this.control.disable({ emitEvent: false });
+        } else {
+          this.control.enable({ emitEvent: false });
+        }
       }
       this.cdr.markForCheck();
     }
@@ -281,27 +298,19 @@ export class SqSelectorFormControlComponent implements ControlValueAccessor, Val
 
   /**
    * ControlValueAccessor: Writes a new value to the element.
-   * @param value - The new value (boolean for checkbox, string for radio)
+   * @param value - The new value (boolean for checkbox/toggle, string for radio)
    */
   writeValue(value: any): void {
+    // Atualiza o FormControl interno (fonte única de verdade)
+    // Para checkbox/toggle: valor booleano
+    // Para radio: string do valor selecionado
     if (this.type === 'radio') {
-      // Para radio, o valor é a string do radio selecionado
-      this.thisChecked = value === this.value;
       this.control.setValue(value, { emitEvent: false });
     } else {
-      // Para checkbox, o valor é booleano
-      const checked = !!value;
-      this.thisChecked = checked;
-      this.control.setValue(checked, { emitEvent: false });
+      this.control.setValue(!!value, { emitEvent: false });
     }
 
-    this.context.checked = this.thisChecked;
-    this.context.indeterminate = !this.thisChecked ? this.thisIndeterminate : false;
-
-    // Força atualização da view com OnPush
     this.cdr.markForCheck();
-    // Força detecção de mudanças imediata
-    this.cdr.detectChanges();
   }
 
   /**
@@ -322,9 +331,11 @@ export class SqSelectorFormControlComponent implements ControlValueAccessor, Val
 
   /**
    * ControlValueAccessor: Sets the disabled state of the control.
+   * Called by Angular when the FormControl's disabled state changes.
    * @param isDisabled - Whether the control should be disabled
    */
   setDisabledState(isDisabled: boolean): void {
+    // Sincroniza com o control interno (fonte única de verdade)
     if (isDisabled) {
       this.control.disable({ emitEvent: false });
     } else {
@@ -352,36 +363,38 @@ export class SqSelectorFormControlComponent implements ControlValueAccessor, Val
 
   /**
    * Getter for the disabled state.
+   * Uses the internal FormControl as the single source of truth.
    */
-  get disabled(): boolean {
+  get isDisabled(): boolean {
     return this.control.disabled;
   }
 
   /**
-   * Getter for the readonly state (derived from disabled).
+   * Getter para o ID interno do input.
+   * Sempre retorna o ID gerado automaticamente (nunca o @Input id).
    */
-  get readonly(): boolean {
-    return this.control.disabled;
+  get inputId(): string {
+    return this.internalInputId;
   }
 
   /**
    * Handles the change event from the native input element.
-   * For radio buttons, emits the value of the selected radio.
-   * For checkboxes, emits the boolean checked state.
+   * For radio buttons, sets the value of the selected radio.
+   * For checkboxes/toggles, sets the boolean checked state.
    * @param event - The change event from the input element
    */
   change(event: any): void {
-    const checked = event?.target?.checked ?? false;
-
-    if (this.type === 'radio') {
-      // Para radio, emite o valor do radio selecionado
-      const newValue = checked ? this.value : null;
-      this.control.setValue(newValue);
-    } else {
-      // Para checkbox, emite o estado booleano
-      this.control.setValue(checked);
+    // Se está desabilitado, ignora o evento
+    if (this.isDisabled) {
+      return;
     }
 
+    const checked = event?.target?.checked ?? false;
+    const newValue = this.type === 'radio' ? (checked ? this.value : null) : checked;
+
+    // Atualiza o FormControl interno
+    // A subscription no constructor vai propagar para o FormControl pai via onChange()
+    this.control.setValue(newValue);
     this.onTouched();
   }
 }

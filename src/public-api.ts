@@ -25,15 +25,20 @@ export * from './components/sq-input-money/sq-input-money.component';
 export * from './components/sq-input-number/sq-input-number.component';
 export * from './components/sq-input-range/sq-input-range.component';
 export * from './components/sq-input/sq-input.component';
-export * from './components/sq-input-form-control/sq-input-form-control.component';
 export * from './components/sq-validation-message/sq-validation-message.component';
 export * from './components/sq-select-multi-tags/sq-select-multi-tags.component';
 export * from './components/sq-select-multi/sq-select-multi.component';
 export * from './components/sq-select-search/sq-select-search.component';
 export * from './components/sq-select/sq-select.component';
 export * from './components/sq-selector/sq-selector.component';
-export * from './components/sq-selector-form-control/sq-selector-form-control.component';
 export * from './components/sq-textarea/sq-textarea.component';
+
+/** New Form Controls Components and directives */
+export * from './components/sq-input-date-form-control/sq-input-date-form-control.component';
+export * from './components/sq-input-form-control/sq-input-form-control.component';
+export * from './components/sq-selector-form-control/sq-selector-form-control.component';
+export * from './components/sq-validation-message/sq-validation-message.component';
+export * from './directives/sq-validation.directive';
 
 export * from './directives/sq-click-outside/sq-click-outside.directive';
 export * from './directives/sq-dropdown/sq-dropdown.directive';
