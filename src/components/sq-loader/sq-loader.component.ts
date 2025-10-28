@@ -17,7 +17,7 @@ import { NgStyle } from '@angular/common';
  * <sq-loader size="small" color="var(--blue)" customClass="custom-spinner"></sq-loader>
  *
  * @example
- * <sq-loader size="bigger" customSize="30px" borderSize="0.15em" color="#ff9900"></sq-loader>
+ * <sq-loader size="bigger" customSize="30px" borderSize="0.15em" color="var(--warning-color)"></sq-loader>
  */
 @Component({
   selector: 'sq-loader',
@@ -48,7 +48,7 @@ export class SqLoaderComponent {
   /**
    * The color of the loading spinner.
    * @default 'var(--primary_color)'
-   * @example '#ff9900'
+   * @example 'var(--warning-color)'
    */
   @Input() color = 'var(--primary_color)';
 

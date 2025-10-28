@@ -33,12 +33,11 @@ export * from './components/sq-select/sq-select.component';
 export * from './components/sq-selector/sq-selector.component';
 export * from './components/sq-textarea/sq-textarea.component';
 
-/** New Form Controls Components and directives */
+/** New Form Controls Components */
 export * from './components/sq-input-date-form-control/sq-input-date-form-control.component';
 export * from './components/sq-input-form-control/sq-input-form-control.component';
+export * from './components/sq-input-mask-form-control/sq-input-mask-form-control.component';
 export * from './components/sq-selector-form-control/sq-selector-form-control.component';
-export * from './components/sq-validation-message/sq-validation-message.component';
-export * from './directives/sq-validation.directive';
 
 export * from './directives/sq-click-outside/sq-click-outside.directive';
 export * from './directives/sq-dropdown/sq-dropdown.directive';
@@ -69,9 +68,5 @@ export * from './interfaces/toast.interface';
 
 export * from './validators/input.validators';
 export * from './validators/date.validators';
-
-export * from './directives/sq-validation.directive';
-
-export * from './components/sq-input-date-form-control/sq-input-date-form-control.component';
 
 export * from './main.module';

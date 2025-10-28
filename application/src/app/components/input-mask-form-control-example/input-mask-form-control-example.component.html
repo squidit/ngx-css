@@ -1,0 +1,412 @@
+<div class="container">
+  <app-breadcrumb [items]="breadcrumbItems"></app-breadcrumb>
+
+  <div class="content-wrapper">
+    <div class="header-section mb-2">
+      <h1 class="display-4 mb-3">⌨️ Comparação: sq-input-mask vs sq-input-mask-form-control</h1>
+      <p class="lead text-muted">
+        Demonstração prática das diferenças entre o componente de input com máscara legado e o novo componente baseado
+        em Reactive Forms.
+      </p>
+    </div>
+
+    <!-- Seção 1: Telefone -->
+    <section class="comparison-section mb-2">
+      <h2 class="section-title">1️⃣ Telefone</h2>
+      <p class="section-description">Máscara para telefone celular brasileiro</p>
+
+      <div class="row no-spacings">
+        <div class="col-md-12">
+          <div class="example-box old-component">
+            <h3 class="component-label">🔴 Componente Antigo</h3>
+            <sq-input-mask
+              [id]="'old-phone'"
+              [name]="'old-phone'"
+              [label]="'Telefone (Componente Antigo)'"
+              [mask]="'(00) 00000-0000'"
+              [(value)]="oldPhoneValue"
+            ></sq-input-mask>
+            <div class="value-display mt-2">
+              <small><strong>Valor:</strong> {{ oldPhoneValue || '(vazio)' }}</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12">
+          <div class="example-box new-component">
+            <h3 class="component-label">🟢 Componente Novo</h3>
+            <sq-input-mask-form-control
+              [id]="'new-phone'"
+              [name]="'new-phone'"
+              [label]="'Telefone (Componente Novo)'"
+              [mask]="'(00) 00000-0000'"
+              [formControl]="newPhoneControl"
+              [placeholder]="'(00) 00000-0000'"
+            ></sq-input-mask-form-control>
+            <div class="value-display mt-2">
+              <small><strong>Valor:</strong> {{ newPhoneControl.value || '(vazio)' }}</small>
+              <small class="ms-3"><strong>Status:</strong> {{ newPhoneControl.status }}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <app-code-tabs [title]="'Exemplo Telefone'" [examples]="phoneExampleCode"></app-code-tabs>
+    </section>
+
+    <!-- Seção 2: CPF -->
+    <section class="comparison-section mb-2">
+      <h2 class="section-title">2️⃣ CPF Obrigatório</h2>
+      <p class="section-description">CPF com validação obrigatória</p>
+
+      <div class="row no-spacings">
+        <div class="col-md-12">
+          <div class="example-box old-component">
+            <h3 class="component-label">🔴 Componente Antigo</h3>
+            <sq-input-mask
+              [id]="'old-cpf'"
+              [name]="'old-cpf'"
+              [label]="'CPF * (Antigo)'"
+              [mask]="'000.000.000-00'"
+              [required]="true"
+              [(value)]="oldCpfValue"
+            ></sq-input-mask>
+            <div class="value-display mt-2">
+              <small><strong>Valor:</strong> {{ oldCpfValue || '(vazio)' }}</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12">
+          <div class="example-box new-component">
+            <h3 class="component-label">🟢 Componente Novo</h3>
+            <sq-input-mask-form-control
+              [id]="'new-cpf'"
+              [name]="'new-cpf'"
+              [label]="'CPF * (Novo)'"
+              [mask]="'000.000.000-00'"
+              [formControl]="newCpfControl"
+              [placeholder]="'000.000.000-00'"
+            ></sq-input-mask-form-control>
+            <sq-validation-message
+              [control]="newCpfControl"
+              [fieldName]="'CPF'"
+              [showWhenTouched]="true"
+            ></sq-validation-message>
+            <div class="value-display mt-2">
+              <small><strong>Valor:</strong> {{ newCpfControl.value || '(vazio)' }}</small>
+              <small class="ms-3"><strong>Status:</strong> {{ newCpfControl.status }}</small>
+              <small class="ms-3"><strong>Touched:</strong> {{ newCpfControl.touched }}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <app-code-tabs [title]="'Exemplo CPF'" [examples]="cpfExampleCode"></app-code-tabs>
+    </section>
+
+    <!-- Seção 3: CEP -->
+    <section class="comparison-section mb-2">
+      <h2 class="section-title">3️⃣ CEP</h2>
+      <p class="section-description">Código postal brasileiro</p>
+
+      <div class="row no-spacings">
+        <div class="col-md-12">
+          <div class="example-box old-component">
+            <h3 class="component-label">🔴 Componente Antigo</h3>
+            <sq-input-mask
+              [id]="'old-cep'"
+              [name]="'old-cep'"
+              [label]="'CEP (Antigo)'"
+              [mask]="'00000-000'"
+              [(value)]="oldCepValue"
+            ></sq-input-mask>
+            <div class="value-display mt-2">
+              <small><strong>Valor:</strong> {{ oldCepValue || '(vazio)' }}</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12">
+          <div class="example-box new-component">
+            <h3 class="component-label">🟢 Componente Novo</h3>
+            <sq-input-mask-form-control
+              [id]="'new-cep'"
+              [name]="'new-cep'"
+              [label]="'CEP (Novo)'"
+              [mask]="'00000-000'"
+              [formControl]="newCepControl"
+              [placeholder]="'00000-000'"
+            ></sq-input-mask-form-control>
+            <div class="value-display mt-2">
+              <small><strong>Valor:</strong> {{ newCepControl.value || '(vazio)' }}</small>
+              <small class="ms-3"><strong>Status:</strong> {{ newCepControl.status }}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <app-code-tabs [title]="'Exemplo CEP'" [examples]="cepExampleCode"></app-code-tabs>
+    </section>
+
+    <!-- Seção 4: Data -->
+    <section class="comparison-section mb-2">
+      <h2 class="section-title">4️⃣ Data</h2>
+      <p class="section-description">Máscara de data dd/mm/aaaa</p>
+
+      <div class="row no-spacings">
+        <div class="col-md-12">
+          <div class="example-box old-component">
+            <h3 class="component-label">🔴 Componente Antigo</h3>
+            <sq-input-mask
+              [id]="'old-date'"
+              [name]="'old-date'"
+              [label]="'Data (Antigo)'"
+              [mask]="'00/00/0000'"
+              [(value)]="oldDateValue"
+            ></sq-input-mask>
+            <div class="value-display mt-2">
+              <small><strong>Valor:</strong> {{ oldDateValue || '(vazio)' }}</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12">
+          <div class="example-box new-component">
+            <h3 class="component-label">🟢 Componente Novo</h3>
+            <sq-input-mask-form-control
+              [id]="'new-date'"
+              [name]="'new-date'"
+              [label]="'Data (Novo)'"
+              [mask]="'00/00/0000'"
+              [formControl]="newDateControl"
+              [placeholder]="'dd/mm/aaaa'"
+            ></sq-input-mask-form-control>
+            <div class="value-display mt-2">
+              <small><strong>Valor:</strong> {{ newDateControl.value || '(vazio)' }}</small>
+              <small class="ms-3"><strong>Status:</strong> {{ newDateControl.status }}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <app-code-tabs [title]="'Exemplo Data'" [examples]="dateExampleCode"></app-code-tabs>
+    </section>
+
+    <!-- Seção 5: Valor Monetário -->
+    <section class="comparison-section mb-2">
+      <h2 class="section-title">5️⃣ Valor Monetário</h2>
+      <p class="section-description">Formato brasileiro de moeda com separador de milhares</p>
+
+      <div class="row no-spacings">
+        <div class="col-md-12">
+          <div class="example-box old-component">
+            <h3 class="component-label">🔴 Componente Antigo</h3>
+            <sq-input-mask
+              [id]="'old-money'"
+              [name]="'old-money'"
+              [label]="'Valor (Antigo)'"
+              [mask]="'separator.2'"
+              [thousandSeparator]="'.'"
+              [prefix]="'R$ '"
+              [(value)]="oldMoneyValue"
+            ></sq-input-mask>
+            <div class="value-display mt-2">
+              <small><strong>Valor:</strong> {{ oldMoneyValue || '(vazio)' }}</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12">
+          <div class="example-box new-component">
+            <h3 class="component-label">🟢 Componente Novo</h3>
+            <sq-input-mask-form-control
+              [id]="'new-money'"
+              [name]="'new-money'"
+              [label]="'Valor (Novo)'"
+              [mask]="'separator.2'"
+              [thousandSeparator]="'.'"
+              [prefix]="'R$ '"
+              [formControl]="newMoneyControl"
+              [placeholder]="'0,00'"
+            ></sq-input-mask-form-control>
+            <div class="value-display mt-2">
+              <small><strong>Valor:</strong> {{ newMoneyControl.value || '(vazio)' }}</small>
+              <small class="ms-3"><strong>Status:</strong> {{ newMoneyControl.status }}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <app-code-tabs [title]="'Exemplo Valor Monetário'" [examples]="moneyExampleCode"></app-code-tabs>
+    </section>
+
+    <!-- Seção 6: CNPJ -->
+    <section class="comparison-section mb-2">
+      <h2 class="section-title">6️⃣ CNPJ Obrigatório</h2>
+      <p class="section-description">CNPJ com validação obrigatória usando sqValidation</p>
+
+      <div class="row no-spacings">
+        <div class="col-md-12">
+          <div class="example-box old-component">
+            <h3 class="component-label">🔴 Componente Antigo</h3>
+            <sq-input-mask
+              [id]="'old-cnpj'"
+              [name]="'old-cnpj'"
+              [label]="'CNPJ * (Antigo)'"
+              [mask]="'00.000.000/0000-00'"
+              [required]="true"
+              [(value)]="oldCnpjValue"
+            ></sq-input-mask>
+            <div class="value-display mt-2">
+              <small><strong>Valor:</strong> {{ oldCnpjValue || '(vazio)' }}</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12">
+          <div class="example-box new-component">
+            <h3 class="component-label">🟢 Componente Novo</h3>
+            <sq-input-mask-form-control
+              [id]="'new-cnpj'"
+              [name]="'new-cnpj'"
+              [label]="'CNPJ * (Novo)'"
+              [mask]="'00.000.000/0000-00'"
+              [formControl]="newCnpjControl"
+              [placeholder]="'00.000.000/0000-00'"
+              sqValidation
+              [fieldName]="'CNPJ'"
+            ></sq-input-mask-form-control>
+            <div class="value-display mt-2">
+              <small><strong>Valor:</strong> {{ newCnpjControl.value || '(vazio)' }}</small>
+              <small class="ms-3"><strong>Status:</strong> {{ newCnpjControl.status }}</small>
+              <small class="ms-3"><strong>Dirty:</strong> {{ newCnpjControl.dirty }}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <app-code-tabs [title]="'Exemplo CNPJ'" [examples]="cnpjExampleCode"></app-code-tabs>
+    </section>
+
+    <!-- Seção 7: Placa de Veículo -->
+    <section class="comparison-section mb-2">
+      <h2 class="section-title">7️⃣ Placa de Veículo</h2>
+      <p class="section-description">Placa no formato Mercosul (ABC-1234 ou ABC-1D23)</p>
+
+      <div class="row no-spacings">
+        <div class="col-md-12">
+          <div class="example-box old-component">
+            <h3 class="component-label">🔴 Componente Antigo</h3>
+            <sq-input-mask
+              [id]="'old-plate'"
+              [name]="'old-plate'"
+              [label]="'Placa (Antigo)'"
+              [mask]="'SSS-0*00'"
+              [(value)]="oldPlateValue"
+            ></sq-input-mask>
+            <div class="value-display mt-2">
+              <small><strong>Valor:</strong> {{ oldPlateValue || '(vazio)' }}</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12">
+          <div class="example-box new-component">
+            <h3 class="component-label">🟢 Componente Novo</h3>
+            <sq-input-mask-form-control
+              [id]="'new-plate'"
+              [name]="'new-plate'"
+              [label]="'Placa (Novo)'"
+              [mask]="'SSS-0*00'"
+              [formControl]="newPlateControl"
+              [placeholder]="'ABC-1234 ou ABC-1D23'"
+            ></sq-input-mask-form-control>
+            <div class="value-display mt-2">
+              <small><strong>Valor:</strong> {{ newPlateControl.value || '(vazio)' }}</small>
+              <small class="ms-3"><strong>Status:</strong> {{ newPlateControl.status }}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <app-code-tabs [title]="'Exemplo Placa'" [examples]="plateExampleCode"></app-code-tabs>
+    </section>
+
+    <!-- Seção 8: Cartão de Crédito -->
+    <section class="comparison-section mb-2">
+      <h2 class="section-title">8️⃣ Cartão de Crédito</h2>
+      <p class="section-description">Número de cartão de crédito com 16 dígitos</p>
+
+      <div class="row no-spacings">
+        <div class="col-md-12">
+          <div class="example-box old-component">
+            <h3 class="component-label">🔴 Componente Antigo</h3>
+            <sq-input-mask
+              [id]="'old-card'"
+              [name]="'old-card'"
+              [label]="'Cartão de Crédito (Antigo)'"
+              [mask]="'0000 0000 0000 0000'"
+              [(value)]="oldCardValue"
+            ></sq-input-mask>
+            <div class="value-display mt-2">
+              <small><strong>Valor:</strong> {{ oldCardValue || '(vazio)' }}</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12">
+          <div class="example-box new-component">
+            <h3 class="component-label">🟢 Componente Novo</h3>
+            <sq-input-mask-form-control
+              [id]="'new-card'"
+              [name]="'new-card'"
+              [label]="'Cartão de Crédito (Novo)'"
+              [mask]="'0000 0000 0000 0000'"
+              [formControl]="newCardControl"
+              [placeholder]="'0000 0000 0000 0000'"
+            ></sq-input-mask-form-control>
+            <div class="value-display mt-2">
+              <small><strong>Valor:</strong> {{ newCardControl.value || '(vazio)' }}</small>
+              <small class="ms-3"><strong>Status:</strong> {{ newCardControl.status }}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <app-code-tabs [title]="'Exemplo Cartão'" [examples]="cardExampleCode"></app-code-tabs>
+    </section>
+
+    <!-- Seção de Benefícios -->
+    <section class="benefits-section mt-5 mb-2">
+      <h2 class="section-title">✨ Benefícios do sq-input-mask-form-control</h2>
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <div class="benefit-card">
+            <h4>🔗 Integração com Reactive Forms</h4>
+            <p>Integração nativa com FormControl, FormGroup e validators do Angular.</p>
+          </div>
+        </div>
+        <div class="col-md-6 mb-3">
+          <div class="benefit-card">
+            <h4>✅ Validações Automáticas</h4>
+            <p>Suporte completo a validators síncronos e assíncronos do Angular.</p>
+          </div>
+        </div>
+        <div class="col-md-6 mb-3">
+          <div class="benefit-card">
+            <h4>🎨 Consistência Visual</h4>
+            <p>Estilos consistentes com os outros componentes form-control da biblioteca.</p>
+          </div>
+        </div>
+        <div class="col-md-6 mb-3">
+          <div class="benefit-card">
+            <h4>🚀 Performance</h4>
+            <p>OnPush ChangeDetection para melhor performance em aplicações grandes.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+

@@ -47,7 +47,7 @@ import { Subject, takeUntil } from 'rxjs';
  *   [formControl]="notificationsControl"
  *   [label]="'Receber notificações'"
  *   [toggle]="true"
- *   [colorBackground]="'#007bff'"
+ *   [colorBackground]="'var(--primary-color)'"
  * ></sq-selector-form-control>
  *
  * <!-- Radio button -->

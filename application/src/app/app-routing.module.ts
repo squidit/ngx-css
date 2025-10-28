@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { InputComparisonExampleComponent } from './components/input-comparison-example/input-comparison-example.component';
 import { DateComparisonExampleComponent } from './components/date-comparison-example/date-comparison-example.component';
 import { SelectorComparisonExampleComponent } from './components/selector-comparison-example/selector-comparison-example.component';
+import { InputMaskFormControlExampleComponent } from './components/input-mask-form-control-example/input-mask-form-control-example.component';
 import { ComponentsIndexComponent } from './components/components-index/components-index.component';
 
 export const routes: Routes = [
@@ -30,6 +31,11 @@ export const routes: Routes = [
     path: 'selector-comparison',
     component: SelectorComparisonExampleComponent,
     title: 'Comparação: sq-selector vs sq-selector-form-control',
+  },
+  {
+    path: 'input-mask-form-control',
+    component: InputMaskFormControlExampleComponent,
+    title: 'Comparação: sq-input-mask vs sq-input-mask-form-control',
   },
 ];
 

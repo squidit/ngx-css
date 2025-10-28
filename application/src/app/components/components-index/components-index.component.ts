@@ -66,6 +66,21 @@ export class ComponentsIndexComponent {
       ],
     },
     {
+      title: 'sq-input-mask-form-control',
+      description: 'Componente de input com máscara baseado em Reactive Forms usando ngx-mask',
+      icon: '⌨️',
+      status: 'new',
+      route: '/input-mask-form-control',
+      features: [
+        'Máscaras para telefone, CPF, CNPJ, CEP, etc',
+        'Suporte a valores monetários',
+        'Reactive Forms integrado',
+        'Prefixos e sufixos customizáveis',
+        'Separadores de milhares',
+        'ChangeDetectionStrategy.OnPush',
+      ],
+    },
+    {
       title: 'sq-validation-message',
       description: 'Componente reutilizável para exibir mensagens de validação de formulários',
       icon: '⚠️',
@@ -116,6 +131,14 @@ export class ComponentsIndexComponent {
       status: 'legacy',
       route: '/selector-comparison',
       features: ['Two-way binding', 'Checkbox/Radio/Toggle', 'Mantido para compatibilidade'],
+    },
+    {
+      title: 'sq-input-mask (Legacy)',
+      description: 'Componente legado de input com máscara - use sq-input-mask-form-control em novos projetos',
+      icon: '🔴',
+      status: 'legacy',
+      route: '/input-mask-form-control',
+      features: ['Two-way binding', 'Máscaras básicas', 'Mantido para compatibilidade'],
     },
   ];
 
