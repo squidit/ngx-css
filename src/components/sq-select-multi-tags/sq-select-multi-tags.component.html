@@ -168,7 +168,7 @@
             style="--fa-rotate-angle: -90deg"
           ></i>
           <sq-selector
-            [dataTest]="SelectOptionDataTest + (i || opt.value)"
+            [dataTest]="SelectOptionDataTest + '-' + (i || opt.value)"
             [style.minWidth]="'auto'"
             [id]="(id || name) + '-checkbox-' + opt?.value + '-' + i"
             [name]="name + '-checkbox'"
