@@ -36,6 +36,7 @@ export * from './directives/sq-click-outside/sq-click-outside.directive';
 export * from './directives/sq-dropdown/sq-dropdown.directive';
 export * from './directives/sq-tooltip/sq-tooltip.directive';
 export * from './directives/sq-skeleton/sq-skeleton.directive';
+export * from './directives/sq-data-test/sq-data-test.directive';
 
 export * from './pipes/birthdate/birthdate.pipe';
 export * from './pipes/remove-html-tags/remove-html-tags.pipe';
