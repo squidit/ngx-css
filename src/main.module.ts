@@ -42,6 +42,7 @@ import { SearchPipe } from './pipes/search/search.pipe';
 import { ThousandSuffixesPipe } from './pipes/thousands/thousands.pipe';
 import { TranslateInternalPipe } from './pipes/translate-internal/translate-internal.pipe';
 import { UniversalSafePipe } from './pipes/universal-safe/universal-safe.pipe';
+import { SqDataTestDirective } from './public-api';
 /**
  * Array containing a collection of Angular components, directives, and pipes.
  * These elements can be used within the SquidCSSModule for building UI features.
@@ -102,6 +103,7 @@ const standaloneComponents = [
   SqTooltipDirective,
   SqSkeletonDirective,
   SqDropdownDirective,
+  SqDataTestDirective,
 
   // Pipes (7)
   UniversalSafePipe,
