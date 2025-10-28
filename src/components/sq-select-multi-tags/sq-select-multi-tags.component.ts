@@ -28,7 +28,7 @@ import { TranslateInternalPipe } from '../../pipes/translate-internal/translate-
 import { SearchPipe } from '../../pipes/search/search.pipe';
 import { SearchValidValuesPipe } from '../../pipes/search-valid-values/search-valid-values.pipe';
 import { SqClickOutsideDirective } from '../../directives/sq-click-outside/sq-click-outside.directive';
-import { SqDataTestDirective } from 'src/public-api';
+import { SqDataTestDirective } from '../../directives/sq-data-test/sq-data-test.directive';
 
 /**
  * Represents a multi-tag select component.
