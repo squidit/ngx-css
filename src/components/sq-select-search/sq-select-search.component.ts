@@ -1,3 +1,4 @@
+import { SqDataTestDirective } from './../../directives/sq-data-test/sq-data-test.directive';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -58,6 +59,7 @@ import { SqClickOutsideDirective } from '../../directives/sq-click-outside/sq-cl
     TranslateInternalPipe,
     SearchPipe,
     SqClickOutsideDirective,
+    SqDataTestDirective,
   ],
   providers: [],
 })
@@ -185,6 +187,27 @@ export class SqSelectSearchComponent implements OnChanges {
    * Tooltip icon for the search-based select input.
    */
   @Input() tooltipIcon = '';
+
+  /**
+   * The data-test attribute value for the select search element.
+   *
+   * @default 'select-search'
+   */
+  @Input() selectHandleDataTest = 'select-search';
+
+  /**
+   * The data-test attribute value for the select input element.
+   *
+   * @default 'input-select-search'
+   */
+  @Input() selectInputDataTest = 'input-select-search';
+
+  /**
+   * The data-test attribute value for the select option elements.
+   *
+   * @default 'option-select-search'
+   */
+  @Input() SelectOptionDataTest = 'option-select-search';
 
   /**
    * Event emitted when the selected value changes.
