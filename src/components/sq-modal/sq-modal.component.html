@@ -5,14 +5,16 @@
     open: open,
   }"
   #modal
+  [dataTest]="modalDataTest"
 >
   <div
     class="modal-dialog modal-{{ modalSize }} {{ modalClass }}"
     [clickOutsideEnabled]="!!(open && backdrop !== 'static' && modal)"
     (clickOutside)="modalClose.emit()"
   >
-    <div class="modal-content modal-sq">
+    <div [dataTest]="modalDataTest + '-content'" class="modal-content modal-sq">
       <div
+        [dataTest]="modalDataTest + '-header'"
         class="modal-header"
         [ngClass]="{
           'without-header': !hasHeader,
@@ -32,12 +34,17 @@
         }
       </div>
 
-      <div class="modal-body scrollbar" [ngStyle]="{ background: bodyBackgroundColor, padding: bodyPadding }">
+      <div
+        [dataTest]="modalDataTest + '-body'"
+        class="modal-body scrollbar"
+        [ngStyle]="{ background: bodyBackgroundColor, padding: bodyPadding }"
+      >
         <ng-content></ng-content>
       </div>
 
       @if (footerTemplate) {
         <div
+          [dataTest]="modalDataTest + '-footer'"
           class="modal-footer"
           [ngStyle]="{
             background: footerBackgroundColor,
