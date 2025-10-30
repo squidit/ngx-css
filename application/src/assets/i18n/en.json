@@ -12,6 +12,6 @@
     "minValueAllowed": "Min value allowed is: {{ min }}",
     "maxValueAllowed": "Max value allowed is: {{ max }}",
     "rangeDate:": "Date outside valid range",
-    "more": "and more"
+    "more": "and {{ quantity }} more"
   }
 }

@@ -62,12 +62,14 @@
 
         @if (!value?.length) {
           <span>{{ placeholder }}</span>
+        }
 
+        @if (value?.length && showInside) {
           <div class="input-fake-content-text">
             <span class="selected-value">
               {{ value[0]?.label }}
               @if (value.length > 1) {
-                <span> {{ 'forms.more' | translateInternal | async }} {{ value.length - 1 }} </span>
+                <span> {{ 'forms.more' | translateInternal: { quantity: value.length - 1 } | async }}</span>
               }
             </span>
           </div>
