@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Option } from '../../interfaces/option.interface';
 import { SqTooltipComponent } from '../sq-tooltip/sq-tooltip.component';
 import { UniversalSafePipe } from '../../pipes/universal-safe/universal-safe.pipe';
+import { SqDataTestDirective } from '../../directives/sq-data-test/sq-data-test.directive';
 
 /**
  * Represents a select input component for choosing options from a dropdown.
@@ -41,7 +42,15 @@ import { UniversalSafePipe } from '../../pipes/universal-safe/universal-safe.pip
   templateUrl: './sq-select.component.html',
   styleUrls: ['./sq-select.component.scss'],
   standalone: true,
-  imports: [NgClass, NgStyle, NgTemplateOutlet, FormsModule, SqTooltipComponent, UniversalSafePipe],
+  imports: [
+    NgClass,
+    NgStyle,
+    NgTemplateOutlet,
+    FormsModule,
+    SqTooltipComponent,
+    UniversalSafePipe,
+    SqDataTestDirective,
+  ],
 })
 export class SqSelectComponent {
   /**
