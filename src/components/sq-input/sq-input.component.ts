@@ -169,7 +169,7 @@ export class SqInputComponent {
   /**
    * Regular expression pattern for input validation.
    */
-  @Input() pattern = '';
+  @Input() pattern = '.*';
 
   /**
    * Input mode for mobile devices.
