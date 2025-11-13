@@ -62,7 +62,7 @@
       (ngModelChange)="change($event)"
       (keydown)="keyDown($event)"
       (keyup)="keyUp($event)"
-      [pattern]="pattern"
+      [pattern]="pattern || (required ? '.*' : '')"
       [attr.inputmode]="inputMode"
       (focus)="emitFocus.emit()"
       ngDefaultControl
