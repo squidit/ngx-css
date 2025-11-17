@@ -9,8 +9,9 @@
     <div class="intro-content">
       <h2>🚀 Visão Geral</h2>
       <p>
-        O <strong>SqModalManagerService</strong> é um serviço poderoso para gerenciar modais e overlays de forma dinâmica,
-        permitindo injetar qualquer componente Angular dentro de um modal/overlay sem precisar adicionar código no template.
+        O <strong>SqModalManagerService</strong> é um serviço poderoso para gerenciar modais e overlays de forma
+        dinâmica, permitindo injetar qualquer componente Angular dentro de um modal/overlay sem precisar adicionar
+        código no template.
       </p>
       <div class="features-grid">
         <div class="feature-card">
@@ -66,7 +67,7 @@
 
     <div class="code-example">
       <h3>💻 Código:</h3>
-      <pre><code>// Pequeno - Formulários simples
+      <pre><code ngNonBindable>// Pequeno - Formulários simples
 this.modalManager.open(QuickFormComponent, &#123;
   type: 'modal',
   size: 'sm',
@@ -128,7 +129,7 @@ this.modalManager.open(EditorComponent, &#123;
 
     <div class="code-example">
       <h3>💻 Código:</h3>
-      <pre><code>// Backdrop estático - usuário DEVE usar os botões
+      <pre><code ngNonBindable>// Backdrop estático - usuário DEVE usar os botões
 this.modalManager.open(ImportantFormComponent, &#123;
   type: 'modal',
   backdrop: 'static',
@@ -190,7 +191,7 @@ this.modalManager.open(ViewOnlyComponent, &#123;
 
     <div class="code-example">
       <h3>💻 Código:</h3>
-      <pre><code>// Overlay da ESQUERDA - Menu lateral
+      <pre><code ngNonBindable>// Overlay da ESQUERDA - Menu lateral
 this.modalManager.open(MenuComponent, &#123;
   type: 'overlay',
   direction: 'left',
@@ -240,7 +241,7 @@ this.modalManager.open(QuickActionsComponent, &#123;
 
     <div class="code-example">
       <h3>💻 Componente de Conteúdo:</h3>
-      <pre><code>// user-details.component.ts
+      <pre><code ngNonBindable>// user-details.component.ts
 &#64;Component(&#123; ... &#125;)
 export class UserDetailsComponent &#123;
   &#64;Input() userId!: number;
@@ -262,7 +263,7 @@ export class UserDetailsComponent &#123;
 &#125;</code></pre>
 
       <h3>💻 Abrindo o Modal:</h3>
-      <pre><code>// Passar dados via config.data
+      <pre><code ngNonBindable>// Passar dados via config.data
 openUserDetails(user: User) &#123;
   const modalRef = this.modalManager.open(UserDetailsComponent, &#123;
     type: 'modal',
@@ -315,7 +316,7 @@ updateLiveData(modalRef: SqModalRef) &#123;
 
     <div class="code-example">
       <h3>💻 Componente com Templates:</h3>
-      <pre><code>// custom-modal.component.ts
+      <pre><code ngNonBindable>// custom-modal.component.ts
 &#64;Component(&#123;
   template: `
     &lt;!-- Template do header customizado --&gt;
@@ -369,7 +370,7 @@ export class CustomModalComponent &#123;
 &#125;</code></pre>
 
       <h3>💻 Ou passar templates via config:</h3>
-      <pre><code>// Definir templates no componente pai
+      <pre><code ngNonBindable>// Definir templates no componente pai
 &#64;ViewChild('myHeader') myHeaderTemplate!: TemplateRef&lt;any&gt;;
 &#64;ViewChild('myFooter') myFooterTemplate!: TemplateRef&lt;any&gt;;
 
@@ -391,10 +392,8 @@ openWithTemplates() &#123;
     <div class="advanced-examples">
       <div class="advanced-item">
         <h4><i class="fas fa-layer-group"></i> Múltiplos Modais</h4>
-        <sq-button color="info" (emitClick)="openMultipleModals()">
-          Testar
-        </sq-button>
-        <pre><code>// Abrir múltiplos modais em sequência
+        <sq-button color="info" (emitClick)="openMultipleModals()"> Testar </sq-button>
+        <pre><code ngNonBindable>// Abrir múltiplos modais em sequência
 const modal1 = this.modalManager.open(FirstComponent);
 const modal2 = this.modalManager.open(SecondComponent);
 
@@ -407,10 +406,8 @@ this.modalManager.closeAll();</code></pre>
 
       <div class="advanced-item">
         <h4><i class="fas fa-palette"></i> Estilização Customizada</h4>
-        <sq-button color="warning" (emitClick)="openStyledModal()">
-          Testar
-        </sq-button>
-        <pre><code>this.modalManager.open(CustomComponent, &#123;
+        <sq-button color="warning" (emitClick)="openStyledModal()"> Testar </sq-button>
+        <pre><code ngNonBindable>this.modalManager.open(CustomComponent, &#123;
   type: 'modal',
   customClass: 'my-custom-modal',
   backdropClass: 'my-backdrop',
@@ -425,7 +422,7 @@ this.modalManager.closeAll();</code></pre>
 
       <div class="advanced-item">
         <h4><i class="fas fa-bell"></i> Observar Eventos</h4>
-        <pre><code>// Observar quando qualquer modal abre
+        <pre><code ngNonBindable>// Observar quando qualquer modal abre
 this.modalManager.modalOpened$.subscribe(event => &#123;
   console.log('Modal aberto:', event.id);
 &#125;);
@@ -438,7 +435,7 @@ this.modalManager.modalClosed$.subscribe(event => &#123;
 
       <div class="advanced-item">
         <h4><i class="fas fa-check-circle"></i> Confirmação de Ações</h4>
-        <pre><code>async confirmDelete(userId: number) &#123;
+        <pre><code ngNonBindable>async confirmDelete(userId: number) &#123;
   const modalRef = this.modalManager.open(ConfirmComponent, &#123;
     type: 'modal',
     size: 'sm',
