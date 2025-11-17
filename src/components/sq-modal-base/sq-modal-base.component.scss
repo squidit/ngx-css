@@ -9,7 +9,7 @@
   // Overlay LATERAL (left/right) precisa de altura total
   &.overlay.left,
   &.overlay.right {
-    height: 100vh !important;
+    height: 100dsvh !important;
     position: fixed !important;
     top: 0 !important;
     left: 0 !important;
@@ -31,7 +31,7 @@
     width: 100vw !important;
     
     .modal-dialog {
-      max-height: 80vh !important;
+      max-height: 80dsvh !important;
       height: auto !important;
     }
   }
@@ -46,7 +46,7 @@
     width: 100vw !important;
     
     .modal-dialog {
-      max-height: 80vh !important;
+      max-height: 80svh !important;
       height: auto !important;
     }
   }
@@ -62,7 +62,7 @@
   // Overlay LATERAL (left/right) precisa de altura total
   &.overlay.left,
   &.overlay.right {
-    height: 100vh !important;
+    height: 100svh !important;
     position: fixed !important;
     top: 0 !important;
     left: 0 !important;
@@ -84,7 +84,7 @@
     width: 100vw !important;
     
     .modal-dialog {
-      max-height: 80vh !important;
+      max-height: 80svh !important;
       height: auto !important;
     }
   }
@@ -99,14 +99,14 @@
     width: 100vw !important;
     
     .modal-dialog {
-      max-height: 80vh !important;
+      max-height: 80svh !important;
       height: auto !important;
     }
   }
 
   // Modal sizes (sistema de 48 colunas)
   .modal-dialog {
-    max-height: 90vh;
+    max-height: 90svh;
     display: flex;
     flex-direction: column;
     
@@ -128,7 +128,7 @@
     
     &.modal-fullscreen {
       max-width: calc(100vw - 4rem); // Quase tela toda com margem
-      max-height: calc(100vh - 4rem);
+      max-height: calc(100svh - 4rem);
       width: 100%;
       height: 100%;
     }
@@ -192,7 +192,7 @@
     
     &.left,
     &.right {
-      height: 100vh !important;
+      height: 100svh !important;
       top: 0 !important;
       left: 0 !important;
     }
@@ -224,7 +224,7 @@
     .modal-dialog {
       width: 300px;
       max-width: 100vw;
-      height: 100vh !important;
+      height: 100svh !important;
       max-height: none !important;
       margin: 0;
       position: fixed;
@@ -268,12 +268,12 @@
         }
 
         .modal-body {
-          height: calc(100vh - 120px);
+          height: calc(100svh - 120px);
           overflow-y: auto;
           overflow-x: hidden;
           
           &.without-footer {
-            height: calc(100vh - 60px);
+            height: calc(100svh - 60px);
           }
         }
 
@@ -309,12 +309,12 @@
       width: 100%;
       max-width: 100vw;
       height: auto !important;
-      max-height: 80vh !important;
+      max-height: 80svh !important;
       position: relative !important;
       
       .modal-content {
         height: auto !important;
-        max-height: 80vh;
+        max-height: 80svh;
         display: flex;
         flex-direction: column;
         
@@ -327,11 +327,11 @@
           flex: 1 1 auto !important;
           height: auto !important;
           overflow-y: auto;
-          max-height: calc(80vh - 120px);
+          max-height: calc(80svh - 120px);
           min-height: 0;
           
           &.without-footer {
-            max-height: calc(80vh - 60px);
+            max-height: calc(80svh - 60px);
           }
         }
         
