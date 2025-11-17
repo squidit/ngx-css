@@ -38,6 +38,114 @@
     </div>
   </section>
 
+  <!-- Configuração Inicial -->
+  <section class="docs-section config-section">
+    <h2>⚙️ Configuração Inicial</h2>
+    <p>Para começar a usar o <code>SqModalManagerService</code>, siga os passos abaixo:</p>
+
+    <div class="config-steps">
+      <div class="step">
+        <div class="step-number">1</div>
+        <div class="step-content">
+          <h3>Importe o Módulo</h3>
+          <p>
+            Certifique-se de que o <code>SquidCSSModule</code> está importado no seu módulo ou componente standalone:
+          </p>
+          <pre><code ngNonBindable>// Em um módulo (app.module.ts)
+import &#123; SquidCSSModule &#125; from '&#64;squidit/ngx-css';
+
+&#64;NgModule(&#123;
+  imports: [
+    SquidCSSModule
+  ]
+&#125;)
+export class AppModule &#123; &#125;
+
+// OU em um componente standalone
+import &#123; SqModalManagerService &#125; from '&#64;squidit/ngx-css';
+
+&#64;Component(&#123;
+  standalone: true,
+  imports: [SquidCSSModule],
+  providers: [SqModalManagerService] // Se necessário
+&#125;)</code></pre>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-number">2</div>
+        <div class="step-content">
+          <h3>Injete o Serviço</h3>
+          <p>Injete o <code>SqModalManagerService</code> no construtor ou use a função <code>inject()</code>:</p>
+          <pre><code ngNonBindable>import &#123; SqModalManagerService &#125; from '&#64;squidit/ngx-css';
+
+export class MyComponent &#123;
+  // Opção 1: Construtor
+  constructor(private modalManager: SqModalManagerService) &#123;&#125;
+
+  // Opção 2: inject() function
+  private modalManager = inject(SqModalManagerService);
+&#125;</code></pre>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-number">3</div>
+        <div class="step-content">
+          <h3>Crie um Componente de Conteúdo</h3>
+          <p>Crie o componente que será exibido dentro do modal/overlay:</p>
+          <pre><code ngNonBindable>import &#123; Component, Input &#125; from '&#64;angular/core';
+import &#123; SqModalRef &#125; from '&#64;squidit/ngx-css';
+
+&#64;Component(&#123;
+  selector: 'app-my-modal-content',
+  template: `
+    &lt;div class="content"&gt;
+      &lt;h3&gt;Olá, &#123;&#123; userName &#125;&#125;!&lt;/h3&gt;
+      &lt;p&gt;Este é um modal dinâmico.&lt;/p&gt;
+    &lt;/div&gt;
+  `
+&#125;)
+export class MyModalContentComponent &#123;
+  &#64;Input() userName = 'Usuário';
+  &#64;Input() modalRef?: SqModalRef;
+&#125;</code></pre>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-number">4</div>
+        <div class="step-content">
+          <h3>Abra o Modal</h3>
+          <p>Use o método <code>open()</code> para exibir o modal:</p>
+          <pre><code ngNonBindable>openMyModal() &#123;
+  const modalRef = this.modalManager.open(MyModalContentComponent, &#123;
+    type: 'modal',
+    size: 'md',
+    title: 'Meu Modal',
+    data: &#123;
+      userName: 'Diego'
+    &#125;
+  &#125;);
+
+  // (Opcional) Observar o fechamento
+  modalRef.afterClosed().subscribe(result => &#123;
+    console.log('Modal fechado com resultado:', result);
+  &#125;);
+&#125;</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="important-note">
+      <i class="fas fa-info-circle"></i>
+      <div>
+        <strong>Importante:</strong> Os componentes <code>sq-modal</code> e <code>sq-overlay</code> estão
+        <strong>deprecated</strong>. Use sempre o <code>SqModalManagerService</code> para novos desenvolvimentos.
+      </div>
+    </div>
+  </section>
+
   <!-- Modais - Tamanhos -->
   <section class="docs-section">
     <h2>🎯 Modais Centralizados - Tamanhos</h2>

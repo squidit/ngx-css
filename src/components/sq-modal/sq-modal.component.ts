@@ -23,11 +23,13 @@ import { SqClickOutsideDirective } from '../../directives/sq-click-outside/sq-cl
 /**
  * Represents a modal component with customizable options and event handling.
  *
- * Look the link about the component in original framework and the appearance
+ * @deprecated Este componente está obsoleto. Use o serviço `SqModalManagerService` para criar modais dinâmicos.
  *
- * @see {@link https://css.squidit.com.br/components/modal}
+ * @see {@link SqModalManagerService} - Serviço recomendado para criação de modais
+ * @see {@link https://css.squidit.com.br/components/modal} - Documentação do framework original
  *
  * @example
+ * // ❌ Forma antiga (deprecated):
  * <sq-modal [open]="isModalOpen" (modalClose)="onModalClose()">
  *   <ng-template #headerModal>
  *     <h2>Title</h2>
@@ -40,6 +42,17 @@ import { SqClickOutsideDirective } from '../../directives/sq-click-outside/sq-cl
  *   </ng-template>
  * </sq-modal>
  * <button (click)='isModalOpen = true'>Open Modal</button>
+ *
+ * // ✅ Forma nova (recomendada):
+ * constructor(private modalManager: SqModalManagerService) {}
+ *
+ * openModal() {
+ *   this.modalManager.open(MyContentComponent, {
+ *     type: 'modal',
+ *     size: 'lg',
+ *     title: 'Título do Modal'
+ *   });
+ * }
  *
  * @implements {OnChanges}
  * @implements {OnDestroy}
