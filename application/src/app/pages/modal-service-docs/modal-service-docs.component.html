@@ -1,0 +1,653 @@
+<div class="modal-service-docs">
+  <header class="docs-header">
+    <h1>📚 SqModalManagerService - Documentação</h1>
+    <p class="subtitle">Sistema unificado de modais e overlays dinâmicos</p>
+  </header>
+
+  <!-- Introdução -->
+  <section class="docs-section intro">
+    <div class="intro-content">
+      <h2>🚀 Visão Geral</h2>
+      <p>
+        O <strong>SqModalManagerService</strong> é um serviço poderoso para gerenciar modais e overlays de forma
+        dinâmica, permitindo injetar qualquer componente Angular dentro de um modal/overlay sem precisar adicionar
+        código no template.
+      </p>
+      <div class="features-grid">
+        <div class="feature-card">
+          <i class="fas fa-window-maximize"></i>
+          <h4>5 Tamanhos de Modal</h4>
+          <p>sm, md, lg, xl, fullscreen</p>
+        </div>
+        <div class="feature-card">
+          <i class="fas fa-arrows-alt"></i>
+          <h4>4 Direções de Overlay</h4>
+          <p>left, right, top, bottom</p>
+        </div>
+        <div class="feature-card">
+          <i class="fas fa-cog"></i>
+          <h4>Totalmente Customizável</h4>
+          <p>Headers, footers e estilos</p>
+        </div>
+        <div class="feature-card">
+          <i class="fas fa-bolt"></i>
+          <h4>Animações Suaves</h4>
+          <p>Transições elegantes</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Configuração Inicial -->
+  <section class="docs-section config-section">
+    <h2>⚙️ Configuração Inicial</h2>
+    <p>Para começar a usar o <code>SqModalManagerService</code>, siga os passos abaixo:</p>
+
+    <div class="config-steps">
+      <div class="step">
+        <div class="step-number">1</div>
+        <div class="step-content">
+          <h3>Importe o Módulo</h3>
+          <p>
+            Certifique-se de que o <code>SquidCSSModule</code> está importado no seu módulo ou componente standalone:
+          </p>
+          <pre><code ngNonBindable>// Em um módulo (app.module.ts)
+import &#123; SquidCSSModule &#125; from '&#64;squidit/ngx-css';
+
+&#64;NgModule(&#123;
+  imports: [
+    SquidCSSModule
+  ]
+&#125;)
+export class AppModule &#123; &#125;
+
+// OU em um componente standalone
+import &#123; SqModalManagerService &#125; from '&#64;squidit/ngx-css';
+
+&#64;Component(&#123;
+  standalone: true,
+  imports: [SquidCSSModule],
+  providers: [SqModalManagerService] // Se necessário
+&#125;)</code></pre>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-number">2</div>
+        <div class="step-content">
+          <h3>Injete o Serviço</h3>
+          <p>Injete o <code>SqModalManagerService</code> no construtor ou use a função <code>inject()</code>:</p>
+          <pre><code ngNonBindable>import &#123; SqModalManagerService &#125; from '&#64;squidit/ngx-css';
+
+export class MyComponent &#123;
+  // Opção 1: Construtor
+  constructor(private modalManager: SqModalManagerService) &#123;&#125;
+
+  // Opção 2: inject() function
+  private modalManager = inject(SqModalManagerService);
+&#125;</code></pre>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-number">3</div>
+        <div class="step-content">
+          <h3>Crie um Componente de Conteúdo</h3>
+          <p>Crie o componente que será exibido dentro do modal/overlay:</p>
+          <pre><code ngNonBindable>import &#123; Component, Input &#125; from '&#64;angular/core';
+import &#123; SqModalRef &#125; from '&#64;squidit/ngx-css';
+
+&#64;Component(&#123;
+  selector: 'app-my-modal-content',
+  template: `
+    &lt;div class="content"&gt;
+      &lt;h3&gt;Olá, &#123;&#123; userName &#125;&#125;!&lt;/h3&gt;
+      &lt;p&gt;Este é um modal dinâmico.&lt;/p&gt;
+    &lt;/div&gt;
+  `
+&#125;)
+export class MyModalContentComponent &#123;
+  &#64;Input() userName = 'Usuário';
+  &#64;Input() modalRef?: SqModalRef;
+&#125;</code></pre>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-number">4</div>
+        <div class="step-content">
+          <h3>Abra o Modal</h3>
+          <p>Use o método <code>open()</code> para exibir o modal:</p>
+          <pre><code ngNonBindable>openMyModal() &#123;
+  const modalRef = this.modalManager.open(MyModalContentComponent, &#123;
+    type: 'modal',
+    size: 'md',
+    title: 'Meu Modal',
+    data: &#123;
+      userName: 'Diego'
+    &#125;
+  &#125;);
+
+  // (Opcional) Observar o fechamento
+  modalRef.afterClosed().subscribe(result => &#123;
+    console.log('Modal fechado com resultado:', result);
+  &#125;);
+&#125;</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="important-note">
+      <i class="fas fa-info-circle"></i>
+      <div>
+        <strong>Importante:</strong> Os componentes <code>sq-modal</code> e <code>sq-overlay</code> estão
+        <strong>deprecated</strong>. Use sempre o <code>SqModalManagerService</code> para novos desenvolvimentos.
+      </div>
+    </div>
+  </section>
+
+  <!-- Modais - Tamanhos -->
+  <section class="docs-section">
+    <h2>🎯 Modais Centralizados - Tamanhos</h2>
+    <p>Escolha o tamanho ideal para cada situação:</p>
+
+    <div class="example-buttons">
+      <sq-button color="info" size="sm" (emitClick)="openSmallModal()">
+        <i class="fas fa-window-minimize"></i> Small (400px)
+      </sq-button>
+
+      <sq-button color="primary" size="md" (emitClick)="openMediumModal()">
+        <i class="fas fa-window-restore"></i> Medium (600px)
+      </sq-button>
+
+      <sq-button color="secondary" size="lg" (emitClick)="openModal()">
+        <i class="fas fa-window-maximize"></i> Large (800px)
+      </sq-button>
+
+      <sq-button color="warning" size="lg" (emitClick)="openExtraLargeModal()">
+        <i class="fas fa-expand-arrows-alt"></i> Extra Large (1000px)
+      </sq-button>
+
+      <sq-button color="success" size="lg" (emitClick)="openFullscreenModal()">
+        <i class="fas fa-expand"></i> Fullscreen
+      </sq-button>
+    </div>
+
+    <div class="code-example">
+      <h3>💻 Código:</h3>
+      <pre><code ngNonBindable>// Pequeno - Formulários simples
+this.modalManager.open(QuickFormComponent, &#123;
+  type: 'modal',
+  size: 'sm',
+  title: 'Login Rápido'
+&#125;);
+
+// Médio - Padrão para a maioria dos casos
+this.modalManager.open(UserFormComponent, &#123;
+  type: 'modal',
+  size: 'md',
+  title: 'Editar Usuário'
+&#125;);
+
+// Grande - Conteúdo extenso
+this.modalManager.open(DetailsComponent, &#123;
+  type: 'modal',
+  size: 'lg',
+  title: 'Detalhes Completos'
+&#125;);
+
+// Extra Grande - Dados complexos
+this.modalManager.open(DashboardComponent, &#123;
+  type: 'modal',
+  size: 'xl',
+  title: 'Dashboard'
+&#125;);
+
+// Fullscreen - Editores, visualizadores
+this.modalManager.open(EditorComponent, &#123;
+  type: 'modal',
+  size: 'fullscreen',
+  title: 'Editor de Código'
+&#125;);</code></pre>
+    </div>
+  </section>
+
+  <!-- Modais - Comportamento -->
+  <section class="docs-section">
+    <h2>🛡️ Modais - Backdrop e Botões</h2>
+    <p>Controle o comportamento de fechamento e aparência dos botões:</p>
+
+    <div class="example-buttons">
+      <sq-button color="danger" size="md" (emitClick)="openStaticModal()">
+        <i class="fas fa-lock"></i> Backdrop Estático (não fecha ao clicar fora)
+      </sq-button>
+
+      <sq-button color="success" size="md" (emitClick)="openDismissableModal()">
+        <i class="fas fa-unlock"></i> Backdrop Dismissable (fecha ao clicar fora)
+      </sq-button>
+
+      <sq-button color="primary" size="md" (emitClick)="openCustomButtonsModal()">
+        <i class="fas fa-edit"></i> Botões Customizados
+      </sq-button>
+
+      <sq-button color="warning" size="md" (emitClick)="openNoFooterModal()">
+        <i class="fas fa-eye-slash"></i> Sem Footer
+      </sq-button>
+    </div>
+
+    <div class="code-example">
+      <h3>💻 Código:</h3>
+      <pre><code ngNonBindable>// Backdrop estático - usuário DEVE usar os botões
+this.modalManager.open(ImportantFormComponent, &#123;
+  type: 'modal',
+  backdrop: 'static',
+  title: 'Ação Importante',
+  cancelButtonText: 'Não, Voltar',
+  confirmButtonText: 'Sim, Continuar'
+&#125;);
+
+// Backdrop dismissable - fecha ao clicar fora ou ESC
+this.modalManager.open(InfoComponent, &#123;
+  type: 'modal',
+  backdrop: 'true',
+  title: 'Informações'
+&#125;);
+
+// Sem footer padrão
+this.modalManager.open(ViewOnlyComponent, &#123;
+  type: 'modal',
+  title: 'Visualização',
+  showFooterButtons: false
+&#125;);</code></pre>
+    </div>
+  </section>
+
+  <!-- Overlays - Direções -->
+  <section class="docs-section">
+    <h2>📱 Overlays Deslizantes - Direções</h2>
+    <p>Painéis deslizantes das 4 direções com animações suaves:</p>
+
+    <div class="direction-grid">
+      <div class="direction-item">
+        <sq-button color="info" size="lg" (emitClick)="openLeftOverlay()">
+          <i class="fas fa-arrow-right"></i> Esquerda
+        </sq-button>
+        <span class="use-case">Menu lateral, navegação</span>
+      </div>
+
+      <div class="direction-item">
+        <sq-button color="primary" size="lg" (emitClick)="openOverlay()">
+          <i class="fas fa-arrow-left"></i> Direita
+        </sq-button>
+        <span class="use-case">Filtros, configurações</span>
+      </div>
+
+      <div class="direction-item">
+        <sq-button color="success" size="lg" (emitClick)="openTopOverlay()">
+          <i class="fas fa-arrow-down"></i> Superior
+        </sq-button>
+        <span class="use-case">Notificações, alertas</span>
+      </div>
+
+      <div class="direction-item">
+        <sq-button color="warning" size="lg" (emitClick)="openBottomOverlay()">
+          <i class="fas fa-arrow-up"></i> Inferior
+        </sq-button>
+        <span class="use-case">Ações rápidas, sheet</span>
+      </div>
+    </div>
+
+    <div class="code-example">
+      <h3>💻 Código:</h3>
+      <pre><code ngNonBindable>// Overlay da ESQUERDA - Menu lateral
+this.modalManager.open(MenuComponent, &#123;
+  type: 'overlay',
+  direction: 'left',
+  width: '300px',
+  title: 'Menu Principal'
+&#125;);
+
+// Overlay da DIREITA - Filtros (mais comum)
+this.modalManager.open(FiltersComponent, &#123;
+  type: 'overlay',
+  direction: 'right',
+  width: '500px',
+  title: 'Filtros Avançados',
+  backdrop: 'true'
+&#125;);
+
+// Overlay SUPERIOR - Notificações
+this.modalManager.open(NotificationsComponent, &#123;
+  type: 'overlay',
+  direction: 'top',
+  title: 'Notificações Recentes'
+&#125;);
+
+// Overlay INFERIOR - Ações rápidas
+this.modalManager.open(QuickActionsComponent, &#123;
+  type: 'overlay',
+  direction: 'bottom',
+  title: 'Ações Disponíveis'
+&#125;);</code></pre>
+    </div>
+  </section>
+
+  <!-- Passagem de Dados -->
+  <section class="docs-section">
+    <h2>📦 Passagem de Dados para Componentes</h2>
+    <p>Passe dados para o componente via propriedade <code>data</code> e receba via <code>&#64;Input()</code>:</p>
+
+    <div class="example-buttons">
+      <sq-button color="primary" size="lg" (emitClick)="openModalWithData()">
+        <i class="fas fa-database"></i> Modal com Dados
+      </sq-button>
+
+      <sq-button color="success" size="lg" (emitClick)="openModalWithLiveUpdate()">
+        <i class="fas fa-sync-alt"></i> Atualização em Tempo Real
+      </sq-button>
+    </div>
+
+    <div class="code-example">
+      <h3>💻 Componente de Conteúdo:</h3>
+      <pre><code ngNonBindable>// user-details.component.ts
+&#64;Component(&#123; ... &#125;)
+export class UserDetailsComponent &#123;
+  &#64;Input() userId!: number;
+  &#64;Input() userName!: string;
+  &#64;Input() userEmail!: string;
+  &#64;Input() modalRef?: SqModalRef; // Referência para fechar
+
+  save() &#123;
+    // Fechar modal retornando dados
+    this.modalRef?.close(&#123;
+      saved: true,
+      userId: this.userId
+    &#125;);
+  &#125;
+
+  cancel() &#123;
+    this.modalRef?.close(&#123; cancelled: true &#125;);
+  &#125;
+&#125;</code></pre>
+
+      <h3>💻 Abrindo o Modal:</h3>
+      <pre><code ngNonBindable>// Passar dados via config.data
+openUserDetails(user: User) &#123;
+  const modalRef = this.modalManager.open(UserDetailsComponent, &#123;
+    type: 'modal',
+    size: 'lg',
+    title: `Editar Usuário: $&#123;user.name&#125;`,
+    data: &#123;
+      userId: user.id,
+      userName: user.name,
+      userEmail: user.email
+    &#125;
+  &#125;);
+
+  // Observar resultado
+  modalRef.afterClosed().subscribe(result => &#123;
+    if (result?.saved) &#123;
+      console.log('Usuário salvo!', result.userId);
+      this.loadUsers(); // Recarregar lista
+    &#125;
+  &#125;);
+&#125;
+
+// Atualizar dados do modal já aberto
+updateLiveData(modalRef: SqModalRef) &#123;
+  modalRef.updateData(&#123;
+    userName: 'Nome Atualizado',
+    userEmail: 'novo&#64;email.com'
+  &#125;);
+&#125;</code></pre>
+    </div>
+  </section>
+
+  <!-- Templates Customizados -->
+  <section class="docs-section">
+    <h2>🎨 Headers e Footers Customizados</h2>
+    <p>Crie headers e footers totalmente personalizados usando templates:</p>
+
+    <div class="example-buttons">
+      <sq-button color="secondary" size="lg" (emitClick)="openModalWithCustomHeader()">
+        <i class="fas fa-paint-brush"></i> Header Customizado
+      </sq-button>
+
+      <sq-button color="primary" size="lg" (emitClick)="openModalWithCustomFooter()">
+        <i class="fas fa-tools"></i> Footer Customizado
+      </sq-button>
+
+      <sq-button color="success" size="lg" (emitClick)="openModalFullyCustomized()">
+        <i class="fas fa-magic"></i> Totalmente Customizado
+      </sq-button>
+    </div>
+
+    <div class="code-example">
+      <h3>💻 Componente com Templates:</h3>
+      <pre><code ngNonBindable>// custom-modal.component.ts
+&#64;Component(&#123;
+  template: `
+    &lt;!-- Template do header customizado --&gt;
+    &lt;ng-template #customHeader let-modalRef="modalRef"&gt;
+      &lt;div class="custom-header"&gt;
+        &lt;div class="header-left"&gt;
+          &lt;i class="fas fa-star"&gt;&lt;/i&gt;
+          &lt;h3&gt;&#123;&#123; title &#125;&#125;&lt;/h3&gt;
+        &lt;/div&gt;
+        &lt;button class="close-btn" (click)="modalRef.close()"&gt;
+          &lt;i class="fas fa-times"&gt;&lt;/i&gt;
+        &lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/ng-template&gt;
+
+    &lt;!-- Template do footer customizado --&gt;
+    &lt;ng-template #customFooter let-modalRef="modalRef"&gt;
+      &lt;div class="custom-footer"&gt;
+        &lt;button (click)="modalRef.close()"&gt;
+          Cancelar
+        &lt;/button&gt;
+        &lt;button (click)="modalRef.close('confirmed')"&gt;
+          Confirmar
+        &lt;/button&gt;
+        &lt;button (click)="modalRef.close('saved')"&gt;
+          Salvar
+        &lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/ng-template&gt;
+
+    &lt;!-- Conteúdo do modal --&gt;
+    &lt;div class="modal-content"&gt;
+      &#123;&#123; message &#125;&#125;
+    &lt;/div&gt;
+  `
+&#125;)
+export class CustomModalComponent &#123;
+  &#64;Input() title = 'Título';
+  &#64;Input() message = 'Mensagem';
+  &#64;Input() modalRef?: SqModalRef;
+
+  &#64;ViewChild('customHeader', &#123; static: true &#125;)
+  headerTemplate!: TemplateRef&lt;any&gt;;
+
+  &#64;ViewChild('customFooter', &#123; static: true &#125;)
+  footerTemplate!: TemplateRef&lt;any&gt;;
+
+  // Expor templates para o serviço detectar
+  customHeaderTemplate = this.headerTemplate;
+  customFooterTemplate = this.footerTemplate;
+&#125;</code></pre>
+
+      <h3>💻 Ou passar templates via config:</h3>
+      <pre><code ngNonBindable>// Definir templates no componente pai
+&#64;ViewChild('myHeader') myHeaderTemplate!: TemplateRef&lt;any&gt;;
+&#64;ViewChild('myFooter') myFooterTemplate!: TemplateRef&lt;any&gt;;
+
+openWithTemplates() &#123;
+  this.modalManager.open(ContentComponent, &#123;
+    type: 'modal',
+    headerTemplate: this.myHeaderTemplate,
+    footerTemplate: this.myFooterTemplate,
+    data: &#123; message: 'Conteúdo' &#125;
+  &#125;);
+&#125;</code></pre>
+    </div>
+  </section>
+
+  <!-- Casos de Uso Avançados -->
+  <section class="docs-section">
+    <h2>🚀 Casos de Uso Avançados</h2>
+
+    <div class="advanced-examples">
+      <div class="advanced-item">
+        <h4><i class="fas fa-layer-group"></i> Múltiplos Modais</h4>
+        <sq-button color="info" (emitClick)="openMultipleModals()"> Testar </sq-button>
+        <pre><code ngNonBindable>// Abrir múltiplos modais em sequência
+const modal1 = this.modalManager.open(FirstComponent);
+const modal2 = this.modalManager.open(SecondComponent);
+
+// Verificar quantos estão abertos
+console.log(this.modalManager.openModalsCount);
+
+// Fechar todos
+this.modalManager.closeAll();</code></pre>
+      </div>
+
+      <div class="advanced-item">
+        <h4><i class="fas fa-palette"></i> Estilização Customizada</h4>
+        <sq-button color="warning" (emitClick)="openStyledModal()"> Testar </sq-button>
+        <pre><code ngNonBindable>this.modalManager.open(CustomComponent, &#123;
+  type: 'modal',
+  customClass: 'my-custom-modal',
+  backdropClass: 'my-backdrop',
+  headerBgColor: '#4CAF50',
+  bodyBgColor: '#ffffff',
+  footerBgColor: '#f5f5f5',
+  headerPadding: '2rem',
+  bodyPadding: '2rem',
+  footerPadding: '1rem'
+&#125;);</code></pre>
+      </div>
+
+      <div class="advanced-item">
+        <h4><i class="fas fa-bell"></i> Observar Eventos</h4>
+        <pre><code ngNonBindable>// Observar quando qualquer modal abre
+this.modalManager.modalOpened$.subscribe(event => &#123;
+  console.log('Modal aberto:', event.id);
+&#125;);
+
+// Observar quando qualquer modal fecha
+this.modalManager.modalClosed$.subscribe(event => &#123;
+  console.log('Modal fechado:', event.result);
+&#125;);</code></pre>
+      </div>
+
+      <div class="advanced-item">
+        <h4><i class="fas fa-check-circle"></i> Confirmação de Ações</h4>
+        <pre><code ngNonBindable>async confirmDelete(userId: number) &#123;
+  const modalRef = this.modalManager.open(ConfirmComponent, &#123;
+    type: 'modal',
+    size: 'sm',
+    backdrop: 'static',
+    title: 'Confirmar Exclusão',
+    cancelButtonText: 'Não, Cancelar',
+    confirmButtonText: 'Sim, Excluir',
+    data: &#123; message: 'Tem certeza?' &#125;
+  &#125;);
+
+  const result = await firstValueFrom(
+    modalRef.afterClosed()
+  );
+
+  if (result?.confirmed) &#123;
+    await this.deleteUser(userId);
+  &#125;
+&#125;</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="docs-section">
+    <h2>⚙️ Opções de Configuração</h2>
+    <table class="config-table">
+      <thead>
+        <tr>
+          <th>Propriedade</th>
+          <th>Tipo</th>
+          <th>Padrão</th>
+          <th>Descrição</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>type</code></td>
+          <td>string</td>
+          <td>'modal'</td>
+          <td>Tipo: 'modal' (centralizado) ou 'overlay' (lateral)</td>
+        </tr>
+        <tr>
+          <td><code>size</code></td>
+          <td>string</td>
+          <td>'md'</td>
+          <td>Tamanho: 'sm' (~400px), 'md' (~600px), 'lg' (~800px), 'xl' (~1000px), 'fullscreen' (tela toda)</td>
+        </tr>
+        <tr>
+          <td><code>direction</code></td>
+          <td>string</td>
+          <td>'right'</td>
+          <td>Direção do overlay: 'left', 'right', 'top', 'bottom'</td>
+        </tr>
+        <tr>
+          <td><code>width</code></td>
+          <td>string</td>
+          <td>'475px'</td>
+          <td>Largura do overlay</td>
+        </tr>
+        <tr>
+          <td><code>backdrop</code></td>
+          <td>string</td>
+          <td>'static'</td>
+          <td>'static' (não fecha ao clicar) ou 'true' (fecha ao clicar)</td>
+        </tr>
+        <tr>
+          <td><code>data</code></td>
+          <td>object</td>
+          <td>&#123;&#125;</td>
+          <td>Dados passados para o componente via &#64;Input</td>
+        </tr>
+        <tr>
+          <td><code>title</code></td>
+          <td>string</td>
+          <td>undefined</td>
+          <td>Título exibido no header padrão (se não houver headerTemplate)</td>
+        </tr>
+        <tr>
+          <td><code>cancelButtonText</code></td>
+          <td>string</td>
+          <td>'Fechar'</td>
+          <td>Texto do botão de cancelar no footer padrão</td>
+        </tr>
+        <tr>
+          <td><code>confirmButtonText</code></td>
+          <td>string</td>
+          <td>'Concluir'</td>
+          <td>Texto do botão de confirmar no footer padrão</td>
+        </tr>
+        <tr>
+          <td><code>showFooterButtons</code></td>
+          <td>boolean</td>
+          <td>true</td>
+          <td>Exibir botões padrão no footer (false para ocultar)</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="docs-section">
+    <h2>🔗 Métodos da ModalRef</h2>
+    <ul class="methods-list">
+      <li><strong>close(result?)</strong> - Fecha o modal e retorna um resultado opcional</li>
+      <li><strong>updateData(data)</strong> - Atualiza os inputs do componente de conteúdo</li>
+      <li><strong>afterClosed()</strong> - Observable que emite quando o modal é fechado</li>
+    </ul>
+  </section>
+</div>

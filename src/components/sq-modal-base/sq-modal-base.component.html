@@ -1,0 +1,105 @@
+<div
+  [id]="id"
+  class="modal align-items-center {{ backdropClass }} {{ customClass }}"
+  [ngClass]="containerClasses"
+  [ngStyle]="containerStyles"
+  #modalElement
+  [dataTest]="dataTest"
+>
+  <div
+    class="modal-dialog"
+    [ngClass]="dialogClasses"
+    [ngStyle]="dialogStyles"
+    [clickOutsideEnabled]="!!(open && backdrop !== 'static' && modalElement)"
+    (clickOutside)="handleClickOutside()"
+  >
+    <div
+      [dataTest]="dataTest + '-content'"
+      class="modal-content"
+      [ngClass]="{ 'modal-sq': type === 'modal', scrollbar: type === 'overlay' }"
+    >
+      <!-- Header -->
+      <div
+        [dataTest]="dataTest + '-header'"
+        class="modal-header"
+        [ngClass]="headerClasses"
+        [ngStyle]="{
+          background: headerBgColor,
+          padding: headerPadding,
+          'background-color': type === 'overlay' ? headerBgColor || 'var(--background_secondary)' : headerBgColor,
+        }"
+      >
+        <!-- Custom header template -->
+        @if (headerTemplate) {
+          <ng-container *ngTemplateOutlet="headerTemplate; context: templateContext"></ng-container>
+        }
+
+        <!-- Default header with title -->
+        @if (shouldShowDefaultHeader) {
+          <h6 class="modal-title m-0 primary">{{ title }}</h6>
+        }
+
+        @if (showCloseButton) {
+          <button
+            type="button"
+            class="close button-close"
+            aria-label="Close"
+            (click)="modalClose.emit()"
+            [ngStyle]="type === 'overlay' && headerItemsColor ? { color: headerItemsColor } : {}"
+          >
+            <i class="fa-solid fa-xmark" [ngClass]="{ 'fa-lg': type === 'modal' }"></i>
+          </button>
+        }
+      </div>
+
+      <!-- Body -->
+      <div
+        [dataTest]="dataTest + '-body'"
+        class="modal-body scrollbar"
+        [ngClass]="bodyClasses"
+        [ngStyle]="{
+          background: bodyBgColor,
+          padding: bodyPadding || (type === 'overlay' ? '2rem' : '0 1rem'),
+          'background-color': type === 'overlay' ? bodyBgColor || 'var(--background_secondary)' : bodyBgColor,
+        }"
+      >
+        <!-- Dynamic content injection point -->
+        <ng-container #dynamicContent></ng-container>
+        <!-- Static content projection (for direct usage) -->
+        <ng-content></ng-content>
+      </div>
+
+      <!-- Footer -->
+      @if (footerTemplate || shouldShowDefaultFooter) {
+        <div
+          [dataTest]="dataTest + '-footer'"
+          class="modal-footer"
+          [ngClass]="footerClasses"
+          [ngStyle]="{
+            background: footerBgColor,
+            padding: footerPadding,
+            'background-color': type === 'overlay' ? footerBgColor || 'var(--background_secondary)' : footerBgColor,
+          }"
+        >
+          <!-- Custom footer template -->
+          @if (footerTemplate) {
+            <ng-container *ngTemplateOutlet="footerTemplate; context: templateContext"></ng-container>
+          }
+
+          <!-- Default footer buttons -->
+          @if (shouldShowDefaultFooter) {
+            <div class="modal-footer-actions">
+              <sq-button color="transparent" textColor="var(--primary_color)" (emitClick)="modalRef?.close()">
+                {{ cancelButtonText }}
+              </sq-button>
+
+              <sq-button (emitClick)="modalRef?.close({ confirmed: true })">
+                {{ confirmButtonText }}
+              </sq-button>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  </div>
+</div>

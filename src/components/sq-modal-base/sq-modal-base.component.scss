@@ -1,0 +1,376 @@
+// Base modal styles (centered)
+:host ::ng-deep .modal {
+  min-height: auto;
+
+  &.need-priority {
+    z-index: 1081;
+  }
+
+  // Overlay LATERAL (left/right) precisa de altura total
+  &.overlay.left,
+  &.overlay.right {
+    height: 100dsvh !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    
+    .modal-dialog {
+      max-height: none !important;
+      height: 100% !important;
+    }
+  }
+  
+  // Overlay HORIZONTAL TOP - largura total e altura automática
+  &.overlay.top {
+    height: auto !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    bottom: auto !important;
+    width: 100vw !important;
+    
+    .modal-dialog {
+      max-height: 80dsvh !important;
+      height: auto !important;
+    }
+  }
+  
+  // Overlay HORIZONTAL BOTTOM - largura total e altura automática
+  &.overlay.bottom {
+    height: auto !important;
+    position: fixed !important;
+    top: auto !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    
+    .modal-dialog {
+      max-height: 80svh !important;
+      height: auto !important;
+    }
+  }
+}
+
+.modal {
+  min-height: auto;
+
+  &.need-priority {
+    z-index: 1081;
+  }
+
+  // Overlay LATERAL (left/right) precisa de altura total
+  &.overlay.left,
+  &.overlay.right {
+    height: 100svh !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    
+    .modal-dialog {
+      max-height: none !important;
+      height: 100% !important;
+    }
+  }
+  
+  // Overlay HORIZONTAL TOP - largura total e altura automática
+  &.overlay.top {
+    height: auto !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    bottom: auto !important;
+    width: 100vw !important;
+    
+    .modal-dialog {
+      max-height: 80svh !important;
+      height: auto !important;
+    }
+  }
+  
+  // Overlay HORIZONTAL BOTTOM - largura total e altura automática
+  &.overlay.bottom {
+    height: auto !important;
+    position: fixed !important;
+    top: auto !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    
+    .modal-dialog {
+      max-height: 80svh !important;
+      height: auto !important;
+    }
+  }
+
+  // Modal sizes (sistema de 48 colunas)
+  .modal-dialog {
+    max-height: 90svh;
+    display: flex;
+    flex-direction: column;
+    
+    &.modal-sm {
+      max-width: 400px; // ~16 colunas
+    }
+    
+    &.modal-md {
+      max-width: 600px; // ~24 colunas (padrão)
+    }
+    
+    &.modal-lg {
+      max-width: 800px; // ~32 colunas
+    }
+    
+    &.modal-xl {
+      max-width: 1000px; // ~40 colunas
+    }
+    
+    &.modal-fullscreen {
+      max-width: calc(100vw - 4rem); // Quase tela toda com margem
+      max-height: calc(100svh - 4rem);
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .modal-sq {
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    max-height: inherit;
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      flex-shrink: 0; // Não encolhe
+      
+      .modal-title {
+        margin: 0;
+        font-size: 1.25rem;
+        font-weight: 500;
+        color: var(--text_primary);
+      }
+    }
+    
+    .modal-body {
+      flex: 1 1 auto; // Ocupa espaço disponível
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+    
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      padding: 1rem 1.5rem;
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
+      flex-shrink: 0; // Não encolhe
+    }
+  }
+  
+  // Default footer actions
+  .modal-footer-actions {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: flex-end;
+    width: 100%;
+  }
+}
+
+// Overlay styles (side panel)
+::ng-deep {
+  .overlay {
+    padding: 0;
+    border-radius: 0px;
+    position: fixed !important;
+    width: 100vw !important;
+    display: flex !important;
+    
+    &.left,
+    &.right {
+      height: 100svh !important;
+      top: 0 !important;
+      left: 0 !important;
+    }
+    
+    &.top {
+      height: auto !important;
+      top: 0 !important;
+      bottom: auto !important;
+      left: 0 !important;
+      align-items: flex-start;
+    }
+    
+    &.bottom {
+      height: auto !important;
+      top: auto !important;
+      bottom: 0 !important;
+      left: 0 !important;
+      align-items: flex-end;
+    }
+
+    &.left {
+      justify-content: flex-start;
+    }
+
+    &.right {
+      justify-content: flex-end;
+    }
+
+    .modal-dialog {
+      width: 300px;
+      max-width: 100vw;
+      height: 100svh !important;
+      max-height: none !important;
+      margin: 0;
+      position: fixed;
+      transition:
+        opacity 0.3s linear,
+        left 0.3s ease-out,
+        right 0.3s ease-out,
+        width 0.3s ease-out,
+        height 0.3s ease-out !important;
+    }
+    
+    &.left .modal-dialog,
+    &.right .modal-dialog {
+      transform: translate3d(0%, 0, 0) !important;
+    }
+
+    // Estilos do conteúdo para todos os overlays (padrão: laterais)
+    .modal-dialog {
+      .modal-content {
+        height: 100%;
+        border-radius: 0;
+        overflow-y: auto;
+        border: none;
+        background-color: transparent;
+
+        .modal-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          height: 60px;
+          border-radius: 0;
+          overflow: hidden;
+          padding: 1rem 2rem;
+          
+          .modal-title {
+            margin: 0;
+            font-size: 1.25rem;
+            font-weight: 500;
+            color: var(--text_primary);
+          }
+        }
+
+        .modal-body {
+          height: calc(100svh - 120px);
+          overflow-y: auto;
+          overflow-x: hidden;
+          
+          &.without-footer {
+            height: calc(100svh - 60px);
+          }
+        }
+
+        .modal-footer {
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
+          height: 60px;
+          border-radius: 0;
+          overflow: hidden;
+          padding: 0.5rem 2rem;
+        }
+
+        .modal-footer > * {
+          margin: 0;
+        }
+        
+        .modal-footer-actions {
+          display: flex;
+          gap: 0.75rem;
+          justify-content: flex-end;
+          width: 100%;
+        }
+
+        .borderless {
+          border-color: transparent;
+        }
+      }
+    }
+    
+    &.top .modal-dialog,
+    &.bottom .modal-dialog {
+      width: 100%;
+      max-width: 100vw;
+      height: auto !important;
+      max-height: 80svh !important;
+      position: relative !important;
+      
+      .modal-content {
+        height: auto !important;
+        max-height: 80svh;
+        display: flex;
+        flex-direction: column;
+        
+        .modal-header {
+          flex-shrink: 0;
+          height: 60px;
+        }
+        
+        .modal-body {
+          flex: 1 1 auto !important;
+          height: auto !important;
+          overflow-y: auto;
+          max-height: calc(80svh - 120px);
+          min-height: 0;
+          
+          &.without-footer {
+            max-height: calc(80svh - 60px);
+          }
+        }
+        
+        .modal-footer {
+          flex-shrink: 0;
+          height: 60px;
+        }
+      }
+    }
+    
+    &.top .modal-dialog {
+      transition: top 0.5s ease-out, opacity 0.5s ease-out !important;
+      will-change: top, opacity;
+    }
+    
+    &.top:not(.open) .modal-dialog {
+      top: -100% !important;
+      opacity: 0;
+    }
+    
+    &.top.open .modal-dialog {
+      top: 0 !important;
+      opacity: 1;
+    }
+    
+    &.bottom .modal-dialog {
+      transition: bottom 0.5s ease-out, opacity 0.5s ease-out !important;
+      will-change: bottom, opacity;
+    }
+    
+    &.bottom:not(.open) .modal-dialog {
+      bottom: -100% !important;
+      opacity: 0;
+    }
+    
+    &.bottom.open .modal-dialog {
+      bottom: 0 !important;
+      opacity: 1;
+    }
+  }
+}
+
