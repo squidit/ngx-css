@@ -226,7 +226,7 @@ this.modalManager.open(QuickActionsComponent, &#123;
   <!-- Passagem de Dados -->
   <section class="docs-section">
     <h2>📦 Passagem de Dados para Componentes</h2>
-    <p>Passe dados para o componente via propriedade <code>data</code> e receba via <code>@Input()</code>:</p>
+    <p>Passe dados para o componente via propriedade <code>data</code> e receba via <code>&#64;Input()</code>:</p>
 
     <div class="example-buttons">
       <sq-button color="primary" size="lg" (emitClick)="openModalWithData()">
@@ -241,12 +241,12 @@ this.modalManager.open(QuickActionsComponent, &#123;
     <div class="code-example">
       <h3>💻 Componente de Conteúdo:</h3>
       <pre><code>// user-details.component.ts
-@Component(&#123; ... &#125;)
+&#64;Component(&#123; ... &#125;)
 export class UserDetailsComponent &#123;
-  @Input() userId!: number;
-  @Input() userName!: string;
-  @Input() userEmail!: string;
-  @Input() modalRef?: SqModalRef; // Referência para fechar
+  &#64;Input() userId!: number;
+  &#64;Input() userName!: string;
+  &#64;Input() userEmail!: string;
+  &#64;Input() modalRef?: SqModalRef; // Referência para fechar
 
   save() &#123;
     // Fechar modal retornando dados
@@ -288,7 +288,7 @@ openUserDetails(user: User) &#123;
 updateLiveData(modalRef: SqModalRef) &#123;
   modalRef.updateData(&#123;
     userName: 'Nome Atualizado',
-    userEmail: 'novo@email.com'
+    userEmail: 'novo&#64;email.com'
   &#125;);
 &#125;</code></pre>
     </div>
@@ -316,7 +316,7 @@ updateLiveData(modalRef: SqModalRef) &#123;
     <div class="code-example">
       <h3>💻 Componente com Templates:</h3>
       <pre><code>// custom-modal.component.ts
-@Component(&#123;
+&#64;Component(&#123;
   template: `
     &lt;!-- Template do header customizado --&gt;
     &lt;ng-template #customHeader let-modalRef="modalRef"&gt;
@@ -353,14 +353,14 @@ updateLiveData(modalRef: SqModalRef) &#123;
   `
 &#125;)
 export class CustomModalComponent &#123;
-  @Input() title = 'Título';
-  @Input() message = 'Mensagem';
-  @Input() modalRef?: SqModalRef;
+  &#64;Input() title = 'Título';
+  &#64;Input() message = 'Mensagem';
+  &#64;Input() modalRef?: SqModalRef;
 
-  @ViewChild('customHeader', &#123; static: true &#125;)
+  &#64;ViewChild('customHeader', &#123; static: true &#125;)
   headerTemplate!: TemplateRef&lt;any&gt;;
 
-  @ViewChild('customFooter', &#123; static: true &#125;)
+  &#64;ViewChild('customFooter', &#123; static: true &#125;)
   footerTemplate!: TemplateRef&lt;any&gt;;
 
   // Expor templates para o serviço detectar
@@ -370,8 +370,8 @@ export class CustomModalComponent &#123;
 
       <h3>💻 Ou passar templates via config:</h3>
       <pre><code>// Definir templates no componente pai
-@ViewChild('myHeader') myHeaderTemplate!: TemplateRef&lt;any&gt;;
-@ViewChild('myFooter') myFooterTemplate!: TemplateRef&lt;any&gt;;
+&#64;ViewChild('myHeader') myHeaderTemplate!: TemplateRef&lt;any&gt;;
+&#64;ViewChild('myFooter') myFooterTemplate!: TemplateRef&lt;any&gt;;
 
 openWithTemplates() &#123;
   this.modalManager.open(ContentComponent, &#123;
