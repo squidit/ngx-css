@@ -1,0 +1,169 @@
+<div class="modal-service-docs">
+  <header class="docs-header">
+    <h1>📚 SqModalManagerService - Documentação</h1>
+    <p class="subtitle">Sistema unificado de modais e overlays dinâmicos</p>
+  </header>
+
+  <section class="docs-section">
+    <h2>🎯 Modal Centralizado</h2>
+    <p>Modais centralizados na tela com backdrop, ideais para confirmações e formulários.</p>
+
+    <div class="example-buttons">
+      <sq-button color="primary" size="lg" (emitClick)="openModal()">
+        <i class="fas fa-window-maximize"></i> Abrir Modal Grande
+      </sq-button>
+
+      <sq-button color="secondary" size="md" (emitClick)="openSmallModal()">
+        <i class="fas fa-window-restore"></i> Abrir Modal Pequeno
+      </sq-button>
+
+      <sq-button color="success" size="lg" (emitClick)="openFullscreenModal()">
+        <i class="fas fa-expand"></i> Abrir Modal Fullscreen
+      </sq-button>
+    </div>
+
+    <div class="code-example">
+      <h3>Exemplo de código:</h3>
+      <pre><code>const modalRef = this.modalManager.open(MyComponent, &#123;
+  type: 'modal',
+  size: 'lg',
+  backdrop: 'static',
+  title: 'Início - Campanha',          // Título no header
+  cancelButtonText: 'Cancelar',        // Customiza botão de cancelar
+  confirmButtonText: 'Iniciar',        // Customiza botão de confirmar
+  data: &#123; message: 'Mensagem para o componente' &#125;
+&#125;);
+
+modalRef.afterClosed().subscribe(result => &#123;
+  if (result?.confirmed) &#123;
+    console.log('Confirmado!');
+  &#125; else &#123;
+    console.log('Cancelado');
+  &#125;
+&#125;);</code></pre>
+    </div>
+  </section>
+
+  <section class="docs-section">
+    <h2>📱 Overlay Deslizante</h2>
+    <p>Painéis deslizantes das 4 direções, perfeitos para filtros, menus, notificações e ações rápidas.</p>
+
+    <div class="example-buttons">
+      <sq-button color="info" size="lg" (emitClick)="openOverlay()">
+        <i class="fas fa-arrow-left"></i> Overlay Direita
+      </sq-button>
+
+      <sq-button color="warning" size="md" (emitClick)="openLeftOverlay()">
+        <i class="fas fa-arrow-right"></i> Overlay Esquerda
+      </sq-button>
+
+      <sq-button color="success" size="md" (emitClick)="openTopOverlay()">
+        <i class="fas fa-arrow-down"></i> Overlay Superior
+      </sq-button>
+
+      <sq-button color="danger" size="md" (emitClick)="openBottomOverlay()">
+        <i class="fas fa-arrow-up"></i> Overlay Inferior
+      </sq-button>
+    </div>
+
+    <div class="code-example">
+      <h3>Exemplo de código:</h3>
+      <pre><code>const modalRef = this.modalManager.open(MyComponent, &#123;
+  type: 'overlay',
+  direction: 'right',
+  width: '500px',
+  backdrop: 'true',
+  data: &#123; title: 'Título', message: 'Mensagem' &#125;
+&#125;);
+
+modalRef.afterClosed().subscribe(result => &#123;
+  console.log('Overlay fechado:', result);
+&#125;);</code></pre>
+    </div>
+  </section>
+
+  <section class="docs-section">
+    <h2>⚙️ Opções de Configuração</h2>
+    <table class="config-table">
+      <thead>
+        <tr>
+          <th>Propriedade</th>
+          <th>Tipo</th>
+          <th>Padrão</th>
+          <th>Descrição</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>type</code></td>
+          <td>string</td>
+          <td>'modal'</td>
+          <td>Tipo: 'modal' (centralizado) ou 'overlay' (lateral)</td>
+        </tr>
+        <tr>
+          <td><code>size</code></td>
+          <td>string</td>
+          <td>'md'</td>
+          <td>Tamanho: 'sm' (~400px), 'md' (~600px), 'lg' (~800px), 'xl' (~1000px), 'fullscreen' (tela toda)</td>
+        </tr>
+        <tr>
+          <td><code>direction</code></td>
+          <td>string</td>
+          <td>'right'</td>
+          <td>Direção do overlay: 'left', 'right', 'top', 'bottom'</td>
+        </tr>
+        <tr>
+          <td><code>width</code></td>
+          <td>string</td>
+          <td>'475px'</td>
+          <td>Largura do overlay</td>
+        </tr>
+        <tr>
+          <td><code>backdrop</code></td>
+          <td>string</td>
+          <td>'static'</td>
+          <td>'static' (não fecha ao clicar) ou 'true' (fecha ao clicar)</td>
+        </tr>
+        <tr>
+          <td><code>data</code></td>
+          <td>object</td>
+          <td>&#123;&#125;</td>
+          <td>Dados passados para o componente via &#64;Input</td>
+        </tr>
+        <tr>
+          <td><code>title</code></td>
+          <td>string</td>
+          <td>undefined</td>
+          <td>Título exibido no header padrão (se não houver headerTemplate)</td>
+        </tr>
+        <tr>
+          <td><code>cancelButtonText</code></td>
+          <td>string</td>
+          <td>'Fechar'</td>
+          <td>Texto do botão de cancelar no footer padrão</td>
+        </tr>
+        <tr>
+          <td><code>confirmButtonText</code></td>
+          <td>string</td>
+          <td>'Concluir'</td>
+          <td>Texto do botão de confirmar no footer padrão</td>
+        </tr>
+        <tr>
+          <td><code>showFooterButtons</code></td>
+          <td>boolean</td>
+          <td>true</td>
+          <td>Exibir botões padrão no footer (false para ocultar)</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="docs-section">
+    <h2>🔗 Métodos da ModalRef</h2>
+    <ul class="methods-list">
+      <li><strong>close(result?)</strong> - Fecha o modal e retorna um resultado opcional</li>
+      <li><strong>updateData(data)</strong> - Atualiza os inputs do componente de conteúdo</li>
+      <li><strong>afterClosed()</strong> - Observable que emite quando o modal é fechado</li>
+    </ul>
+  </section>
+</div>

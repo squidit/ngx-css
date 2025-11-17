@@ -1,0 +1,26 @@
+<div class="modal-example-content">
+  <div class="header-section">
+    <h2>{{ title }}</h2>
+    <p class="subtitle">{{ message }}</p>
+  </div>
+
+  <div class="counter-section">
+    <h3>Contador Interativo</h3>
+    <div class="counter-display">{{ counter }}</div>
+    <sq-button color="primary" size="md" (emitClick)="increment()">
+      <i class="fas fa-plus"></i> Incrementar
+    </sq-button>
+  </div>
+
+  <div class="info-box">
+    <strong>ℹ️ Informações:</strong>
+    <ul>
+      <li>Componente de conteúdo puro (sem botões)</li>
+      <li>Gerenciado por <code>SqModalManagerService</code></li>
+      <li>Renderizado dentro de <code>SqModalBaseComponent</code></li>
+      <li>Botões de ação estão no footer (via template)</li>
+      <li>Contador: <strong>{{ counter }}</strong></li>
+    </ul>
+  </div>
+</div>
+

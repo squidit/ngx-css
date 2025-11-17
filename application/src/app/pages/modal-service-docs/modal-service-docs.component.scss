@@ -1,0 +1,146 @@
+.modal-service-docs {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.docs-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 2px solid var(--border_color);
+
+  h1 {
+    font-size: 2.5rem;
+    color: var(--primary);
+    margin: 0 0 1rem 0;
+  }
+
+  .subtitle {
+    font-size: 1.2rem;
+    color: var(--text_secondary);
+    margin: 0;
+  }
+}
+
+.docs-section {
+  margin-bottom: 3rem;
+  padding: 2rem;
+  background: var(--background_secondary);
+  border-radius: 8px;
+
+  h2 {
+    font-size: 1.8rem;
+    color: var(--primary);
+    margin: 0 0 1rem 0;
+  }
+
+  p {
+    color: var(--text_secondary);
+    margin-bottom: 1.5rem;
+  }
+}
+
+.example-buttons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+
+.code-example {
+  background: var(--white);
+  border: 1px solid var(--border_color);
+  border-radius: 8px;
+  padding: 1.5rem;
+
+  h3 {
+    margin: 0 0 1rem 0;
+    font-size: 1.1rem;
+    color: var(--text_primary);
+  }
+
+  pre {
+    margin: 0;
+    padding: 1rem;
+    background: #f5f5f5;
+    border-radius: 4px;
+    overflow-x: auto;
+
+    code {
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: #333;
+    }
+  }
+}
+
+.config-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--white);
+  border-radius: 8px;
+  overflow: hidden;
+
+  thead {
+    background: var(--primary);
+    color: white;
+
+    th {
+      padding: 1rem;
+      text-align: left;
+      font-weight: 600;
+    }
+  }
+
+  tbody {
+    tr {
+      border-bottom: 1px solid var(--border_color);
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      &:hover {
+        background: var(--background_secondary);
+      }
+    }
+
+    td {
+      padding: 1rem;
+      vertical-align: top;
+
+      code {
+        background: var(--background_secondary);
+        padding: 0.2rem 0.5rem;
+        border-radius: 3px;
+        font-family: 'Courier New', monospace;
+        font-size: 0.875rem;
+        color: var(--primary);
+      }
+    }
+  }
+}
+
+.methods-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  li {
+    padding: 1rem;
+    background: var(--white);
+    border-left: 4px solid var(--primary);
+    margin-bottom: 1rem;
+    border-radius: 4px;
+
+    strong {
+      color: var(--primary);
+      font-size: 1.1rem;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+  }
+}
+
