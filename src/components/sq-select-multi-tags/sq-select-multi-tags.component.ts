@@ -28,6 +28,7 @@ import { TranslateInternalPipe } from '../../pipes/translate-internal/translate-
 import { SearchPipe } from '../../pipes/search/search.pipe';
 import { SearchValidValuesPipe } from '../../pipes/search-valid-values/search-valid-values.pipe';
 import { SqClickOutsideDirective } from '../../directives/sq-click-outside/sq-click-outside.directive';
+import { SqDataTestDirective } from '../../directives/sq-data-test/sq-data-test.directive';
 
 /**
  * Represents a multi-tag select component.
@@ -59,6 +60,7 @@ import { SqClickOutsideDirective } from '../../directives/sq-click-outside/sq-cl
     SqLoaderComponent,
     SqTooltipComponent,
     SqTagComponent,
+    SqDataTestDirective,
     SqSelectorComponent,
     UniversalSafePipe,
     TranslateInternalPipe,
@@ -85,6 +87,27 @@ export class SqSelectMultiTagsComponent implements OnChanges {
    * The id attribute for the multi-tag select input.
    */
   @Input() id?: string;
+
+  /**
+   * The data-test attribute value for the select handle element.
+   *
+   * @default 'select-multi-tags'
+   */
+  @Input() selectHandleDataTest = 'select-multi-tags';
+
+  /**
+   * The data-test attribute value for the select input element.
+   *
+   * @default 'input-multi-tags'
+   */
+  @Input() selectInputDataTest = 'input-multi-tags';
+
+  /**
+   * The data-test attribute value for the select option elements.
+   *
+   * @default 'option-multi-tags'
+   */
+  @Input() SelectOptionDataTest = 'option-multi-tags';
 
   /**
    * The label for the multi-tag select input.

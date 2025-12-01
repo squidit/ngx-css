@@ -82,6 +82,11 @@ export class SqInputMoneyComponent extends SqInputComponent implements OnChanges
   @Input() currency = 'BRL';
 
   /**
+   * Regular expression pattern for input validation.
+   */
+  @Input() override pattern = '';
+
+  /**
    * Event emitter for changes in the money value.
    */
   @Output() override valueChange: EventEmitter<number> = new EventEmitter();

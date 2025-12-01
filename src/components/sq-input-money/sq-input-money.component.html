@@ -29,7 +29,7 @@
   [labelColor]="labelColor"
   [borderColor]="borderColor"
   inputMode="numeric"
-  pattern="[0-9]*"
+  [pattern]="pattern || '[0-9]*'"
   (valueChange)="change($event)"
   (valid)="valid.emit($event)"
   (inFocus)="inFocus.emit($event)"

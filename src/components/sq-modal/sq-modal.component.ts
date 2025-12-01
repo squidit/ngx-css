@@ -1,3 +1,4 @@
+import { SqDataTestDirective } from './../../directives/sq-data-test/sq-data-test.directive';
 import { DOCUMENT, NgClass, NgStyle, NgTemplateOutlet } from '@angular/common';
 import {
   Component,
@@ -48,7 +49,7 @@ import { SqClickOutsideDirective } from '../../directives/sq-click-outside/sq-cl
   templateUrl: './sq-modal.component.html',
   styleUrls: ['./sq-modal.component.scss'],
   standalone: true,
-  imports: [NgClass, NgStyle, NgTemplateOutlet, SqClickOutsideDirective],
+  imports: [NgClass, NgStyle, NgTemplateOutlet, SqClickOutsideDirective, SqDataTestDirective],
 })
 export class SqModalComponent implements OnChanges, OnDestroy {
   /**
@@ -116,6 +117,12 @@ export class SqModalComponent implements OnChanges, OnDestroy {
    */
   @Input() footerBackgroundColor = '';
 
+  /**
+   * The data-test attribute value for the modal element.
+   *
+   * @default 'sq-modal-element'
+   */
+  @Input() modalDataTest = 'sq-modal-element';
   /**
    * Event emitted when the modal is closed.
    */

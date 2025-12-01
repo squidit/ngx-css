@@ -1,7 +1,7 @@
 name: Deploy Docs
 on:
   workflow_run:
-    workflows: ["Publish to NPM"]
+    workflows: ['Publish to NPM']
     types:
       - completed
   workflow_dispatch:
@@ -12,7 +12,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: "pages"
+  group: 'pages'
   cancel-in-progress: false
 
 jobs:
@@ -23,11 +23,11 @@ jobs:
     permissions: write-all
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: "18"
-      - uses: actions/configure-pages@v3
+          node-version: '18'
+      - uses: actions/configure-pages@v4
       - name: Build
         run: |
           npm install
@@ -37,9 +37,9 @@ jobs:
           echo "ngx-css.squidit.com.br" > CNAME
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v2
+        uses: actions/upload-pages-artifact@v3
         with:
-          path: "./documentation/"
+          path: './documentation/'
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v4

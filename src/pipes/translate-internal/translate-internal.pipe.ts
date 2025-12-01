@@ -38,9 +38,9 @@ export class TranslateInternalPipe implements PipeTransform {
    * @param args - Optional arguments that can be passed to the translation service.
    * @returns The translated text if the TranslateService is available; otherwise, an empty string.
    */
-  async transform(query: string, ...args: any[]): Promise<string> {
+  async transform(query: string, params?: Record<string, unknown>): Promise<string> {
     if (this.translate) {
-      return (await lastValueFrom(this.translate.get(query, args))) || '';
+      return (await lastValueFrom(this.translate.get(query, params))) || '';
     }
     return '';
   }

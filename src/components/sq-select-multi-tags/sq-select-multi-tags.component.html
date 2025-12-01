@@ -36,6 +36,7 @@
     }"
   >
     <div
+      [dataTest]="selectHandleDataTest"
       [class]="'input-fake col  border-' + borderColor"
       style="min-height: auto"
       [ngStyle]="{ 'border-color': borderColor }"
@@ -100,6 +101,7 @@
             <div class="wrapper-all-inside-input">
               <div class="p-0 wrapper-input wrapper-input-squid text-ellipsisarea">
                 <input
+                  [dataTest]="selectInputDataTest"
                   [name]="name"
                   [id]="id"
                   [placeholder]="placeholderSearch || ('forms.search' | translateInternal | async) || ''"
@@ -166,6 +168,7 @@
             style="--fa-rotate-angle: -90deg"
           ></i>
           <sq-selector
+            [dataTest]="SelectOptionDataTest + '-' + (i || opt.value)"
             [style.minWidth]="'auto'"
             [id]="(id || name) + '-checkbox-' + opt?.value + '-' + i"
             [name]="name + '-checkbox'"

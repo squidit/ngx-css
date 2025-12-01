@@ -34,6 +34,7 @@
     </label>
   }
   <div
+    [dataTest]="selectHandleDataTest"
     [class]="'input-fake col  border-' + borderColor"
     style="min-height: auto"
     [ngStyle]="{ 'border-color': borderColor }"
@@ -89,6 +90,7 @@
           <div class="wrapper-all-inside-input">
             <div class="p-0 wrapper-input wrapper-input-squid text-ellipsisarea">
               <input
+                [dataTest]="selectInputDataTest"
                 [name]="name"
                 [id]="id"
                 [placeholder]="placeholderSearch || ('forms.search' | translateInternal | async) || ''"
@@ -144,7 +146,11 @@
   }
 </div>
 <ng-template #option let-opt="opt" let-i="i">
-  <li (click)="!opt.disabled ? emit(opt) : ''" [ngClass]="{ disabled: opt.disabled }">
+  <li
+    [dataTest]="SelectOptionDataTest + '-' + (i || opt.value)"
+    (click)="!opt.disabled ? emit(opt) : ''"
+    [ngClass]="{ disabled: opt.disabled }"
+  >
     <span class="text m-0 display-inline-block">{{ opt?.label }}</span>
   </li>
 </ng-template>
