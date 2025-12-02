@@ -73,13 +73,17 @@ export class SqClickOutsideDirective implements OnDestroy, OnChanges {
 
   /**
    * Creates a click event listener to detect clicks outside of the bound element.
+   * Uses a small delay to prevent the opening click from being detected.
    */
   createListener() {
+    // Delay to prevent the click that opened the modal from being detected
+    setTimeout(() => {
     this.listener = this.renderer.listen('window', 'click', $event => {
       const isClickedInside = this.elementRef.nativeElement.contains($event.target);
       if (!isClickedInside) {
         this.clickOutside.emit();
       }
     });
+    }, 100);
   }
 }

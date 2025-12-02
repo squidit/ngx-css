@@ -6,6 +6,7 @@ import { SelectorComparisonExampleComponent } from './components/selector-compar
 import { InputMaskFormControlExampleComponent } from './components/input-mask-form-control-example/input-mask-form-control-example.component';
 import { InputFileFormControlExampleComponent } from './components/input-file-form-control-example/input-file-form-control-example.component';
 import { ComponentsIndexComponent } from './components/components-index/components-index.component';
+import { ModalServiceExampleComponent } from './components/modal-service-example/modal-service-example.component';
 
 export const routes: Routes = [
   {
@@ -42,6 +43,11 @@ export const routes: Routes = [
     path: 'input-file-form-control',
     component: InputFileFormControlExampleComponent,
     title: 'Comparação: sq-input-file vs sq-input-file-form-control',
+  },
+  {
+    path: 'modal-service',
+    component: ModalServiceExampleComponent,
+    title: 'SqModalService - Modal e Overlay',
   },
 ];
 

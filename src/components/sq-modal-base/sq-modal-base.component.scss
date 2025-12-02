@@ -1,0 +1,33 @@
+// SqModalBaseComponent - minimal styles
+// Uses existing CSS classes from the lib
+
+:host {
+  display: contents;
+}
+
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 3.5rem);
+
+  .modal-header {
+    min-height: 3rem;
+    flex-shrink: 0;
+  }
+
+  .modal-body {
+    flex: 1;
+    overflow-y: auto;
+  }
+
+  .modal-footer {
+    flex-shrink: 0;
+    gap: 0.5rem;
+  }
+}
+
+.modal-header {
+  &.without-header {
+    border-bottom: none;
+  }
+}

@@ -163,6 +163,29 @@ export class ComponentsIndexComponent {
       route: '/input-file-form-control',
       features: ['Two-way binding', 'Upload básico', 'Mantido para compatibilidade'],
     },
+    {
+      title: 'SqModalService',
+      description: 'Serviço para abertura programática de modais e overlays com suporte a componentes dinâmicos',
+      icon: '🪟',
+      status: 'new',
+      route: '/modal-service',
+      features: [
+        'Abertura programática via serviço',
+        'Uso declarativo via template',
+        'Injeção de componentes dinâmicos',
+        'Templates customizados (header/body/footer)',
+        'Modal e Overlay unificados',
+        'afterClosed() com resultado tipado',
+      ],
+    },
+    {
+      title: 'sq-modal / sq-overlay (Legacy)',
+      description: 'Componentes legados de modal - use SqModalService ou SqModalBaseComponent em novos projetos',
+      icon: '🔴',
+      status: 'legacy',
+      route: '/modal-service',
+      features: ['Uso via template', 'ng-template para conteúdo', 'Mantido para compatibilidade'],
+    },
   ];
 
   getStatusClass(status: string): string {

@@ -1,0 +1,71 @@
+<div [id]="id" [ngClass]="getDialogClasses()" #dialogElement [dataTest]="dataTest">
+  <div
+    class="modal-dialog"
+    [ngClass]="getModalDialogClasses()"
+    [clickOutsideEnabled]="!!(open && backdrop !== 'static' && dialogElement)"
+    (clickOutside)="onClickOutside()"
+  >
+    <div [dataTest]="dataTest + '-content'" class="modal-content modal-sq">
+      <!-- Header -->
+      <div [dataTest]="dataTest + '-header'" class="modal-header" [ngClass]="{ 'without-header': !showHeader }">
+        <!-- Template header (from content projection or input) -->
+        @if (effectiveHeaderTemplate) {
+          <ng-container *ngTemplateOutlet="effectiveHeaderTemplate; context: templateContext"></ng-container>
+        }
+
+        <!-- Component header (dynamic) -->
+        @if (hasHeaderComponent) {
+          <ng-container #headerContainer></ng-container>
+        }
+
+        <!-- Close button -->
+        @if (showCloseButton) {
+          <button type="button" class="close button-close" aria-label="Close" (click)="dialogClose.emit()">
+            <i class="fa-solid fa-xmark fa-lg"></i>
+          </button>
+        }
+      </div>
+
+      <!-- Body -->
+      <div [dataTest]="dataTest + '-body'" class="modal-body scrollbar">
+        <!-- Template body (from input) -->
+        @if (bodyTemplate) {
+          <ng-container *ngTemplateOutlet="bodyTemplate; context: templateContext"></ng-container>
+        }
+
+        <!-- Component body (dynamic) -->
+        @if (hasBodyComponent) {
+          <ng-container #bodyContainer></ng-container>
+        }
+
+        <!-- Content projection (default slot) -->
+        <ng-content></ng-content>
+      </div>
+
+      <!-- Footer -->
+      @if (showFooter) {
+        <div [dataTest]="dataTest + '-footer'" class="modal-footer">
+          <!-- Template footer (from content projection or input) -->
+          @if (effectiveFooterTemplate) {
+            <ng-container *ngTemplateOutlet="effectiveFooterTemplate; context: templateContext"></ng-container>
+          }
+
+          <!-- Component footer (dynamic) -->
+          @if (hasFooterComponent) {
+            <ng-container #footerContainer></ng-container>
+          }
+
+          <!-- Default footer buttons -->
+          @if (shouldShowDefaultFooter) {
+            <button type="button" class="button background-transparent" (click)="onCancel()">
+              {{ cancelText }}
+            </button>
+            <button type="button" class="button background-primary" (click)="onConfirm()">
+              {{ confirmText }}
+            </button>
+          }
+        </div>
+      }
+    </div>
+  </div>
+</div>

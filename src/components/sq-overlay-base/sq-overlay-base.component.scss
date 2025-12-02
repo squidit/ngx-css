@@ -1,0 +1,19 @@
+// SqOverlayBaseComponent - minimal styles
+// Uses existing CSS classes from the lib
+
+:host {
+  display: contents;
+}
+
+.modal-header.without-header {
+  border-bottom: none;
+}
+
+.modal-header.borderless,
+.modal-footer.borderless {
+  border-color: transparent;
+}
+
+.modal-body.without-footer {
+  height: calc(100dvh - 60px);
+}

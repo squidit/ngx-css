@@ -27,6 +27,9 @@ import { SqClickOutsideDirective } from '../../directives/sq-click-outside/sq-cl
  *
  * @see {@link https://css.squidit.com.br/components/modal}
  *
+ * @deprecated Use `SqModalBaseComponent` or `SqModalService.openModal()` instead.
+ * This component will be removed in a future version.
+ *
  * @example
  * <sq-modal [open]="isModalOpen" (modalClose)="onModalClose()">
  *   <ng-template #headerModal>

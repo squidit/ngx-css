@@ -1,0 +1,407 @@
+<div class="modal-service-example">
+  <h1>SqModalService - Exemplos</h1>
+  <p class="description">
+    Novo sistema de modais e overlays com suporte a abertura programática via serviço e uso declarativo via template.
+  </p>
+
+  <!-- Resultado do último modal -->
+  @if (lastResult) {
+    <div class="result-box">
+      <strong>Último resultado:</strong>
+      <pre>{{ lastResult | json }}</pre>
+    </div>
+  }
+
+  <div class="examples-grid">
+    <!-- Seção: Uso via Serviço -->
+    <section class="example-section">
+      <h2>Via Serviço (Programático)</h2>
+      <p>Abrir modais/overlays usando <code>SqModalService</code></p>
+
+      <div class="buttons-group">
+        <h3>Modal</h3>
+        <button class="button background-primary" (click)="openModalWithComponent()">Modal com Componente</button>
+        <button class="button background-primary" (click)="openModalCustom()">Modal com Templates</button>
+        <button class="button background-secondary" (click)="openSmallModal()">Modal Pequeno (sm)</button>
+        <button class="button background-secondary" (click)="openLargeModal()">Modal Grande (lg)</button>
+        <button class="button background-secondary" (click)="openModalClickOutside()">
+          Modal (fecha ao clicar fora)
+        </button>
+      </div>
+
+      <div class="buttons-group">
+        <h3>Overlay</h3>
+        <button class="button background-primary" (click)="openOverlayWithComponent()">Overlay Direito</button>
+        <button class="button background-secondary" (click)="openLeftOverlay()">Overlay Esquerdo</button>
+      </div>
+    </section>
+
+    <!-- Seção: Uso Declarativo -->
+    <section class="example-section">
+      <h2>Declarativo (Template)</h2>
+      <p>Usar componentes diretamente no template com <code>[open]</code></p>
+
+      <div class="buttons-group">
+        <button class="button background-primary" (click)="openDeclarativeModal()">Abrir Modal (Declarativo)</button>
+        <button class="button background-primary" (click)="openDeclarativeOverlay()">
+          Abrir Overlay (Declarativo)
+        </button>
+      </div>
+    </section>
+  </div>
+
+  <!-- Modal Declarativo -->
+  <sq-modal-base [open]="isModalOpen" size="md" (dialogClose)="closeDeclarativeModal()">
+    <ng-template #headerModal>
+      <h5 class="m-0">Modal Declarativo</h5>
+    </ng-template>
+
+    <div class="p-3">
+      <p>Este modal foi aberto usando o componente diretamente no template.</p>
+      <p>Você pode usar <code>ng-template</code> para customizar header e footer.</p>
+    </div>
+
+    <ng-template #footerModal>
+      <button class="button background-secondary" (click)="closeDeclarativeModal()">Fechar</button>
+    </ng-template>
+  </sq-modal-base>
+
+  <!-- Overlay Declarativo -->
+  <sq-overlay-base [open]="isOverlayOpen" direction="right" width="400px" (dialogClose)="closeDeclarativeOverlay()">
+    <ng-template #headerOverlay>
+      <h5 class="m-0">Overlay Declarativo</h5>
+    </ng-template>
+
+    <div>
+      <p>Este overlay foi aberto usando o componente diretamente no template.</p>
+      <p>Direction: <strong>right</strong></p>
+      <p>Width: <strong>400px</strong></p>
+    </div>
+
+    <ng-template #footerOverlay>
+      <button class="button background-secondary" (click)="closeDeclarativeOverlay()">Fechar</button>
+    </ng-template>
+  </sq-overlay-base>
+
+  <ng-template #customHeader let-modal let-data="data">
+    <div class="row align-items-center gap-2">
+      <i class="fa-solid fa-gear"></i>
+      <h5 class="m-0">{{ data?.title || 'Header Customizado' }}</h5>
+    </div>
+  </ng-template>
+
+  <ng-template #customBody let-modal let-data="data">
+    <div class="p-3">
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore
+        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+        pariatur.
+      </p>
+
+      <p>
+        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem
+        aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+      </p>
+
+      <p>
+        Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores
+        eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet,
+        consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam
+        quaerat voluptatem.
+      </p>
+
+      <p>
+        Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea
+        commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae
+        consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?
+      </p>
+
+      <p>
+        At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque
+        corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in
+        culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.
+      </p>
+
+      <p>
+        Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi
+        optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis
+        dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut
+        et voluptates repudiandae sint et molestiae non recusandae.
+      </p>
+
+      <p>
+        Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut
+        perferendis doloribus asperiores repellat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+        eiusmod tempor incididunt ut labore et dolore magna aliqua.
+      </p>
+
+      <p>
+        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem
+        aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo
+        enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.
+      </p>
+
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore
+        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+        pariatur.
+      </p>
+
+      <p>
+        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem
+        aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+      </p>
+
+      <p>
+        Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores
+        eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet,
+        consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam
+        quaerat voluptatem.
+      </p>
+
+      <p>
+        Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea
+        commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae
+        consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?
+      </p>
+
+      <p>
+        At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque
+        corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in
+        culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.
+      </p>
+
+      <p>
+        Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi
+        optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis
+        dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut
+        et voluptates repudiandae sint et molestiae non recusandae.
+      </p>
+
+      <p>
+        Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut
+        perferendis doloribus asperiores repellat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+        eiusmod tempor incididunt ut labore et dolore magna aliqua.
+      </p>
+
+      <p>
+        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem
+        aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo
+        enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.
+      </p>
+
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore
+        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+        pariatur.
+      </p>
+
+      <p>
+        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem
+        aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+      </p>
+
+      <p>
+        Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores
+        eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet,
+        consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam
+        quaerat voluptatem.
+      </p>
+
+      <p>
+        Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea
+        commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae
+        consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?
+      </p>
+
+      <p>
+        At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque
+        corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in
+        culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.
+      </p>
+
+      <p>
+        Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi
+        optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis
+        dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut
+        et voluptates repudiandae sint et molestiae non recusandae.
+      </p>
+
+      <p>
+        Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut
+        perferendis doloribus asperiores repellat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+        eiusmod tempor incididunt ut labore et dolore magna aliqua.
+      </p>
+
+      <p>
+        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem
+        aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo
+        enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.
+      </p>
+
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore
+        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+        pariatur.
+      </p>
+
+      <p>
+        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem
+        aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+      </p>
+
+      <p>
+        Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores
+        eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet,
+        consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam
+        quaerat voluptatem.
+      </p>
+
+      <p>
+        Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea
+        commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae
+        consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?
+      </p>
+
+      <p>
+        At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque
+        corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in
+        culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.
+      </p>
+
+      <p>
+        Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi
+        optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis
+        dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut
+        et voluptates repudiandae sint et molestiae non recusandae.
+      </p>
+
+      <p>
+        Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut
+        perferendis doloribus asperiores repellat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+        eiusmod tempor incididunt ut labore et dolore magna aliqua.
+      </p>
+
+      <p>
+        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem
+        aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo
+        enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.
+      </p>
+
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore
+        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+        pariatur.
+      </p>
+
+      <p>
+        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem
+        aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+      </p>
+
+      <p>
+        Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores
+        eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet,
+        consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam
+        quaerat voluptatem.
+      </p>
+
+      <p>
+        Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea
+        commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae
+        consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?
+      </p>
+
+      <p>
+        At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque
+        corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in
+        culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.
+      </p>
+
+      <p>
+        Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi
+        optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis
+        dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut
+        et voluptates repudiandae sint et molestiae non recusandae.
+      </p>
+
+      <p>
+        Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut
+        perferendis doloribus asperiores repellat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+        eiusmod tempor incididunt ut labore et dolore magna aliqua.
+      </p>
+
+      <p>
+        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem
+        aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo
+        enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.
+      </p>
+
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore
+        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+        pariatur.
+      </p>
+
+      <p>
+        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem
+        aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+      </p>
+
+      <p>
+        Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores
+        eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet,
+        consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam
+        quaerat voluptatem.
+      </p>
+
+      <p>
+        Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea
+        commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae
+        consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?
+      </p>
+
+      <p>
+        At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque
+        corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in
+        culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.
+      </p>
+
+      <p>
+        Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi
+        optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis
+        dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut
+        et voluptates repudiandae sint et molestiae non recusandae.
+      </p>
+
+      <p>
+        Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut
+        perferendis doloribus asperiores repellat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+        eiusmod tempor incididunt ut labore et dolore magna aliqua.
+      </p>
+
+      <p>
+        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem
+        aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo
+        enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.
+      </p>
+    </div>
+  </ng-template>
+
+  <ng-template #customFooter let-modal let-data="data">
+    <button class="button background-secondary" (click)="modal.close()">Cancelar</button>
+    <button class="button background-primary" (click)="modal.close(data)">Confirmar</button>
+  </ng-template>
+</div>

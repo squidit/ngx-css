@@ -9,6 +9,10 @@ export * from './components/sq-infinity-scroll/sq-infinity-scroll.component';
 export * from './components/sq-loader/sq-loader.component';
 export * from './components/sq-modal/sq-modal.component';
 export * from './components/sq-overlay/sq-overlay.component';
+export * from './components/sq-modal-base/sq-modal-base.component';
+export * from './components/sq-overlay-base/sq-overlay-base.component';
+export * from './services/sq-modal.service';
+export * from './classes/sq-dialog-core.class';
 export * from './components/sq-pagination/sq-pagination.component';
 export * from './components/sq-progress-bar/sq-progress-bar.component';
 export * from './components/sq-steps/sq-steps.component';
@@ -65,6 +69,7 @@ export * from './helpers/toast.helper';
 export * from './helpers/validator.helper';
 export * from './helpers/window.helper';
 
+export * from './interfaces/modal.interface';
 export * from './interfaces/option.interface';
 export * from './interfaces/step.interface';
 export * from './interfaces/toast.interface';
