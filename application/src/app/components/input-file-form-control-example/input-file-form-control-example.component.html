@@ -1,0 +1,497 @@
+<div class="container">
+  <app-breadcrumb [items]="breadcrumbItems"></app-breadcrumb>
+
+  <div class="content-wrapper">
+    <div class="header-section mb-2">
+      <h1 class="display-4 mb-3">📁 Comparação: sq-input-file vs sq-input-file-form-control</h1>
+      <p class="lead text-muted">
+        Demonstração prática das diferenças entre o componente de upload de arquivo legado e o novo componente baseado
+        em Reactive Forms.
+      </p>
+    </div>
+
+    <!-- Seção 1: Upload Simples -->
+    <section class="comparison-section mb-2">
+      <h2 class="section-title">1️⃣ Upload Simples</h2>
+      <p class="section-description">Upload básico de arquivo único</p>
+
+      <div class="row no-spacings">
+        <div class="col-md-12">
+          <div class="example-box old-component">
+            <h3 class="component-label">🔴 Componente Antigo</h3>
+            <sq-input-file
+              [id]="'old-file'"
+              [name]="'old-file'"
+              [label]="'Upload de Arquivo (Antigo)'"
+              [placeholder]="'Escolher arquivo'"
+              [(value)]="oldFileValue"
+            ></sq-input-file>
+            <div class="value-display mt-2">
+              <small><strong>Arquivos:</strong> {{ oldFileValue?.length || 0 }}</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12">
+          <div class="example-box new-component">
+            <h3 class="component-label">🟢 Componente Novo</h3>
+            <sq-input-file-form-control
+              [id]="'new-file'"
+              [name]="'new-file'"
+              [label]="'Upload de Arquivo (Novo)'"
+              [placeholder]="'Escolher arquivo'"
+              [formControl]="newFileControl"
+            ></sq-input-file-form-control>
+            <div class="value-display mt-2">
+              <small><strong>Arquivos:</strong> {{ newFileControl.value?.length || 0 }}</small>
+              <small class="ms-3"><strong>Status:</strong> {{ newFileControl.status }}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <app-code-tabs [title]="'Exemplo Upload Simples'" [examples]="simpleFileCode"></app-code-tabs>
+    </section>
+
+    <!-- Seção 2: Upload com Validação Required -->
+    <section class="comparison-section mb-2">
+      <h2 class="section-title">2️⃣ Upload Obrigatório</h2>
+      <p class="section-description">Upload com validação de campo obrigatório</p>
+
+      <div class="row no-spacings">
+        <div class="col-md-12">
+          <div class="example-box old-component">
+            <h3 class="component-label">🔴 Componente Antigo</h3>
+            <sq-input-file
+              [id]="'old-file-required'"
+              [name]="'old-file-required'"
+              [label]="'Upload de Arquivo * (Antigo)'"
+              [placeholder]="'Escolher arquivo'"
+              [required]="true"
+              [(value)]="oldFileRequiredValue"
+            ></sq-input-file>
+            <div class="value-display mt-2">
+              <small><strong>Arquivos:</strong> {{ oldFileRequiredValue?.length || 0 }}</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12">
+          <div class="example-box new-component">
+            <h3 class="component-label">🟢 Componente Novo</h3>
+            <sq-input-file-form-control
+              [id]="'new-file-required'"
+              [name]="'new-file-required'"
+              [label]="'Upload de Arquivo * (Novo)'"
+              [placeholder]="'Escolher arquivo'"
+              [formControl]="newFileRequiredControl"
+            ></sq-input-file-form-control>
+            <sq-validation-message
+              [control]="newFileRequiredControl"
+              [fieldName]="'Arquivo'"
+              [showWhenTouched]="true"
+            ></sq-validation-message>
+            <div class="value-display mt-2">
+              <small><strong>Arquivos:</strong> {{ newFileRequiredControl.value?.length || 0 }}</small>
+              <small class="ms-3"><strong>Status:</strong> {{ newFileRequiredControl.status }}</small>
+              <small class="ms-3"><strong>Touched:</strong> {{ newFileRequiredControl.touched }}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <app-code-tabs [title]="'Exemplo Upload Obrigatório'" [examples]="requiredFileCode"></app-code-tabs>
+    </section>
+
+    <!-- Seção 3: Upload com Limite de Tamanho -->
+    <section class="comparison-section mb-2">
+      <h2 class="section-title">3️⃣ Upload com Limite de Tamanho (5MB)</h2>
+      <p class="section-description">Validação automática de tamanho máximo de arquivo</p>
+
+      <div class="row no-spacings">
+        <div class="col-md-12">
+          <div class="example-box old-component">
+            <h3 class="component-label">🔴 Componente Antigo</h3>
+            <sq-input-file
+              [id]="'old-file-size'"
+              [name]="'old-file-size'"
+              [label]="'Upload (Máx. 5MB) - Antigo'"
+              [placeholder]="'Escolher arquivo'"
+              [maxSize]="maxFileSize"
+              [(value)]="oldFileSizeValue"
+            ></sq-input-file>
+            <div class="value-display mt-2">
+              <small><strong>Arquivos:</strong> {{ oldFileSizeValue?.length || 0 }}</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12">
+          <div class="example-box new-component">
+            <h3 class="component-label">🟢 Componente Novo</h3>
+            <sq-input-file-form-control
+              [id]="'new-file-size'"
+              [name]="'new-file-size'"
+              [label]="'Upload (Máx. 5MB) - Novo'"
+              [placeholder]="'Escolher arquivo'"
+              [formControl]="newFileSizeControl"
+              [maxSize]="maxFileSize"
+            ></sq-input-file-form-control>
+            <div class="value-display mt-2">
+              <small><strong>Arquivos:</strong> {{ newFileSizeControl.value?.length || 0 }}</small>
+              <small class="ms-3"><strong>Status:</strong> {{ newFileSizeControl.status }}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <app-code-tabs [title]="'Exemplo Limite de Tamanho'" [examples]="fileSizeCode"></app-code-tabs>
+    </section>
+
+    <!-- Seção 4: Upload de Imagens com Preview -->
+    <section class="comparison-section mb-2">
+      <h2 class="section-title">4️⃣ Upload de Imagens com Preview</h2>
+      <p class="section-description">Upload restrito a imagens com visualização prévia</p>
+
+      <div class="row no-spacings">
+        <div class="col-md-12">
+          <div class="example-box old-component">
+            <h3 class="component-label">🔴 Componente Antigo</h3>
+            <sq-input-file
+              [id]="'old-image'"
+              [name]="'old-image'"
+              [label]="'Upload de Imagem (Antigo)'"
+              [placeholder]="'Escolher imagem'"
+              [fileType]="'image/*'"
+              [(value)]="oldImageValue"
+            ></sq-input-file>
+            <div class="value-display mt-2">
+              <small><strong>Arquivos:</strong> {{ oldImageValue?.length || 0 }}</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12">
+          <div class="example-box new-component">
+            <h3 class="component-label">🟢 Componente Novo</h3>
+            <sq-input-file-form-control
+              [id]="'new-image'"
+              [name]="'new-image'"
+              [label]="'Upload de Imagem (Novo)'"
+              [placeholder]="'Escolher imagem'"
+              [formControl]="newImageControl"
+              [fileType]="'image/*'"
+              (filesSelected)="onImageSelected($event)"
+            ></sq-input-file-form-control>
+            @if (imagePreviewUrl) {
+              <div class="mt-3">
+                <img [src]="imagePreviewUrl" alt="Preview" class="image-preview" />
+                <button type="button" class="btn btn-sm btn-danger mt-2" (click)="clearImagePreview()">
+                  <i class="fa-solid fa-trash"></i> Remover
+                </button>
+              </div>
+            }
+            <div class="value-display mt-2">
+              <small><strong>Status:</strong> {{ newImageControl.status }}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <app-code-tabs [title]="'Exemplo Upload de Imagem'" [examples]="imageUploadCode"></app-code-tabs>
+    </section>
+
+    <!-- Seção 5: Upload Múltiplo -->
+    <section class="comparison-section mb-2">
+      <h2 class="section-title">5️⃣ Upload Múltiplo</h2>
+      <p class="section-description">Seleção de múltiplos arquivos simultaneamente</p>
+
+      <div class="row no-spacings">
+        <div class="col-md-12">
+          <div class="example-box old-component">
+            <h3 class="component-label">🔴 Componente Antigo</h3>
+            <sq-input-file
+              [id]="'old-multiple'"
+              [name]="'old-multiple'"
+              [label]="'Upload Múltiplo (Antigo)'"
+              [placeholder]="'Escolher arquivos'"
+              [multiple]="true"
+              [(value)]="oldMultipleValue"
+            ></sq-input-file>
+            <div class="value-display mt-2">
+              <small><strong>Arquivos:</strong> {{ oldMultipleValue?.length || 0 }}</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12">
+          <div class="example-box new-component">
+            <h3 class="component-label">🟢 Componente Novo</h3>
+            <sq-input-file-form-control
+              [id]="'new-multiple'"
+              [name]="'new-multiple'"
+              [label]="'Upload Múltiplo (Novo)'"
+              [placeholder]="'Escolher arquivos'"
+              [formControl]="newMultipleControl"
+              [multiple]="true"
+            ></sq-input-file-form-control>
+            <div class="value-display mt-2">
+              <small><strong>Arquivos:</strong> {{ newMultipleControl.value?.length || 0 }}</small>
+              <small class="ms-3"><strong>Status:</strong> {{ newMultipleControl.status }}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <app-code-tabs [title]="'Exemplo Upload Múltiplo'" [examples]="multipleFileCode"></app-code-tabs>
+    </section>
+
+    <!-- Seção 6: Upload de Documentos -->
+    <section class="comparison-section mb-2">
+      <h2 class="section-title">6️⃣ Upload de Documentos (PDF/DOC/DOCX)</h2>
+      <p class="section-description">Upload restrito a tipos de documento específicos</p>
+
+      <div class="row no-spacings">
+        <div class="col-md-12">
+          <div class="example-box old-component">
+            <h3 class="component-label">🔴 Componente Antigo</h3>
+            <sq-input-file
+              [id]="'old-document'"
+              [name]="'old-document'"
+              [label]="'Upload de Documento * (Antigo)'"
+              [placeholder]="'Escolher documento'"
+              [fileType]="'.pdf,.doc,.docx'"
+              [maxSize]="maxFileSize"
+              [required]="true"
+              [(value)]="oldDocumentValue"
+            ></sq-input-file>
+            <div class="value-display mt-2">
+              <small><strong>Arquivos:</strong> {{ oldDocumentValue?.length || 0 }}</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12">
+          <div class="example-box new-component">
+            <h3 class="component-label">🟢 Componente Novo</h3>
+            <sq-input-file-form-control
+              [id]="'new-document'"
+              [name]="'new-document'"
+              [label]="'Upload de Documento * (Novo) - PDF/DOC/DOCX'"
+              [placeholder]="'Escolher documento'"
+              [formControl]="newDocumentControl"
+              [fileType]="'.pdf,.doc,.docx'"
+              [maxSize]="maxFileSize"
+              sqValidation
+              [fieldName]="'Documento'"
+            ></sq-input-file-form-control>
+            <div class="value-display mt-2">
+              <small><strong>Arquivos:</strong> {{ newDocumentControl.value?.length || 0 }}</small>
+              <small class="ms-3"><strong>Status:</strong> {{ newDocumentControl.status }}</small>
+              <small class="ms-3"><strong>Touched:</strong> {{ newDocumentControl.touched }}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <app-code-tabs [title]="'Exemplo Upload de Documento'" [examples]="documentUploadCode"></app-code-tabs>
+    </section>
+
+    <!-- Seção 7: Upload com Loading State -->
+    <section class="comparison-section mb-2">
+      <h2 class="section-title">7️⃣ Upload com Loading State</h2>
+      <p class="section-description">Simulação de upload com estado de loading e progresso</p>
+
+      <div class="row no-spacings">
+        <div class="col-md-12">
+          <div class="example-box new-component">
+            <h3 class="component-label">🟢 Componente Novo com Loading</h3>
+            <sq-input-file-form-control
+              [id]="'upload-loading'"
+              [name]="'upload-loading'"
+              [label]="'Upload com Loading'"
+              [placeholder]="'Escolher arquivo para upload'"
+              [formControl]="uploadControl"
+              [loading]="isUploading"
+              (filesSelected)="simulateUpload($event)"
+            ></sq-input-file-form-control>
+            @if (isUploading) {
+              <div class="progress mt-3" style="height: 25px;">
+                <div
+                  class="progress-bar progress-bar-striped progress-bar-animated"
+                  role="progressbar"
+                  [style.width.%]="uploadProgress"
+                  [attr.aria-valuenow]="uploadProgress"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                >
+                  {{ uploadProgress }}%
+                </div>
+              </div>
+            }
+            <div class="value-display mt-2">
+              <small><strong>Status:</strong> {{ isUploading ? 'Fazendo upload...' : uploadControl.status }}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <app-code-tabs [title]="'Exemplo com Loading'" [examples]="loadingStateCode"></app-code-tabs>
+    </section>
+
+    <!-- Seção 8: Formulário Completo de Perfil -->
+    <section class="comparison-section mb-5">
+      <h2 class="section-title">8️⃣ Formulário Completo de Perfil</h2>
+      <p class="section-description">Exemplo de formulário completo com uploads de avatar e currículo</p>
+
+      <div class="example-box new-component">
+        <h3 class="component-label">🟢 Formulário Completo</h3>
+        <form [formGroup]="profileForm" (ngSubmit)="onProfileSubmit()">
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Nome Completo *</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="name"
+                placeholder="Digite seu nome"
+                [class.is-invalid]="profileForm.get('name')?.touched && profileForm.get('name')?.invalid"
+              />
+              @if (profileForm.get('name')?.touched && profileForm.get('name')?.errors?.['required']) {
+                <small class="text-danger">Nome é obrigatório</small>
+              }
+              @if (profileForm.get('name')?.touched && profileForm.get('name')?.errors?.['minlength']) {
+                <small class="text-danger">Nome deve ter no mínimo 3 caracteres</small>
+              }
+            </div>
+
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Email *</label>
+              <input
+                type="email"
+                class="form-control"
+                formControlName="email"
+                placeholder="seu@email.com"
+                [class.is-invalid]="profileForm.get('email')?.touched && profileForm.get('email')?.invalid"
+              />
+              @if (profileForm.get('email')?.touched && profileForm.get('email')?.errors?.['required']) {
+                <small class="text-danger">Email é obrigatório</small>
+              }
+              @if (profileForm.get('email')?.touched && profileForm.get('email')?.errors?.['email']) {
+                <small class="text-danger">Email inválido</small>
+              }
+            </div>
+
+            <div class="col-md-6 mb-3">
+              <sq-input-file-form-control
+                formControlName="avatar"
+                [label]="'Foto de Perfil (Opcional)'"
+                [placeholder]="'Escolher imagem'"
+                [fileType]="'image/*'"
+                [maxSize]="2097152"
+                (filesSelected)="onAvatarSelected($event)"
+              ></sq-input-file-form-control>
+              @if (avatarPreview) {
+                <div class="mt-3">
+                  <img [src]="avatarPreview" alt="Avatar Preview" class="avatar-preview" />
+                  <button type="button" class="btn btn-sm btn-danger mt-2" (click)="clearAvatarPreview()">
+                    <i class="fa-solid fa-trash"></i> Remover
+                  </button>
+                </div>
+              }
+            </div>
+
+            <div class="col-md-6 mb-3">
+              <sq-input-file-form-control
+                formControlName="resume"
+                [label]="'Currículo * (PDF até 5MB)'"
+                [placeholder]="'Escolher arquivo PDF'"
+                [fileType]="'.pdf'"
+                [maxSize]="maxFileSize"
+                sqValidation
+                [fieldName]="'Currículo'"
+              ></sq-input-file-form-control>
+            </div>
+          </div>
+
+          <div class="d-flex gap-2 mt-4">
+            <button type="submit" class="btn btn-primary" [disabled]="!profileForm.valid">
+              <i class="fa-solid fa-check mr-2"></i>
+              Enviar Perfil
+            </button>
+            <button type="button" class="btn btn-secondary" (click)="profileForm.reset()">
+              <i class="fa-solid fa-rotate-left mr-2"></i>
+              Limpar
+            </button>
+            <button type="button" class="btn btn-info" (click)="fillProfileExample()">
+              <i class="fa-solid fa-fill mr-2"></i>
+              Preencher Exemplo
+            </button>
+            <button type="button" class="btn btn-warning" (click)="logFormState('profileForm', profileForm)">
+              <i class="fa-solid fa-bug mr-2"></i>
+              Log Estado (Console)
+            </button>
+          </div>
+        </form>
+
+        <div class="mt-4 p-3 bg-light rounded">
+          <h6>Estado do Formulário:</h6>
+          <div class="row">
+            <div class="col-md-4">
+              <strong>Válido:</strong>
+              <span [class]="profileForm.valid ? 'text-success' : 'text-danger'">
+                {{ profileForm.valid ? '✓ Sim' : '✗ Não' }}
+              </span>
+            </div>
+            <div class="col-md-4">
+              <strong>Tocado:</strong>
+              <span [class]="profileForm.touched ? 'text-info' : 'text-muted'">
+                {{ profileForm.touched ? 'Sim' : 'Não' }}
+              </span>
+            </div>
+            <div class="col-md-4">
+              <strong>Sujo:</strong>
+              <span [class]="profileForm.dirty ? 'text-warning' : 'text-muted'">
+                {{ profileForm.dirty ? 'Sim' : 'Não' }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <app-code-tabs [title]="'Formulário Completo'" [examples]="profileFormCode"></app-code-tabs>
+    </section>
+
+    <!-- Seção de Benefícios -->
+    <section class="benefits-section mt-5 mb-5">
+      <h2 class="section-title">✨ Benefícios do Novo Componente</h2>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="benefit-card">
+            <h4><i class="fa-solid fa-check-circle text-success"></i> Reactive Forms</h4>
+            <p>Integração perfeita com FormControl e FormGroup</p>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="benefit-card">
+            <h4><i class="fa-solid fa-shield-alt text-primary"></i> Validação Automática</h4>
+            <p>Validators integrados (tamanho, tipos de arquivo)</p>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="benefit-card">
+            <h4><i class="fa-solid fa-eye text-info"></i> Preview Integrado</h4>
+            <p>Visualização de arquivos selecionados</p>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="benefit-card">
+            <h4><i class="fa-solid fa-sync text-warning"></i> Estados Visuais</h4>
+            <p>Loading, disabled, readonly e error states</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+

@@ -1,0 +1,85 @@
+<div
+  class="wrapper-input-file-squid {{ customClass }}"
+  [ngClass]="{
+    error: control.invalid && control.touched,
+    block: block,
+  }"
+>
+  @if (label?.length) {
+    <label
+      class="label"
+      [ngClass]="{
+        loading: loading,
+      }"
+      [for]="id"
+    >
+      {{ label }}
+    </label>
+  }
+  
+  @if (customContent) {
+    <label [for]="id" class="label-custom">
+      <ng-container *ngTemplateOutlet="customContent"></ng-container>
+    </label>
+  }
+  
+  @if (!customContent) {
+    <label
+      class="placeholder button"
+      [for]="id"
+      [ngStyle]="{
+        'font-size': fontSize,
+        color: textColor,
+        'background-color': color,
+        'border-color': borderColor || textColor,
+      }"
+      [ngClass]="{
+        loading: loading,
+        'p-0': noPadding,
+        disabled: disabled || loading,
+        readonly: readonly,
+      }"
+    >
+      <span
+        [innerHtml]="placeholder || '' | universalSafe"
+        [ngStyle]="{
+          'font-size': fontSize,
+        }"
+      ></span>
+      @if (loading) {
+        <sq-loader [color]="textColor"></sq-loader>
+      }
+    </label>
+  }
+  
+  <input
+    #inputFile
+    type="file"
+    [id]="id"
+    [name]="name"
+    [disabled]="disabled || loading"
+    [readonly]="readonly || loading"
+    [accept]="fileType"
+    (click)="onInputClick($event, inputFile)"
+    (change)="onFileChange($event)"
+    [multiple]="multiple"
+  />
+  
+  @if (errorSpan) {
+    <div
+      class="box-validation box-invalid show"
+      [ngClass]="{
+        'visibility-hidden-force': !control.invalid || !control.touched || disabled || readonly,
+      }"
+    >
+      <i
+        [ngClass]="{
+          'visibility-hidden-force': !control.invalid || !control.touched,
+        }"
+        class="fa-solid fa-triangle-exclamation"
+      ></i>
+      {{ errorMessage }}
+    </div>
+  }
+</div>
+

@@ -81,6 +81,21 @@ export class ComponentsIndexComponent {
       ],
     },
     {
+      title: 'sq-input-file-form-control',
+      description: 'Componente de upload de arquivo baseado em Reactive Forms com validações avançadas',
+      icon: '📁',
+      status: 'new',
+      route: '/input-file-form-control',
+      features: [
+        'Upload único ou múltiplo',
+        'Validação de tamanho de arquivo',
+        'Filtro por tipo de arquivo',
+        'Preview de arquivos selecionados',
+        'Loading state integrado',
+        'ChangeDetectionStrategy.OnPush',
+      ],
+    },
+    {
       title: 'sq-validation-message',
       description: 'Componente reutilizável para exibir mensagens de validação de formulários',
       icon: '⚠️',
@@ -139,6 +154,14 @@ export class ComponentsIndexComponent {
       status: 'legacy',
       route: '/input-mask-form-control',
       features: ['Two-way binding', 'Máscaras básicas', 'Mantido para compatibilidade'],
+    },
+    {
+      title: 'sq-input-file (Legacy)',
+      description: 'Componente legado de upload - use sq-input-file-form-control em novos projetos',
+      icon: '🔴',
+      status: 'legacy',
+      route: '/input-file-form-control',
+      features: ['Two-way binding', 'Upload básico', 'Mantido para compatibilidade'],
     },
   ];
 

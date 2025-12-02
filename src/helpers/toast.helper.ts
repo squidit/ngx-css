@@ -54,7 +54,11 @@ export class ToastHelper {
    * Creates an instance of the ToastHelper service.
    */
   constructor() {
-    this.toast = Toast || (window['Toast' as any] as unknown as Toast);
+    // Check if Toast is available globally (from @squidit/css)
+    if (typeof window !== 'undefined' && window['Toast' as any]) {
+      this.toast = window['Toast' as any] as unknown as Toast;
+    }
+    // Otherwise, use the fallback implementation (toastLogSrr)
   }
 
   /**
