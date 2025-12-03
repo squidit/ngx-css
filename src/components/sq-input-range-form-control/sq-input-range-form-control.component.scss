@@ -1,0 +1,182 @@
+@use '../sq-input-range/sq-input-range.component.scss';
+
+:host {
+  display: block;
+}
+
+.wrapper-input-squid {
+  position: relative;
+}
+
+.value-floating {
+  position: absolute;
+  top: -1.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text_color, #333);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+// Range simples - compatível com o legado
+input.range {
+  --range-thumb-color: var(--primary_color);
+  --range-track-color: transparent;
+  --range-track-height: 10px;
+  --range-thumb-size: 30px;
+
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: var(--range-track-height);
+  background: var(--range-track-color);
+  border-radius: 12px;
+  outline: none;
+  opacity: 0.9;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  // Webkit (Chrome, Safari, Edge)
+  &::-webkit-slider-runnable-track {
+    height: var(--range-track-height);
+    background: var(--range-track-color);
+    border-radius: 12px;
+  }
+
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: var(--range-thumb-size);
+    height: var(--range-thumb-size);
+    background: var(--range-thumb-color);
+    border-radius: 50%;
+    cursor: pointer;
+    margin-top: calc((var(--range-track-height) - var(--range-thumb-size)) / 2);
+    padding: 2px;
+    background-clip: content-box;
+    border: 2px solid transparent;
+    transition: border-color 0.2s ease;
+
+    &:hover {
+      border-color: var(--range-thumb-color);
+    }
+  }
+
+  // Firefox
+  &::-moz-range-track {
+    height: var(--range-track-height);
+    background: var(--range-track-color);
+    border-radius: 12px;
+  }
+
+  &::-moz-range-thumb {
+    width: var(--range-thumb-size);
+    height: var(--range-thumb-size);
+    background: var(--range-thumb-color);
+    border-radius: 50%;
+    border: 2px solid transparent;
+    cursor: pointer;
+    padding: 2px;
+    background-clip: content-box;
+    transition: border-color 0.2s ease;
+
+    &:hover {
+      border-color: var(--range-thumb-color);
+    }
+  }
+
+  // Disabled state
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+
+    &::-webkit-slider-thumb {
+      padding: 0;
+      width: 22px;
+      height: 22px;
+      border: none !important;
+      background: var(--color_bg_input_disabled, #ccc);
+      cursor: not-allowed;
+    }
+
+    &::-moz-range-thumb {
+      padding: 0;
+      width: 22px;
+      height: 22px;
+      border: none !important;
+      background: var(--color_bg_input_disabled, #ccc);
+      cursor: not-allowed;
+    }
+  }
+}
+
+// Dual range container
+.dual-range-container {
+  position: relative;
+  height: 3rem;
+  --range-track-height: 10px;
+  --range-thumb-size: 30px;
+
+  .range-track {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: var(--range-track-height);
+    background: var(--range-track-color, #e0e0e0);
+    border-radius: 12px;
+    transform: translateY(-50%);
+  }
+
+  .range-selected {
+    position: absolute;
+    top: 50%;
+    height: var(--range-track-height);
+    background: var(--range-thumb-color, var(--primary_color));
+    border-radius: 12px;
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+
+  input.range {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    pointer-events: none;
+
+    &::-webkit-slider-runnable-track {
+      background: transparent;
+    }
+
+    &::-moz-range-track {
+      background: transparent;
+    }
+
+    &::-webkit-slider-thumb {
+      pointer-events: auto;
+      width: var(--range-thumb-size);
+      height: var(--range-thumb-size);
+    }
+
+    &::-moz-range-thumb {
+      pointer-events: auto;
+      width: var(--range-thumb-size);
+      height: var(--range-thumb-size);
+    }
+  }
+
+  .range-values {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.5rem;
+    font-size: 0.75rem;
+    color: var(--text_color, #666);
+  }
+}

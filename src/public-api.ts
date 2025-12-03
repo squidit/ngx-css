@@ -44,6 +44,8 @@ export * from './components/sq-input-form-control/sq-input-form-control.componen
 export * from './components/sq-input-mask-form-control/sq-input-mask-form-control.component';
 export * from './components/sq-input-money-form-control/sq-input-money-form-control.component';
 export * from './components/sq-input-number-form-control/sq-input-number-form-control.component';
+export * from './components/sq-input-range-form-control/sq-input-range-form-control.component';
+export { RangeValue } from './components/sq-input-range-form-control/sq-input-range-form-control.component';
 export * from './components/sq-selector-form-control/sq-selector-form-control.component';
 
 export * from './directives/sq-click-outside/sq-click-outside.directive';

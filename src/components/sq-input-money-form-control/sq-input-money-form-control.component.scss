@@ -1,5 +1,5 @@
 // Importa os estilos do componente pai (mask-form-control)
-@import '../sq-input-mask-form-control/sq-input-mask-form-control.component';
+@use '../sq-input-mask-form-control/sq-input-mask-form-control.component';
 
 // Estilo específico para placeholder do input monetário
 input::placeholder {

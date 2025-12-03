@@ -111,6 +111,21 @@ export class ComponentsIndexComponent {
       ],
     },
     {
+      title: 'sq-input-range-form-control',
+      description: 'Componente de slider/range baseado em Reactive Forms para seleção de valores numéricos',
+      icon: '🎚️',
+      status: 'new',
+      route: '/input-range-form-control',
+      features: [
+        'Slider nativo do HTML5',
+        'Reactive Forms integrado',
+        'Min/Max/Step configuráveis',
+        'Cor customizável',
+        'Valor flutuante opcional',
+        'ChangeDetectionStrategy.OnPush',
+      ],
+    },
+    {
       title: 'sq-input-file-form-control',
       description: 'Componente de upload de arquivo baseado em Reactive Forms com validações avançadas',
       icon: '📁',
@@ -200,6 +215,14 @@ export class ComponentsIndexComponent {
       status: 'legacy',
       route: '/input-number-form-control',
       features: ['Two-way binding', 'Separador de milhares', 'Mantido para compatibilidade'],
+    },
+    {
+      title: 'sq-input-range (Legacy)',
+      description: 'Componente legado de slider - use sq-input-range-form-control em novos projetos',
+      icon: '🔴',
+      status: 'legacy',
+      route: '/input-range-form-control',
+      features: ['Two-way binding', 'Slider básico', 'Mantido para compatibilidade'],
     },
     {
       title: 'sq-input-file (Legacy)',
