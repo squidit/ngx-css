@@ -1,19 +1,112 @@
-// SqOverlayBaseComponent - minimal styles
-// Uses existing CSS classes from the lib
-
 :host {
   display: contents;
 }
 
-.modal-header.without-header {
-  border-bottom: none;
+.overlay {
+  padding: 0;
+  border-radius: 0;
+
+  &.left {
+    justify-content: flex-start;
+  }
+
+  &.right {
+    justify-content: flex-end;
+  }
+
+  &.top {
+    align-items: flex-start;
+  }
+
+  &.bottom {
+    align-items: flex-end;
+  }
+
+  .modal-dialog {
+    margin: 0;
+    position: fixed;
+    max-width: 100vw;
+    max-height: 100vh;
+    transition:
+      width 0.3s ease-out,
+      height 0.3s ease-out !important;
+    transform: translate3d(0, 0, 0) !important;
+
+    &.left,
+    &.right {
+      height: 100%;
+      width: 0;
+      top: 0;
+    }
+
+    &.left {
+      left: 0;
+    }
+
+    &.right {
+      right: 0;
+    }
+
+    &.top,
+    &.bottom {
+      width: 100%;
+      height: 0;
+      left: 0;
+    }
+
+    &.top {
+      top: 0;
+    }
+
+    &.bottom {
+      bottom: 0;
+    }
+
+    .modal-content {
+      height: 100%;
+      border-radius: 0;
+      border: none;
+    }
+  }
 }
 
-.modal-header.borderless,
-.modal-footer.borderless {
+// Header adjustments for overlay
+.modal-header {
+  min-height: 60px;
+  display: flex;
+
+  h3.modal-title {
+    margin: 0;
+  }
+
+  .button-close {
+    position: unset;
+    height: 30px;
+    line-height: 30px;
+    opacity: .7;
+  }
+
+  &.without-header {
+    border-bottom: none;
+  }
+}
+
+// Body scroll behavior
+.modal-body {
+  flex: 1;
+  overflow-y: auto;
+
+  &.without-footer {
+    height: calc(100vh - 60px);
+  }
+}
+
+// Footer adjustments
+.modal-footer {
+  min-height: 60px;
+}
+
+// Borderless variant
+.borderless {
   border-color: transparent;
-}
-
-.modal-body.without-footer {
-  height: calc(100dvh - 60px);
 }

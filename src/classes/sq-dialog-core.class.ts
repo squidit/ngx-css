@@ -96,19 +96,23 @@ export abstract class SqDialogCore implements OnChanges, OnDestroy {
   // ============================================
 
   /**
-   * Custom header content (TemplateRef or Component type).
+   * Custom header content.
+   * Can be a string (used as title) or TemplateRef.
+   * If body is a Component with headerTemplate property, it will be used automatically.
    */
-  @Input() headerContent?: TemplateRef<any> | Type<any>;
+  @Input() headerContent?: string | TemplateRef<any>;
 
   /**
    * Custom body content (TemplateRef or Component type).
+   * If a Component is passed, its headerTemplate and footerTemplate properties will be used.
    */
   @Input() bodyContent?: TemplateRef<any> | Type<any>;
 
   /**
-   * Custom footer content (TemplateRef or Component type).
+   * Custom footer content (string or TemplateRef).
+   * If body is a Component with footerTemplate property, it will be used automatically.
    */
-  @Input() footerContent?: TemplateRef<any> | Type<any>;
+  @Input() footerContent?: TemplateRef<any>;
 
   /**
    * Data to pass to dynamic content components.
@@ -144,19 +148,9 @@ export abstract class SqDialogCore implements OnChanges, OnDestroy {
   @ViewChild('dialogElement') dialogElement?: ElementRef<HTMLElement>;
 
   /**
-   * Container for dynamic header content.
-   */
-  @ViewChild('headerContainer', { read: ViewContainerRef }) headerContainer?: ViewContainerRef;
-
-  /**
    * Container for dynamic body content.
    */
   @ViewChild('bodyContainer', { read: ViewContainerRef }) bodyContainer?: ViewContainerRef;
-
-  /**
-   * Container for dynamic footer content.
-   */
-  @ViewChild('footerContainer', { read: ViewContainerRef }) footerContainer?: ViewContainerRef;
 
   // ============================================
   // Internal State
@@ -181,6 +175,16 @@ export abstract class SqDialogCore implements OnChanges, OnDestroy {
    * Whether the dialog has footer content.
    */
   hasFooter = false;
+
+  /**
+   * Header template extracted from body component (if any).
+   */
+  protected bodyComponentHeaderTemplate?: TemplateRef<any>;
+
+  /**
+   * Footer template extracted from body component (if any).
+   */
+  protected bodyComponentFooterTemplate?: TemplateRef<any>;
 
   /**
    * Original scroll position to restore on close.
@@ -493,21 +497,13 @@ export abstract class SqDialogCore implements OnChanges, OnDestroy {
 
   /**
    * Render dynamic content (TemplateRef or Component) into containers.
+   * Only body supports Component type. Header and footer support only string/TemplateRef.
+   * If body is a Component with headerTemplate/footerTemplate properties, they will be extracted.
    */
   protected renderDynamicContent(): void {
-    // Render header
-    if (this.headerContent && this.headerContainer) {
-      this.renderContent(this.headerContent, this.headerContainer, 'header');
-    }
-
-    // Render body
+    // Render body (supports both TemplateRef and Component)
     if (this.bodyContent && this.bodyContainer) {
       this.renderContent(this.bodyContent, this.bodyContainer, 'body');
-    }
-
-    // Render footer
-    if (this.footerContent && this.footerContainer) {
-      this.renderContent(this.footerContent, this.footerContainer, 'footer');
     }
   }
 
@@ -552,6 +548,28 @@ export abstract class SqDialogCore implements OnChanges, OnDestroy {
 
       componentRef.changeDetectorRef.detectChanges();
       this.contentComponentRefs[slot] = componentRef;
+
+      // Extract header/footer templates from body component if available
+      if (slot === 'body') {
+        this.extractTemplatesFromBodyComponent(componentRef.instance);
+      }
+    }
+  }
+
+  /**
+   * Extract headerTemplate and footerTemplate from body component if they exist.
+   *
+   * @param componentInstance - The body component instance
+   */
+  protected extractTemplatesFromBodyComponent(componentInstance: any): void {
+    // Extract header template if exists and no header content was provided
+    if ('headerTemplate' in componentInstance && componentInstance.headerTemplate) {
+      this.bodyComponentHeaderTemplate = componentInstance.headerTemplate;
+    }
+
+    // Extract footer template if exists and no footer content was provided
+    if ('footerTemplate' in componentInstance && componentInstance.footerTemplate) {
+      this.bodyComponentFooterTemplate = componentInstance.footerTemplate;
     }
   }
 
@@ -593,26 +611,58 @@ export abstract class SqDialogCore implements OnChanges, OnDestroy {
   // ============================================
 
   /**
-   * Computed header: prioritizes headerContent input over content projection.
+   * Header title when headerContent is a string.
+   * Returns null if body component has a headerTemplate (internal overrides external).
+   *
+   * @returns The header title string or null
+   */
+  get headerTitle(): string | null {
+    // Body component's headerTemplate takes priority over external string
+    if (this.bodyComponentHeaderTemplate) {
+      return null;
+    }
+    if (typeof this.headerContent === 'string') {
+      return this.headerContent;
+    }
+    return null;
+  }
+
+  /**
+   * Computed header: prioritizes body component's headerTemplate (internal),
+   * then falls back to external headerContent or content projection.
+   * Returns null if headerContent is a string (use headerTitle instead).
    *
    * @returns The effective header template or null
    */
   get effectiveHeaderTemplate(): TemplateRef<any> | null {
-    if (this.headerContent && this.isTemplateRef(this.headerContent)) {
+    // Priority 1: Template from body component (internal overrides external)
+    if (this.bodyComponentHeaderTemplate) {
+      return this.bodyComponentHeaderTemplate;
+    }
+    // Priority 2: headerContent (TemplateRef)
+    if (this.headerContent && typeof this.headerContent !== 'string' && this.isTemplateRef(this.headerContent)) {
       return this.headerContent;
     }
+    // Priority 3: Content projection
     return this.headerTemplate || null;
   }
 
   /**
-   * Computed footer: prioritizes footerContent input over content projection.
+   * Computed footer: prioritizes body component's footerTemplate (internal),
+   * then falls back to external footerContent or content projection.
    *
    * @returns The effective footer template or null
    */
   get effectiveFooterTemplate(): TemplateRef<any> | null {
+    // Priority 1: Template from body component (internal overrides external)
+    if (this.bodyComponentFooterTemplate) {
+      return this.bodyComponentFooterTemplate;
+    }
+    // Priority 2: footerContent (TemplateRef)
     if (this.footerContent && this.isTemplateRef(this.footerContent)) {
       return this.footerContent;
     }
+    // Priority 3: Content projection
     return this.footerTemplate || null;
   }
 
@@ -645,12 +695,14 @@ export abstract class SqDialogCore implements OnChanges, OnDestroy {
   }
 
   /**
-   * Check if header content is a component (not template).
+   * Check if header content is a component.
+   * Always returns false as header only supports string or TemplateRef.
    *
-   * @returns True if headerContent is a Component type
+   * @returns Always false
+   * @deprecated Header no longer supports Component type
    */
   get hasHeaderComponent(): boolean {
-    return !!this.headerContent && !this.isTemplateRef(this.headerContent);
+    return false;
   }
 
   /**
@@ -663,12 +715,14 @@ export abstract class SqDialogCore implements OnChanges, OnDestroy {
   }
 
   /**
-   * Check if footer content is a component (not template).
+   * Check if footer content is a component.
+   * Always returns false as footer only supports TemplateRef.
    *
-   * @returns True if footerContent is a Component type
+   * @returns Always false
+   * @deprecated Footer no longer supports Component type
    */
   get hasFooterComponent(): boolean {
-    return !!this.footerContent && !this.isTemplateRef(this.footerContent);
+    return false;
   }
 
   /**

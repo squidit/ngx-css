@@ -8,14 +8,14 @@
     <div [dataTest]="dataTest + '-content'" class="modal-content modal-sq">
       <!-- Header -->
       <div [dataTest]="dataTest + '-header'" class="modal-header" [ngClass]="{ 'without-header': !showHeader }">
-        <!-- Template header (from content projection or input) -->
-        @if (effectiveHeaderTemplate) {
-          <ng-container *ngTemplateOutlet="effectiveHeaderTemplate; context: templateContext"></ng-container>
+        <!-- String header (title) -->
+        @if (headerTitle) {
+          <h5 class="modal-title">{{ headerTitle }}</h5>
         }
 
-        <!-- Component header (dynamic) -->
-        @if (hasHeaderComponent) {
-          <ng-container #headerContainer></ng-container>
+        <!-- Template header (from content projection, input, or body component) -->
+        @if (effectiveHeaderTemplate) {
+          <ng-container *ngTemplateOutlet="effectiveHeaderTemplate; context: templateContext"></ng-container>
         }
 
         <!-- Close button -->
@@ -45,24 +45,19 @@
       <!-- Footer -->
       @if (showFooter) {
         <div [dataTest]="dataTest + '-footer'" class="modal-footer">
-          <!-- Template footer (from content projection or input) -->
+          <!-- Template footer (from content projection, input, or body component) -->
           @if (effectiveFooterTemplate) {
             <ng-container *ngTemplateOutlet="effectiveFooterTemplate; context: templateContext"></ng-container>
           }
 
-          <!-- Component footer (dynamic) -->
-          @if (hasFooterComponent) {
-            <ng-container #footerContainer></ng-container>
-          }
-
           <!-- Default footer buttons -->
           @if (shouldShowDefaultFooter) {
-            <button type="button" class="button background-transparent" (click)="onCancel()">
+            <sq-button color="transparent" textColor="var(--text_color)" (emitClick)="onCancel()">
               {{ cancelText }}
-            </button>
-            <button type="button" class="button background-primary" (click)="onConfirm()">
+            </sq-button>
+            <sq-button color="var(--primary_color)" (emitClick)="onConfirm()">
               {{ confirmText }}
-            </button>
+            </sq-button>
           }
         </div>
       }

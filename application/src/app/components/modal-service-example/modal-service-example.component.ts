@@ -6,11 +6,88 @@ import {
   SqModalBaseComponent,
   SqOverlayBaseComponent,
   confirmBeforeClose,
+  SqButtonComponent,
 } from '@squidit/ngx-css';
+import { filter } from 'rxjs';
 
 /**
  * Componente de conteúdo simples para ser injetado no modal/overlay
  */
+@Component({
+  selector: 'app-overlay-content',
+  standalone: true,
+  template: `
+    <div class="modal-content-example">
+      <p>{{ message }}</p>
+      <p><strong>Contador:</strong> {{ counter }}</p>
+      <div class="actions">
+        <button class="button background-secondary" (click)="increment()">Incrementar</button>
+      </div>
+    </div>
+
+    <ng-template #headerTemplate>
+      <h5 class="m-0">Overlay Custom Header</h5>
+    </ng-template>
+
+    <ng-template #footerTemplate let-modal>
+      <div style="display: flex; gap: 0.5rem;">
+        <sq-button color="primary" (emitClick)="modal.close()">Cancelar</sq-button>
+        <sq-button color="primary" (emitClick)="check(modal)">Verificar</sq-button>
+        <sq-button color="primary" (emitClick)="confirm(modal)">Confirmar</sq-button>
+      </div>
+    </ng-template>
+
+    <ng-template #secondModal>
+      <h1>Tem certeza que deseja verificar?</h1>
+    </ng-template>
+  `,
+  styles: [
+    `
+      .modal-content-example {
+        padding: 1rem;
+      }
+      .actions {
+        display: flex;
+        gap: 0.5rem;
+        margin-top: 1rem;
+      }
+    `,
+  ],
+  imports: [SqButtonComponent],
+})
+export class OverlayContentComponent {
+  @Input() message = 'Conteúdo do modal';
+  @Input() dialogRef?: SqDialogRef;
+  @ViewChild('footerTemplate') footerTemplate!: TemplateRef<any>;
+  @ViewChild('headerTemplate') headerTemplate!: TemplateRef<any>;
+  @ViewChild('secondModal') secondModal!: TemplateRef<any>;
+
+  private modalService = inject(SqModalService);
+
+  counter = 0;
+
+  increment() {
+    this.counter++;
+  }
+
+  confirm(modal: SqDialogRef) {
+    modal.close({ confirmed: true, counter: this.counter });
+  }
+
+  check(modal: SqDialogRef) {
+    this.modalService
+      .openModal({
+        size: 'md',
+        header: 'Verificar',
+        body: this.secondModal,
+      })
+      .pipe(filter(result => !!result))
+      .subscribe(() => {
+        modal.close({ checked: true, counter: this.counter });
+      });
+  }
+}
+
 @Component({
   selector: 'app-modal-content',
   standalone: true,
@@ -128,9 +205,9 @@ export class ModalServiceExampleComponent {
       .openOverlay({
         direction: 'right',
         width: '400px',
-        body: ModalContentComponent,
+        header: 'Overlay Direito',
+        body: OverlayContentComponent,
         data: {
-          title: 'Overlay via Serviço',
           message: 'Este overlay foi aberto programaticamente.',
         },
       })
@@ -177,9 +254,35 @@ export class ModalServiceExampleComponent {
         width: '350px',
         body: ModalContentComponent,
         data: {
+          header: 'Overlay Esquerdo',
           title: 'Overlay Esquerdo',
           message: 'Este overlay abre do lado esquerdo.',
         },
+      })
+      .subscribe(result => {
+        this.lastResult = result;
+      });
+  }
+
+  openBottomOverlay() {
+    this.modalService
+      .openOverlay({
+        header: 'Overlay Inferior',
+        direction: 'bottom',
+        height: '300px',
+        body: ModalContentComponent,
+      })
+      .subscribe(result => {
+        this.lastResult = result;
+      });
+  }
+
+  openTopOverlay() {
+    this.modalService
+      .openOverlay({
+        direction: 'top',
+        height: '300px',
+        body: ModalContentComponent,
       })
       .subscribe(result => {
         this.lastResult = result;

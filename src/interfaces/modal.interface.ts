@@ -59,21 +59,23 @@ export interface SqDialogConfig<T = any> {
 
   /**
    * Custom header content.
-   * Can be a TemplateRef or a Component type.
+   * Can be a string (used as title) or TemplateRef.
+   * If body is a Component with headerTemplate property, it will be used automatically.
    */
-  header?: TemplateRef<any> | Type<any>;
+  header?: string | TemplateRef<any>;
 
   /**
    * Custom body content.
    * Can be a TemplateRef or a Component type.
+   * If a Component is passed, its headerTemplate and footerTemplate properties will be used.
    */
   body?: TemplateRef<any> | Type<any>;
 
   /**
-   * Custom footer content.
-   * Can be a TemplateRef or a Component type.
+   * Custom footer content (TemplateRef only).
+   * If body is a Component with footerTemplate property, it will be used automatically.
    */
-  footer?: TemplateRef<any> | Type<any>;
+  footer?: TemplateRef<any>;
 
   /**
    * Data-test attribute for testing purposes.
@@ -123,11 +125,18 @@ export interface SqOverlayConfig<T = any> extends SqDialogConfig<T> {
   direction?: OverlayDirectionType;
 
   /**
-   * Width of the overlay panel.
+   * Width of the overlay panel (used for left/right directions).
    *
    * @default '475px'
    */
   width?: string;
+
+  /**
+   * Height of the overlay panel (used for top/bottom directions).
+   *
+   * @default '300px'
+   */
+  height?: string;
 
   /**
    * Whether to hide borders in the overlay.

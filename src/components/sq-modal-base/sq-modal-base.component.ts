@@ -1,6 +1,7 @@
 import { NgClass, NgTemplateOutlet } from '@angular/common';
 import { Component, ContentChild, ElementRef, Input, TemplateRef } from '@angular/core';
 import { SqDialogCore } from '../../classes/sq-dialog-core.class';
+import { SqButtonComponent } from '../sq-button/sq-button.component';
 import { SqClickOutsideDirective } from '../../directives/sq-click-outside/sq-click-outside.directive';
 import { SqDataTestDirective } from '../../directives/sq-data-test/sq-data-test.directive';
 import { ModalSizeType } from '../../interfaces/modal.interface';
@@ -44,7 +45,7 @@ import { ModalSizeType } from '../../interfaces/modal.interface';
   templateUrl: './sq-modal-base.component.html',
   styleUrls: ['./sq-modal-base.component.scss'],
   standalone: true,
-  imports: [NgClass, NgTemplateOutlet, SqClickOutsideDirective, SqDataTestDirective],
+  imports: [NgClass, NgTemplateOutlet, SqButtonComponent, SqClickOutsideDirective, SqDataTestDirective],
 })
 export class SqModalBaseComponent extends SqDialogCore {
   /**

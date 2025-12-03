@@ -59,9 +59,14 @@ export class SqOverlayBaseComponent extends SqDialogCore {
   @Input() direction: OverlayDirectionType = 'right';
 
   /**
-   * Width of the overlay panel.
+   * Width of the overlay panel (used for left/right directions).
    */
   @Input() width = '475px';
+
+  /**
+   * Height of the overlay panel (used for top/bottom directions).
+   */
+  @Input() height = '300px';
 
   /**
    * Whether to hide borders in the overlay.
@@ -112,6 +117,16 @@ export class SqOverlayBaseComponent extends SqDialogCore {
   }
 
   /**
+   * Override showFooter for overlay - only show when template or component is provided.
+   * Unlike modal, overlay does not have default footer buttons.
+   *
+   * @returns True if footer should be displayed
+   */
+  override get showFooter(): boolean {
+    return !!this.effectiveFooterTemplate || this.hasFooterComponent;
+  }
+
+  /**
    * Hook called when the overlay opens.
    */
   protected override onDialogOpen(): void {
@@ -137,12 +152,28 @@ export class SqOverlayBaseComponent extends SqDialogCore {
   }
 
   /**
-   * Inject dynamic CSS for overlay width.
+   * Check if the overlay direction is horizontal (left or right).
+   *
+   * @returns True if direction is left or right
+   */
+  private isHorizontalDirection(): boolean {
+    return this.direction === 'left' || this.direction === 'right';
+  }
+
+  /**
+   * Inject dynamic CSS for overlay size based on direction.
+   * For left/right: applies width
+   * For top/bottom: applies height
    */
   private injectWidthCss(): void {
+    const isHorizontal = this.isHorizontalDirection();
+    const sizeProperty = isHorizontal ? 'width' : 'height';
+    const sizeValue = isHorizontal ? this.width : this.height;
+
+    // Use specific selector with direction class to override the width: 0 / height: 0
     const css = `
-      .overlay.open .modal-dialog.opened {
-        width: ${this.width};
+      .overlay.open .modal-dialog.${this.direction}.opened {
+        ${sizeProperty}: ${sizeValue} !important;
       }
     `;
     const head = this.document.getElementsByTagName('head')[0];
@@ -160,7 +191,7 @@ export class SqOverlayBaseComponent extends SqDialogCore {
   }
 
   /**
-   * Remove the dynamic CSS for overlay width.
+   * Remove the dynamic CSS for overlay size.
    */
   private removeWidthCss(): void {
     const style = this.document.getElementById(this.styleId);

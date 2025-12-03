@@ -234,6 +234,9 @@ export class SqModalService {
     if (overlayConfig.width) {
       componentInstance.width = overlayConfig.width;
     }
+    if (overlayConfig.height) {
+      componentInstance.height = overlayConfig.height;
+    }
     if (overlayConfig.borderless !== undefined) {
       componentInstance.borderless = overlayConfig.borderless;
     }
