@@ -1,0 +1,704 @@
+<div class="container">
+  <app-breadcrumb [items]="breadcrumbItems"></app-breadcrumb>
+
+  <div class="content-wrapper">
+    <!-- Header -->
+    <div class="row mb-2">
+      <div class="col-24">
+        <h1 class="display-4 mb-3">
+          <i class="fas fa-check-square text-primary me-3"></i>
+          Comparação: sq-selector vs sq-selector-form-control
+        </h1>
+        <p class="lead text-muted">
+          Demonstração lado a lado do componente legado (<code>sq-selector</code>) e do componente moderno
+          (<code>sq-selector-form-control</code>) com suporte a Reactive Forms.
+        </p>
+
+        <div class="alert alert-info">
+          <h5><i class="fas fa-lightbulb me-2"></i>Sobre os Componentes</h5>
+          <ul class="mb-0">
+            <li><strong>sq-selector (Antigo):</strong> Usa <code>ngModel</code> e gerencia validações internamente</li>
+            <li>
+              <strong>sq-selector-form-control (Novo):</strong> Implementa <code>ControlValueAccessor</code>, integração
+              nativa com <code>FormControl</code>, e usa <code>ChangeDetectionStrategy.OnPush</code>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Seção 1: Checkbox Simples -->
+    <div class="row mb-2">
+      <div class="col-24">
+        <div class="comparison-card">
+          <div class="comparison-header">
+            <h2>
+              <span class="badge bg-primary me-2">1</span>
+              Checkbox Simples
+            </h2>
+          </div>
+
+          <div class="row no-spacings">
+            <!-- Componente Antigo -->
+            <div class="col-md-12">
+              <div class="component-demo old">
+                <div class="component-label">
+                  <i class="fas fa-history me-2"></i>
+                  Componente Antigo
+                </div>
+                <div class="demo-content">
+                  <sq-selector
+                    [id]="'old-simple'"
+                    [label]="'Aceito os termos e condições'"
+                    [type]="'checkbox'"
+                    [checked]="oldSimpleChecked"
+                    (valueChange)="oldSimpleChecked = $event.checked"
+                  ></sq-selector>
+                  <div class="mt-3">
+                    <small class="text-muted">
+                      <strong>Estado:</strong> {{ oldSimpleChecked ? 'Marcado' : 'Desmarcado' }}
+                    </small>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Componente Novo -->
+            <div class="col-md-12">
+              <div class="component-demo new">
+                <div class="component-label">
+                  <i class="fas fa-star me-2"></i>
+                  Componente Novo
+                </div>
+                <div class="demo-content">
+                  <sq-selector-form-control
+                    [id]="'new-simple'"
+                    [label]="'Aceito os termos e condições'"
+                    [type]="'checkbox'"
+                    [formControl]="newSimpleControl"
+                  ></sq-selector-form-control>
+                  <div class="mt-3">
+                    <small class="text-muted">
+                      <strong>Estado:</strong> {{ newSimpleControl.value ? 'Marcado' : 'Desmarcado' }}
+                    </small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Documentação -->
+          <div class="row mt-4">
+            <div class="col-24">
+              <app-code-tabs [examples]="simpleCheckboxExampleCode"></app-code-tabs>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Seção 2: Checkbox Obrigatório -->
+    <div class="row mb-2">
+      <div class="col-24">
+        <div class="comparison-card">
+          <div class="comparison-header">
+            <h2>
+              <span class="badge bg-primary me-2">2</span>
+              Checkbox Obrigatório com Validação
+            </h2>
+          </div>
+
+          <div class="row no-spacings">
+            <!-- Componente Antigo -->
+            <div class="col-md-12">
+              <div class="component-demo old">
+                <div class="component-label">
+                  <i class="fas fa-history me-2"></i>
+                  Componente Antigo
+                </div>
+                <div class="demo-content">
+                  <sq-selector
+                    [id]="'old-required'"
+                    [label]="'Aceito a política de privacidade *'"
+                    [type]="'checkbox'"
+                    [checked]="oldRequiredChecked"
+                    [required]="true"
+                    [errorSpan]="true"
+                    (valueChange)="oldRequiredChecked = $event.checked"
+                  ></sq-selector>
+                </div>
+              </div>
+            </div>
+
+            <!-- Componente Novo -->
+            <div class="col-md-12">
+              <div class="component-demo new">
+                <div class="component-label">
+                  <i class="fas fa-star me-2"></i>
+                  Componente Novo
+                </div>
+                <div class="demo-content">
+                  <sq-selector-form-control
+                    [id]="'new-required'"
+                    [label]="'Aceito a política de privacidade *'"
+                    [type]="'checkbox'"
+                    [formControl]="newRequiredControl"
+                  ></sq-selector-form-control>
+
+                  <sq-validation-message
+                    [control]="newRequiredControl"
+                    [fieldName]="'Política de Privacidade'"
+                    [showWhenTouched]="true"
+                  ></sq-validation-message>
+
+                  <div class="mt-3">
+                    <small class="text-info">💡 Clique e depois desmarque para ver a validação</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Componente com Diretiva -->
+          <div class="row mt-4">
+            <div class="col-24">
+              <div class="alert alert-success">
+                <h6 class="mb-3">
+                  <i class="fas fa-magic me-2"></i>
+                  Versão com sqValidation Directive (Ainda Mais Simples!)
+                </h6>
+                <sq-selector-form-control
+                  [id]="'directive-required'"
+                  [label]="'Aceito a política de privacidade * (com directive)'"
+                  [type]="'checkbox'"
+                  [formControl]="directiveRequiredControl"
+                  sqValidation
+                  [fieldName]="'Política de Privacidade'"
+                  [customErrorMessages]="{
+                    required: 'Você deve aceitar a política para continuar',
+                  }"
+                ></sq-selector-form-control>
+              </div>
+            </div>
+          </div>
+
+          <!-- Documentação -->
+          <div class="row mt-4">
+            <div class="col-24">
+              <app-code-tabs [examples]="requiredCheckboxExampleCode"></app-code-tabs>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Seção 3: Toggle (Switch) -->
+    <div class="row mb-2">
+      <div class="col-24">
+        <div class="comparison-card">
+          <div class="comparison-header">
+            <h2>
+              <span class="badge bg-primary me-2">3</span>
+              Toggle (Switch)
+            </h2>
+          </div>
+
+          <div class="row no-spacings">
+            <!-- Componente Antigo -->
+            <div class="col-md-12">
+              <div class="component-demo old">
+                <div class="component-label">
+                  <i class="fas fa-history me-2"></i>
+                  Componente Antigo
+                </div>
+                <div class="demo-content">
+                  <sq-selector
+                    [id]="'old-toggle'"
+                    [label]="'Receber notificações por email'"
+                    [type]="'checkbox'"
+                    [toggle]="true"
+                    [checked]="oldToggleChecked"
+                    (valueChange)="oldToggleChecked = $event.checked"
+                  ></sq-selector>
+                  <div class="mt-3">
+                    <small class="text-muted">
+                      <strong>Notificações:</strong>
+                      <span [class]="oldToggleChecked ? 'text-success' : 'text-danger'">
+                        {{ oldToggleChecked ? 'Ativadas' : 'Desativadas' }}
+                      </span>
+                    </small>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Componente Novo -->
+            <div class="col-md-12">
+              <div class="component-demo new">
+                <div class="component-label">
+                  <i class="fas fa-star me-2"></i>
+                  Componente Novo
+                </div>
+                <div class="demo-content">
+                  <sq-selector-form-control
+                    [id]="'new-toggle'"
+                    [label]="'Receber notificações por email'"
+                    [toggle]="true"
+                    [formControl]="newToggleControl"
+                  ></sq-selector-form-control>
+                  <div class="mt-3">
+                    <small class="text-muted">
+                      <strong>Notificações:</strong>
+                      <span [class]="newToggleControl.value ? 'text-success' : 'text-danger'">
+                        {{ newToggleControl.value ? 'Ativadas' : 'Desativadas' }}
+                      </span>
+                    </small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Documentação -->
+          <div class="row mt-4">
+            <div class="col-24">
+              <app-code-tabs [examples]="toggleExampleCode"></app-code-tabs>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Seção 4: Radio Buttons -->
+    <div class="row mb-2">
+      <div class="col-24">
+        <div class="comparison-card">
+          <div class="comparison-header">
+            <h2>
+              <span class="badge bg-primary me-2">4</span>
+              Radio Buttons (Grupo)
+            </h2>
+          </div>
+
+          <div class="row no-spacings">
+            <!-- Componente Antigo -->
+            <div class="col-md-12">
+              <div class="component-demo old">
+                <div class="component-label">
+                  <i class="fas fa-history me-2"></i>
+                  Componente Antigo
+                </div>
+                <div class="demo-content">
+                  <h6 class="mb-3">Forma de Pagamento *</h6>
+                  <div class="radio-group">
+                    <sq-selector
+                      [id]="'old-radio-credit'"
+                      [label]="'Cartão de Crédito'"
+                      [type]="'radio'"
+                      [name]="'payment'"
+                      [value]="'credit_card'"
+                      [checked]="oldRadioValue === 'credit_card'"
+                      [required]="true"
+                      (valueChange)="oldRadioValue = $event.value"
+                    ></sq-selector>
+
+                    <sq-selector
+                      [id]="'old-radio-boleto'"
+                      [label]="'Boleto Bancário'"
+                      [type]="'radio'"
+                      [name]="'payment'"
+                      [value]="'boleto'"
+                      [checked]="oldRadioValue === 'boleto'"
+                      [required]="true"
+                      (valueChange)="oldRadioValue = $event.value"
+                    ></sq-selector>
+
+                    <sq-selector
+                      [id]="'old-radio-pix'"
+                      [label]="'PIX'"
+                      [type]="'radio'"
+                      [name]="'payment'"
+                      [value]="'pix'"
+                      [checked]="oldRadioValue === 'pix'"
+                      [required]="true"
+                      (valueChange)="oldRadioValue = $event.value"
+                    ></sq-selector>
+                  </div>
+                  <div class="mt-3">
+                    <small class="text-muted"> <strong>Selecionado:</strong> {{ oldRadioValue || 'Nenhum' }} </small>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Componente Novo -->
+            <div class="col-md-12">
+              <div class="component-demo new">
+                <div class="component-label">
+                  <i class="fas fa-star me-2"></i>
+                  Componente Novo
+                </div>
+                <div class="demo-content">
+                  <h6 class="mb-3">Forma de Pagamento *</h6>
+                  <div class="radio-group">
+                    <sq-selector-form-control
+                      [id]="'new-radio-credit'"
+                      [label]="'Cartão de Crédito'"
+                      [type]="'radio'"
+                      [name]="'payment-new'"
+                      [value]="'credit_card'"
+                      [formControl]="newRadioControl"
+                    ></sq-selector-form-control>
+
+                    <sq-selector-form-control
+                      [id]="'new-radio-boleto'"
+                      [label]="'Boleto Bancário'"
+                      [type]="'radio'"
+                      [name]="'payment-new'"
+                      [value]="'boleto'"
+                      [formControl]="newRadioControl"
+                    ></sq-selector-form-control>
+
+                    <sq-selector-form-control
+                      [id]="'new-radio-pix'"
+                      [label]="'PIX'"
+                      [type]="'radio'"
+                      [name]="'payment-new'"
+                      [value]="'pix'"
+                      [formControl]="newRadioControl"
+                    ></sq-selector-form-control>
+                  </div>
+
+                  <sq-validation-message
+                    [control]="newRadioControl"
+                    [fieldName]="'Forma de Pagamento'"
+                    [showWhenTouched]="true"
+                  ></sq-validation-message>
+
+                  <div class="mt-3">
+                    <small class="text-muted">
+                      <strong>Selecionado:</strong> {{ newRadioControl.value || 'Nenhum' }}
+                    </small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Componente com Diretiva -->
+          <div class="row mt-4">
+            <div class="col-24">
+              <div class="alert alert-success">
+                <h6 class="mb-3">
+                  <i class="fas fa-magic me-2"></i>
+                  Versão com sqValidation Directive
+                </h6>
+                <div class="radio-group">
+                  <sq-selector-form-control
+                    [id]="'directive-radio-credit'"
+                    [label]="'Cartão de Crédito'"
+                    [type]="'radio'"
+                    [name]="'payment-directive'"
+                    [value]="'credit_card'"
+                    [formControl]="directiveRadioControl"
+                  ></sq-selector-form-control>
+
+                  <sq-selector-form-control
+                    [id]="'directive-radio-boleto'"
+                    [label]="'Boleto Bancário'"
+                    [type]="'radio'"
+                    [name]="'payment-directive'"
+                    [value]="'boleto'"
+                    [formControl]="directiveRadioControl"
+                    sqValidation
+                    [fieldName]="'Forma de Pagamento'"
+                  ></sq-selector-form-control>
+
+                  <sq-selector-form-control
+                    [id]="'directive-radio-pix'"
+                    [label]="'PIX'"
+                    [type]="'radio'"
+                    [name]="'payment-directive'"
+                    [value]="'pix'"
+                    [formControl]="directiveRadioControl"
+                  ></sq-selector-form-control>
+                </div>
+                <small class="text-info d-block mt-2">
+                  💡 sqValidation aplicado apenas no segundo radio (funciona para todos do grupo)
+                </small>
+              </div>
+            </div>
+          </div>
+
+          <!-- Documentação -->
+          <div class="row mt-4">
+            <div class="col-24">
+              <app-code-tabs [examples]="radioButtonsExampleCode"></app-code-tabs>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Seção 5: Cores Customizadas -->
+    <div class="row mb-2">
+      <div class="col-24">
+        <div class="comparison-card">
+          <div class="comparison-header">
+            <h2>
+              <span class="badge bg-primary me-2">5</span>
+              Cores Customizadas
+            </h2>
+          </div>
+
+          <div class="row no-spacings">
+            <!-- Componente Antigo -->
+            <div class="col-md-12">
+              <div class="component-demo old">
+                <div class="component-label">
+                  <i class="fas fa-history me-2"></i>
+                  Componente Antigo
+                </div>
+                <div class="demo-content">
+                  <sq-selector
+                    [id]="'old-color'"
+                    [label]="'Modo Escuro'"
+                    [type]="'checkbox'"
+                    [checked]="oldColorChecked"
+                    [colorBackground]="'purple'"
+                    [toggle]="true"
+                    (valueChange)="oldColorChecked = $event.checked"
+                  ></sq-selector>
+                </div>
+              </div>
+            </div>
+
+            <!-- Componente Novo -->
+            <div class="col-md-12">
+              <div class="component-demo new">
+                <div class="component-label">
+                  <i class="fas fa-star me-2"></i>
+                  Componente Novo
+                </div>
+                <div class="demo-content">
+                  <sq-selector-form-control
+                    [id]="'new-color'"
+                    [label]="'Modo Escuro'"
+                    [type]="'checkbox'"
+                    [formControl]="newColorControl"
+                    [colorBackground]="'purple'"
+                    [toggle]="true"
+                  ></sq-selector-form-control>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Documentação -->
+          <div class="row mt-4">
+            <div class="col-24">
+              <app-code-tabs [examples]="customColorExampleCode"></app-code-tabs>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Seção 6: Múltiplos Checkboxes (FormGroup) -->
+    <div class="row mb-2">
+      <div class="col-24">
+        <div class="comparison-card">
+          <div class="comparison-header">
+            <h2>
+              <span class="badge bg-primary me-2">6</span>
+              Múltiplos Checkboxes (Permissões)
+            </h2>
+          </div>
+
+          <div class="row no-spacings">
+            <!-- Componente Antigo -->
+            <div class="col-md-12">
+              <div class="component-demo old">
+                <div class="component-label">
+                  <i class="fas fa-history me-2"></i>
+                  Componente Antigo
+                </div>
+                <div class="demo-content">
+                  <h6 class="mb-3">Permissões do Usuário</h6>
+                  <sq-selector
+                    [id]="'old-perm-read'"
+                    [label]="'Leitura'"
+                    [type]="'checkbox'"
+                    [checked]="oldPermissions.read"
+                    (valueChange)="oldPermissions.read = $event.checked"
+                  ></sq-selector>
+
+                  <sq-selector
+                    [id]="'old-perm-write'"
+                    [label]="'Escrita'"
+                    [type]="'checkbox'"
+                    [checked]="oldPermissions.write"
+                    (valueChange)="oldPermissions.write = $event.checked"
+                  ></sq-selector>
+
+                  <sq-selector
+                    [id]="'old-perm-delete'"
+                    [label]="'Exclusão'"
+                    [type]="'checkbox'"
+                    [checked]="oldPermissions.delete"
+                    (valueChange)="oldPermissions.delete = $event.checked"
+                  ></sq-selector>
+
+                  <div class="mt-3">
+                    <strong>Estado:</strong>
+                    <pre class="mb-0">{{ oldPermissions | json }}</pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Componente Novo -->
+            <div class="col-md-12">
+              <div class="component-demo new">
+                <div class="component-label">
+                  <i class="fas fa-star me-2"></i>
+                  Componente Novo
+                </div>
+                <div class="demo-content">
+                  <h6 class="mb-3">Permissões do Usuário</h6>
+                  <form [formGroup]="newPermissionsForm">
+                    <sq-selector-form-control
+                      [id]="'new-perm-read'"
+                      [label]="'Leitura'"
+                      [type]="'checkbox'"
+                      formControlName="read"
+                    ></sq-selector-form-control>
+
+                    <sq-selector-form-control
+                      [id]="'new-perm-write'"
+                      [label]="'Escrita'"
+                      [type]="'checkbox'"
+                      formControlName="write"
+                    ></sq-selector-form-control>
+
+                    <sq-selector-form-control
+                      [id]="'new-perm-delete'"
+                      [label]="'Exclusão'"
+                      [type]="'checkbox'"
+                      formControlName="delete"
+                    ></sq-selector-form-control>
+                  </form>
+
+                  <div class="mt-3">
+                    <strong>Estado do FormGroup:</strong>
+                    <pre class="mb-0">{{ newPermissionsForm.value | json }}</pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Documentação -->
+          <div class="row mt-4">
+            <div class="col-24">
+              <app-code-tabs [examples]="multipleCheckboxesExampleCode"></app-code-tabs>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Seção 7: Estado Indeterminado -->
+    <div class="row mb-2">
+      <div class="col-24">
+        <div class="comparison-card">
+          <div class="comparison-header">
+            <h2>
+              <span class="badge bg-primary me-2">7</span>
+              Estado Indeterminado
+            </h2>
+          </div>
+
+          <div class="row no-spacings">
+            <!-- Componente Antigo -->
+            <div class="col-md-12">
+              <div class="component-demo old">
+                <div class="component-label">
+                  <i class="fas fa-history me-2"></i>
+                  Componente Antigo
+                </div>
+                <div class="demo-content">
+                  <sq-selector
+                    [id]="'old-indeterminate'"
+                    [label]="'Selecionar todos (antigo)'"
+                    [type]="'checkbox'"
+                    [checked]="oldIndeterminateChecked"
+                    [indeterminate]="oldIndeterminate"
+                    (valueChange)="handleOldIndeterminate($event)"
+                  ></sq-selector>
+                  <small class="text-info d-block mt-2"> 💡 Clique para sair do estado indeterminado </small>
+                </div>
+              </div>
+            </div>
+
+            <!-- Componente Novo -->
+            <div class="col-md-12">
+              <div class="component-demo new">
+                <div class="component-label">
+                  <i class="fas fa-star me-2"></i>
+                  Componente Novo
+                </div>
+                <div class="demo-content">
+                  <sq-selector-form-control
+                    [id]="'new-indeterminate'"
+                    [label]="'Selecionar todos (novo)'"
+                    [type]="'checkbox'"
+                    [formControl]="newIndeterminateControl"
+                    [indeterminate]="newIndeterminate"
+                  ></sq-selector-form-control>
+                  <small class="text-info d-block mt-2"> 💡 Clique para sair do estado indeterminado </small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Documentação -->
+          <div class="row mt-4">
+            <div class="col-24">
+              <app-code-tabs [examples]="indeterminateExampleCode"></app-code-tabs>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Resumo Final -->
+    <div class="row no-spacings">
+      <div class="col-24">
+        <div class="alert alert-success">
+          <h4 class="alert-heading">
+            <i class="fas fa-check-circle me-2"></i>
+            Vantagens do Novo Componente
+          </h4>
+          <ul class="mb-0">
+            <li><strong>Reactive Forms Nativo:</strong> Integração completa com FormControl e FormGroup</li>
+            <li><strong>Validators do Angular:</strong> Use Validators.required, Validators.requiredTrue, etc.</li>
+            <li>
+              <strong>Sem Validações Internas:</strong> Delega validação ao Angular Forms (mais flexível e testável)
+            </li>
+            <li><strong>OnPush Strategy:</strong> Melhor performance com detecção de mudanças otimizada</li>
+            <li><strong>Type-safe:</strong> TypeScript completo com tipos corretos</li>
+            <li><strong>Documentação JSDoc:</strong> 100% de cobertura de documentação</li>
+            <li><strong>Standalone:</strong> Pode ser importado independentemente</li>
+            <li><strong>Moderno:</strong> Usa inject() e práticas modernas do Angular</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating Action Button -->
+  <a routerLink="/components-index" class="fab-back" title="Voltar para Página Principal">
+    <i class="fas fa-arrow-left"></i>
+  </a>
+</div>

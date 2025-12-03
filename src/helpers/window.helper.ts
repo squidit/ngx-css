@@ -1,5 +1,5 @@
 import { DOCUMENT } from '@angular/common';
-import { Injectable, Inject } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 
 /**
  * A utility service for working with the window object in Angular applications.
@@ -23,11 +23,9 @@ import { Injectable, Inject } from '@angular/core';
 })
 export class GetWindow {
   /**
-   * Initializes a new instance of the `GetWindow` class.
-   * @constructor
-   * @param {Document} document - The injected DOCUMENT to get a reference to the window object in a way that's safe for SSR.
+   * The injected DOCUMENT to get a reference to the window object in a way that's safe for SSR.
    */
-  constructor(@Inject(DOCUMENT) private document: Document) {}
+  private document = inject(DOCUMENT);
 
   /**
    * Allow to get the window object inside ssr

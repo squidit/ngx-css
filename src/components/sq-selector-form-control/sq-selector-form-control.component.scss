@@ -1,0 +1,27 @@
+.wrapper-selectors {
+  // Quando o input está checked, usa a cor customizada se fornecida via CSS variable
+  input:checked + label.checkbox {
+    background-color: var(--custom-bg-color, var(--green-50)) !important;
+    border-color: var(--custom-bg-color, var(--green-50)) !important;
+  }
+  
+  .hide-input {
+    display: none !important;
+  }
+  &.disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  &.readonly {
+    cursor: default;
+  }
+  &.block {
+    .label-max-width {
+      width: 100%;
+    }
+  }
+}
+.block {
+  width: 100%;
+}
+

@@ -1,0 +1,59 @@
+<div
+  class="wrapper-selectors"
+  [ngClass]="{
+    toggle: toggle,
+    checked: isChecked,
+    indeterminate: !isChecked ? thisIndeterminate : false,
+    block: block,
+    disabled: isDisabled,
+  }"
+>
+  @if (leftLabel && !labelTemplate) {
+    <label [for]="inputId" [ngClass]="{ 'label-max-width': hideInput }">
+      <ng-container *ngTemplateOutlet="leftLabel; context: context"></ng-container>
+    </label>
+  }
+  @if (labelTemplate) {
+    <label [for]="inputId" [ngClass]="{ 'label-max-width': hideInput }">
+      <div>
+        <ng-container *ngTemplateOutlet="labelTemplate"></ng-container>
+      </div>
+    </label>
+  }
+  <input
+    [id]="inputId"
+    [name]="name"
+    [type]="type"
+    (change)="change($event)"
+    (blur)="onTouched()"
+    [value]="value"
+    [disabled]="isDisabled"
+    [checked]="isChecked"
+    [ngClass]="{
+      indeterminate: !isChecked ? thisIndeterminate : false,
+    }"
+    [indeterminate]="!isChecked ? thisIndeterminate : false"
+  />
+  <label
+    [for]="inputId"
+    [ngClass]="{
+      disabled: isDisabled,
+      'hide-input': hideInput,
+    }"
+    class="checkbox {{ type }}"
+    [style.--custom-bg-color]="colorBackground"
+  ></label>
+  @if (label) {
+    <label
+      [for]="inputId"
+      [innerHtml]="label | universalSafe"
+      [ngClass]="{ 'label-max-width': hideInput }"
+      [style.color]="colorText || ''"
+    ></label>
+  }
+  @if (rightLabel) {
+    <label [for]="inputId" [ngClass]="{ 'label-max-width': hideInput }">
+      <ng-container *ngTemplateOutlet="rightLabel; context: context"></ng-container>
+    </label>
+  }
+</div>

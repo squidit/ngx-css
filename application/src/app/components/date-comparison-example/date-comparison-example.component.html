@@ -1,0 +1,411 @@
+<div class="container">
+  <app-breadcrumb [items]="breadcrumbItems"></app-breadcrumb>
+
+  <div class="content-wrapper ">
+    <div class="header-section mb-2">
+      <h1 class="display-4 mb-3">📅 Comparação: sq-input-date vs sq-input-date-form-control</h1>
+      <p class="lead text-muted">
+        Demonstração prática das diferenças entre o componente de input de data legado e o novo componente baseado em
+        Reactive Forms.
+      </p>
+    </div>
+
+    <!-- Seção 1: Comparação Básica -->
+    <section class="comparison-section mb-2">
+      <h2 class="section-title">1️⃣ Comparação Básica</h2>
+      <p class="section-description">Uso básico sem validações</p>
+
+      <div class="row no-spacings">
+        <div class="col-md-12">
+          <div class="example-box old-component">
+            <h3 class="component-label">🔴 Componente Antigo</h3>
+            <sq-input-date
+              [id]="'old-basic-date'"
+              [name]="'old-basic-date'"
+              [label]="'Data (Componente Antigo)'"
+              [(value)]="oldBasicDate"
+            ></sq-input-date>
+            <div class="value-display mt-2">
+              <small><strong>Valor:</strong> {{ oldBasicDate || '(vazio)' }}</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12">
+          <div class="example-box new-component">
+            <h3 class="component-label">🟢 Componente Novo</h3>
+            <sq-input-date-form-control
+              [id]="'new-basic-date'"
+              [name]="'new-basic-date'"
+              [label]="'Data (Componente Novo)'"
+              [formControl]="newBasicControl"
+            ></sq-input-date-form-control>
+            <div class="value-display mt-2">
+              <small><strong>Valor:</strong> {{ newBasicControl.value || '(vazio)' }}</small>
+              <small class="ms-3"><strong>Status:</strong> {{ newBasicControl.status }}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <app-code-tabs [title]="'Exemplo Básico'" [examples]="basicExampleCode"></app-code-tabs>
+    </section>
+
+    <!-- Seção 2: Data Obrigatória -->
+    <section class="comparison-section mb-2">
+      <h2 class="section-title">2️⃣ Data Obrigatória</h2>
+      <p class="section-description">Campo obrigatório com validação</p>
+
+      <div class="row no-spacings">
+        <div class="col-md-12">
+          <div class="example-box old-component">
+            <h3 class="component-label">🔴 Componente Antigo</h3>
+            <sq-input-date
+              [id]="'old-required'"
+              [name]="'old-required'"
+              [label]="'Data Obrigatória (Antigo)'"
+              [required]="true"
+              [(value)]="oldRequiredDate"
+            ></sq-input-date>
+          </div>
+        </div>
+
+        <div class="col-md-12">
+          <div class="example-box new-component">
+            <h3 class="component-label">🟢 Componente Novo</h3>
+            <sq-input-date-form-control
+              [id]="'new-required'"
+              [name]="'new-required'"
+              [label]="'Data Obrigatória (Novo)'"
+              [formControl]="newRequiredControl"
+            ></sq-input-date-form-control>
+            <sq-validation-message [control]="newRequiredControl" [fieldName]="'Data'"></sq-validation-message>
+          </div>
+        </div>
+      </div>
+
+      <app-code-tabs [title]="'Validação de Campo Obrigatório'" [examples]="requiredExampleCode"></app-code-tabs>
+    </section>
+
+    <!-- Seção 3: Range de Datas -->
+    <section class="comparison-section mb-2">
+      <h2 class="section-title">3️⃣ Range de Datas (minDate / maxDate)</h2>
+      <p class="section-description">Restrição de datas entre um período específico</p>
+
+      <div class="row no-spacings">
+        <div class="col-md-12">
+          <div class="example-box old-component">
+            <h3 class="component-label">🔴 Componente Antigo</h3>
+            <sq-input-date
+              [id]="'old-range'"
+              [name]="'old-range'"
+              [label]="'Data de Evento 2024 (Antigo)'"
+              [required]="true"
+              [minDate]="'2024-01-01'"
+              [maxDate]="'2024-12-31'"
+              [(value)]="oldRangeDate"
+            ></sq-input-date>
+            <small class="text-muted">Permitido: 01/01/2024 a 31/12/2024</small>
+          </div>
+        </div>
+
+        <div class="col-md-12">
+          <div class="example-box new-component">
+            <h3 class="component-label">🟢 Componente Novo</h3>
+            <sq-input-date-form-control
+              [id]="'new-range'"
+              [name]="'new-range'"
+              [label]="'Data de Evento 2024 (Novo)'"
+              [formControl]="newRangeControl"
+              [minDate]="'2024-01-01'"
+              [maxDate]="'2024-12-31'"
+            ></sq-input-date-form-control>
+            <sq-validation-message [control]="newRangeControl" [fieldName]="'Data'"></sq-validation-message>
+            <small class="text-success">✓ DateValidators.minDate() e maxDate() + atributos HTML aplicados</small>
+          </div>
+        </div>
+      </div>
+
+      <app-code-tabs [title]="'Validação de Range de Datas'" [examples]="rangeExampleCode"></app-code-tabs>
+    </section>
+
+    <!-- Seção 4: Data de Nascimento com Validação de Idade -->
+    <section class="comparison-section mb-2">
+      <h2 class="section-title">4️⃣ Data de Nascimento (Validação de Idade)</h2>
+      <p class="section-description">Validação inteligente de idade mínima e máxima</p>
+
+      <div class="row no-spacings">
+        <div class="col-md-12">
+          <div class="example-box old-component">
+            <h3 class="component-label">🔴 Componente Antigo</h3>
+            <sq-input-date
+              [id]="'old-birthdate'"
+              [name]="'old-birthdate'"
+              [label]="'Data de Nascimento (Antigo)'"
+              [required]="true"
+              [(value)]="oldBirthdateDate"
+            ></sq-input-date>
+            <small class="text-muted">⚠️ Sem validação de idade automática</small>
+          </div>
+        </div>
+
+        <div class="col-md-12">
+          <div class="example-box new-component">
+            <h3 class="component-label">🟢 Componente Novo</h3>
+            <sq-input-date-form-control
+              [id]="'new-birthdate'"
+              [name]="'new-birthdate'"
+              [label]="'Data de Nascimento (Novo)'"
+              [formControl]="newBirthdateControl"
+            ></sq-input-date-form-control>
+            <sq-validation-message
+              [control]="newBirthdateControl"
+              [fieldName]="'Data de Nascimento'"
+              [showWhenTouched]="true"
+              [showWhenDirty]="true"
+            >
+            </sq-validation-message>
+            <small class="text-success">✓ Valida idade entre 18 e 100 anos automaticamente</small>
+          </div>
+        </div>
+      </div>
+
+      <app-code-tabs [title]="'Validação de Data de Nascimento'" [examples]="birthdateExampleCode"></app-code-tabs>
+    </section>
+
+    <!-- Seção 5: Data Passada -->
+    <section class="comparison-section mb-2">
+      <h2 class="section-title">5️⃣ Data no Passado</h2>
+      <p class="section-description">Apenas datas passadas são válidas (útil para datas históricas)</p>
+
+      <div class="row no-spacings">
+        <div class="col-md-12">
+          <div class="example-box old-component">
+            <h3 class="component-label">🔴 Componente Antigo</h3>
+            <sq-input-date
+              [id]="'old-past'"
+              [name]="'old-past'"
+              [label]="'Data no Passado (Antigo)'"
+              [required]="true"
+              [(value)]="oldPastDate"
+            ></sq-input-date>
+            <small class="text-muted">⚠️ Sem validação de data passada</small>
+          </div>
+        </div>
+
+        <div class="col-md-12">
+          <div class="example-box new-component">
+            <h3 class="component-label">🟢 Componente Novo</h3>
+            <sq-input-date-form-control
+              [id]="'new-past'"
+              [name]="'new-past'"
+              [label]="'Data no Passado (Novo)'"
+              [formControl]="newPastControl"
+            ></sq-input-date-form-control>
+            <sq-validation-message
+              [control]="newPastControl"
+              [fieldName]="'Data'"
+              [showWhenTouched]="true"
+              [showWhenDirty]="true"
+            >
+            </sq-validation-message>
+            <small class="text-success">✓ DateValidators.pastDate() aplicado</small>
+          </div>
+        </div>
+      </div>
+
+      <app-code-tabs [title]="'Validação de Data Passada'" [examples]="pastDateExampleCode"></app-code-tabs>
+    </section>
+
+    <!-- Seção 6: Data Futura -->
+    <section class="comparison-section mb-2">
+      <h2 class="section-title">6️⃣ Data no Futuro</h2>
+      <p class="section-description">Apenas datas futuras são válidas (útil para agendamentos)</p>
+
+      <div class="row no-spacings">
+        <div class="col-md-12">
+          <div class="example-box old-component">
+            <h3 class="component-label">🔴 Componente Antigo</h3>
+            <sq-input-date
+              [id]="'old-future'"
+              [name]="'old-future'"
+              [label]="'Data no Futuro (Antigo)'"
+              [required]="true"
+              [(value)]="oldFutureDate"
+            ></sq-input-date>
+            <small class="text-muted">⚠️ Sem validação de data futura</small>
+          </div>
+        </div>
+
+        <div class="col-md-12">
+          <div class="example-box new-component">
+            <h3 class="component-label">🟢 Componente Novo</h3>
+            <sq-input-date-form-control
+              [id]="'new-future'"
+              [name]="'new-future'"
+              [label]="'Data no Futuro (Novo)'"
+              [formControl]="newFutureControl"
+            ></sq-input-date-form-control>
+            <sq-validation-message
+              [control]="newFutureControl"
+              [fieldName]="'Data'"
+              [showWhenTouched]="true"
+              [showWhenDirty]="true"
+            >
+            </sq-validation-message>
+            <small class="text-success">✓ DateValidators.futureDate() aplicado</small>
+          </div>
+        </div>
+      </div>
+
+      <app-code-tabs [title]="'Validação de Data Futura'" [examples]="futureDateExampleCode"></app-code-tabs>
+    </section>
+
+    <!-- Seção 7: FormGroup Completo -->
+    <section class="comparison-section mb-2">
+      <h2 class="section-title">7️⃣ FormGroup Completo</h2>
+      <p class="section-description">Múltiplos campos de data em um formulário reativo</p>
+
+      <div class="example-box new-component">
+        <form [formGroup]="dateForm" (ngSubmit)="submitDateForm()">
+          <div class="row no-spacings">
+            <div class="col-md-12">
+              <sq-input-date-form-control [label]="'Data de Início'" formControlName="startDate">
+              </sq-input-date-form-control>
+              <sq-validation-message
+                [control]="dateForm.get('startDate')"
+                [fieldName]="'Data de Início'"
+              ></sq-validation-message>
+            </div>
+
+            <div class="col-md-12">
+              <sq-input-date-form-control [label]="'Data de Término'" formControlName="endDate">
+              </sq-input-date-form-control>
+              <sq-validation-message
+                [control]="dateForm.get('endDate')"
+                [fieldName]="'Data de Término'"
+              ></sq-validation-message>
+            </div>
+          </div>
+
+          <sq-input-date-form-control [label]="'Data de Nascimento'" formControlName="birthdate">
+          </sq-input-date-form-control>
+          <sq-validation-message
+            [control]="dateForm.get('birthdate')"
+            [fieldName]="'Data de Nascimento'"
+          ></sq-validation-message>
+
+          <button type="submit" class="btn btn-primary mt-3" [disabled]="dateForm.invalid">Enviar Formulário</button>
+
+          <div class="form-status mt-3">
+            <div class="alert" [ngClass]="dateForm.valid ? 'alert-success' : 'alert-warning'">
+              <strong>Status do Formulário:</strong> {{ dateForm.valid ? 'Válido ✓' : 'Inválido ✗' }}
+              <pre class="mt-2 mb-0">{{ dateForm.value | json }}</pre>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <app-code-tabs [title]="'Exemplo de FormGroup'" [examples]="formGroupExampleCode"></app-code-tabs>
+    </section>
+
+    <!-- Seção 8: Com Diretiva sqValidation -->
+    <section class="comparison-section mb-2">
+      <h2 class="section-title">8️⃣ Diretiva sqValidation (Modo Automático)</h2>
+      <p class="section-description">
+        Validações automáticas sem necessidade de usar <code>sq-validation-message</code> manualmente
+      </p>
+
+      <div class="example-box new-component">
+        <h3 class="component-label">🚀 Com Diretiva - Básico</h3>
+        <sq-input-date-form-control
+          [formControl]="directiveRequiredControl"
+          [label]="'Data com Diretiva'"
+          sqValidation
+          [fieldName]="'Data'"
+          [showWhen]="'touchedOrDirty'"
+        ></sq-input-date-form-control>
+        <small class="text-muted"
+          >💡 A validação aparece automaticamente quando o campo é tocado ou alterado (showWhen='touchedOrDirty')</small
+        >
+      </div>
+
+      <div class="example-box new-component mt-4">
+        <h3 class="component-label">🎨 Com Mensagens Customizadas</h3>
+        <sq-input-date-form-control
+          [formControl]="directiveBirthdateControl"
+          [label]="'Data de Nascimento com Mensagens Customizadas'"
+          sqValidation
+          [fieldName]="'Data de Nascimento'"
+          [customErrorMessages]="customMessages"
+          [showWhen]="'touchedOrDirty'"
+        ></sq-input-date-form-control>
+        <small class="text-success">✓ Mensagens de erro personalizadas</small>
+      </div>
+
+      <div class="example-box new-component mt-4">
+        <h3 class="component-label">📅 Range com Diretiva</h3>
+        <sq-input-date-form-control
+          [formControl]="directiveRangeControl"
+          [label]="'Data de Evento 2024 (com diretiva)'"
+          [minDate]="'2024-01-01'"
+          [maxDate]="'2024-12-31'"
+          sqValidation
+          [fieldName]="'Data do Evento'"
+          [customErrorMessages]="{
+            required: 'Selecione a data do evento',
+            minDate: 'Evento deve ser em 2024',
+            maxDate: 'Evento deve ser em 2024',
+          }"
+          [showWhen]="'touchedOrDirty'"
+        ></sq-input-date-form-control>
+        <small class="text-success">✓ Validação de range com mensagens específicas + limites no seletor</small>
+      </div>
+
+      <app-code-tabs [title]="'Exemplos com Diretiva'" [examples]="directiveExampleCode"></app-code-tabs>
+    </section>
+
+    <!-- Seção 9: Resumo das Vantagens -->
+    <section class="advantages-section mb-2">
+      <h2 class="section-title">📊 Resumo das Vantagens</h2>
+
+      <div class="row no-spacings">
+        <div class="col-md-12">
+          <div class="advantage-card old">
+            <h3>🔴 Componente Antigo (sq-input-date)</h3>
+            <ul>
+              <li>❌ Two-way binding menos eficiente</li>
+              <li>❌ Validações internas misturadas com lógica</li>
+              <li>❌ Sem validação de idade automática</li>
+              <li>❌ Sem validação de data passada/futura</li>
+              <li>❌ Difícil de compor com outros formulários</li>
+              <li>❌ Menos testável</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-md-12">
+          <div class="advantage-card new">
+            <h3>🟢 Componente Novo (sq-input-date-form-control)</h3>
+            <ul>
+              <li>✅ Reactive Forms nativo</li>
+              <li>✅ Validators reutilizáveis e composíveis</li>
+              <li>✅ DateValidators.birthdate(minAge, maxAge)</li>
+              <li>✅ DateValidators.pastDate() e futureDate()</li>
+              <li>✅ DateValidators.minDate() e maxDate()</li>
+              <li>✅ Fácil integração com FormGroup</li>
+              <li>✅ Diretiva sqValidation para validações automáticas</li>
+              <li>✅ ChangeDetectionStrategy.OnPush para melhor performance</li>
+              <li>✅ Altamente testável</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Floating Action Button -->
+  <a routerLink="/components-index" class="fab-back" title="Voltar para Página Principal">
+    <i class="fas fa-arrow-left"></i>
+  </a>
+</div>

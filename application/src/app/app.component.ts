@@ -1,19 +1,20 @@
 import { DOCUMENT, isPlatformServer } from '@angular/common';
 import { Component, Inject, InjectionToken, OnInit, PLATFORM_ID } from '@angular/core';
-import { GetWindow } from '@squidit/ngx-css';
+import { GetWindow } from '../../../src/helpers/window.helper';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
   isServer = isPlatformServer(this.platformId);
 
-  constructor(@Inject(PLATFORM_ID) private platformId: InjectionToken<Object>,
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: InjectionToken<Object>,
     @Inject(DOCUMENT) private document: Document,
     public getWindow: GetWindow
-  ) { }
+  ) {}
 
   theme = this.getWindow.window()?.matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light';
 

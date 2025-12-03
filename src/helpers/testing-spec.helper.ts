@@ -6,6 +6,9 @@ import { By } from '@angular/platform-browser';
  * Spec helpers for working with the DOM
  */
 
+// Declare Jasmine/Jest globals for use in testing context
+declare const expect: any;
+
 /**
  * Returns a selector for the `data-testid` attribute with the given attribute value.
  *

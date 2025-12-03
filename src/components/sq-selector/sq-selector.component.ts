@@ -4,10 +4,10 @@ import {
   EventEmitter,
   Input,
   OnChanges,
-  Optional,
   Output,
   SimpleChanges,
   TemplateRef,
+  inject,
 } from '@angular/core';
 import { NgClass, NgTemplateOutlet } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -241,11 +241,9 @@ export class SqSelectorComponent implements OnChanges {
   };
 
   /**
-   * Constructs a new SqSelectorComponent.
-   *
-   * @param {TranslateService} translate - The optional TranslateService for internationalization.
+   * The optional TranslateService for internationalization.
    */
-  constructor(@Optional() public translate: TranslateService) {}
+  public translate = inject(TranslateService, { optional: true });
 
   /**
    * Lifecycle hook called when any input properties change.
@@ -274,7 +272,7 @@ export class SqSelectorComponent implements OnChanges {
       this.error = '';
     } else if (this.required && !this.thisChecked) {
       this.valid.emit(false);
-      this.error = await this.translate.instant('forms.required');
+      this.error = this.translate ? await this.translate.instant('forms.required') : '';
     } else {
       this.valid.emit(true);
       this.error = '';

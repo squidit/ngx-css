@@ -1,4 +1,4 @@
-import { Optional, Pipe, PipeTransform } from '@angular/core';
+import { inject, Pipe, PipeTransform } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { lastValueFrom } from 'rxjs';
 
@@ -27,11 +27,9 @@ import { lastValueFrom } from 'rxjs';
 @Pipe({ name: 'translateInternal', standalone: true })
 export class TranslateInternalPipe implements PipeTransform {
   /**
-   * Creates a new instance of the TranslateInternalPipe.
-   *
-   * @param translate - The optional TranslateService instance to be injected. If provided, it will be used for translation.
+   * The optional TranslateService instance. If provided, it will be used for translation.
    */
-  constructor(@Optional() private translate: TranslateService) {}
+  private translate = inject(TranslateService, { optional: true });
 
   /**
    * Transforms the input query into its translated version.

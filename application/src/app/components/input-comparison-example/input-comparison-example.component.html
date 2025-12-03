@@ -1,0 +1,881 @@
+<div class="container-fluid">
+  <app-breadcrumb [items]="breadcrumbItems"></app-breadcrumb>
+
+  <div class="content-wrapper">
+    <div class="row no-spacings">
+      <div class="col-24">
+        <h1 class="mb-2">🎯 Comparação: sq-input vs sq-input-form-control</h1>
+        <p class="lead mb-2">Demonstração completa dos dois componentes em diversas situações</p>
+      </div>
+    </div>
+
+    <!-- SEÇÃO 1: Comparação Básica -->
+    <div class="row no-spacings">
+      <div class="col-24">
+        <div class="card">
+          <div class="card-header">
+            <h2>1️⃣ Comparação Básica</h2>
+            <p class="mb-0">Input simples lado a lado</p>
+          </div>
+          <div class="card-body">
+            <div class="row no-spacings">
+              <!-- Componente Antigo -->
+              <div class="col-md-12">
+                <div class="component-demo old-component">
+                  <h5 class="mb-3"><span class="badge bg-secondary">ANTIGO</span> sq-input</h5>
+                  <sq-input
+                    [(value)]="oldInputValue"
+                    [label]="'Nome'"
+                    [placeholder]="'Digite seu nome'"
+                    (valueChange)="onOldInputChange($event)"
+                  ></sq-input>
+                  <div class="mt-2 p-2 bg-light rounded">
+                    <small><strong>Valor:</strong> {{ oldInputValue || '(vazio)' }}</small>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Componente Novo -->
+              <div class="col-md-12">
+                <div class="component-demo new-component">
+                  <h5 class="mb-3"><span class="badge bg-success">NOVO</span> sq-input-form-control</h5>
+                  <sq-input-form-control
+                    [formControl]="newInputControl"
+                    [label]="'Nome'"
+                    [placeholder]="'Digite seu nome'"
+                  ></sq-input-form-control>
+                  <div class="mt-2 p-2 bg-light rounded">
+                    <small><strong>Valor:</strong> {{ newInputControl.value || '(vazio)' }}</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Exemplo de Código para esta seção -->
+            <div class="mt-4">
+              <app-code-tabs [title]="'Como Usar - Exemplo Básico'" [examples]="basicExampleCode"></app-code-tabs>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEÇÃO 2: Validações por Tipo -->
+    <div class="row mb-2">
+      <div class="col-24">
+        <div class="card">
+          <div class="card-header">
+            <h2>2️⃣ Validações Automáticas por Tipo</h2>
+            <p class="mb-0">O novo componente aplica validators automaticamente baseado no type</p>
+          </div>
+          <div class="card-body">
+            <!-- Email -->
+            <div class="row mb-4">
+              <div class="col-md-12">
+                <div class="component-demo old-component">
+                  <h6 class="mb-3"><span class="badge bg-secondary">ANTIGO</span> Email - Validação Interna</h6>
+                  <sq-input
+                    [(value)]="oldEmailValue"
+                    [type]="'email'"
+                    [label]="'Email'"
+                    [placeholder]="'seu@email.com'"
+                    [required]="true"
+                  ></sq-input>
+                  <div class="alert alert-info mt-2">
+                    <small>
+                      <i class="fa-solid fa-info-circle"></i>
+                      Validação hardcoded no componente
+                    </small>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="component-demo new-component">
+                  <h6 class="mb-3">
+                    <span class="badge bg-success">NOVO</span> Email - Validator Automático + sq-validation-message
+                  </h6>
+                  <sq-input-form-control
+                    [formControl]="newEmailControl"
+                    [type]="'email'"
+                    [label]="'Email'"
+                    [placeholder]="'seu@email.com'"
+                  ></sq-input-form-control>
+                  <sq-validation-message [control]="newEmailControl" [fieldName]="'Email'"></sq-validation-message>
+                  <div class="alert alert-success mt-2">
+                    <small>
+                      <i class="fa-solid fa-check-circle"></i>
+                      Usa InputValidators.email() + componente de validação reutilizável
+                    </small>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Telefone -->
+            <div class="row mb-4">
+              <div class="col-md-12">
+                <div class="component-demo old-component">
+                  <h6 class="mb-3"><span class="badge bg-secondary">ANTIGO</span> Telefone</h6>
+                  <sq-input
+                    [(value)]="oldPhoneValue"
+                    [type]="'tel'"
+                    [label]="'Telefone'"
+                    [placeholder]="'(00) 00000-0000'"
+                    [required]="true"
+                  ></sq-input>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="component-demo new-component">
+                  <h6 class="mb-3"><span class="badge bg-success">NOVO</span> Telefone</h6>
+                  <sq-input-form-control
+                    [formControl]="newPhoneControl"
+                    [type]="'tel'"
+                    [label]="'Telefone'"
+                    [placeholder]="'(00) 00000-0000'"
+                    [inputMode]="'tel'"
+                  ></sq-input-form-control>
+                  <sq-validation-message [control]="newPhoneControl"></sq-validation-message>
+                </div>
+              </div>
+            </div>
+
+            <!-- URL -->
+            <div class="row mb-4">
+              <div class="col-md-12">
+                <div class="component-demo old-component">
+                  <h6 class="mb-3"><span class="badge bg-secondary">ANTIGO</span> URL</h6>
+                  <sq-input
+                    [(value)]="oldUrlValue"
+                    [type]="'url'"
+                    [label]="'Website'"
+                    [placeholder]="'https://exemplo.com'"
+                    [required]="true"
+                  ></sq-input>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="component-demo new-component">
+                  <h6 class="mb-3"><span class="badge bg-success">NOVO</span> URL</h6>
+                  <sq-input-form-control
+                    [formControl]="newUrlControl"
+                    [type]="'url'"
+                    [label]="'Website'"
+                    [placeholder]="'https://exemplo.com'"
+                  ></sq-input-form-control>
+                  <sq-validation-message [control]="newUrlControl"></sq-validation-message>
+                </div>
+              </div>
+            </div>
+
+            <!-- Email Múltiplo -->
+            <div class="row no-spacings">
+              <div class="col-md-12">
+                <div class="component-demo old-component">
+                  <h6 class="mb-3"><span class="badge bg-secondary">ANTIGO</span> Email Múltiplo</h6>
+                  <sq-input
+                    [(value)]="oldEmailMultipleValue"
+                    [type]="'email-multiple'"
+                    [label]="'Emails (separados por vírgula)'"
+                    [placeholder]="'email1@test.com, email2@test.com'"
+                    [required]="true"
+                  ></sq-input>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="component-demo new-component">
+                  <h6 class="mb-3"><span class="badge bg-success">NOVO</span> Email Múltiplo</h6>
+                  <sq-input-form-control
+                    [formControl]="newEmailMultipleControl"
+                    [type]="'email-multiple'"
+                    [label]="'Emails (separados por vírgula)'"
+                    [placeholder]="'email1@test.com, email2@test.com'"
+                  ></sq-input-form-control>
+                  <sq-validation-message [control]="newEmailMultipleControl"></sq-validation-message>
+                </div>
+              </div>
+            </div>
+
+            <!-- Exemplo de Código para validações automáticas -->
+            <div class="mt-4">
+              <app-code-tabs
+                [title]="'Como Usar - Validação com sq-validation-message'"
+                [examples]="validationExampleCode"
+              ></app-code-tabs>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEÇÃO 3: Validações Brasileiras -->
+    <div class="row mb-2">
+      <div class="col-24">
+        <div class="card">
+          <div class="card-header">
+            <h2>3️⃣ Validações Brasileiras (CPF e CNPJ)</h2>
+            <p class="mb-0">
+              Validators que reutilizam ValidatorHelper - <strong>apenas disponíveis no novo componente</strong>
+            </p>
+          </div>
+          <div class="card-body">
+            <div class="row no-spacings">
+              <!-- CPF -->
+              <div class="col-md-12 mb-3">
+                <div class="component-demo new-component">
+                  <h6 class="mb-3"><span class="badge bg-success">NOVO</span> CPF</h6>
+                  <sq-input-form-control
+                    [formControl]="cpfControl"
+                    [label]="'CPF'"
+                    [placeholder]="'000.000.000-00'"
+                    [maxLength]="14"
+                  ></sq-input-form-control>
+                  <sq-validation-message [control]="cpfControl" [fieldName]="'CPF'"></sq-validation-message>
+                  <div class="alert alert-info mt-2">
+                    <small>
+                      <i class="fa-solid fa-lightbulb"></i>
+                      Teste com: 12345678909 (válido para teste)
+                    </small>
+                  </div>
+                </div>
+              </div>
+
+              <!-- CNPJ -->
+              <div class="col-md-12 mb-3">
+                <div class="component-demo new-component">
+                  <h6 class="mb-3"><span class="badge bg-success">NOVO</span> CNPJ</h6>
+                  <sq-input-form-control
+                    [formControl]="cnpjControl"
+                    [label]="'CNPJ'"
+                    [placeholder]="'00.000.000/0000-00'"
+                    [maxLength]="18"
+                  ></sq-input-form-control>
+                  <sq-validation-message [control]="cnpjControl" [fieldName]="'CNPJ'"></sq-validation-message>
+                  <div class="alert alert-info mt-2">
+                    <small>
+                      <i class="fa-solid fa-lightbulb"></i>
+                      Usa ValidatorHelper.cnpj() internamente
+                    </small>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="alert alert-warning">
+              <h6><i class="fa-solid fa-star"></i> Vantagem do Novo Componente</h6>
+              <p class="mb-0">
+                Validators CPF e CNPJ são reutilizáveis! Use <code>InputValidators.cpf()</code> e
+                <code>InputValidators.cnpj()</code> em qualquer FormControl.
+              </p>
+            </div>
+
+            <!-- Exemplo de Código para validadores customizados -->
+            <div class="mt-4">
+              <app-code-tabs
+                [title]="'Como Usar - Validadores Customizados (CPF/CNPJ)'"
+                [examples]="customValidatorExampleCode"
+              ></app-code-tabs>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEÇÃO 4: Formulário Completo - Antigo -->
+    <div class="row mb-2">
+      <div class="col-24">
+        <div class="card">
+          <div class="card-header">
+            <h2>4️⃣ Formulário Completo - Componente Antigo</h2>
+            <p class="mb-0">Usando sq-input com two-way binding</p>
+          </div>
+          <div class="card-body">
+            <div class="component-demo old-component">
+              <form (ngSubmit)="onOldFormSubmit()">
+                <div class="row no-spacings">
+                  <div class="col-md-12 mb-3">
+                    <sq-input
+                      [(value)]="oldFormData.name"
+                      [label]="'Nome Completo'"
+                      [placeholder]="'Digite seu nome'"
+                      [required]="true"
+                    ></sq-input>
+                  </div>
+                  <div class="col-md-12 mb-3">
+                    <sq-input
+                      [(value)]="oldFormData.email"
+                      [type]="'email'"
+                      [label]="'Email'"
+                      [placeholder]="'seu@email.com'"
+                      [required]="true"
+                    ></sq-input>
+                  </div>
+                  <div class="col-md-12 mb-3">
+                    <sq-input
+                      [(value)]="oldFormData.phone"
+                      [type]="'tel'"
+                      [label]="'Telefone'"
+                      [placeholder]="'(00) 00000-0000'"
+                      [required]="true"
+                    ></sq-input>
+                  </div>
+                  <div class="col-md-12 mb-3">
+                    <sq-input
+                      [(value)]="oldFormData.message"
+                      [label]="'Mensagem'"
+                      [placeholder]="'Digite sua mensagem'"
+                      [required]="true"
+                    ></sq-input>
+                  </div>
+                </div>
+
+                <div class="d-flex gap-2 mt-3">
+                  <button type="submit" class="btn btn-primary">
+                    <i class="fa-solid fa-paper-plane mr-2"></i>
+                    Enviar
+                  </button>
+                  <button type="button" class="btn btn-secondary" (click)="resetOldForm()">
+                    <i class="fa-solid fa-rotate-left mr-2"></i>
+                    Limpar
+                  </button>
+                  <button type="button" class="btn btn-info" (click)="fillOldForm()">
+                    <i class="fa-solid fa-fill mr-2"></i>
+                    Preencher Exemplo
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <!-- Exemplo de Código para Formulário Antigo -->
+            <div class="mt-4">
+              <app-code-tabs
+                [title]="'Como Usar - Formulário com Componente Antigo'"
+                [examples]="oldFormExampleCode"
+              ></app-code-tabs>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEÇÃO 5: Formulário Completo - Novo -->
+    <div class="row mb-2">
+      <div class="col-24">
+        <div class="card">
+          <div class="card-header">
+            <h2>5️⃣ Formulário Completo - Componente Novo</h2>
+            <p class="mb-0">Usando sq-input-form-control com Reactive Forms</p>
+          </div>
+          <div class="card-body">
+            <div class="component-demo new-component">
+              <form [formGroup]="newForm" (ngSubmit)="onNewFormSubmit()">
+                <div class="row no-spacings">
+                  <div class="col-md-12 mb-3">
+                    <sq-input-form-control
+                      formControlName="name"
+                      [label]="'Nome Completo'"
+                      [placeholder]="'Digite seu nome'"
+                    ></sq-input-form-control>
+                    @if (isFieldInvalid('name')) {
+                      <small class="text-danger">{{ getErrorMessage('name') }}</small>
+                    }
+                  </div>
+                  <div class="col-md-12 mb-3">
+                    <sq-input-form-control
+                      formControlName="email"
+                      [type]="'email'"
+                      [label]="'Email'"
+                      [placeholder]="'seu@email.com'"
+                    ></sq-input-form-control>
+                    @if (isFieldInvalid('email')) {
+                      <small class="text-danger">{{ getErrorMessage('email') }}</small>
+                    }
+                  </div>
+                  <div class="col-md-12 mb-3">
+                    <sq-input-form-control
+                      formControlName="phone"
+                      [type]="'tel'"
+                      [label]="'Telefone'"
+                      [placeholder]="'(00) 00000-0000'"
+                      [inputMode]="'tel'"
+                    ></sq-input-form-control>
+                    @if (isFieldInvalid('phone')) {
+                      <small class="text-danger">{{ getErrorMessage('phone') }}</small>
+                    }
+                  </div>
+                  <div class="col-md-12 mb-3">
+                    <sq-input-form-control
+                      formControlName="message"
+                      [label]="'Mensagem'"
+                      [placeholder]="'Digite sua mensagem'"
+                      [maxLength]="200"
+                    ></sq-input-form-control>
+                    @if (isFieldInvalid('message')) {
+                      <small class="text-danger">{{ getErrorMessage('message') }}</small>
+                    }
+                  </div>
+                </div>
+
+                <div class="d-flex gap-2 mt-3">
+                  <button type="submit" class="btn btn-success" [disabled]="!newForm.valid">
+                    <i class="fa-solid fa-paper-plane mr-2"></i>
+                    Enviar
+                  </button>
+                  <button type="button" class="btn btn-secondary" (click)="resetNewForm()">
+                    <i class="fa-solid fa-rotate-left mr-2"></i>
+                    Limpar
+                  </button>
+                  <button type="button" class="btn btn-info" (click)="fillNewForm()">
+                    <i class="fa-solid fa-fill mr-2"></i>
+                    Preencher Exemplo
+                  </button>
+                </div>
+
+                <div class="mt-4 p-3 bg-light rounded">
+                  <h6>Estado do Formulário:</h6>
+                  <div class="row no-spacings">
+                    <div class="col-md-4">
+                      <strong>Válido:</strong>
+                      <span [class]="newForm.valid ? 'text-success' : 'text-danger'">
+                        {{ newForm.valid ? '✓ Sim' : '✗ Não' }}
+                      </span>
+                    </div>
+                    <div class="col-md-4">
+                      <strong>Tocado:</strong>
+                      <span [class]="newForm.touched ? 'text-info' : 'text-muted'">
+                        {{ newForm.touched ? 'Sim' : 'Não' }}
+                      </span>
+                    </div>
+                    <div class="col-md-4">
+                      <strong>Modificado:</strong>
+                      <span [class]="newForm.dirty ? 'text-warning' : 'text-muted'">
+                        {{ newForm.dirty ? 'Sim' : 'Não' }}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <!-- Exemplo de Código para FormGroup -->
+          <div class="mt-4">
+            <app-code-tabs
+              [title]="'Como Usar - Formulário Completo com FormGroup'"
+              [examples]="formGroupExampleCode"
+            ></app-code-tabs>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEÇÃO 6: Estados e Customizações -->
+    <div class="row mb-2">
+      <div class="col-24">
+        <div class="card">
+          <div class="card-header">
+            <h2>6️⃣ Estados e Customizações</h2>
+            <p class="mb-0">Disabled, Readonly, MaxLength</p>
+          </div>
+          <div class="card-body">
+            <div class="row no-spacings">
+              <div class="col-md-4 mb-3">
+                <div class="component-demo new-component">
+                  <sq-input-form-control
+                    [formControl]="disabledControl"
+                    [label]="'Campo Desabilitado'"
+                  ></sq-input-form-control>
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <div class="component-demo old-component">
+                  <sq-input [(value)]="readonlyValue" [label]="'Campo Readonly'" [readonly]="true"></sq-input>
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <div class="component-demo new-component">
+                  <sq-input-form-control
+                    [formControl]="maxLengthControl"
+                    [label]="'Com Limite de Caracteres'"
+                    [placeholder]="'Máximo 50 caracteres'"
+                    [maxLength]="50"
+                  ></sq-input-form-control>
+                </div>
+              </div>
+            </div>
+
+            <!-- Exemplo de Código para Estados -->
+            <div class="mt-4">
+              <app-code-tabs
+                [title]="'Como Usar - Estados (Disabled, Readonly, MaxLength)'"
+                [examples]="statesExampleCode"
+              ></app-code-tabs>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEÇÃO 7: Debounce -->
+    <div class="row mb-2">
+      <div class="col-24">
+        <div class="card">
+          <div class="card-header">
+            <h2>7️⃣ Debounce / timeToChange</h2>
+            <p class="mb-0">Útil para campos de busca</p>
+          </div>
+          <div class="card-body">
+            <div class="row no-spacings">
+              <div class="col-md-12 mb-3">
+                <div class="component-demo old-component">
+                  <h6 class="mb-3"><span class="badge bg-secondary">ANTIGO</span> Com Debounce (500ms)</h6>
+                  <sq-input
+                    [(value)]="searchOldValue"
+                    [label]="'Buscar (Antigo)'"
+                    [placeholder]="'Digite para buscar...'"
+                    [timeToChange]="500"
+                    (valueChange)="onSearchChange($event)"
+                  ></sq-input>
+                </div>
+              </div>
+              <div class="col-md-12 mb-3">
+                <div class="component-demo new-component">
+                  <h6 class="mb-3"><span class="badge bg-success">NOVO</span> Com Debounce (500ms)</h6>
+                  <sq-input-form-control
+                    [formControl]="searchNewControl"
+                    [label]="'Buscar (Novo)'"
+                    [placeholder]="'Digite para buscar...'"
+                    [timeToChange]="500"
+                    (valueChange)="onSearchChange($event)"
+                  ></sq-input-form-control>
+                </div>
+              </div>
+            </div>
+
+            @if (searchResults.length > 0) {
+              <div class="alert alert-info">
+                <h6>Resultados da busca:</h6>
+                <ul class="mb-0">
+                  @for (result of searchResults; track result) {
+                    <li>{{ result }}</li>
+                  }
+                </ul>
+              </div>
+            }
+
+            <!-- Exemplo de Código para Debounce -->
+            <div class="mt-4">
+              <app-code-tabs
+                [title]="'Como Usar - Debounce (timeToChange)'"
+                [examples]="debounceExampleCode"
+              ></app-code-tabs>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEÇÃO 8: Validações Customizadas -->
+    <div class="row mb-2">
+      <div class="col-24">
+        <div class="card">
+          <div class="card-header">
+            <h2>8️⃣ Validações Customizadas</h2>
+            <p class="mb-0">Apenas disponível no novo componente - use validators customizados no FormControl</p>
+          </div>
+          <div class="card-body">
+            <div class="component-demo new-component">
+              <div class="row no-spacings">
+                <!-- Username com validação customizada -->
+                <div class="col-md-12 mb-3">
+                  <sq-input-form-control
+                    [formControl]="usernameControl"
+                    [label]="'Username'"
+                    [placeholder]="'Digite seu username'"
+                  ></sq-input-form-control>
+                  @if (usernameControl.touched && usernameControl.errors) {
+                    <small class="text-danger d-block">{{ getUsernameErrorMessage() }}</small>
+                  }
+                  <div class="alert alert-info mt-2">
+                    <small>
+                      <strong>Regras:</strong>
+                      <ul class="mb-0">
+                        <li>Mínimo 3 caracteres</li>
+                        <li>Sem espaços</li>
+                        <li>Sem caracteres especiais</li>
+                      </ul>
+                    </small>
+                  </div>
+                </div>
+
+                <!-- Senha com indicador de força -->
+                <div class="col-md-12 mb-3">
+                  <sq-input-form-control
+                    [formControl]="passwordControl"
+                    [type]="'password'"
+                    [label]="'Senha'"
+                    [placeholder]="'Digite uma senha forte'"
+                  ></sq-input-form-control>
+                  @if (passwordControl.touched && passwordControl.errors) {
+                    <small class="text-danger d-block">{{ getPasswordErrorMessage() }}</small>
+                  }
+
+                  <!-- Barra de força da senha -->
+                  @if (passwordControl.value) {
+                    <div class="mt-2">
+                      <small class="d-block mb-1">Força da senha:</small>
+                      <div class="progress" style="height: 8px">
+                        <div
+                          class="progress-bar"
+                          role="progressbar"
+                          [style.width.%]="getPasswordStrength()"
+                          [style.background-color]="getPasswordStrengthColor()"
+                        ></div>
+                      </div>
+                      <small class="text-muted">{{ getPasswordStrength().toFixed(0) }}% forte</small>
+                    </div>
+                  }
+
+                  <div class="alert alert-info mt-2">
+                    <small>
+                      <strong>Senha forte deve ter:</strong>
+                      <ul class="mb-0">
+                        <li>Mínimo 8 caracteres</li>
+                        <li>Letras maiúsculas e minúsculas</li>
+                        <li>Números</li>
+                        <li>Caracteres especiais</li>
+                      </ul>
+                    </small>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Exemplo de Código para Validações Customizadas -->
+            <div class="mt-4">
+              <app-code-tabs
+                [title]="'Como Usar - Validações Customizadas (Força da Senha)'"
+                [examples]="customValidationExampleCode"
+              ></app-code-tabs>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEÇÃO 9: Diretiva sqValidation -->
+    <div class="row mb-2">
+      <div class="col-24">
+        <div class="card">
+          <div class="card-header">
+            <h2>9️⃣ Diretiva sqValidation - Validação Automática 🎯</h2>
+            <p class="mb-0">Anexa automaticamente o componente de validação quando o controle tem erros!</p>
+          </div>
+          <div class="card-body">
+            <div class="alert alert-info">
+              <h6><i class="fa-solid fa-magic-wand-sparkles"></i> O Que É?</h6>
+              <p class="mb-2">
+                A diretiva <code>sqValidation</code> elimina a necessidade de adicionar manualmente o componente
+                <code>&lt;sq-validation-message&gt;</code> para cada campo. Ela observa o estado do controle e
+                cria/remove o componente de validação automaticamente!
+              </p>
+              <p class="mb-0">
+                <strong>Vantagens:</strong> Menos código, mais limpo, impossível esquecer de adicionar validação.
+              </p>
+            </div>
+
+            <div class="row no-spacings">
+              <!-- Sem Diretiva (Manual) -->
+              <div class="col-md-12 mb-3">
+                <div class="component-demo old-component">
+                  <h6 class="mb-3"><span class="badge bg-secondary">SEM Diretiva</span> Manual</h6>
+                  <sq-input-form-control
+                    [formControl]="directiveEmailControl"
+                    [label]="'Email (Manual)'"
+                    [type]="'email'"
+                    [placeholder]="'Digite um email'"
+                  ></sq-input-form-control>
+                  <sq-validation-message
+                    [control]="directiveEmailControl"
+                    [fieldName]="'Email'"
+                  ></sq-validation-message>
+                  <small class="text-muted d-block mt-2">
+                    ❌ Precisa adicionar <code>&lt;sq-validation-message&gt;</code> manualmente
+                  </small>
+                </div>
+              </div>
+
+              <!-- Com Diretiva (Automático) -->
+              <div class="col-md-12 mb-3">
+                <div class="component-demo new-component">
+                  <h6 class="mb-3"><span class="badge bg-success">COM Diretiva</span> Automático!</h6>
+                  <sq-input-form-control
+                    [formControl]="directiveCpfControl"
+                    [label]="'CPF (Automático)'"
+                    [placeholder]="'000.000.000-00'"
+                    sqValidation
+                    [fieldName]="'CPF'"
+                  ></sq-input-form-control>
+                  <small class="text-success d-block mt-2">
+                    ✅ Validação aparece <strong>sempre que houver erro</strong>! (Padrão:
+                    <code>[showWhen]="'always'"</code>)
+                  </small>
+                </div>
+              </div>
+
+              <!-- Exemplo com senha -->
+              <div class="col-md-12 mb-3">
+                <div class="component-demo new-component">
+                  <h6 class="mb-3">
+                    <span class="badge bg-success">COM Diretiva</span> Senha com Validação Automática
+                  </h6>
+                  <sq-input-form-control
+                    [formControl]="directivePasswordControl"
+                    [label]="'Senha'"
+                    [type]="'password'"
+                    [placeholder]="'Mínimo 8 caracteres'"
+                    sqValidation
+                    [fieldName]="'Senha'"
+                    [customErrorMessages]="customMessages"
+                  ></sq-input-form-control>
+                  <small class="text-muted d-block mt-2">
+                    💡 Feedback imediato! Mensagens customizadas aparecem automaticamente!
+                  </small>
+                </div>
+              </div>
+            </div>
+
+            <div class="alert alert-warning">
+              <h6><i class="fa-solid fa-lightbulb"></i> Flexibilidade Total!</h6>
+              <p class="mb-2"><strong>3 Formas de Customizar Mensagens:</strong></p>
+              <ol class="mb-2">
+                <li>
+                  <strong>Mensagens Padrão:</strong> Só adicionar <code>sqValidation</code> - usa mensagens internas
+                </li>
+                <li>
+                  <strong>Mensagens Customizadas:</strong> Use <code>[customErrorMessages]</code> - sobrescreve
+                  mensagens específicas
+                </li>
+                <li>
+                  <strong>Template Customizado:</strong> Use <code>[validationMessageTemplate]</code> - controle total
+                  do HTML
+                </li>
+              </ol>
+              <hr class="my-2" />
+              <p class="mb-2"><strong>Quando Mostrar Validações (<code>[showWhen]</code>):</strong></p>
+              <ul class="mb-0">
+                <li><code>'always'</code> (padrão) ⭐ - Sempre que houver erro, feedback imediato</li>
+                <li><code>'touchedOrDirty'</code> - Ao digitar OU ao sair (boa UX)</li>
+                <li><code>'dirty'</code> - Apenas durante a digitação (se alterar o valor)</li>
+                <li><code>'touched'</code> - Apenas após sair do campo (blur, menos intrusivo)</li>
+              </ul>
+            </div>
+
+            <div class="alert alert-success">
+              <h6><i class="fa-solid fa-star"></i> Como Usar</h6>
+              <ol class="mb-0">
+                <li>Adicione a diretiva <code>sqValidation</code> ao seu input</li>
+                <li>Configure o <code>[fieldName]</code> (opcional, para mensagens personalizadas)</li>
+                <li>(Opcional) Adicione <code>[customErrorMessages]</code> para mensagens customizadas</li>
+                <li>Pronto! A validação aparece/desaparece automaticamente</li>
+              </ol>
+            </div>
+
+            <!-- Exemplo de Código para Diretiva -->
+            <div class="mt-4">
+              <app-code-tabs
+                [title]="'Como Usar - Diretiva sqValidation'"
+                [examples]="directiveExampleCode"
+              ></app-code-tabs>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEÇÃO 10: Resumo das Vantagens -->
+    <div class="row mb-2">
+      <div class="col-24">
+        <div class="card">
+          <div class="card-header">
+            <h2>🔟 Resumo: Por que usar o novo componente?</h2>
+          </div>
+          <div class="card-body">
+            <div class="row no-spacings">
+              <div class="col-md-12">
+                <h5 class="text-secondary"><i class="fa-solid fa-circle-xmark"></i> sq-input (Antigo)</h5>
+                <ul class="list-unstyled">
+                  <li class="mb-2">
+                    <i class="fa-solid fa-minus text-warning"></i>
+                    Two-way binding manual
+                  </li>
+                  <li class="mb-2">
+                    <i class="fa-solid fa-minus text-warning"></i>
+                    Validações hardcoded
+                  </li>
+                  <li class="mb-2">
+                    <i class="fa-solid fa-minus text-warning"></i>
+                    Exibe erros automaticamente (menos controle)
+                  </li>
+                  <li class="mb-2">
+                    <i class="fa-solid fa-minus text-warning"></i>
+                    Não usa FormControl
+                  </li>
+                  <li class="mb-2">
+                    <i class="fa-solid fa-minus text-warning"></i>
+                    Injeção de dependência antiga
+                  </li>
+                </ul>
+              </div>
+              <div class="col-md-12">
+                <h5 class="text-success"><i class="fa-solid fa-circle-check"></i> sq-input-form-control (Novo)</h5>
+                <ul class="list-unstyled">
+                  <li class="mb-2">
+                    <i class="fa-solid fa-check text-success"></i>
+                    FormControl (Reactive Forms)
+                  </li>
+                  <li class="mb-2">
+                    <i class="fa-solid fa-check text-success"></i>
+                    Validators reutilizáveis e extensíveis
+                  </li>
+                  <li class="mb-2">
+                    <i class="fa-solid fa-check text-success"></i>
+                    Você controla a exibição de erros
+                  </li>
+                  <li class="mb-2">
+                    <i class="fa-solid fa-check text-success"></i>
+                    Validators automáticos por tipo
+                  </li>
+                  <li class="mb-2">
+                    <i class="fa-solid fa-check text-success"></i>
+                    Injeção moderna (inject())
+                  </li>
+                  <li class="mb-2">
+                    <i class="fa-solid fa-check text-success"></i>
+                    CPF, CNPJ e mais validators disponíveis
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="alert alert-success mt-4">
+              <h5>
+                <i class="fa-solid fa-rocket"></i>
+                Recomendação
+              </h5>
+              <p class="mb-0">
+                Para novos desenvolvimentos, use <strong>sq-input-form-control</strong>. Ele é mais moderno, flexível e
+                segue as melhores práticas do Angular.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating Action Button -->
+  <a routerLink="/components-index" class="fab-back" title="Voltar para Página Principal">
+    <i class="fas fa-arrow-left"></i>
+  </a>
+</div>

@@ -1,0 +1,258 @@
+// Floating Action Button
+.fab-back {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 999;
+  cursor: pointer;
+
+  i {
+    font-size: 1.25rem;
+    transition: transform 0.3s ease;
+  }
+
+  &:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+    color: white;
+
+    i {
+      transform: translateX(-3px);
+    }
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+// Animação de entrada do FAB
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fab-back {
+  animation: fadeInUp 0.5s ease-out 0.5s both;
+}
+
+// Responsividade do FAB
+@media (max-width: 768px) {
+  .fab-back {
+    bottom: 1.5rem;
+    right: 1.5rem;
+    width: 48px;
+    height: 48px;
+
+    i {
+      font-size: 1.1rem;
+    }
+  }
+}
+
+// MÁXIMO APROVEITAMENTO DE ESPAÇO - Squid CSS
+::ng-deep {
+  .container-fluid {
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  // Usa a classe no-spacings do Squid CSS
+  .row.no-spacings {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+
+    > * {
+      padding-left: 0.25rem !important;
+      padding-right: 0.25rem !important;
+    }
+  }
+
+  .row:not(.no-spacings) {
+    margin-left: -0.25rem !important;
+    margin-right: -0.25rem !important;
+
+    > * {
+      padding-left: 0.25rem !important;
+      padding-right: 0.25rem !important;
+    }
+  }
+}
+
+.content-wrapper {
+  padding: 0.5rem 0 !important;
+  max-width: 100% !important;
+  width: 100% !important;
+  margin: 0 !important;
+}
+
+.header-section {
+  text-align: center;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 0.75rem;
+  margin-bottom: 0.75rem;
+
+  h1 {
+    color: #2c3e50;
+    font-weight: 700;
+    font-size: 1.6rem;
+    line-height: 1.2;
+  }
+
+  .lead {
+    font-size: 0.9rem;
+    line-height: 1.3;
+  }
+}
+
+.comparison-section {
+  padding: 0.875rem 0;
+  border-bottom: 1px solid #e9ecef;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.section-title {
+  color: #2c3e50;
+  font-weight: 600;
+  font-size: 1.15rem;
+  margin-bottom: 0.35rem;
+}
+
+.section-description {
+  color: #6c757d;
+  font-size: 0.9rem;
+  margin-bottom: 0.75rem;
+}
+
+.example-box {
+  padding: 0.65rem;
+  border-radius: 4px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  margin-bottom: 0.4rem;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  }
+
+  &.old-component {
+    background: linear-gradient(135deg, #fff5f5 0%, #ffe5e5 100%);
+    border-left: 3px solid #dc3545;
+  }
+
+  &.new-component {
+    background: linear-gradient(135deg, #f0fff4 0%, #e5ffe5 100%);
+    border-left: 3px solid #28a745;
+  }
+
+  .component-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    line-height: 1.2;
+  }
+
+  .value-display {
+    padding: 0.45rem;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 3px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.8rem;
+
+    small {
+      display: block;
+      margin-bottom: 0.15rem;
+      line-height: 1.3;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+.form-status {
+  .alert {
+    pre {
+      background: rgba(0, 0, 0, 0.05);
+      padding: 0.5rem;
+      border-radius: 4px;
+      font-size: 0.875rem;
+    }
+  }
+}
+
+.advantages-section {
+  padding: 1.5rem 0;
+  margin-top: 1.5rem;
+}
+
+.advantage-card {
+  padding: 1.25rem;
+  border-radius: 8px;
+  height: 100%;
+
+  &.old {
+    background: linear-gradient(135deg, #fff5f5 0%, #ffe5e5 100%);
+    border: 2px solid #dc3545;
+  }
+
+  &.new {
+    background: linear-gradient(135deg, #f0fff4 0%, #e5ffe5 100%);
+    border: 2px solid #28a745;
+  }
+
+  h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+      padding: 0.4rem 0;
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+  }
+}
+
+// Código inline
+code {
+  background: #f8f9fa;
+  padding: 0.2rem 0.4rem;
+  border-radius: 3px;
+  font-family: 'Courier New', monospace;
+  color: #e83e8c;
+  font-size: 0.9em;
+}
+

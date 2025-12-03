@@ -3,7 +3,7 @@ import {
   Directive,
   ElementRef,
   HostListener,
-  Inject,
+  inject,
   Input,
   OnDestroy,
   OnInit,
@@ -72,7 +72,7 @@ export class SqTooltipDirective implements OnInit, OnDestroy {
   /**
    * Reference to the window object.
    */
-  window = this.getWindow.window();
+  window: (Window & typeof globalThis) | null = null;
 
   /**
    * Indicates whether the tooltip is open or closed. Used for internal control.
@@ -85,27 +85,46 @@ export class SqTooltipDirective implements OnInit, OnDestroy {
   document: Document;
 
   /**
-   * Constructs a new SqTooltipDirective.
-   * @constructor
-   * @param {ElementRef} el - The ElementRef of the host element.
-   * @param {Renderer2} renderer - The Renderer2 for DOM manipulation.
-   * @param {Router} router - The Angular Router service.
-   * @param {ViewContainerRef} viewContainerRef - The ViewContainerRef for the tooltip.
-   * @param {Document} documentImported - The injected Document object for DOM manipulation.
-   * @param {GetWindow} getWindow - The GetWindow service for accessing the window object.
+   * The ElementRef of the host element.
    */
-  constructor(
-    private el: ElementRef,
-    private renderer: Renderer2,
-    private router: Router,
-    private viewContainerRef: ViewContainerRef,
-    @Inject(DOCUMENT) private documentImported: Document,
-    public getWindow: GetWindow
-  ) {
+  private el = inject(ElementRef);
+
+  /**
+   * The Renderer2 for DOM manipulation.
+   */
+  private renderer = inject(Renderer2);
+
+  /**
+   * The Angular Router service.
+   */
+  private router = inject(Router);
+
+  /**
+   * The ViewContainerRef for the tooltip.
+   */
+  private viewContainerRef = inject(ViewContainerRef);
+
+  /**
+   * The injected Document object for DOM manipulation.
+   */
+  private documentImported = inject(DOCUMENT);
+
+  /**
+   * The GetWindow service for accessing the window object.
+   */
+  public getWindow = inject(GetWindow);
+
+  /**
+   * Initializes the SqTooltipDirective.
+   * Binds the hide function to the current instance, assigns the document object, and initializes the window reference.
+   */
+  constructor() {
     // Bind the hide function to the current instance.
     this.hide = this.hide.bind(this);
     // Assign the document object for DOM manipulation.
     this.document = this.documentImported || document;
+    // Initialize window reference
+    this.window = this.getWindow.window();
   }
 
   /**

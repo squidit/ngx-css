@@ -1,0 +1,63 @@
+<div [id]="id" [ngClass]="getDialogClasses()" #dialogElement [dataTest]="dataTest">
+  <div
+    class="modal-dialog"
+    [ngClass]="getModalDialogClasses()"
+    [clickOutsideEnabled]="!!(open && backdrop !== 'static' && dialogElement)"
+    (clickOutside)="onClickOutside()"
+  >
+    <div [dataTest]="dataTest + '-content'" class="modal-content scrollbar">
+      <!-- Header -->
+      <div
+        [dataTest]="dataTest + '-header'"
+        class="modal-header"
+        [ngClass]="{
+          'without-header': !showHeader,
+          borderless: borderless,
+        }"
+      >
+        <!-- String header (title) -->
+        @if (headerTitle) {
+          <h3 class="modal-title">{{ headerTitle }}</h3>
+        }
+
+        <!-- Template header (from content projection, input, or body component) -->
+        @if (effectiveHeaderTemplate) {
+          <ng-container *ngTemplateOutlet="effectiveHeaderTemplate; context: templateContext"></ng-container>
+        }
+
+        <!-- Close button -->
+        @if (showCloseButton) {
+          <button type="button" class="close button-close" aria-label="Close" (click)="dialogClose.emit()">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        }
+      </div>
+
+      <!-- Body -->
+      <div [dataTest]="dataTest + '-body'" class="modal-body scrollbar" [ngClass]="{ 'without-footer': !showFooter }">
+        <!-- Template body (from input) -->
+        @if (bodyTemplate) {
+          <ng-container *ngTemplateOutlet="bodyTemplate; context: templateContext"></ng-container>
+        }
+
+        <!-- Component body (dynamic) -->
+        @if (hasBodyComponent) {
+          <ng-container #bodyContainer></ng-container>
+        }
+
+        <!-- Content projection (default slot) -->
+        <ng-content></ng-content>
+      </div>
+
+      <!-- Footer -->
+      @if (showFooter) {
+        <div [dataTest]="dataTest + '-footer'" class="modal-footer" [ngClass]="{ borderless: borderless }">
+          <!-- Template footer (from content projection, input, or body component) -->
+          @if (effectiveFooterTemplate) {
+            <ng-container *ngTemplateOutlet="effectiveFooterTemplate; context: templateContext"></ng-container>
+          }
+        </div>
+      }
+    </div>
+  </div>
+</div>

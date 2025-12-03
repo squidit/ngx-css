@@ -15,6 +15,11 @@ import { SqInputMoneyComponent } from './components/sq-input-money/sq-input-mone
 import { SqInputNumberComponent } from './components/sq-input-number/sq-input-number.component';
 import { SqInputRangeComponent } from './components/sq-input-range/sq-input-range.component';
 import { SqInputComponent } from './components/sq-input/sq-input.component';
+import { SqInputFormControlComponent } from './components/sq-input-form-control/sq-input-form-control.component';
+import { SqInputDateFormControlComponent } from './components/sq-input-date-form-control/sq-input-date-form-control.component';
+import { SqInputMaskFormControlComponent } from './components/sq-input-mask-form-control/sq-input-mask-form-control.component';
+import { SqValidationMessageComponent } from './components/sq-validation-message/sq-validation-message.component';
+import { SqValidationDirective } from './directives/sq-validation.directive';
 import { SqLoaderComponent } from './components/sq-loader/sq-loader.component';
 import { SqModalComponent } from './components/sq-modal/sq-modal.component';
 import { SqOverlayComponent } from './components/sq-overlay/sq-overlay.component';
@@ -25,6 +30,7 @@ import { SqSelectMultiComponent } from './components/sq-select-multi/sq-select-m
 import { SqSelectSearchComponent } from './components/sq-select-search/sq-select-search.component';
 import { SqSelectComponent } from './components/sq-select/sq-select.component';
 import { SqSelectorComponent } from './components/sq-selector/sq-selector.component';
+import { SqSelectorFormControlComponent } from './components/sq-selector-form-control/sq-selector-form-control.component';
 import { SqStepsComponent } from './components/sq-steps/sq-steps.component';
 import { SqTabComponent } from './components/sq-tabs/sq-tab/sq-tab.component';
 import { SqTabsComponent } from './components/sq-tabs/sq-tabs.component';
@@ -54,7 +60,7 @@ const moduleComponents: (Type<any> | any)[] = [];
 
 /**
  * Array containing standalone Angular components, directives, and pipes.
- * 🎉🎉🎉 39/39 components migrated to standalone! (100% COMPLETE!) 🎉🎉🎉
+ * 🎉🎉🎉 42/42 components migrated to standalone! (100% COMPLETE!) 🎉🎉🎉
  * ALL components are now available as standalone and can be imported individually.
  * They are included here for backward compatibility in module exports.
  *
@@ -74,8 +80,13 @@ const standaloneComponents = [
   SqTabComponent,
   SqTabsComponent,
 
-  // Form Components (8)
+  // Form Components (12)
   SqInputComponent,
+  SqInputFormControlComponent,
+  SqInputDateFormControlComponent,
+  SqInputMaskFormControlComponent,
+  SqValidationMessageComponent,
+  SqValidationDirective,
   SqInputFileComponent,
   SqInputDateComponent,
   SqInputMaskComponent,
@@ -90,9 +101,10 @@ const standaloneComponents = [
   SqOverlayComponent,
   SqPaginationComponent,
 
-  // Selection Components (6)
+  // Selection Components (7)
   SqSelectComponent,
   SqSelectorComponent,
+  SqSelectorFormControlComponent,
   SqSelectSearchComponent,
   SqSelectMultiTagsComponent,
   SqSelectMultiComponent,

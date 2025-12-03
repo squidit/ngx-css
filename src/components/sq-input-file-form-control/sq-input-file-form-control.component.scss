@@ -1,0 +1,149 @@
+.wrapper-input-file-squid {
+  display: inline-block;
+  position: relative;
+
+  &.block {
+    display: block;
+    width: 100%;
+  }
+
+  label {
+    color: inherit;
+    width: 100%;
+    margin: 0;
+    font-size: 0.86rem;
+    line-height: 10px;
+    margin: 0 auto 0.35rem;
+
+    &.label-custom {
+      margin: 0;
+      cursor: pointer;
+    }
+
+    &.placeholder {
+      line-height: initial;
+      width: initial;
+      display: inline-flex;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      text-transform: capitalize;
+      font-weight: 500;
+      font-size: 0.86rem;
+      border-radius: 7px;
+      overflow: hidden;
+      box-shadow: none;
+      border: 2px solid transparent;
+      transition: var(--transition);
+      opacity: 1;
+      cursor: pointer;
+      margin: 0;
+      padding: 0.5rem 1rem;
+
+      sq-loader {
+        display: inline-block;
+        margin-left: 0.35rem;
+      }
+
+      span {
+        color: inherit;
+        width: 100%;
+        display: inline-block;
+        margin: 0;
+        font-weight: inherit;
+      }
+
+      &.p-0 {
+        padding: 0;
+      }
+
+      &:hover,
+      &:focus {
+        outline: none;
+        cursor: pointer;
+        color: inherit;
+        border-color: inherit;
+        opacity: 0.9;
+
+        &:before {
+          border-color: inherit;
+        }
+      }
+
+      &.loading {
+        cursor: wait;
+        opacity: 0.7;
+
+        &:hover,
+        &:focus {
+          border-color: transparent !important;
+        }
+      }
+
+      &.disabled,
+      &.readonly {
+        cursor: not-allowed;
+        opacity: 0.6;
+
+        &:hover {
+          opacity: 0.6;
+        }
+      }
+    }
+  }
+
+  input {
+    display: none;
+  }
+
+  .icon {
+    position: absolute;
+    right: 35px;
+    bottom: 3px;
+    color: var(--color_text-icon_system_success);
+  }
+
+  .box-validation {
+    margin-top: 0.35rem;
+    
+    &.show {
+      animation: fadeIn 0.2s ease-in;
+    }
+
+    &.visibility-hidden-force {
+      display: none !important;
+      visibility: hidden !important;
+      opacity: 0 !important;
+    }
+
+    i.visibility-hidden-force {
+      display: none !important;
+      visibility: hidden !important;
+    }
+  }
+
+  &.error {
+    background: transparent;
+    border-color: var(--color_border_input_error) !important;
+
+    .icon {
+      color: var(--color_text-icon_system_danger);
+    }
+
+    label.label {
+      color: var(--color_text-icon_system_danger) !important;
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+

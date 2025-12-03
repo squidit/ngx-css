@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { inject, Pipe, PipeTransform } from '@angular/core';
 import { DomSanitizer, SafeHtml, SafeResourceUrl, SafeScript, SafeStyle, SafeUrl } from '@angular/platform-browser';
 
 /**
@@ -20,11 +20,9 @@ import { DomSanitizer, SafeHtml, SafeResourceUrl, SafeScript, SafeStyle, SafeUrl
 })
 export class UniversalSafePipe implements PipeTransform {
   /**
-   * Creates an instance of UniversalSafePipe.
-   *
-   * @param {DomSanitizer} sanitizer - The Angular DOM sanitizer service.
+   * The Angular DOM sanitizer service.
    */
-  constructor(protected sanitizer: DomSanitizer) {}
+  protected sanitizer = inject(DomSanitizer);
 
   /**
    * Sanitizes and returns trusted content based on the specified type.

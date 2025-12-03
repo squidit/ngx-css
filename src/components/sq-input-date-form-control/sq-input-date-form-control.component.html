@@ -1,0 +1,81 @@
+<div class="wrapper-all-inside-input {{ customClass }}">
+  @if (label?.length || tooltipMessage || labelTemplate) {
+    <label
+      class="display-flex"
+      [ngClass]="{
+        readonly: readonly,
+      }"
+      [for]="id"
+    >
+      @if (label && !labelTemplate) {
+        <div [ngStyle]="{ color: labelColor }" [innerHtml]="label | universalSafe"></div>
+      }
+      @if (labelTemplate) {
+        <div>
+          <ng-container *ngTemplateOutlet="labelTemplate"></ng-container>
+        </div>
+      }
+      @if (tooltipMessage) {
+        <sq-tooltip
+          class="ml-1"
+          [message]="tooltipMessage"
+          [placement]="tooltipPlacement"
+          [color]="tooltipColor"
+          [icon]="tooltipIcon"
+        ></sq-tooltip>
+      }
+    </label>
+  }
+  <div
+    class="p-0 wrapper-input wrapper-input-squid text-ellipsisarea"
+    [ngClass]="{
+      readonly: readonly,
+    }"
+  >
+    @if (leftLabel) {
+      <span class="input-group-text m-0">
+        <ng-container *ngTemplateOutlet="leftLabel"></ng-container>
+      </span>
+    }
+    <input
+      class="col input"
+      [ngClass]="{
+        disabled: disabled,
+        readonly: readonly,
+      }"
+      [ngStyle]="{
+        'background-color': backgroundColor,
+        'border-color': borderColor,
+      }"
+      [id]="id"
+      type="date"
+      [name]="name"
+      [placeholder]="placeholder || ''"
+      [readonly]="readonly"
+      [formControl]="control"
+      [min]="formattedMinDate"
+      [max]="formattedMaxDate"
+      (input)="onChangeEvent($event)"
+      (keydown)="onKeyDown($event)"
+      (keyup)="onKeyUp($event)"
+      (blur)="onBlur($event)"
+      (focus)="onFocus($event)"
+      [attr.inputmode]="inputMode"
+    />
+    @if (rightLabel) {
+      <span class="input-group-text m-0">
+        <ng-container *ngTemplateOutlet="rightLabel"></ng-container>
+      </span>
+    }
+  </div>
+  @if (control.invalid && control.touched) {
+    <span
+      class="icon textarea-icon"
+      [ngClass]="{
+        'no-label': !label?.length,
+      }"
+    >
+      <i class="fa-solid fa-triangle-exclamation"></i>
+    </span>
+  }
+</div>

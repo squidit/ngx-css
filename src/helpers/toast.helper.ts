@@ -16,19 +16,15 @@ declare const Toast: Toast;
  *
  * @see {@link https://css.squidit.com.br/components/toast}
  *
- * @example
- * @Component({
- *   selector: 'app-root',
- *   template: '<button (click)="showToast()">Show Toast</button>',
- * })
- * export class AppComponent {
- *   constructor(private toastHelper: ToastHelper) {}
+ * @deprecated Use SqToastService instead for better testability and Angular integration.
+ * SqToastService provides Observable-based lifecycle, data-test attributes, and proper mocking support.
  *
- *   showToast() {
- *     // Display a success toast message.
- *     this.toastHelper.toast.success('Operation was successful.', { duration: 3000 })
- *   }
- * }
+ * @example
+ * // OLD (deprecated):
+ * this.toastHelper.toast.success('Message');
+ *
+ * // NEW (recommended):
+ * this.toastService.success('Message');
  */
 @Injectable({
   providedIn: 'root',
@@ -54,7 +50,11 @@ export class ToastHelper {
    * Creates an instance of the ToastHelper service.
    */
   constructor() {
-    this.toast = Toast || (window['Toast' as any] as unknown as Toast);
+    // Check if Toast is available globally (from @squidit/css)
+    if (typeof window !== 'undefined' && window['Toast' as any]) {
+      this.toast = window['Toast' as any] as unknown as Toast;
+    }
+    // Otherwise, use the fallback implementation (toastLogSrr)
   }
 
   /**

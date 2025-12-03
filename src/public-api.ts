@@ -9,6 +9,10 @@ export * from './components/sq-infinity-scroll/sq-infinity-scroll.component';
 export * from './components/sq-loader/sq-loader.component';
 export * from './components/sq-modal/sq-modal.component';
 export * from './components/sq-overlay/sq-overlay.component';
+export * from './components/sq-modal-base/sq-modal-base.component';
+export * from './components/sq-overlay-base/sq-overlay-base.component';
+export * from './services/sq-modal.service';
+export * from './classes/sq-dialog-core.class';
 export * from './components/sq-pagination/sq-pagination.component';
 export * from './components/sq-progress-bar/sq-progress-bar.component';
 export * from './components/sq-steps/sq-steps.component';
@@ -25,6 +29,7 @@ export * from './components/sq-input-money/sq-input-money.component';
 export * from './components/sq-input-number/sq-input-number.component';
 export * from './components/sq-input-range/sq-input-range.component';
 export * from './components/sq-input/sq-input.component';
+export * from './components/sq-validation-message/sq-validation-message.component';
 export * from './components/sq-select-multi-tags/sq-select-multi-tags.component';
 export * from './components/sq-select-multi/sq-select-multi.component';
 export * from './components/sq-select-search/sq-select-search.component';
@@ -32,11 +37,19 @@ export * from './components/sq-select/sq-select.component';
 export * from './components/sq-selector/sq-selector.component';
 export * from './components/sq-textarea/sq-textarea.component';
 
+/** New Form Controls Components */
+export * from './components/sq-input-date-form-control/sq-input-date-form-control.component';
+export * from './components/sq-input-file-form-control/sq-input-file-form-control.component';
+export * from './components/sq-input-form-control/sq-input-form-control.component';
+export * from './components/sq-input-mask-form-control/sq-input-mask-form-control.component';
+export * from './components/sq-selector-form-control/sq-selector-form-control.component';
+
 export * from './directives/sq-click-outside/sq-click-outside.directive';
 export * from './directives/sq-dropdown/sq-dropdown.directive';
 export * from './directives/sq-tooltip/sq-tooltip.directive';
 export * from './directives/sq-skeleton/sq-skeleton.directive';
 export * from './directives/sq-data-test/sq-data-test.directive';
+export * from './directives/sq-validation.directive';
 
 export * from './pipes/birthdate/birthdate.pipe';
 export * from './pipes/remove-html-tags/remove-html-tags.pipe';
@@ -56,8 +69,18 @@ export * from './helpers/toast.helper';
 export * from './helpers/validator.helper';
 export * from './helpers/window.helper';
 
+export * from './interfaces/modal.interface';
 export * from './interfaces/option.interface';
 export * from './interfaces/step.interface';
 export * from './interfaces/toast.interface';
+export * from './interfaces/sq-toast.interface';
+
+export * from './services/sq-toast.service';
+export * from './components/sq-toast/sq-toast.component';
+export * from './components/sq-toast/sq-toast-container.component';
+
+export * from './validators/input.validators';
+export * from './validators/date.validators';
+export * from './validators/file.validators';
 
 export * from './main.module';

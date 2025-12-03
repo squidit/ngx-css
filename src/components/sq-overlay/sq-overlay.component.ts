@@ -22,6 +22,9 @@ import { SqClickOutsideDirective } from '../../directives/sq-click-outside/sq-cl
 /**
  * Represents an overlay component, an abstraction with differente style but still a modal.
  *
+ * @deprecated Use `SqOverlayBaseComponent` or `SqModalService.openOverlay()` instead.
+ * This component will be removed in a future version.
+ *
  * @example
  * <sq-overlay [open]="isOverlayOpen" overlayDirection="right" (overlayClose)="onOverlayClose()">
  *   <ng-template #headerTemplate>

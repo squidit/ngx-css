@@ -1,0 +1,49 @@
+<div
+  class="toast"
+  [ngClass]="[typeClass, toast.config.customClass || '', !toast.config.showIcon ? 'no-icon' : '']"
+  [class.has-close]="toast.config.closeable"
+  [attr.data-test]="dataTestValue"
+  role="alert"
+  aria-live="polite"
+>
+  <!-- Icon -->
+  @if (toast.config.showIcon) {
+    <span class="toast-icon" [attr.data-test]="dataTestValue + '-icon'">
+      <i [class]="icon"></i>
+    </span>
+  }
+
+  <!-- Content -->
+  <span class="toast-text toast-content" [attr.data-test]="dataTestValue + '-content'">
+    @if (toast.isTemplate) {
+      <ng-container
+        *ngTemplateOutlet="templateRef; context: { $implicit: toast.ref, data: toast.config.data }"
+      ></ng-container>
+    } @else {
+      <span class="toast-message">{{ toast.message }}</span>
+    }
+  </span>
+
+  <!-- Action Button -->
+  @if (toast.config.action) {
+    <button
+      type="button"
+      class="toast-action"
+      [attr.data-test]="dataTestValue + '-action'"
+      (click)="onActionClick($event)"
+    >
+      {{ toast.config.action.label }}
+    </button>
+  }
+
+  <!-- Close Button -->
+  @if (toast.config.closeable) {
+    <span
+      class="toast-close-button toast-close"
+      [attr.data-test]="dataTestValue + '-close'"
+      aria-label="Fechar"
+      (click)="onCloseClick($event)"
+      >×</span
+    >
+  }
+</div>

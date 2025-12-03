@@ -1,4 +1,4 @@
-import { Directive, Input, ElementRef, HostListener, Renderer2, OnDestroy, OnInit, Inject } from '@angular/core';
+import { Directive, Input, ElementRef, HostListener, Renderer2, OnDestroy, OnInit, inject } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { sleep } from '../../helpers/sleep.helper';
 import { DOCUMENT } from '@angular/common';
@@ -96,19 +96,30 @@ export class SqDropdownDirective implements OnInit, OnDestroy {
   document: Document;
 
   /**
-   * Constructs a new SqDropdownDirective.
-   *
-   * @param {ElementRef} el - The ElementRef of the host element.
-   * @param {Renderer2} renderer - The Renderer2 for DOM manipulation.
-   * @param {Router} router - The Angular Router service.
-   * @param {Document} documentImported - The injected Document object for DOM manipulation.
+   * The ElementRef of the host element.
    */
-  constructor(
-    private el: ElementRef,
-    private renderer: Renderer2,
-    private router: Router,
-    @Inject(DOCUMENT) private documentImported: Document
-  ) {
+  private el = inject(ElementRef);
+
+  /**
+   * The Renderer2 for DOM manipulation.
+   */
+  private renderer = inject(Renderer2);
+
+  /**
+   * The Angular Router service.
+   */
+  private router = inject(Router);
+
+  /**
+   * The injected Document object for DOM manipulation.
+   */
+  private documentImported = inject(DOCUMENT);
+
+  /**
+   * Initializes the SqDropdownDirective.
+   * Binds the hide function to the current instance and assigns the document object.
+   */
+  constructor() {
     // Bind the hide function to the current instance.
     this.hide = this.hide.bind(this);
     // Assign the document object for DOM manipulation.
