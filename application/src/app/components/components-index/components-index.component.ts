@@ -96,6 +96,21 @@ export class ComponentsIndexComponent {
       ],
     },
     {
+      title: 'sq-input-number-form-control',
+      description: 'Componente de input numérico baseado em Reactive Forms com separador de milhares',
+      icon: '#️⃣',
+      status: 'new',
+      route: '/input-number-form-control',
+      features: [
+        'Números inteiros com separador de milhares',
+        'Reactive Forms integrado',
+        'Suporte a números negativos',
+        'InputValidators.minValue/notZero',
+        'Input mode numérico (mobile-friendly)',
+        'ChangeDetectionStrategy.OnPush',
+      ],
+    },
+    {
       title: 'sq-input-file-form-control',
       description: 'Componente de upload de arquivo baseado em Reactive Forms com validações avançadas',
       icon: '📁',
@@ -177,6 +192,14 @@ export class ComponentsIndexComponent {
       status: 'legacy',
       route: '/input-money-form-control',
       features: ['Two-way binding', 'Prefixo de moeda', 'Mantido para compatibilidade'],
+    },
+    {
+      title: 'sq-input-number (Legacy)',
+      description: 'Componente legado de input numérico - use sq-input-number-form-control em novos projetos',
+      icon: '🔴',
+      status: 'legacy',
+      route: '/input-number-form-control',
+      features: ['Two-way binding', 'Separador de milhares', 'Mantido para compatibilidade'],
     },
     {
       title: 'sq-input-file (Legacy)',
