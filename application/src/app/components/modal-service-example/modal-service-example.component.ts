@@ -1,13 +1,6 @@
 import { Component, Input, TemplateRef, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  SqModalService,
-  SqDialogRef,
-  SqModalBaseComponent,
-  SqOverlayBaseComponent,
-  confirmBeforeClose,
-  SqButtonComponent,
-} from '@squidit/ngx-css';
+import { SqModalService, SqDialogRef, confirmBeforeClose, SqButtonComponent } from '@squidit/ngx-css';
 import { filter } from 'rxjs';
 
 /**
@@ -139,15 +132,11 @@ export class ModalContentComponent {
 @Component({
   selector: 'app-modal-service-example',
   standalone: true,
-  imports: [CommonModule, SqModalBaseComponent, SqOverlayBaseComponent],
+  imports: [CommonModule],
   templateUrl: './modal-service-example.component.html',
   styleUrls: ['./modal-service-example.component.scss'],
 })
 export class ModalServiceExampleComponent {
-  // Para uso declarativo
-  isModalOpen = false;
-  isOverlayOpen = false;
-
   // Para exibir resultados
   lastResult: any = null;
 
@@ -303,27 +292,5 @@ export class ModalServiceExampleComponent {
       .subscribe(result => {
         this.lastResult = result;
       });
-  }
-
-  // ============================================
-  // Exemplos Declarativos (Template)
-  // ============================================
-
-  openDeclarativeModal() {
-    this.isModalOpen = true;
-  }
-
-  closeDeclarativeModal() {
-    this.isModalOpen = false;
-    this.lastResult = { source: 'declarative-modal', closed: true };
-  }
-
-  openDeclarativeOverlay() {
-    this.isOverlayOpen = true;
-  }
-
-  closeDeclarativeOverlay() {
-    this.isOverlayOpen = false;
-    this.lastResult = { source: 'declarative-overlay', closed: true };
   }
 }

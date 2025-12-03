@@ -1,7 +1,7 @@
 <div class="modal-service-example">
   <h1>SqModalService - Exemplos</h1>
   <p class="description">
-    Novo sistema de modais e overlays com suporte a abertura programática via serviço e uso declarativo via template.
+    Novo sistema de modais e overlays com suporte a abertura programática via serviço.
   </p>
 
   <!-- Resultado do último modal -->
@@ -12,78 +12,32 @@
     </div>
   }
 
-  <div class="examples-grid">
-    <!-- Seção: Uso via Serviço -->
-    <section class="example-section">
-      <h2>Via Serviço (Programático)</h2>
-      <p>Abrir modais/overlays usando <code>SqModalService</code></p>
+  <section class="example-section">
+    <h2>Modal</h2>
+    <p>Abrir modais usando <code>SqModalService</code></p>
 
-      <div class="buttons-group">
-        <h3>Modal</h3>
-        <button class="button background-primary" (click)="openModalWithComponent()">Modal com Componente</button>
-        <button class="button background-primary" (click)="openModalCustom()">Modal com Templates</button>
-        <button class="button background-secondary" (click)="openSmallModal()">Modal Pequeno (sm)</button>
-        <button class="button background-secondary" (click)="openLargeModal()">Modal Grande (lg)</button>
-        <button class="button background-secondary" (click)="openModalClickOutside()">
-          Modal (fecha ao clicar fora)
-        </button>
-      </div>
-
-      <div class="buttons-group">
-        <h3>Overlay</h3>
-        <button class="button background-primary" (click)="openOverlayWithComponent()">Overlay Direito</button>
-        <button class="button background-secondary" (click)="openLeftOverlay()">Overlay Esquerdo</button>
-        <button class="button background-secondary" (click)="openBottomOverlay()">Overlay Inferior</button>
-        <button class="button background-secondary" (click)="openTopOverlay()">Overlay Superior</button>
-      </div>
-    </section>
-
-    <!-- Seção: Uso Declarativo -->
-    <section class="example-section">
-      <h2>Declarativo (Template)</h2>
-      <p>Usar componentes diretamente no template com <code>[open]</code></p>
-
-      <div class="buttons-group">
-        <button class="button background-primary" (click)="openDeclarativeModal()">Abrir Modal (Declarativo)</button>
-        <button class="button background-primary" (click)="openDeclarativeOverlay()">
-          Abrir Overlay (Declarativo)
-        </button>
-      </div>
-    </section>
-  </div>
-
-  <!-- Modal Declarativo -->
-  <sq-modal-base [open]="isModalOpen" size="md" (dialogClose)="closeDeclarativeModal()">
-    <ng-template #headerModal>
-      <h5 class="m-0">Modal Declarativo</h5>
-    </ng-template>
-
-    <div class="p-3">
-      <p>Este modal foi aberto usando o componente diretamente no template.</p>
-      <p>Você pode usar <code>ng-template</code> para customizar header e footer.</p>
+    <div class="buttons-group">
+      <button class="button background-primary" (click)="openModalWithComponent()">Modal com Componente</button>
+      <button class="button background-primary" (click)="openModalCustom()">Modal com Templates</button>
+      <button class="button background-secondary" (click)="openSmallModal()">Modal Pequeno (sm)</button>
+      <button class="button background-secondary" (click)="openLargeModal()">Modal Grande (lg)</button>
+      <button class="button background-secondary" (click)="openModalClickOutside()">
+        Modal (fecha ao clicar fora)
+      </button>
     </div>
+  </section>
 
-    <ng-template #footerModal>
-      <button class="button background-secondary" (click)="closeDeclarativeModal()">Fechar</button>
-    </ng-template>
-  </sq-modal-base>
+  <section class="example-section">
+    <h2>Overlay</h2>
+    <p>Abrir overlays usando <code>SqModalService</code></p>
 
-  <!-- Overlay Declarativo -->
-  <sq-overlay-base [open]="isOverlayOpen" direction="right" width="400px" (dialogClose)="closeDeclarativeOverlay()">
-    <ng-template #headerOverlay>
-      <h5 class="m-0">Overlay Declarativo</h5>
-    </ng-template>
-
-    <div>
-      <p>Este overlay foi aberto usando o componente diretamente no template.</p>
-      <p>Direction: <strong>right</strong></p>
-      <p>Width: <strong>400px</strong></p>
+    <div class="buttons-group">
+      <button class="button background-primary" (click)="openOverlayWithComponent()">Overlay Direito</button>
+      <button class="button background-secondary" (click)="openLeftOverlay()">Overlay Esquerdo</button>
+      <button class="button background-secondary" (click)="openBottomOverlay()">Overlay Inferior</button>
+      <button class="button background-secondary" (click)="openTopOverlay()">Overlay Superior</button>
     </div>
-
-    <ng-template #footerOverlay>
-      <button class="button background-secondary" (click)="closeDeclarativeOverlay()">Fechar</button>
-    </ng-template>
-  </sq-overlay-base>
+  </section>
 
   <ng-template #customHeader let-modal let-data="data">
     <div class="row align-items-center gap-2">
