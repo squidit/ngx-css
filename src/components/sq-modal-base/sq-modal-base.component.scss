@@ -8,7 +8,7 @@
 .modal-content {
   display: flex;
   flex-direction: column;
-  max-height: calc(100vh - 3.5rem);
+  max-height: calc(100dvh - 3.5rem);
 
   .modal-header {
     min-height: 3rem;
@@ -23,11 +23,29 @@
   .modal-footer {
     flex-shrink: 0;
     gap: 0.5rem;
+
+    // Stack buttons on very small screens
+    @media (max-width: 360px) {
+      flex-direction: column;
+      width: 100%;
+
+      sq-button,
+      button {
+        width: 100%;
+      }
+    }
   }
 }
 
 .modal-header {
   &.without-header {
     border-bottom: none;
+  }
+}
+
+// Mobile adjustments
+@media (max-width: 576px) {
+  .modal-content {
+    max-height: calc(100dvh - 1rem);
   }
 }

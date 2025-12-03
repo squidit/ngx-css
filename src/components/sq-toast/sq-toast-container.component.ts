@@ -27,7 +27,7 @@ import { SqToastInstance, SqToastDismissReason, SqToastPosition } from '../../in
         flex-direction: column;
         gap: 0.75rem;
         padding: 1rem;
-        max-height: 100vh;
+        max-height: 100dvh;
         overflow: hidden;
         /* Default position: top-right */
         top: 0;
@@ -36,6 +36,14 @@ import { SqToastInstance, SqToastDismissReason, SqToastPosition } from '../../in
         left: auto;
         transform: none;
         align-items: flex-end;
+      }
+
+      /* Reduced padding on mobile */
+      @media (max-width: 576px) {
+        :host {
+          padding: 0.5rem;
+          gap: 0.5rem;
+        }
       }
 
       /* Positioning classes */
@@ -67,6 +75,17 @@ import { SqToastInstance, SqToastDismissReason, SqToastPosition } from '../../in
         transform: translateX(-50%);
         flex-direction: column;
         align-items: center;
+        /* On mobile, center positions take full width */
+        width: auto;
+      }
+
+      @media (max-width: 576px) {
+        :host.top-center {
+          left: 0;
+          right: 0;
+          transform: none;
+          align-items: stretch;
+        }
       }
 
       :host.bottom-right {
@@ -97,6 +116,16 @@ import { SqToastInstance, SqToastDismissReason, SqToastPosition } from '../../in
         transform: translateX(-50%);
         flex-direction: column-reverse;
         align-items: center;
+        width: auto;
+      }
+
+      @media (max-width: 576px) {
+        :host.bottom-center {
+          left: 0;
+          right: 0;
+          transform: none;
+          align-items: stretch;
+        }
       }
 
       :host.top-full {
