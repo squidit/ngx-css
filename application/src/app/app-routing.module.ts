@@ -4,6 +4,7 @@ import { InputComparisonExampleComponent } from './components/input-comparison-e
 import { DateComparisonExampleComponent } from './components/date-comparison-example/date-comparison-example.component';
 import { SelectorComparisonExampleComponent } from './components/selector-comparison-example/selector-comparison-example.component';
 import { InputMaskFormControlExampleComponent } from './components/input-mask-form-control-example/input-mask-form-control-example.component';
+import { InputMoneyFormControlExampleComponent } from './components/input-money-form-control-example/input-money-form-control-example.component';
 import { InputFileFormControlExampleComponent } from './components/input-file-form-control-example/input-file-form-control-example.component';
 import { ComponentsIndexComponent } from './components/components-index/components-index.component';
 import { ModalServiceExampleComponent } from './components/modal-service-example/modal-service-example.component';
@@ -39,6 +40,11 @@ export const routes: Routes = [
     path: 'input-mask-form-control',
     component: InputMaskFormControlExampleComponent,
     title: 'Comparação: sq-input-mask vs sq-input-mask-form-control',
+  },
+  {
+    path: 'input-money-form-control',
+    component: InputMoneyFormControlExampleComponent,
+    title: 'Comparação: sq-input-money vs sq-input-money-form-control',
   },
   {
     path: 'input-file-form-control',

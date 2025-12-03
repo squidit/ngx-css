@@ -81,6 +81,21 @@ export class ComponentsIndexComponent {
       ],
     },
     {
+      title: 'sq-input-money-form-control',
+      description: 'Componente de input monetário baseado em Reactive Forms com prefixo automático de moeda',
+      icon: '💰',
+      status: 'new',
+      route: '/input-money-form-control',
+      features: [
+        'Prefixo automático (BRL, USD, EUR, etc)',
+        'Formato brasileiro/americano/europeu',
+        'Reactive Forms integrado',
+        'Validators.min/max suportados',
+        'Input mode decimal (mobile-friendly)',
+        'ChangeDetectionStrategy.OnPush',
+      ],
+    },
+    {
       title: 'sq-input-file-form-control',
       description: 'Componente de upload de arquivo baseado em Reactive Forms com validações avançadas',
       icon: '📁',
@@ -154,6 +169,14 @@ export class ComponentsIndexComponent {
       status: 'legacy',
       route: '/input-mask-form-control',
       features: ['Two-way binding', 'Máscaras básicas', 'Mantido para compatibilidade'],
+    },
+    {
+      title: 'sq-input-money (Legacy)',
+      description: 'Componente legado de input monetário - use sq-input-money-form-control em novos projetos',
+      icon: '🔴',
+      status: 'legacy',
+      route: '/input-money-form-control',
+      features: ['Two-way binding', 'Prefixo de moeda', 'Mantido para compatibilidade'],
     },
     {
       title: 'sq-input-file (Legacy)',
