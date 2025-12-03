@@ -186,6 +186,29 @@ export class ComponentsIndexComponent {
       route: '/modal-service',
       features: ['Uso via template', 'ng-template para conteúdo', 'Mantido para compatibilidade'],
     },
+    {
+      title: 'SqToastService',
+      description: 'Serviço para exibir notificações toast com suporte completo a testes e Observable lifecycle',
+      icon: '🔔',
+      status: 'new',
+      route: '/toast-service',
+      features: [
+        '100% Angular (sem window.Toast)',
+        'Observable afterDismissed()',
+        'Data-test attributes',
+        'Mockável em testes',
+        'Ações (Desfazer)',
+        'Pause on hover',
+      ],
+    },
+    {
+      title: 'ToastHelper (Legacy)',
+      description: 'Helper legado de toast - use SqToastService em novos projetos',
+      icon: '🔴',
+      status: 'legacy',
+      route: '/toast-service',
+      features: ['Depende de window.Toast', 'Não testável', 'Mantido para compatibilidade'],
+    },
   ];
 
   getStatusClass(status: string): string {

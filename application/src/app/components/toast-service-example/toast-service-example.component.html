@@ -1,0 +1,257 @@
+<div class="toast-service-example">
+  <h1>SqToastService - Exemplos</h1>
+  <p class="description">
+    Novo sistema de toasts com suporte a Observable, data-test attributes e testabilidade completa.
+  </p>
+
+  <!-- Configuração Global -->
+  <section class="config-section">
+    <h2>Configuração</h2>
+    <div class="config-grid">
+      <div class="config-item">
+        <label for="position">Posição:</label>
+        <select id="position" [(ngModel)]="selectedPosition">
+          @for (pos of positions; track pos) {
+            <option [value]="pos">{{ pos }}</option>
+          }
+        </select>
+      </div>
+      <div class="config-item">
+        <label for="duration">Duração (ms):</label>
+        <input id="duration" type="number" [(ngModel)]="selectedDuration" min="0" step="1000" />
+      </div>
+      <div class="config-item">
+        <label for="message">Mensagem:</label>
+        <input id="message" type="text" [(ngModel)]="customMessage" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Status -->
+  <section class="status-section">
+    <div class="status-grid">
+      <div class="status-item">
+        <strong>Toasts Ativos:</strong> {{ getActiveCount() }}
+      </div>
+      <div class="status-item">
+        <strong>Último Motivo de Fechamento:</strong>
+        <code>{{ lastDismissReason || 'N/A' }}</code>
+      </div>
+    </div>
+  </section>
+
+  <div class="examples-grid">
+    <!-- NOVO: SqToastService -->
+    <section class="example-section new-service">
+      <div class="section-header">
+        <h2>✅ NOVO: SqToastService</h2>
+        <span class="badge badge-success">Recomendado</span>
+      </div>
+      <p class="section-description">
+        Observable-based, testável, com data-test attributes
+      </p>
+
+      <h3>Tipos Básicos</h3>
+      <div class="buttons-group">
+        <button class="button background-green" (click)="showSuccess()">Success</button>
+        <button class="button background-red" (click)="showError()">Error</button>
+        <button class="button background-yellow text-dark" (click)="showWarning()">Warning</button>
+        <button class="button background-blue" (click)="showInfo()">Info</button>
+        <button class="button background-secondary" (click)="showDefault()">Default</button>
+      </div>
+
+      <h3>Mensagem Customizada</h3>
+      <div class="buttons-group">
+        <button class="button background-primary" (click)="showCustomMessage()">Mostrar Mensagem</button>
+      </div>
+
+      <h3>Recursos Avançados</h3>
+      <div class="buttons-group">
+        <button class="button background-primary" (click)="showWithAction()">
+          Com Ação (Desfazer)
+        </button>
+        <button class="button background-primary" (click)="showPersistent()">
+          Persistente (duration: 0)
+        </button>
+        <button class="button background-primary" (click)="showWithObservable()">
+          Com Observable
+        </button>
+      </div>
+
+      <h3>Customizações</h3>
+      <div class="buttons-group">
+        <button class="button background-secondary" (click)="showCloseable()">Com Botão Fechar</button>
+        <button class="button background-secondary" (click)="showDismissOnClick()">Clique para Fechar</button>
+        <button class="button background-secondary" (click)="showNoIcon()">Sem Ícone</button>
+        <button class="button background-secondary" (click)="showCustomIcon()">Ícone Customizado</button>
+      </div>
+
+      <h3>Múltiplos Toasts</h3>
+      <div class="buttons-group">
+        <button class="button background-primary" (click)="showMultiple()">Mostrar 3 Toasts</button>
+        <button class="button background-secondary" (click)="dismissActive()">Fechar Persistente</button>
+        <button class="button background-red" (click)="dismissAll()">Fechar Todos</button>
+      </div>
+    </section>
+
+    <!-- ANTIGO: ToastHelper -->
+    <section class="example-section old-service">
+      <div class="section-header">
+        <h2>⚠️ ANTIGO: ToastHelper</h2>
+        <span class="badge badge-warning">Deprecated</span>
+      </div>
+      <p class="section-description">
+        Depende de window.Toast global, não testável
+      </p>
+
+      <h3>Tipos Básicos</h3>
+      <div class="buttons-group">
+        <button class="button background-green" (click)="legacySuccess()">Success</button>
+        <button class="button background-red" (click)="legacyError()">Error</button>
+        <button class="button background-yellow text-dark" (click)="legacyWarning()">Warning</button>
+        <button class="button background-blue" (click)="legacyInfo()">Info</button>
+      </div>
+
+      <div class="deprecation-warning">
+        <h4>⚠️ Problemas do ToastHelper:</h4>
+        <ul>
+          <li>❌ Depende de <code>window.Toast</code> global</li>
+          <li>❌ Não funciona em SSR</li>
+          <li>❌ Impossível mockar em testes unitários</li>
+          <li>❌ Sem <code>data-test</code> attributes</li>
+          <li>❌ Sem Observable para lifecycle</li>
+          <li>❌ Sem controle programático (dismiss)</li>
+        </ul>
+      </div>
+    </section>
+  </div>
+
+  <!-- Comparativo -->
+  <section class="comparison-section">
+    <h2>📊 Comparativo</h2>
+    <table class="comparison-table">
+      <thead>
+        <tr>
+          <th>Recurso</th>
+          <th>ToastHelper (Antigo)</th>
+          <th>SqToastService (Novo)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Injeção de Dependência</td>
+          <td class="bad">⚠️ Depende de window.Toast</td>
+          <td class="good">✅ 100% Angular</td>
+        </tr>
+        <tr>
+          <td>Testabilidade</td>
+          <td class="bad">❌ Não mockável</td>
+          <td class="good">✅ spyOn() funciona</td>
+        </tr>
+        <tr>
+          <td>Data-test Attributes</td>
+          <td class="bad">❌ Não suporta</td>
+          <td class="good">✅ Em cada elemento</td>
+        </tr>
+        <tr>
+          <td>Observable Lifecycle</td>
+          <td class="bad">❌ Não tem</td>
+          <td class="good">✅ afterDismissed()</td>
+        </tr>
+        <tr>
+          <td>Dismiss Programático</td>
+          <td class="bad">❌ Não suporta</td>
+          <td class="good">✅ ref.dismiss()</td>
+        </tr>
+        <tr>
+          <td>Ações (Desfazer)</td>
+          <td class="bad">❌ Não suporta</td>
+          <td class="good">✅ action.callback</td>
+        </tr>
+        <tr>
+          <td>SSR Compatível</td>
+          <td class="bad">❌ Não funciona</td>
+          <td class="good">✅ Funciona</td>
+        </tr>
+        <tr>
+          <td>Pause on Hover</td>
+          <td class="bad">❌ Não tem</td>
+          <td class="good">✅ Configurável</td>
+        </tr>
+        <tr>
+          <td>Múltiplas Posições</td>
+          <td class="bad">⚠️ Limitado</td>
+          <td class="good">✅ 6 posições</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- Histórico -->
+  @if (toastHistory.length > 0) {
+    <section class="history-section">
+      <div class="history-header">
+        <h2>📜 Histórico de Toasts</h2>
+        <button class="button background-secondary button-sm" (click)="clearHistory()">Limpar</button>
+      </div>
+      <div class="history-list">
+        @for (item of toastHistory; track item.timestamp) {
+          <div class="history-item" [class]="'type-' + item.type">
+            <span class="history-type">{{ item.type }}</span>
+            <span class="history-message">{{ item.message }}</span>
+            <span class="history-time">{{ item.timestamp | date: 'HH:mm:ss' }}</span>
+          </div>
+        }
+      </div>
+    </section>
+  }
+
+  <!-- Código de Exemplo -->
+  <section class="code-section">
+    <h2>💻 Exemplo de Código</h2>
+
+    <h3>Uso Básico</h3>
+    <pre><code>import &#123; SqToastService &#125; from '&#64;squidit/ngx-css';
+
+&#64;Component(&#123;...&#125;)
+export class MyComponent &#123;
+  private toastService = inject(SqToastService);
+
+  showSuccess() &#123;
+    this.toastService.success('Operação realizada!');
+  &#125;
+&#125;</code></pre>
+
+    <h3>Com Ação (Desfazer)</h3>
+    <pre><code>this.toastService.success('Item removido', &#123;
+  duration: 8000,
+  action: &#123;
+    label: 'Desfazer',
+    callback: () => this.undoDelete()
+  &#125;
+&#125;);</code></pre>
+
+    <h3>Com Observable</h3>
+    <pre><code>this.toastService.warning('Confirma?', &#123; duration: 0 &#125;)
+  .afterDismissed()
+  .subscribe(reason => &#123;
+    // reason: 'timeout' | 'action' | 'manual' | 'swipe'
+    console.log('Fechou por:', reason);
+  &#125;);</code></pre>
+
+    <h3>Teste Unitário</h3>
+    <pre><code>it('deve mostrar toast de sucesso', () => &#123;
+  const toastSpy = spyOn(toastService, 'success').and.callThrough();
+
+  component.saveData();
+
+  expect(toastSpy).toHaveBeenCalledWith('Dados salvos!');
+&#125;);</code></pre>
+
+    <h3>Teste E2E (Cypress)</h3>
+    <pre><code>cy.get('[data-test="save-button"]').click();
+cy.get('[data-test="sq-toast-1"]').should('contain', 'Dados salvos!');
+cy.get('[data-test="sq-toast-1-close"]').click();</code></pre>
+  </section>
+</div>
+

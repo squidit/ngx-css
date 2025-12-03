@@ -1,0 +1,76 @@
+// Toast Service Example - Minimal styles (uses lib CSS classes)
+
+.toast-service-example {
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.config-section,
+.example-section,
+.code-section {
+  background: var(--background_secondary);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.example-section {
+  &.new-service { border: 2px solid var(--green-50); }
+  &.old-service { border: 2px solid var(--yellow-50); opacity: 0.9; }
+}
+
+.config-grid,
+.examples-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.config-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+.examples-grid { grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); }
+
+.buttons-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.badge {
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  &.badge-success { background: var(--green-50); color: white; }
+  &.badge-warning { background: var(--yellow-50); color: var(--gray-90); }
+}
+
+.comparison-table {
+  width: 100%;
+  border-collapse: collapse;
+  th, td { padding: 0.75rem; border-bottom: 1px solid var(--gray-20); }
+  th { background: var(--gray-20); }
+  .good { color: var(--green-50); }
+  .bad { color: var(--red-50); }
+}
+
+.history-item {
+  display: flex;
+  gap: 1rem;
+  padding: 0.75rem;
+  border-bottom: 1px solid var(--gray-20);
+  .history-type {
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    min-width: 70px;
+    text-align: center;
+  }
+}
+
+pre {
+  background: var(--gray-90);
+  border-radius: 6px;
+  padding: 1rem;
+  overflow-x: auto;
+  code { color: var(--gray-10); font-size: 0.8rem; }
+}

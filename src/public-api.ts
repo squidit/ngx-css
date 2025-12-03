@@ -73,6 +73,11 @@ export * from './interfaces/modal.interface';
 export * from './interfaces/option.interface';
 export * from './interfaces/step.interface';
 export * from './interfaces/toast.interface';
+export * from './interfaces/sq-toast.interface';
+
+export * from './services/sq-toast.service';
+export * from './components/sq-toast/sq-toast.component';
+export * from './components/sq-toast/sq-toast-container.component';
 
 export * from './validators/input.validators';
 export * from './validators/date.validators';

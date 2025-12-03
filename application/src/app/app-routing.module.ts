@@ -7,6 +7,7 @@ import { InputMaskFormControlExampleComponent } from './components/input-mask-fo
 import { InputFileFormControlExampleComponent } from './components/input-file-form-control-example/input-file-form-control-example.component';
 import { ComponentsIndexComponent } from './components/components-index/components-index.component';
 import { ModalServiceExampleComponent } from './components/modal-service-example/modal-service-example.component';
+import { ToastServiceExampleComponent } from './components/toast-service-example/toast-service-example.component';
 
 export const routes: Routes = [
   {
@@ -48,6 +49,11 @@ export const routes: Routes = [
     path: 'modal-service',
     component: ModalServiceExampleComponent,
     title: 'SqModalService - Modal e Overlay',
+  },
+  {
+    path: 'toast-service',
+    component: ToastServiceExampleComponent,
+    title: 'SqToastService - Notificações Toast',
   },
 ];
 
