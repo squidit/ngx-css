@@ -50,6 +50,7 @@ export * from './components/sq-select-form-control/sq-select-form-control.compon
 export { SelectSearchMode, OptionGroup } from './components/sq-select-form-control/sq-select-form-control.component';
 export * from './components/sq-select-multi-form-control/sq-select-multi-form-control.component';
 export * from './components/sq-selector-form-control/sq-selector-form-control.component';
+export * from './components/sq-textarea-form-control/sq-textarea-form-control.component';
 
 export * from './directives/sq-click-outside/sq-click-outside.directive';
 export * from './directives/sq-dropdown/sq-dropdown.directive';
