@@ -150,6 +150,18 @@ export class ComponentsIndexComponent {
         'Busca local (client-side)',
         'Busca remota (backend)',
         'Infinity scroll para listas grandes',
+      ],
+    },
+    {
+      title: 'sq-select-multi-form-control',
+      description: 'Componente unificado que substitui sq-select-multi e sq-select-multi-tags',
+      icon: '☑️',
+      status: 'new',
+      route: '/select-multi-form-control',
+      features: [
+        'displayMode: default | tags',
+        'Seleção hierárquica (children)',
+        'Busca local/remota + infinity scroll',
         'Templates customizados',
         'Grupos de opções',
         'ChangeDetectionStrategy.OnPush',

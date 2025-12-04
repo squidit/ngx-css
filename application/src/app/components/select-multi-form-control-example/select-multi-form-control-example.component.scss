@@ -1,0 +1,89 @@
+@use '../input-form-control-example/input-form-control-example.component.scss';
+
+// Estilos para templates customizados
+.custom-option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0;
+
+  .user-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .user-info {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+
+    .user-name {
+      font-weight: 500;
+    }
+
+    .user-role {
+      color: #666;
+      font-size: 0.75rem;
+    }
+  }
+}
+
+.custom-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: #e8f4fd;
+  border: 1px solid #b3d9f7;
+  border-radius: 20px;
+  padding: 0.25rem 0.5rem 0.25rem 0.25rem;
+  margin: 0.125rem;
+  font-size: 0.85rem;
+
+  .tag-avatar {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .tag-close {
+    cursor: pointer;
+    color: #666;
+    font-size: 0.7rem;
+    margin-left: 0.25rem;
+
+    &:hover {
+      color: #c44536;
+    }
+  }
+}
+
+.custom-selected {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  .avatars-stack {
+    display: flex;
+
+    .stacked-avatar {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 2px solid #fff;
+      margin-left: -8px;
+      object-fit: cover;
+
+      &:first-child {
+        margin-left: 0;
+      }
+    }
+  }
+
+  .selected-text {
+    font-size: 0.9rem;
+    color: #333;
+  }
+}

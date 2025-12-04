@@ -9,6 +9,7 @@ import { InputNumberFormControlExampleComponent } from './components/input-numbe
 import { InputRangeFormControlExampleComponent } from './components/input-range-form-control-example/input-range-form-control-example.component';
 import { InputFileFormControlExampleComponent } from './components/input-file-form-control-example/input-file-form-control-example.component';
 import { SelectFormControlExampleComponent } from './components/select-form-control-example/select-form-control-example.component';
+import { SelectMultiFormControlExampleComponent } from './components/select-multi-form-control-example/select-multi-form-control-example.component';
 import { ComponentsIndexComponent } from './components/components-index/components-index.component';
 import { ModalServiceExampleComponent } from './components/modal-service-example/modal-service-example.component';
 import { ToastServiceExampleComponent } from './components/toast-service-example/toast-service-example.component';
@@ -68,6 +69,11 @@ export const routes: Routes = [
     path: 'select-form-control',
     component: SelectFormControlExampleComponent,
     title: 'Comparação: sq-select vs sq-select-form-control',
+  },
+  {
+    path: 'select-multi-form-control',
+    component: SelectMultiFormControlExampleComponent,
+    title: 'Comparação: sq-select-multi vs sq-select-multi-form-control',
   },
   {
     path: 'modal-service',

@@ -48,6 +48,7 @@ export * from './components/sq-input-range-form-control/sq-input-range-form-cont
 export { RangeValue } from './components/sq-input-range-form-control/sq-input-range-form-control.component';
 export * from './components/sq-select-form-control/sq-select-form-control.component';
 export { SelectSearchMode, OptionGroup } from './components/sq-select-form-control/sq-select-form-control.component';
+export * from './components/sq-select-multi-form-control/sq-select-multi-form-control.component';
 export * from './components/sq-selector-form-control/sq-selector-form-control.component';
 
 export * from './directives/sq-click-outside/sq-click-outside.directive';
