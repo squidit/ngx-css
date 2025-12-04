@@ -141,6 +141,21 @@ export class ComponentsIndexComponent {
       ],
     },
     {
+      title: 'sq-select-form-control',
+      description: 'Componente de select baseado em Reactive Forms com busca local/remota e infinity scroll',
+      icon: '📋',
+      status: 'new',
+      route: '/select-form-control',
+      features: [
+        'Busca local (client-side)',
+        'Busca remota (backend)',
+        'Infinity scroll para listas grandes',
+        'Templates customizados',
+        'Grupos de opções',
+        'ChangeDetectionStrategy.OnPush',
+      ],
+    },
+    {
       title: 'sq-validation-message',
       description: 'Componente reutilizável para exibir mensagens de validação de formulários',
       icon: '⚠️',
@@ -231,6 +246,14 @@ export class ComponentsIndexComponent {
       status: 'legacy',
       route: '/input-file-form-control',
       features: ['Two-way binding', 'Upload básico', 'Mantido para compatibilidade'],
+    },
+    {
+      title: 'sq-select / sq-select-search (Legacy)',
+      description: 'Componentes legados de select - use sq-select-form-control em novos projetos',
+      icon: '🔴',
+      status: 'legacy',
+      route: '/select-form-control',
+      features: ['Two-way binding', 'Select básico e com busca', 'Mantido para compatibilidade'],
     },
     {
       title: 'SqModalService',
