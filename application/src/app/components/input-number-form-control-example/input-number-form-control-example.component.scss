@@ -1,0 +1,55 @@
+.content-wrapper { padding: 2rem 0; }
+
+.header-section {
+  text-align: center;
+  padding: 2rem 0;
+  border-bottom: 2px solid var(--border-color, #e0e0e0);
+  h1 { font-weight: 700; color: var(--text-color, #333); }
+  .lead { max-width: 800px; margin: 0 auto; }
+}
+
+.comparison-section {
+  padding: 2rem 0;
+  border-bottom: 1px solid var(--border-color, #e0e0e0);
+  .section-title { font-size: 1.75rem; font-weight: 600; margin-bottom: 0.5rem; }
+  .section-description { color: var(--text-muted, #6c757d); margin-bottom: 1.5rem; }
+}
+
+.example-box {
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  border: 2px solid;
+  &.old-component {
+    background-color: var(--background-light, #fff5f5);
+    border-color: var(--danger-color, #dc3545);
+    .component-label { color: var(--danger-color, #dc3545); }
+  }
+  &.new-component {
+    background-color: var(--background-light, #f0fff4);
+    border-color: var(--success-color, #28a745);
+    .component-label { color: var(--success-color, #28a745); }
+  }
+  .component-label { font-size: 1.1rem; font-weight: 600; margin-bottom: 1rem; }
+  .value-display {
+    padding: 0.75rem;
+    background-color: var(--background, #f8f9fa);
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+  }
+}
+
+.benefits-section {
+  padding: 2rem 0;
+  .section-title { font-size: 1.75rem; font-weight: 600; margin-bottom: 2rem; text-align: center; }
+  .benefit-card {
+    padding: 1.5rem;
+    background-color: var(--background-light, #f8f9fa);
+    border-radius: 8px;
+    border-left: 4px solid var(--primary-color, #007bff);
+    height: 100%;
+    h4 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.75rem; }
+    p { color: var(--text-muted, #6c757d); margin: 0; font-size: 0.95rem; }
+  }
+}
+

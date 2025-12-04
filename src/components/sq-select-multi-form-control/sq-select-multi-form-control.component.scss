@@ -1,0 +1,316 @@
+// Estilos para sq-select-multi-form-control
+
+.sq-select-multi-form-control {
+  position: relative;
+  display: block;
+}
+
+// Label
+.wrapper-label-input {
+  margin-bottom: 0.25rem;
+
+  &.disabled {
+    opacity: 0.6;
+  }
+
+  .label-input {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text_color, #333);
+  }
+}
+
+// Container principal
+.select-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  padding: 0.5rem 2.5rem 0.5rem 1rem;
+  border: 1px solid var(--border_color, #ccc);
+  border-radius: 5px;
+  background-color: var(--background, #fff);
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
+
+  &:hover:not(.disabled):not(.readonly) {
+    border-color: var(--primary_color, #007bff);
+  }
+
+  &:focus:not(.disabled):not(.readonly) {
+    outline: none;
+    border-color: var(--primary_color, #007bff);
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.15);
+  }
+
+  &.open {
+    border-color: var(--primary_color, #007bff);
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  &.disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background-color: var(--color_bg_input_disabled, #f5f5f5);
+  }
+
+  &.readonly {
+    cursor: default;
+    background-color: var(--color_bg_input_readonly, #fafafa);
+  }
+
+  // Modo tags: permite wrap mas mantém altura mínima
+  &.mode-tags {
+    flex-wrap: wrap;
+    min-height: 44px;
+    padding: 0.35rem 2.5rem 0.35rem 0.5rem;
+    align-content: center;
+  }
+}
+
+// Placeholder
+.placeholder {
+  color: var(--color_text-icon_neutral_tertiary, #999);
+  font-size: 0.875rem;
+}
+
+// Resumo selecionado (modo default)
+.selected-summary {
+  font-size: 0.875rem;
+  color: var(--text_color, #333);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+// Container de tags (modo tags)
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  overflow-y: auto;
+  flex: 1;
+}
+
+// Tag individual
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.2rem 0.5rem;
+  background-color: var(--primary_color, #007bff);
+  color: var(--white-html, #fff);
+  border-radius: 3px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+
+  &:hover {
+    background-color: var(--primary_color_hover, #0056b3);
+  }
+
+  .tag-remove {
+    font-size: 0.65rem;
+    opacity: 0.8;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+// Badge de contagem
+.badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 0.35rem;
+  background-color: var(--primary_color, #007bff);
+  color: var(--white-html, #fff);
+  border-radius: 10px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  margin-left: auto;
+}
+
+// Ícone chevron
+.icon-chevron {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.75rem;
+  color: var(--color_text-icon_neutral_tertiary, #666);
+  transition: transform 0.2s ease;
+
+  &.rotate-180 {
+    transform: translateY(-50%) rotate(180deg);
+  }
+}
+
+// Loading
+.loading-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+// Dropdown
+.select-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  max-height: 0;
+  overflow: hidden;
+  background: var(--background, #fff);
+  border: 1px solid var(--border_color, #aaa);
+  border-top: none;
+  border-radius: 0 0 5px 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  transition: max-height 0.2s ease;
+
+  &.open {
+    max-height: 350px;
+    overflow-y: auto;
+  }
+}
+
+// Campo de busca
+.search-container {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  padding: 0.5rem;
+  background-color: var(--background, #fff);
+  border-bottom: 1px solid var(--color_border_input, #eee);
+
+  .search-input {
+    width: 100%;
+    min-height: 32px;
+    padding: 0.4rem 2rem 0.4rem 0.5rem;
+    border: 1px solid var(--color_border_input, #ddd);
+    border-radius: 4px;
+    font-size: 0.875rem;
+    outline: none;
+    background: var(--color_bg_input, #fff);
+
+    &:focus {
+      border-color: var(--primary_color, #007bff);
+    }
+
+    &::placeholder {
+      color: var(--color_text-icon_neutral_tertiary, #999);
+    }
+  }
+
+  .search-icon {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color_text-icon_neutral_tertiary, #999);
+    font-size: 0.75rem;
+  }
+}
+
+// Virtual scroll viewport
+.virtual-scroll-viewport {
+  height: 250px;
+  width: 100%;
+}
+
+// Lista de opções
+.options-list {
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+// Opção
+.option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.75rem;
+  cursor: pointer;
+  transition: background-color 0.1s ease;
+
+  &:hover:not(.disabled) {
+    background-color: var(--color_bg_box_neutral_secondary, #f5f5f5);
+  }
+
+  &.selected {
+    background-color: var(--color_bg_box_brand_primary_light, rgba(0, 123, 255, 0.1));
+  }
+
+  &.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .option-label {
+    font-size: 0.875rem;
+    color: var(--text_color, #333);
+  }
+}
+
+// Opção com filhos (hierarquia)
+.option-parent {
+  .option-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.75rem;
+    cursor: pointer;
+    transition: background-color 0.1s ease;
+
+    &:hover {
+      background-color: var(--color_bg_box_neutral_secondary, #f5f5f5);
+    }
+
+    .collapse-icon {
+      font-size: 0.65rem;
+      color: var(--color_text-icon_neutral_tertiary, #666);
+      transition: transform 0.2s ease;
+
+      &.rotate-90 {
+        transform: rotate(90deg);
+      }
+    }
+  }
+
+  .option-children {
+    padding-left: 1.5rem;
+    border-left: 2px solid var(--color_border_input, #eee);
+    margin-left: 0.75rem;
+  }
+
+  .child-option {
+    padding: 0.35rem 0.5rem;
+    font-size: 0.8125rem;
+  }
+}
+
+// Empty state
+.empty-state {
+  padding: 1rem;
+  text-align: center;
+  color: var(--color_text-icon_neutral_tertiary, #999);
+  font-size: 0.875rem;
+}
+
+// Loading more
+.loading-more {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+}
+

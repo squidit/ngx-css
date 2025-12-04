@@ -1,0 +1,215 @@
+<div
+  class="wrapper-all-inside-input wrapper-select-form-control {{ customClass }}"
+  [ngClass]="{
+    readonly: readonly,
+    loading: loading,
+    disabled: disabled,
+    open: isOpen,
+  }"
+  [dataTest]="selectDataTest"
+>
+  <!-- Label -->
+  @if (label?.length || labelTemplate || tooltipMessage) {
+    <label
+      class="display-flex align-items-center"
+      [ngClass]="{ readonly: readonly }"
+      [for]="id || name"
+    >
+      @if (label && !labelTemplate) {
+        <div [ngStyle]="{ color: labelColor }" [innerHtml]="label | universalSafe"></div>
+      }
+      @if (labelTemplate) {
+        <ng-container *ngTemplateOutlet="labelTemplate"></ng-container>
+      }
+      @if (tooltipMessage) {
+        <sq-tooltip
+          class="ml-1"
+          [message]="tooltipMessage"
+          [placement]="tooltipPlacement"
+          [color]="tooltipColor"
+          [icon]="tooltipIcon"
+        ></sq-tooltip>
+      }
+    </label>
+  }
+
+  <!-- Select Container -->
+  <div
+    class="select-container"
+    [ngStyle]="{
+      'background-color': backgroundColor,
+      'border-color': borderColor,
+    }"
+    [ngClass]="{
+      'no-label': !label?.length && !labelTemplate,
+      disabled: disabled,
+      readonly: readonly,
+      open: isOpen,
+    }"
+    (clickOutside)="closeDropdown()"
+    [clickOutsideEnabled]="isOpen"
+  >
+    <!-- Select Handle (valor selecionado) -->
+    <div
+      class="select-handle"
+      [ngClass]="{ disabled: disabled, readonly: readonly }"
+      (click)="toggleDropdown()"
+      (keydown.enter)="toggleDropdown()"
+      (keydown.space)="toggleDropdown(); $event.preventDefault()"
+      (blur)="onBlur($event)"
+      (focus)="onFocus($event)"
+      tabindex="0"
+      role="combobox"
+      [attr.aria-expanded]="isOpen"
+      [attr.aria-haspopup]="'listbox'"
+    >
+      @if (loading) {
+        <div class="loading-wrapper">
+          <sq-loader></sq-loader>
+        </div>
+      } @else {
+        @if (!value) {
+          <span class="placeholder">{{ placeholder }}</span>
+        } @else {
+          @if (selectedTemplate) {
+            <ng-container
+              *ngTemplateOutlet="selectedTemplate; context: { $implicit: value, option: value }"
+            ></ng-container>
+          } @else {
+            <span class="selected-value">{{ value.label }}</span>
+          }
+        }
+        <i class="icon-chevron fas fa-chevron-down" [ngClass]="{ 'rotate-180': isOpen }"></i>
+      }
+    </div>
+
+    <!-- Dropdown -->
+    @if (renderDropdown && !disabled && !readonly) {
+      <div
+        class="select-dropdown scrollbar"
+        [ngClass]="{ open: isOpen }"
+        [ngStyle]="{ '--select-hover-color': hoverColor }"
+        (scroll)="onScroll($event)"
+      >
+        <!-- Campo de busca -->
+        @if (searchable) {
+          <div class="search-container">
+            <input
+              type="text"
+              class="search-input"
+              [placeholder]="searchPlaceholder"
+              [value]="searchText"
+              (input)="onSearchInput($event)"
+              [dataTest]="searchInputDataTest"
+            />
+            <i class="search-icon fas fa-search"></i>
+          </div>
+        }
+
+        <!-- Virtual scroll para listas com infiniteScroll -->
+        @if (infiniteScroll) {
+          <cdk-virtual-scroll-viewport
+            itemSize="32"
+            class="virtual-scroll-viewport"
+            (scrolledIndexChange)="onVirtualScroll()"
+          >
+            <div
+              *cdkVirtualFor="let option of displayOptions; trackBy: trackByValue; let i = index"
+              class="option"
+              [ngClass]="{
+                disabled: option.disabled,
+                selected: value?.value === option.value,
+              }"
+              (click)="selectOption(option)"
+              [attr.data-test]="optionDataTest + '-' + option.value"
+              role="option"
+              [attr.aria-selected]="value?.value === option.value"
+            >
+              @if (optionTemplate) {
+                <ng-container
+                  *ngTemplateOutlet="optionTemplate; context: { $implicit: option, option: option, index: i }"
+                ></ng-container>
+              } @else {
+                <span class="option-label">{{ option.label }}</span>
+              }
+            </div>
+
+            <!-- Loading more -->
+            @if (loading && hasMore) {
+              <div class="loading-more">
+                <sq-loader></sq-loader>
+              </div>
+            }
+          </cdk-virtual-scroll-viewport>
+        } @else {
+          <!-- Lista simples para listas pequenas -->
+          <ul class="options-list" role="listbox">
+            <!-- Opções com grupos -->
+            @for (group of optionsWithGroups; track group.label) {
+              <li class="option-group">
+                <div class="option-group-label">{{ group.label }}</div>
+                <ul class="option-group-options">
+                  @for (option of group.options; track option.value; let i = $index) {
+                    <li
+                      class="option"
+                      [ngClass]="{
+                        disabled: option.disabled,
+                        selected: value?.value === option.value,
+                      }"
+                      (click)="selectOption(option)"
+                      [dataTest]="optionDataTest + '-' + option.value"
+                      role="option"
+                      [attr.aria-selected]="value?.value === option.value"
+                    >
+                      @if (optionTemplate) {
+                        <ng-container
+                          *ngTemplateOutlet="optionTemplate; context: { $implicit: option, option: option, index: i }"
+                        ></ng-container>
+                      } @else {
+                        <span class="option-label">{{ option.label }}</span>
+                      }
+                    </li>
+                  }
+                </ul>
+              </li>
+            }
+
+            <!-- Opções simples -->
+            @for (option of displayOptions; track option.value; let i = $index) {
+              <li
+                class="option"
+                [ngClass]="{
+                  disabled: option.disabled,
+                  selected: value?.value === option.value,
+                }"
+                (click)="selectOption(option)"
+                [dataTest]="optionDataTest + '-' + option.value"
+                role="option"
+                [attr.aria-selected]="value?.value === option.value"
+              >
+                @if (optionTemplate) {
+                  <ng-container
+                    *ngTemplateOutlet="optionTemplate; context: { $implicit: option, option: option, index: i }"
+                  ></ng-container>
+                } @else {
+                  <span class="option-label">{{ option.label }}</span>
+                }
+              </li>
+            }
+          </ul>
+        }
+
+        <!-- Empty state -->
+        @if (displayOptions.length === 0 && optionsWithGroups.length === 0 && !loading) {
+          <div class="empty-state">
+            @if (emptyTemplate) {
+              <ng-container *ngTemplateOutlet="emptyTemplate"></ng-container>
+            } @else {
+              <span>Nenhuma opção encontrada</span>
+            }
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>

@@ -1,0 +1,287 @@
+<div class="container">
+  <app-breadcrumb [items]="breadcrumbItems"></app-breadcrumb>
+
+  <div class="content-wrapper">
+    <div class="header-section mb-2">
+      <h1 class="display-4 mb-3">💰 Comparação: sq-input-money vs sq-input-money-form-control</h1>
+      <p class="lead text-muted">
+        Demonstração prática das diferenças entre o componente de input monetário legado e o novo componente baseado
+        em Reactive Forms.
+      </p>
+    </div>
+
+    <!-- Seção 1: Real Brasileiro (BRL) -->
+    <section class="comparison-section mb-2">
+      <h2 class="section-title">1️⃣ Real Brasileiro (BRL)</h2>
+      <p class="section-description">Formato padrão brasileiro com prefixo R$ automático</p>
+
+      <div class="row no-spacings">
+        <div class="col-md-12">
+          <div class="example-box old-component">
+            <h3 class="component-label">🔴 Componente Antigo</h3>
+            <sq-input-money
+              [id]="'old-brl'"
+              [name]="'old-brl'"
+              [label]="'Preço (Componente Antigo)'"
+              [(value)]="oldBrlValue"
+              [currency]="'BRL'"
+            ></sq-input-money>
+            <div class="value-display mt-2">
+              <small><strong>Valor:</strong> {{ oldBrlValue || 0 }}</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12">
+          <div class="example-box new-component">
+            <h3 class="component-label">🟢 Componente Novo</h3>
+            <sq-input-money-form-control
+              [id]="'new-brl'"
+              [name]="'new-brl'"
+              [label]="'Preço (Componente Novo)'"
+              [formControl]="newBrlControl"
+              [placeholder]="'0,00'"
+            ></sq-input-money-form-control>
+            <div class="value-display mt-2">
+              <small><strong>Valor:</strong> {{ newBrlControl.value ?? '(vazio)' }}</small>
+              <small class="ms-3"><strong>Status:</strong> {{ newBrlControl.status }}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <app-code-tabs [title]="'Exemplo BRL'" [examples]="brlExampleCode"></app-code-tabs>
+    </section>
+
+    <!-- Seção 2: Dólar Americano (USD) -->
+    <section class="comparison-section mb-2">
+      <h2 class="section-title">2️⃣ Dólar Americano (USD)</h2>
+      <p class="section-description">Formato americano com separador de milhar vírgula e decimal ponto</p>
+
+      <div class="row no-spacings">
+        <div class="col-md-12">
+          <div class="example-box old-component">
+            <h3 class="component-label">🔴 Componente Antigo</h3>
+            <sq-input-money
+              [id]="'old-usd'"
+              [name]="'old-usd'"
+              [label]="'Price (Componente Antigo)'"
+              [(value)]="oldUsdValue"
+              [currency]="'USD'"
+              [thousandSeparator]="','"
+              [decimalMarker]="'.'"
+            ></sq-input-money>
+            <div class="value-display mt-2">
+              <small><strong>Valor:</strong> {{ oldUsdValue || 0 }}</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12">
+          <div class="example-box new-component">
+            <h3 class="component-label">🟢 Componente Novo</h3>
+            <sq-input-money-form-control
+              [id]="'new-usd'"
+              [name]="'new-usd'"
+              [label]="'Price (Componente Novo)'"
+              [formControl]="newUsdControl"
+              [currency]="'USD'"
+              [thousandSeparator]="','"
+              [decimalMarker]="'.'"
+              [placeholder]="'0.00'"
+            ></sq-input-money-form-control>
+            <div class="value-display mt-2">
+              <small><strong>Valor:</strong> {{ newUsdControl.value ?? '(vazio)' }}</small>
+              <small class="ms-3"><strong>Status:</strong> {{ newUsdControl.status }}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <app-code-tabs [title]="'Exemplo USD'" [examples]="usdExampleCode"></app-code-tabs>
+    </section>
+
+    <!-- Seção 3: Euro (EUR) -->
+    <section class="comparison-section mb-2">
+      <h2 class="section-title">3️⃣ Euro (EUR)</h2>
+      <p class="section-description">Formato europeu com símbolo € automático</p>
+
+      <div class="row no-spacings">
+        <div class="col-md-12">
+          <div class="example-box old-component">
+            <h3 class="component-label">🔴 Componente Antigo</h3>
+            <sq-input-money
+              [id]="'old-eur'"
+              [name]="'old-eur'"
+              [label]="'Preis (Componente Antigo)'"
+              [(value)]="oldEurValue"
+              [currency]="'EUR'"
+            ></sq-input-money>
+            <div class="value-display mt-2">
+              <small><strong>Valor:</strong> {{ oldEurValue || 0 }}</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12">
+          <div class="example-box new-component">
+            <h3 class="component-label">🟢 Componente Novo</h3>
+            <sq-input-money-form-control
+              [id]="'new-eur'"
+              [name]="'new-eur'"
+              [label]="'Preis (Componente Novo)'"
+              [formControl]="newEurControl"
+              [currency]="'EUR'"
+              [placeholder]="'0,00'"
+            ></sq-input-money-form-control>
+            <div class="value-display mt-2">
+              <small><strong>Valor:</strong> {{ newEurControl.value ?? '(vazio)' }}</small>
+              <small class="ms-3"><strong>Status:</strong> {{ newEurControl.status }}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <app-code-tabs [title]="'Exemplo EUR'" [examples]="eurExampleCode"></app-code-tabs>
+    </section>
+
+    <!-- Seção 4: Valor Obrigatório -->
+    <section class="comparison-section mb-2">
+      <h2 class="section-title">4️⃣ Valor Obrigatório</h2>
+      <p class="section-description">Validação de campo obrigatório com Validators.required</p>
+
+      <div class="row no-spacings">
+        <div class="col-md-12">
+          <div class="example-box old-component">
+            <h3 class="component-label">🔴 Componente Antigo</h3>
+            <sq-input-money
+              [id]="'old-required'"
+              [name]="'old-required'"
+              [label]="'Valor Obrigatório * (Antigo)'"
+              [(value)]="oldRequiredValue"
+              [required]="true"
+            ></sq-input-money>
+            <div class="value-display mt-2">
+              <small><strong>Valor:</strong> {{ oldRequiredValue || 0 }}</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12">
+          <div class="example-box new-component">
+            <h3 class="component-label">🟢 Componente Novo</h3>
+            <sq-input-money-form-control
+              [id]="'new-required'"
+              [name]="'new-required'"
+              [label]="'Valor Obrigatório * (Novo)'"
+              [formControl]="newRequiredControl"
+              [placeholder]="'0,00'"
+            ></sq-input-money-form-control>
+            <sq-validation-message
+              [control]="newRequiredControl"
+              [fieldName]="'Valor'"
+              [showWhenTouched]="true"
+            ></sq-validation-message>
+            <div class="value-display mt-2">
+              <small><strong>Valor:</strong> {{ newRequiredControl.value ?? '(vazio)' }}</small>
+              <small class="ms-3"><strong>Status:</strong> {{ newRequiredControl.status }}</small>
+              <small class="ms-3"><strong>Touched:</strong> {{ newRequiredControl.touched }}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <app-code-tabs [title]="'Exemplo Obrigatório'" [examples]="requiredExampleCode"></app-code-tabs>
+    </section>
+
+    <!-- Seção 5: Valor com Mínimo -->
+    <section class="comparison-section mb-2">
+      <h2 class="section-title">5️⃣ Valor com Mínimo</h2>
+      <p class="section-description">Validação de valor mínimo com Validators.min(100)</p>
+
+      <div class="row no-spacings">
+        <div class="col-md-12">
+          <div class="example-box old-component">
+            <h3 class="component-label">🔴 Componente Antigo</h3>
+            <sq-input-money
+              [id]="'old-min'"
+              [name]="'old-min'"
+              [label]="'Valor Mínimo R$ 100,00 (Antigo)'"
+              [(value)]="oldMinValue"
+            ></sq-input-money>
+            <div class="value-display mt-2">
+              <small><strong>Valor:</strong> {{ oldMinValue || 0 }}</small>
+              <small class="ms-3 text-warning"><strong>⚠️ Sem validação de mínimo</strong></small>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12">
+          <div class="example-box new-component">
+            <h3 class="component-label">🟢 Componente Novo</h3>
+            <sq-input-money-form-control
+              [id]="'new-min'"
+              [name]="'new-min'"
+              [label]="'Valor Mínimo R$ 100,00 (Novo)'"
+              [formControl]="newMinControl"
+              [placeholder]="'0,00'"
+              sqValidation
+              [fieldName]="'Valor'"
+            ></sq-input-money-form-control>
+            <div class="value-display mt-2">
+              <small><strong>Valor:</strong> {{ newMinControl.value ?? '(vazio)' }}</small>
+              <small class="ms-3"><strong>Status:</strong> {{ newMinControl.status }}</small>
+              <small class="ms-3"><strong>Errors:</strong> {{ newMinControl.errors | json }}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <app-code-tabs [title]="'Exemplo Valor Mínimo'" [examples]="minExampleCode"></app-code-tabs>
+    </section>
+
+    <!-- Seção de Benefícios -->
+    <section class="benefits-section mt-5 mb-2">
+      <h2 class="section-title">✨ Benefícios do sq-input-money-form-control</h2>
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <div class="benefit-card">
+            <h4>🪙 Prefixo Automático</h4>
+            <p>Calcula automaticamente o símbolo da moeda baseado no código ISO 4217 (BRL, USD, EUR, etc).</p>
+          </div>
+        </div>
+        <div class="col-md-6 mb-3">
+          <div class="benefit-card">
+            <h4>🔗 Integração com Reactive Forms</h4>
+            <p>Integração nativa com FormControl, FormGroup e validators do Angular.</p>
+          </div>
+        </div>
+        <div class="col-md-6 mb-3">
+          <div class="benefit-card">
+            <h4>✅ Validações Nativas</h4>
+            <p>Suporte a Validators.required, Validators.min, Validators.max e validadores customizados.</p>
+          </div>
+        </div>
+        <div class="col-md-6 mb-3">
+          <div class="benefit-card">
+            <h4>🌍 Multi-Moeda</h4>
+            <p>Suporta qualquer moeda ISO 4217 com formatação automática de separadores.</p>
+          </div>
+        </div>
+        <div class="col-md-6 mb-3">
+          <div class="benefit-card">
+            <h4>📱 Mobile-Friendly</h4>
+            <p>Input mode decimal para exibir teclado numérico em dispositivos móveis.</p>
+          </div>
+        </div>
+        <div class="col-md-6 mb-3">
+          <div class="benefit-card">
+            <h4>🚀 Performance</h4>
+            <p>OnPush ChangeDetection para melhor performance em aplicações grandes.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+

@@ -1,0 +1,102 @@
+<div
+  class="wrapper-all-inside-input {{ customClass }}"
+  [ngClass]="{
+    'no-label': !label.length && !labelTemplate,
+  }"
+>
+  @if (label?.length || labelTemplate) {
+    <label
+      class="display-flex"
+      [ngClass]="{
+        readonly: readonly,
+      }"
+      [for]="id || name"
+    >
+      @if (label?.length && !labelTemplate) {
+        <div [ngStyle]="{ color: labelColor }" [innerHtml]="label | universalSafe"></div>
+      }
+    </label>
+  }
+  @if (labelTemplate) {
+    <div>
+      <ng-container *ngTemplateOutlet="labelTemplate"></ng-container>
+    </div>
+  }
+
+  @if (!dualRange) {
+    <!-- Modo simples (um thumb) -->
+    <div class="p-0 wrapper-input wrapper-input-squid">
+      @if (showValue) {
+        <output class="value-floating" #valueFloating>
+          {{ value }}
+        </output>
+      }
+      <input
+        [id]="id || name"
+        type="range"
+        class="range"
+        [name]="name"
+        [step]="step"
+        [disabled]="disabled || readonly"
+        [min]="minNumber"
+        [max]="maxNumber"
+        [formControl]="control"
+        [style.--range-thumb-color]="color"
+        [style.--range-track-color]="trackColor"
+        (blur)="onBlur($event)"
+        (focus)="onFocus($event)"
+      />
+    </div>
+  } @else {
+    <!-- Modo dual range (dois thumbs) -->
+    <div
+      class="dual-range-container"
+      [style.--range-thumb-color]="color"
+      [style.--range-track-color]="trackColor"
+    >
+      <div class="range-track"></div>
+      <div class="range-selected" [ngStyle]="selectedRangeStyle"></div>
+
+      @if (showValue) {
+        <output class="value-floating" #valueFloatingMin>
+          {{ minValue }}
+        </output>
+        <output class="value-floating" #valueFloatingMax>
+          {{ maxValue }}
+        </output>
+      }
+
+      <input
+        [id]="(id || name) + '-min'"
+        type="range"
+        class="range"
+        [name]="name + '-min'"
+        [step]="step"
+        [disabled]="disabled || readonly"
+        [min]="minNumber"
+        [max]="maxNumber"
+        [formControl]="controlMin"
+        (blur)="onBlur($event)"
+        (focus)="onFocus($event)"
+      />
+      <input
+        [id]="(id || name) + '-max'"
+        type="range"
+        class="range"
+        [name]="name + '-max'"
+        [step]="step"
+        [disabled]="disabled || readonly"
+        [min]="minNumber"
+        [max]="maxNumber"
+        [formControl]="controlMax"
+        (blur)="onBlur($event)"
+        (focus)="onFocus($event)"
+      />
+
+      <div class="range-values">
+        <span>{{ minValue }}</span>
+        <span>{{ maxValue }}</span>
+      </div>
+    </div>
+  }
+</div>

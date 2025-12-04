@@ -218,4 +218,83 @@ export class InputValidators {
       return Object.keys(errors).length > 0 ? { file: errors } : null;
     };
   }
+
+  /**
+   * Validator for monetary values that must be greater than zero.
+   * Useful for price fields where zero is not a valid value.
+   *
+   * @returns A validator function that returns an error object if value is 0 or less.
+   *
+   * @example
+   * priceControl = new FormControl(0, [InputValidators.notZero()]);
+   */
+  static notZero(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      if (control.value === null || control.value === undefined || control.value === '') {
+        return null; // Don't validate empty values (use Validators.required for that)
+      }
+
+      // Parse value - handle string with separators (e.g., "1.234,56" or "1,234.56")
+      let numericValue: number;
+
+      if (typeof control.value === 'number') {
+        numericValue = control.value;
+      } else {
+        // Remove thousand separators and normalize decimal
+        const normalized = String(control.value)
+          .replace(/\./g, '') // Remove dots (thousand separator in BR)
+          .replace(',', '.'); // Replace comma with dot for parsing
+
+        numericValue = parseFloat(normalized);
+      }
+
+      if (isNaN(numericValue) || numericValue <= 0) {
+        return { notZero: { value: control.value } };
+      }
+
+      return null;
+    };
+  }
+
+  /**
+   * Validator for monetary values that must be greater than a minimum value.
+   * Similar to Validators.min but handles formatted strings.
+   *
+   * @param min - Minimum allowed value (exclusive if `exclusive` is true)
+   * @param exclusive - If true, value must be greater than min; if false, greater than or equal
+   * @returns A validator function that returns an error object if validation fails.
+   *
+   * @example
+   * priceControl = new FormControl(0, [InputValidators.minValue(100)]); // >= 100
+   * priceControl = new FormControl(0, [InputValidators.minValue(0, true)]); // > 0
+   */
+  static minValue(min: number, exclusive = false): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      if (control.value === null || control.value === undefined || control.value === '') {
+        return null;
+      }
+
+      let numericValue: number;
+
+      if (typeof control.value === 'number') {
+        numericValue = control.value;
+      } else {
+        const normalized = String(control.value).replace(/\./g, '').replace(',', '.');
+
+        numericValue = parseFloat(normalized);
+      }
+
+      if (isNaN(numericValue)) {
+        return { minValue: { min, actual: control.value } };
+      }
+
+      const isValid = exclusive ? numericValue > min : numericValue >= min;
+
+      if (!isValid) {
+        return { minValue: { min, actual: numericValue, exclusive } };
+      }
+
+      return null;
+    };
+  }
 }
