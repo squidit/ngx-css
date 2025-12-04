@@ -279,9 +279,7 @@ export class InputValidators {
       if (typeof control.value === 'number') {
         numericValue = control.value;
       } else {
-        const normalized = String(control.value)
-          .replace(/\./g, '')
-          .replace(',', '.');
+        const normalized = String(control.value).replace(/\./g, '').replace(',', '.');
 
         numericValue = parseFloat(normalized);
       }

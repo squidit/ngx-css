@@ -146,11 +146,7 @@ export class ComponentsIndexComponent {
       icon: '📋',
       status: 'new',
       route: '/select-form-control',
-      features: [
-        'Busca local (client-side)',
-        'Busca remota (backend)',
-        'Infinity scroll para listas grandes',
-      ],
+      features: ['Busca local (client-side)', 'Busca remota (backend)', 'Infinity scroll para listas grandes'],
     },
     {
       title: 'sq-select-multi-form-control',
