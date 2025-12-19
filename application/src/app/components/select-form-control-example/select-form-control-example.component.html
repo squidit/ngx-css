@@ -1,0 +1,340 @@
+<div class="example-page">
+  <app-breadcrumb [items]="breadcrumbItems"></app-breadcrumb>
+
+  <header class="page-header">
+    <h1>Select Form Control</h1>
+    <p class="lead">
+      Comparativo entre os componentes legados <code>sq-select</code> / <code>sq-select-search</code> e o novo
+      <code>sq-select-form-control</code> baseado em Reactive Forms.
+    </p>
+  </header>
+
+  <div class="content">
+    <!-- Seção 1: Select básico -->
+    <section class="comparison-section mb-2">
+      <h2 class="section-title">1️⃣ Select Básico</h2>
+
+      <div class="row no-spacings">
+        <div class="col-md-6">
+          <div class="example-box legacy-component">
+            <h3 class="component-label">🔴 Componente Legado (sq-select)</h3>
+            <sq-select
+              [id]="'old-city'"
+              [name]="'old-city'"
+              [label]="'Cidade'"
+              [options]="cities"
+              [placeholder]="'Selecione uma cidade'"
+              [(value)]="oldCityValue"
+            ></sq-select>
+            <div class="value-display mt-2">
+              <small><strong>Valor:</strong> {{ oldCityValue || '(vazio)' }}</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="example-box new-component">
+            <h3 class="component-label">🟢 Componente Novo</h3>
+            <sq-select-form-control
+              [id]="'new-city'"
+              [name]="'new-city'"
+              [label]="'Cidade'"
+              [options]="cities"
+              [placeholder]="'Selecione uma cidade'"
+              [formControl]="newCityControl"
+            ></sq-select-form-control>
+            <div class="value-display mt-2">
+              <small><strong>Valor:</strong> {{ newCityControl.value?.label || '(vazio)' }}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <app-code-tabs [title]="'Exemplo Básico'" [examples]="basicExampleCode"></app-code-tabs>
+    </section>
+
+    <!-- Seção 2: Com validação -->
+    <section class="comparison-section mb-2">
+      <h2 class="section-title">2️⃣ Com Validação Required</h2>
+
+      <div class="row no-spacings">
+        <div class="col-md-12">
+          <div class="example-box new-component">
+            <h3 class="component-label">🟢 Componente Novo com Validação</h3>
+            <sq-select-form-control
+              [id]="'new-required'"
+              [name]="'new-required'"
+              [label]="'Cidade *'"
+              [options]="cities"
+              [placeholder]="'Selecione uma cidade'"
+              [formControl]="newRequiredControl"
+              sqValidation
+              [fieldName]="'Cidade'"
+            ></sq-select-form-control>
+            <div class="value-display mt-2">
+              <small><strong>Valor:</strong> {{ newRequiredControl.value?.label || '(vazio)' }}</small>
+              <small class="ms-3"><strong>Válido:</strong> {{ newRequiredControl.valid }}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Seção 3: Com busca local - Comparativo com sq-select-search -->
+    <section class="comparison-section mb-2">
+      <h2 class="section-title">3️⃣ Com Busca Local</h2>
+      <p class="section-description">Comparativo de busca client-side entre sq-select-search e o novo componente.</p>
+
+      <div class="row no-spacings">
+        <div class="col-md-6">
+          <div class="example-box legacy-component">
+            <h3 class="component-label">🔴 Componente Legado (sq-select-search)</h3>
+            <sq-select-search
+              [id]="'old-search-local'"
+              [name]="'old-search-local'"
+              [label]="'Cidade'"
+              [options]="cities"
+              [placeholder]="'Selecione uma cidade'"
+              [placeholderSearch]="'Buscar cidade...'"
+              [value]="oldSearchLocalValue"
+              (valueChange)="oldSearchLocalValue = $event"
+            ></sq-select-search>
+            <div class="value-display mt-2">
+              <small><strong>Valor:</strong> {{ oldSearchLocalValue?.label || '(vazio)' }}</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="example-box new-component">
+            <h3 class="component-label">🟢 Componente Novo com Busca Local</h3>
+            <sq-select-form-control
+              [id]="'new-search-local'"
+              [name]="'new-search-local'"
+              [label]="'Cidade'"
+              [options]="cities"
+              [placeholder]="'Selecione uma cidade'"
+              [formControl]="newSearchLocalControl"
+              [searchable]="'local'"
+              [searchPlaceholder]="'Buscar cidade...'"
+            ></sq-select-form-control>
+            <div class="value-display mt-2">
+              <small><strong>Valor:</strong> {{ newSearchLocalControl.value?.label || '(vazio)' }}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <app-code-tabs [title]="'Exemplo Busca Local'" [examples]="searchLocalExampleCode"></app-code-tabs>
+    </section>
+
+    <!-- Seção 4: Com busca remota + infinity scroll - Comparativo -->
+    <section class="comparison-section mb-2">
+      <h2 class="section-title">4️⃣ Com Busca Remota + Infinity Scroll</h2>
+      <p class="section-description">
+        Simulação de chamadas HTTP com lista mockada (100 produtos). Digite para buscar e role para carregar mais.
+      </p>
+
+      <div class="row no-spacings">
+        <div class="col-md-6">
+          <div class="example-box legacy-component">
+            <h3 class="component-label">🔴 Componente Legado (sq-select-search)</h3>
+            <sq-select-search
+              [id]="'old-search-remote'"
+              [name]="'old-search-remote'"
+              [label]="'Produto'"
+              [options]="oldProducts"
+              [placeholder]="'Buscar produto...'"
+              [placeholderSearch]="'Digite para buscar...'"
+              [value]="oldSearchRemoteValue"
+              (valueChange)="oldSearchRemoteValue = $event"
+              [loading]="oldLoadingProducts"
+              (searchChange)="searchOldProducts($event)"
+            ></sq-select-search>
+            <div class="value-display mt-2">
+              <small><strong>Valor:</strong> {{ oldSearchRemoteValue?.label || '(vazio)' }}</small>
+              <small class="ms-3"><strong>Produtos:</strong> {{ oldProducts.length }}</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="example-box new-component">
+            <h3 class="component-label">🟢 Componente Novo com Busca Remota + Scroll</h3>
+            <sq-select-form-control
+              [id]="'new-search-remote'"
+              [name]="'new-search-remote'"
+              [label]="'Produto'"
+              [options]="products"
+              [placeholder]="'Buscar produto...'"
+              [formControl]="newSearchRemoteControl"
+              [searchable]="'remote'"
+              [searchPlaceholder]="'Digite para buscar...'"
+              [infiniteScroll]="true"
+              [hasMore]="hasMoreProducts"
+              [loading]="loadingProducts"
+              [trackByFn]="customTrackBy"
+              (searchChange)="searchProducts($event)"
+              (loadMore)="loadMoreProducts()"
+            ></sq-select-form-control>
+            <div class="value-display mt-2">
+              <small><strong>Valor:</strong> {{ newSearchRemoteControl.value?.label || '(vazio)' }}</small>
+              <small class="ms-3"><strong>Produtos:</strong> {{ products.length }}</small>
+              <small class="ms-3"><strong>Tem mais:</strong> {{ hasMoreProducts }}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-box mt-3">
+        <h4><i class="fas fa-info-circle"></i> Como funciona a simulação</h4>
+        <ul>
+          <li>Lista mockada com <strong>100 produtos</strong> (Produto 1 a Produto 100)</li>
+          <li>Busca filtra a lista e retorna os primeiros 10 resultados</li>
+          <li>Scroll carrega mais 10 itens por vez (infinity scroll)</li>
+          <li>Delay de 500ms simula latência de rede</li>
+        </ul>
+      </div>
+
+      <app-code-tabs [title]="'Exemplo Busca Remota'" [examples]="searchRemoteExampleCode"></app-code-tabs>
+    </section>
+
+    <!-- Seção 5: Com grupos -->
+    <section class="comparison-section mb-2">
+      <h2 class="section-title">5️⃣ Com Grupos de Opções</h2>
+
+      <div class="row no-spacings">
+        <div class="col-md-12">
+          <div class="example-box new-component">
+            <h3 class="component-label">🟢 Componente Novo com Grupos</h3>
+            <sq-select-form-control
+              [id]="'new-groups'"
+              [name]="'new-groups'"
+              [label]="'País'"
+              [optionsWithGroups]="countriesWithGroups"
+              [placeholder]="'Selecione um país'"
+              [formControl]="newGroupsControl"
+            ></sq-select-form-control>
+            <div class="value-display mt-2">
+              <small><strong>Valor:</strong> {{ newGroupsControl.value?.label || '(vazio)' }}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Seção 6: Template customizado -->
+    <section class="comparison-section mb-2">
+      <h2 class="section-title">6️⃣ Template Customizado</h2>
+      <p class="section-description">Personalize como cada opção e o valor selecionado são exibidos.</p>
+
+      <div class="row no-spacings">
+        <div class="col-md-12">
+          <div class="example-box new-component">
+            <h3 class="component-label">🟢 Componente Novo com Template Customizado</h3>
+            <sq-select-form-control
+              [id]="'new-custom'"
+              [name]="'new-custom'"
+              [label]="'Usuário'"
+              [options]="users"
+              [placeholder]="'Selecione um usuário'"
+              [formControl]="newCustomTemplateControl"
+              [searchable]="'local'"
+            >
+              <!-- Template para cada opção -->
+              <ng-template #optionTemplate let-option>
+                <div class="user-option">
+                  <img [src]="option.data?.avatar" class="user-avatar" alt="Avatar" />
+                  <div class="user-info">
+                    <strong>{{ option.label }}</strong>
+                    <small>{{ option.data?.email }}</small>
+                  </div>
+                </div>
+              </ng-template>
+
+              <!-- Template para valor selecionado -->
+              <ng-template #selectedTemplate let-option>
+                <div class="user-selected">
+                  <img [src]="option.data?.avatar" class="user-avatar-sm" alt="Avatar" />
+                  <span>{{ option.label }}</span>
+                </div>
+              </ng-template>
+            </sq-select-form-control>
+            <div class="value-display mt-2">
+              <small><strong>Valor:</strong> {{ newCustomTemplateControl.value?.label || '(vazio)' }}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <app-code-tabs [title]="'Exemplo Template Customizado'" [examples]="customTemplateExampleCode"></app-code-tabs>
+    </section>
+
+    <!-- Seção 7: Cor do hover customizada -->
+    <section class="comparison-section mb-2">
+      <h2 class="section-title">7️⃣ Cor do Hover Customizada</h2>
+      <p class="section-description">
+        Use o input <code>hoverColor</code> para personalizar a cor de fundo ao passar o mouse nas opções.
+      </p>
+
+      <div class="row no-spacings">
+        <div class="col-md-6">
+          <div class="example-box new-component">
+            <h3 class="component-label">🟢 Hover Vermelho</h3>
+            <sq-select-form-control
+              [id]="'hover-red'"
+              [name]="'hover-red'"
+              [label]="'Cidade'"
+              [options]="cities"
+              [placeholder]="'Selecione uma cidade'"
+              [formControl]="hoverRedControl"
+              [hoverColor]="'#c44536'"
+            ></sq-select-form-control>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="example-box new-component">
+            <h3 class="component-label">🟢 Hover Verde</h3>
+            <sq-select-form-control
+              [id]="'hover-green'"
+              [name]="'hover-green'"
+              [label]="'Cidade'"
+              [options]="cities"
+              [placeholder]="'Selecione uma cidade'"
+              [formControl]="hoverGreenControl"
+              [hoverColor]="'#28a745'"
+            ></sq-select-form-control>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Seção de Benefícios -->
+    <section class="benefits-section">
+      <h2 class="section-title">✨ Benefícios do Novo Componente</h2>
+      <div class="benefits-grid">
+        <div class="benefit-card">
+          <i class="fas fa-code"></i>
+          <h4>Reactive Forms</h4>
+          <p>Integração nativa com FormControl para validação e gerenciamento de estado.</p>
+        </div>
+        <div class="benefit-card">
+          <i class="fas fa-search"></i>
+          <h4>Busca Flexível</h4>
+          <p>Suporte a busca local (client-side) e remota (backend).</p>
+        </div>
+        <div class="benefit-card">
+          <i class="fas fa-infinity"></i>
+          <h4>Infinity Scroll</h4>
+          <p>Carregamento sob demanda para listas grandes paginadas.</p>
+        </div>
+        <div class="benefit-card">
+          <i class="fas fa-paint-brush"></i>
+          <h4>Templates Customizados</h4>
+          <p>Personalize a renderização das opções e valor selecionado.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

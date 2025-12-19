@@ -7,7 +7,6 @@ import {
   Output,
   TemplateRef,
   forwardRef,
-  OnInit,
   OnDestroy,
   OnChanges,
   SimpleChanges,

@@ -1,0 +1,379 @@
+<div class="example-page">
+  <app-breadcrumb [items]="breadcrumbItems"></app-breadcrumb>
+
+  <header class="page-header">
+    <h1>Select Multi Form Control</h1>
+    <p class="lead">
+      Comparativo entre os componentes legados <code>sq-select-multi</code> / <code>sq-select-multi-tags</code> e o novo
+      <code>sq-select-multi-form-control</code> unificado com Reactive Forms.
+    </p>
+  </header>
+
+  <div class="content">
+    <!-- Seção 1: Modo Default -->
+    <section class="comparison-section mb-2">
+      <h2 class="section-title">1️⃣ Modo Default (Compacto)</h2>
+      <p class="section-description">Exibe o primeiro item selecionado + "+N mais".</p>
+
+      <div class="row no-spacings">
+        <div class="col-md-6">
+          <div class="example-box legacy-component">
+            <h3 class="component-label">🔴 Componente Legado (sq-select-multi)</h3>
+            <sq-select-multi
+              [id]="'old-default'"
+              [name]="'old-default'"
+              [label]="'Cidades'"
+              [options]="cities"
+              [placeholder]="'Selecione cidades'"
+              [placeholderSearch]="'Buscar cidade...'"
+              [(value)]="oldDefaultValue"
+            ></sq-select-multi>
+            <div class="value-display mt-2">
+              <small><strong>Selecionados:</strong> {{ oldDefaultValue.length }}</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="example-box new-component">
+            <h3 class="component-label">🟢 Componente Novo (displayMode="default")</h3>
+            <sq-select-multi-form-control
+              [id]="'new-default'"
+              [name]="'new-default'"
+              [label]="'Cidades'"
+              [options]="cities"
+              [placeholder]="'Selecione cidades'"
+              [searchPlaceholder]="'Buscar cidade...'"
+              [formControl]="newDefaultControl"
+              [displayMode]="'default'"
+              [searchable]="'local'"
+            ></sq-select-multi-form-control>
+            <div class="value-display mt-2">
+              <small><strong>Selecionados:</strong> {{ newDefaultControl.value?.length || 0 }}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <app-code-tabs [title]="'Modo Default'" [examples]="defaultModeCode"></app-code-tabs>
+    </section>
+
+    <!-- Seção 2: Modo Tags -->
+    <section class="comparison-section mb-2">
+      <h2 class="section-title">2️⃣ Modo Tags (Tags Removíveis)</h2>
+      <p class="section-description">Exibe cada item como uma tag com "X" para remover.</p>
+
+      <div class="row no-spacings">
+        <div class="col-md-6">
+          <div class="example-box legacy-component">
+            <h3 class="component-label">🔴 Componente Legado (sq-select-multi-tags)</h3>
+            <sq-select-multi-tags
+              [id]="'old-tags'"
+              [name]="'old-tags'"
+              [label]="'Tags'"
+              [options]="cities"
+              [placeholder]="'Selecione tags'"
+              [placeholderSearch]="'Buscar tag...'"
+              [(value)]="oldTagsValue"
+            ></sq-select-multi-tags>
+            <div class="value-display mt-2">
+              <small><strong>Selecionados:</strong> {{ oldTagsValue.length }}</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="example-box new-component">
+            <h3 class="component-label">🟢 Componente Novo (displayMode="tags")</h3>
+            <sq-select-multi-form-control
+              [id]="'new-tags'"
+              [name]="'new-tags'"
+              [label]="'Tags'"
+              [options]="cities"
+              [placeholder]="'Selecione tags'"
+              [searchPlaceholder]="'Buscar tag...'"
+              [formControl]="newTagsControl"
+              [displayMode]="'tags'"
+              [searchable]="'local'"
+            ></sq-select-multi-form-control>
+            <div class="value-display mt-2">
+              <small><strong>Selecionados:</strong> {{ newTagsControl.value?.length || 0 }}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <app-code-tabs [title]="'Modo Tags'" [examples]="tagsModeCode"></app-code-tabs>
+    </section>
+
+    <!-- Seção 3: Com validação -->
+    <section class="comparison-section mb-2">
+      <h2 class="section-title">3️⃣ Com Validação Required</h2>
+
+      <div class="row no-spacings">
+        <div class="col-md-12">
+          <div class="example-box new-component">
+            <h3 class="component-label">🟢 Componente Novo com Validação</h3>
+            <sq-select-multi-form-control
+              [id]="'new-required'"
+              [name]="'new-required'"
+              [label]="'Cidades *'"
+              [options]="cities"
+              [placeholder]="'Selecione ao menos uma cidade'"
+              [formControl]="newRequiredControl"
+              [displayMode]="'tags'"
+              [searchable]="'local'"
+              sqValidation
+              [fieldName]="'Cidades'"
+            ></sq-select-multi-form-control>
+            <div class="value-display mt-2">
+              <small><strong>Selecionados:</strong> {{ newRequiredControl.value?.length || 0 }}</small>
+              <small class="ms-3"><strong>Válido:</strong> {{ newRequiredControl.valid }}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Seção 4: Com hierarquia -->
+    <section class="comparison-section mb-2">
+      <h2 class="section-title">4️⃣ Com Hierarquia (Children)</h2>
+      <p class="section-description">Opções podem ter filhos que são selecionados em grupo.</p>
+
+      <div class="row no-spacings">
+        <div class="col-md-12">
+          <div class="example-box new-component">
+            <h3 class="component-label">🟢 Componente Novo com Hierarquia</h3>
+            <sq-select-multi-form-control
+              [id]="'new-hierarchy'"
+              [name]="'new-hierarchy'"
+              [label]="'Categorias'"
+              [options]="categories"
+              [placeholder]="'Selecione categorias'"
+              [formControl]="newHierarchyControl"
+              [displayMode]="'tags'"
+              [searchable]="'local'"
+            ></sq-select-multi-form-control>
+            <div class="value-display mt-2">
+              <small><strong>Selecionados:</strong> {{ newHierarchyControl.value?.length || 0 }}</small>
+              <small class="ms-3">
+                <strong>Itens:</strong>
+                @for (item of newHierarchyControl.value; track item.value; let last = $last) {
+                  {{ item.label }}{{ !last ? ', ' : '' }}
+                }
+              </small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Seção 5: Busca remota + infinity scroll -->
+    <section class="comparison-section mb-2">
+      <h2 class="section-title">5️⃣ Busca Remota + Infinity Scroll</h2>
+      <p class="section-description">
+        Lista mockada com 100 produtos. Digite para buscar e role para carregar mais.
+      </p>
+
+      <div class="row no-spacings">
+        <div class="col-md-6">
+          <div class="example-box legacy-component">
+            <h3 class="component-label">🔴 Componente Legado (sq-select-multi)</h3>
+            <sq-select-multi
+              [id]="'old-remote'"
+              [name]="'old-remote'"
+              [label]="'Produtos'"
+              [options]="oldProducts"
+              [placeholder]="'Buscar produtos...'"
+              [placeholderSearch]="'Digite para buscar...'"
+              [(value)]="oldRemoteValue"
+              [loading]="oldLoadingProducts"
+              (searchChange)="searchOldProducts($event)"
+            ></sq-select-multi>
+            <div class="value-display mt-2">
+              <small><strong>Selecionados:</strong> {{ oldRemoteValue?.length || 0 }}</small>
+              <small class="ms-3"><strong>Produtos:</strong> {{ oldProducts.length }}</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="example-box new-component">
+            <h3 class="component-label">🟢 Componente Novo com Busca Remota</h3>
+            <sq-select-multi-form-control
+              [id]="'new-remote'"
+              [name]="'new-remote'"
+              [label]="'Produtos'"
+              [options]="products"
+              [placeholder]="'Buscar produtos...'"
+              [searchPlaceholder]="'Digite para buscar...'"
+              [formControl]="newRemoteControl"
+              [displayMode]="'tags'"
+              [searchable]="'remote'"
+              [infiniteScroll]="true"
+              [hasMore]="hasMoreProducts"
+              [loading]="loadingProducts"
+              (searchChange)="searchProducts($event)"
+              (loadMore)="loadMoreProducts()"
+            ></sq-select-multi-form-control>
+            <div class="value-display mt-2">
+              <small><strong>Selecionados:</strong> {{ newRemoteControl.value?.length || 0 }}</small>
+              <small class="ms-3"><strong>Produtos:</strong> {{ products.length }}</small>
+              <small class="ms-3"><strong>Tem mais:</strong> {{ hasMoreProducts }}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <app-code-tabs [title]="'Busca Remota'" [examples]="remoteSearchCode"></app-code-tabs>
+    </section>
+
+    <!-- Seção 6: Máximo de seleções -->
+    <section class="comparison-section mb-2">
+      <h2 class="section-title">6️⃣ Máximo de Seleções</h2>
+      <p class="section-description">Limita a quantidade de itens que podem ser selecionados.</p>
+
+      <div class="row no-spacings">
+        <div class="col-md-12">
+          <div class="example-box new-component">
+            <h3 class="component-label">🟢 Componente Novo (máximo 3 seleções)</h3>
+            <sq-select-multi-form-control
+              [id]="'new-max'"
+              [name]="'new-max'"
+              [label]="'Cidades (máx. 3)'"
+              [options]="cities"
+              [placeholder]="'Selecione até 3 cidades'"
+              [formControl]="newMaxSelectionsControl"
+              [displayMode]="'tags'"
+              [maxSelections]="3"
+              [searchable]="'local'"
+            ></sq-select-multi-form-control>
+            <div class="value-display mt-2">
+              <small><strong>Selecionados:</strong> {{ newMaxSelectionsControl.value?.length || 0 }} / 3</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Seção 7: Templates Customizados -->
+    <section class="comparison-section mb-2">
+      <h2 class="section-title">7️⃣ Templates Customizados</h2>
+      <p class="section-description">
+        Customize a exibição das opções, tags e valor selecionado usando templates.
+      </p>
+
+      <div class="row no-spacings">
+        <div class="col-md-6">
+          <div class="example-box new-component">
+            <h3 class="component-label">🟢 Com optionTemplate e tagTemplate</h3>
+            <sq-select-multi-form-control
+              [id]="'new-custom-template'"
+              [name]="'new-custom-template'"
+              [label]="'Usuários'"
+              [options]="users"
+              [placeholder]="'Selecione usuários'"
+              [formControl]="newCustomTemplateControl"
+              [displayMode]="'tags'"
+              [searchable]="'local'"
+              [trackByFn]="customTrackBy"
+            >
+              <ng-template #optionTemplate let-option>
+                <div class="custom-option">
+                  <img [src]="option.avatar" [alt]="option.label" class="user-avatar" />
+                  <div class="user-info">
+                    <span class="user-name">{{ option.label }}</span>
+                    <small class="user-role">{{ option.role }}</small>
+                  </div>
+                </div>
+              </ng-template>
+
+              <ng-template #tagTemplate let-option let-remove="remove">
+                <span class="custom-tag">
+                  <img [src]="option.avatar" [alt]="option.label" class="tag-avatar" />
+                  {{ option.label }}
+                  <i class="fas fa-times tag-close" (click)="remove(option, $event)"></i>
+                </span>
+              </ng-template>
+            </sq-select-multi-form-control>
+            <div class="value-display mt-2">
+              <small><strong>Selecionados:</strong> {{ newCustomTemplateControl.value?.length || 0 }}</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="example-box new-component">
+            <h3 class="component-label">🟢 Com selectedTemplate (modo default)</h3>
+            <sq-select-multi-form-control
+              [id]="'new-selected-template'"
+              [name]="'new-selected-template'"
+              [label]="'Usuários'"
+              [options]="users"
+              [placeholder]="'Selecione usuários'"
+              [formControl]="newSelectedTemplateControl"
+              [displayMode]="'default'"
+              [searchable]="'local'"
+              [trackByFn]="customTrackBy"
+            >
+              <ng-template #optionTemplate let-option>
+                <div class="custom-option">
+                  <img [src]="option.avatar" [alt]="option.label" class="user-avatar" />
+                  <div class="user-info">
+                    <span class="user-name">{{ option.label }}</span>
+                    <small class="user-role">{{ option.role }}</small>
+                  </div>
+                </div>
+              </ng-template>
+
+              <ng-template #selectedTemplate let-selected let-count="count">
+                <div class="custom-selected">
+                  <div class="avatars-stack">
+                    @for (user of $any(selected) | slice:0:3; track $any(user).value) {
+                      <img [src]="$any(user).avatar" [alt]="$any(user).label" class="stacked-avatar" />
+                    }
+                  </div>
+                  <span class="selected-text">{{ count }} usuário(s)</span>
+                </div>
+              </ng-template>
+            </sq-select-multi-form-control>
+            <div class="value-display mt-2">
+              <small><strong>Selecionados:</strong> {{ newSelectedTemplateControl.value?.length || 0 }}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <app-code-tabs [title]="'Templates Customizados'" [examples]="customTemplateCode"></app-code-tabs>
+    </section>
+
+    <!-- Seção de Benefícios -->
+    <section class="benefits-section">
+      <h2 class="section-title">✨ Benefícios do Componente Unificado</h2>
+      <div class="benefits-grid">
+        <div class="benefit-card">
+          <i class="fas fa-code"></i>
+          <h4>Reactive Forms</h4>
+          <p>Integração nativa com FormControl para validação e gerenciamento de estado.</p>
+        </div>
+        <div class="benefit-card">
+          <i class="fas fa-toggle-on"></i>
+          <h4>Dois Modos em Um</h4>
+          <p>displayMode="default" ou "tags" - substitui dois componentes legados.</p>
+        </div>
+        <div class="benefit-card">
+          <i class="fas fa-sitemap"></i>
+          <h4>Hierarquia</h4>
+          <p>Suporte a opções com filhos (children) para seleção em grupo.</p>
+        </div>
+        <div class="benefit-card">
+          <i class="fas fa-search"></i>
+          <h4>Busca Flexível</h4>
+          <p>Busca local ou remota com infinity scroll integrado.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+

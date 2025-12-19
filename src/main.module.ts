@@ -18,6 +18,8 @@ import { SqInputComponent } from './components/sq-input/sq-input.component';
 import { SqInputFormControlComponent } from './components/sq-input-form-control/sq-input-form-control.component';
 import { SqInputDateFormControlComponent } from './components/sq-input-date-form-control/sq-input-date-form-control.component';
 import { SqInputMaskFormControlComponent } from './components/sq-input-mask-form-control/sq-input-mask-form-control.component';
+import { SqInputMoneyFormControlComponent } from './components/sq-input-money-form-control/sq-input-money-form-control.component';
+import { SqInputNumberFormControlComponent } from './components/sq-input-number-form-control/sq-input-number-form-control.component';
 import { SqValidationMessageComponent } from './components/sq-validation-message/sq-validation-message.component';
 import { SqValidationDirective } from './directives/sq-validation.directive';
 import { SqLoaderComponent } from './components/sq-loader/sq-loader.component';
@@ -31,6 +33,8 @@ import { SqSelectSearchComponent } from './components/sq-select-search/sq-select
 import { SqSelectComponent } from './components/sq-select/sq-select.component';
 import { SqSelectorComponent } from './components/sq-selector/sq-selector.component';
 import { SqSelectorFormControlComponent } from './components/sq-selector-form-control/sq-selector-form-control.component';
+import { SqSelectMultiFormControlComponent } from './components/sq-select-multi-form-control/sq-select-multi-form-control.component';
+import { SqTextareaFormControlComponent } from './components/sq-textarea-form-control/sq-textarea-form-control.component';
 import { SqStepsComponent } from './components/sq-steps/sq-steps.component';
 import { SqTabComponent } from './components/sq-tabs/sq-tab/sq-tab.component';
 import { SqTabsComponent } from './components/sq-tabs/sq-tabs.component';
@@ -85,6 +89,8 @@ const standaloneComponents = [
   SqInputFormControlComponent,
   SqInputDateFormControlComponent,
   SqInputMaskFormControlComponent,
+  SqInputMoneyFormControlComponent,
+  SqInputNumberFormControlComponent,
   SqValidationMessageComponent,
   SqValidationDirective,
   SqInputFileComponent,
@@ -93,6 +99,7 @@ const standaloneComponents = [
   SqInputMoneyComponent,
   SqInputNumberComponent,
   SqTextAreaComponent,
+  SqTextareaFormControlComponent,
   SqInputRangeComponent,
 
   // Structural Components (4)
@@ -101,13 +108,14 @@ const standaloneComponents = [
   SqOverlayComponent,
   SqPaginationComponent,
 
-  // Selection Components (7)
+  // Selection Components (8)
   SqSelectComponent,
   SqSelectorComponent,
   SqSelectorFormControlComponent,
   SqSelectSearchComponent,
   SqSelectMultiTagsComponent,
   SqSelectMultiComponent,
+  SqSelectMultiFormControlComponent,
   SqInfinityComponent,
 
   // Directives (4)

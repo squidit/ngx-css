@@ -1,0 +1,319 @@
+<div
+  class="sq-select-multi-form-control {{ customClass }}"
+  [ngStyle]="{
+    width: width,
+    'min-width': minWidth,
+  }"
+  (clickOutside)="closeDropdown()"
+  [clickOutsideEnabled]="isOpen"
+>
+  <!-- Label -->
+  @if (label?.length || labelTemplate || tooltipMessage) {
+    <div
+      class="display-flex align-items-center wrapper-label-input"
+      [ngClass]="{ disabled: disabled }"
+      [ngStyle]="{ color: labelColor }"
+    >
+      @if (label?.length && !labelTemplate) {
+        <label class="label-input mr-1" [for]="id">
+          {{ label }}
+        </label>
+      }
+      @if (labelTemplate) {
+        <ng-container *ngTemplateOutlet="labelTemplate"></ng-container>
+      }
+      @if (tooltipMessage) {
+        <sq-tooltip
+          [message]="tooltipMessage"
+          [placement]="tooltipPlacement"
+          [color]="tooltipColor"
+          [icon]="tooltipIcon"
+        ></sq-tooltip>
+      }
+    </div>
+  }
+
+  <!-- Container principal -->
+  <div
+    class="select-container"
+    [ngClass]="{
+      open: isOpen,
+      disabled: disabled,
+      readonly: readonly,
+      'no-label': !label?.length && !labelTemplate,
+      'mode-tags': displayMode === 'tags',
+    }"
+    [ngStyle]="{
+      'background-color': backgroundColor,
+      'border-color': borderColor,
+    }"
+    [dataTest]="selectHandleDataTest"
+    (click)="toggleDropdown()"
+    (blur)="onBlur($event)"
+    (focus)="onFocus($event)"
+    tabindex="0"
+  >
+    <!-- Loading -->
+    @if (loading && !isOpen) {
+      <div class="loading-wrapper">
+        <sq-loader></sq-loader>
+      </div>
+    }
+
+    <!-- Conteúdo baseado no displayMode -->
+    @if (!loading || isOpen) {
+      <!-- Modo Default: exibição compacta -->
+      @if (displayMode === 'default') {
+        @if (!value.length) {
+          <span class="placeholder">{{ placeholder }}</span>
+        } @else if (showInside) {
+          @if (selectedTemplate) {
+            <ng-container
+              *ngTemplateOutlet="selectedTemplate; context: { $implicit: value, selected: value, count: value.length }"
+            ></ng-container>
+          } @else {
+            <span class="selected-summary">{{ summaryText }}</span>
+          }
+        }
+      }
+
+      <!-- Modo Tags: tags individuais -->
+      @if (displayMode === 'tags') {
+        @if (!value.length) {
+          <span class="placeholder">{{ placeholder }}</span>
+        } @else if (showInside) {
+          <div class="tags-container" [ngStyle]="{ 'max-height': tagsMaxHeight }">
+            @for (opt of value; track trackByValue($index, opt)) {
+              @if (tagTemplate) {
+                <ng-container
+                  *ngTemplateOutlet="tagTemplate; context: { $implicit: opt, option: opt, remove: removeItem.bind(this) }"
+                ></ng-container>
+              } @else {
+                <span class="tag" (click)="removeItem(opt, $event)">
+                  {{ opt.label }}
+                  @if (!readonly && !disabled) {
+                    <i class="fas fa-times tag-remove"></i>
+                  }
+                </span>
+              }
+            }
+          </div>
+        }
+      }
+
+      <!-- Badge de contagem (modo tags) -->
+      @if (displayMode === 'tags' && value.length) {
+        <span class="badge">{{ value.length }}</span>
+      }
+
+      <!-- Ícone chevron -->
+      <i class="icon-chevron fas fa-chevron-down" [ngClass]="{ 'rotate-180': isOpen }"></i>
+    }
+  </div>
+
+  <!-- Dropdown -->
+  @if (renderDropdown && !disabled && !readonly && !isMaxSelections) {
+    <div
+      class="select-dropdown scrollbar"
+      [ngClass]="{ open: isOpen }"
+      [ngStyle]="{ width: dropdownWidth }"
+      (scroll)="onScroll($event)"
+    >
+      <!-- Campo de busca -->
+      @if (!hideSearch) {
+        <div class="search-container">
+          <input
+            type="text"
+            class="search-input"
+            [placeholder]="searchPlaceholder"
+            [value]="searchText"
+            (input)="onSearchInput($event)"
+            [dataTest]="selectInputDataTest"
+          />
+          <i class="search-icon fas fa-search"></i>
+        </div>
+      }
+
+      <!-- Virtual scroll para listas grandes ou infinity scroll -->
+      @if (infiniteScroll || displayOptions.length > 15) {
+        <cdk-virtual-scroll-viewport
+          [itemSize]="32"
+          class="virtual-scroll-viewport"
+          (scrolledIndexChange)="onVirtualScroll()"
+        >
+          <div
+            *cdkVirtualFor="let option of displayOptions; trackBy: trackByValue"
+            class="option-wrapper"
+          >
+            <!-- Opção com filhos -->
+            @if (option.children?.length) {
+              <div class="option-parent">
+                <div class="option-header" (click)="toggleCollapse(option); $event.stopPropagation()">
+                  <i
+                    class="fas fa-chevron-right collapse-icon"
+                    [ngClass]="{ 'rotate-90': option.open }"
+                  ></i>
+                  <sq-selector
+                    [id]="id + '-vs-parent-' + option.value"
+                    [checked]="isSelected(option)"
+                    [indeterminate]="hasSelectedChildren(option) && !isSelected(option)"
+                    [disabled]="option.disabled"
+                    (click)="$event.stopPropagation()"
+                    (valueChange)="toggleOption(option, $event)"
+                  ></sq-selector>
+                  <span class="option-label" (click)="toggleOption(option); $event.stopPropagation()">{{ option.label }}</span>
+                </div>
+                @if (option.open) {
+                  <div class="option-children">
+                    @for (child of option.children; track trackByValue($index, child)) {
+                      <div
+                        class="option child-option"
+                        [ngClass]="{ disabled: child.disabled, selected: isSelected(child) }"
+                        [dataTest]="optionDataTest + '-' + child.value"
+                        (click)="toggleOption(child); $event.stopPropagation()"
+                      >
+                        <sq-selector
+                          [id]="id + '-vs-child-' + child.value"
+                          [checked]="isSelected(child)"
+                          [disabled]="child.disabled"
+                          (click)="$event.stopPropagation()"
+                          (valueChange)="toggleOption(child, $event)"
+                        ></sq-selector>
+                        @if (optionTemplate) {
+                          <ng-container
+                            *ngTemplateOutlet="optionTemplate; context: { $implicit: child, option: child }"
+                          ></ng-container>
+                        } @else {
+                          <span class="option-label">{{ child.label }}</span>
+                        }
+                      </div>
+                    }
+                  </div>
+                }
+              </div>
+            } @else {
+              <!-- Opção simples -->
+              <div
+                class="option"
+                [ngClass]="{ disabled: option.disabled, selected: isSelected(option) }"
+                [dataTest]="optionDataTest + '-' + option.value"
+                (click)="toggleOption(option); $event.stopPropagation()"
+              >
+                <sq-selector
+                  [id]="id + '-vs-' + option.value"
+                  [checked]="isSelected(option)"
+                  [disabled]="option.disabled"
+                  (click)="$event.stopPropagation()"
+                  (valueChange)="toggleOption(option, $event)"
+                ></sq-selector>
+                @if (optionTemplate) {
+                  <ng-container
+                    *ngTemplateOutlet="optionTemplate; context: { $implicit: option, option: option }"
+                  ></ng-container>
+                } @else {
+                  <span class="option-label">{{ option.label }}</span>
+                }
+              </div>
+            }
+          </div>
+
+          <!-- Loading more -->
+          @if (loading && hasMore) {
+            <div class="loading-more">
+              <sq-loader></sq-loader>
+            </div>
+          }
+        </cdk-virtual-scroll-viewport>
+      } @else {
+        <!-- Lista simples para poucas opções -->
+        <div class="options-list">
+          @for (option of displayOptions; track trackByValue($index, option)) {
+            <!-- Opção com filhos -->
+            @if (option.children?.length) {
+              <div class="option-parent">
+                <div class="option-header" (click)="toggleCollapse(option); $event.stopPropagation()">
+                  <i
+                    class="fas fa-chevron-right collapse-icon"
+                    [ngClass]="{ 'rotate-90': option.open }"
+                  ></i>
+                  <sq-selector
+                    [id]="id + '-parent-' + option.value"
+                    [checked]="isSelected(option)"
+                    [indeterminate]="hasSelectedChildren(option) && !isSelected(option)"
+                    [disabled]="option.disabled"
+                    (click)="$event.stopPropagation()"
+                    (valueChange)="toggleOption(option, $event)"
+                  ></sq-selector>
+                  <span class="option-label" (click)="toggleOption(option); $event.stopPropagation()">{{ option.label }}</span>
+                </div>
+                @if (option.open) {
+                  <div class="option-children">
+                    @for (child of option.children; track trackByValue($index, child)) {
+                      <div
+                        class="option child-option"
+                        [ngClass]="{ disabled: child.disabled, selected: isSelected(child) }"
+                        [dataTest]="optionDataTest + '-' + child.value"
+                        (click)="toggleOption(child); $event.stopPropagation()"
+                      >
+                        <sq-selector
+                          [id]="id + '-child-' + child.value"
+                          [checked]="isSelected(child)"
+                          [disabled]="child.disabled"
+                          (click)="$event.stopPropagation()"
+                          (valueChange)="toggleOption(child, $event)"
+                        ></sq-selector>
+                        @if (optionTemplate) {
+                          <ng-container
+                            *ngTemplateOutlet="optionTemplate; context: { $implicit: child, option: child }"
+                          ></ng-container>
+                        } @else {
+                          <span class="option-label">{{ child.label }}</span>
+                        }
+                      </div>
+                    }
+                  </div>
+                }
+              </div>
+            } @else {
+              <!-- Opção simples -->
+              <div
+                class="option"
+                [ngClass]="{ disabled: option.disabled, selected: isSelected(option) }"
+                [dataTest]="optionDataTest + '-' + option.value"
+                (click)="toggleOption(option); $event.stopPropagation()"
+              >
+                <sq-selector
+                  [id]="id + '-' + option.value"
+                  [checked]="isSelected(option)"
+                  [disabled]="option.disabled"
+                  (click)="$event.stopPropagation()"
+                  (valueChange)="toggleOption(option, $event)"
+                ></sq-selector>
+                @if (optionTemplate) {
+                  <ng-container
+                    *ngTemplateOutlet="optionTemplate; context: { $implicit: option, option: option }"
+                  ></ng-container>
+                } @else {
+                  <span class="option-label">{{ option.label }}</span>
+                }
+              </div>
+            }
+          }
+        </div>
+      }
+
+      <!-- Empty state -->
+      @if (displayOptions.length === 0 && !loading) {
+        <div class="empty-state">
+          @if (emptyTemplate) {
+            <ng-container *ngTemplateOutlet="emptyTemplate"></ng-container>
+          } @else {
+            <span>Nenhuma opção encontrada</span>
+          }
+        </div>
+      }
+    </div>
+  }
+</div>
+
+

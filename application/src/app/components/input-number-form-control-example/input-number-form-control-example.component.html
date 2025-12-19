@@ -1,0 +1,248 @@
+<div class="container">
+  <app-breadcrumb [items]="breadcrumbItems"></app-breadcrumb>
+
+  <div class="content-wrapper">
+    <div class="header-section mb-2">
+      <h1 class="display-4 mb-3">#️⃣ Comparação: sq-input-number vs sq-input-number-form-control</h1>
+      <p class="lead text-muted">
+        Demonstração prática das diferenças entre o componente de input numérico legado e o novo componente baseado
+        em Reactive Forms.
+      </p>
+    </div>
+
+    <!-- Seção 1: Quantidade básica -->
+    <section class="comparison-section mb-2">
+      <h2 class="section-title">1️⃣ Quantidade Básica</h2>
+      <p class="section-description">Números inteiros com separador de milhares</p>
+
+      <div class="row no-spacings">
+        <div class="col-md-12">
+          <div class="example-box old-component">
+            <h3 class="component-label">🔴 Componente Antigo</h3>
+            <sq-input-number
+              [id]="'old-quantity'"
+              [name]="'old-quantity'"
+              [label]="'Quantidade (Componente Antigo)'"
+              [(value)]="oldQuantityValue"
+            ></sq-input-number>
+            <div class="value-display mt-2">
+              <small><strong>Valor:</strong> {{ oldQuantityValue || 0 }}</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12">
+          <div class="example-box new-component">
+            <h3 class="component-label">🟢 Componente Novo</h3>
+            <sq-input-number-form-control
+              [id]="'new-quantity'"
+              [name]="'new-quantity'"
+              [label]="'Quantidade (Componente Novo)'"
+              [formControl]="newQuantityControl"
+            ></sq-input-number-form-control>
+            <div class="value-display mt-2">
+              <small><strong>Valor:</strong> {{ newQuantityControl.value ?? '(vazio)' }}</small>
+              <small class="ms-3"><strong>Status:</strong> {{ newQuantityControl.status }}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <app-code-tabs [title]="'Exemplo Básico'" [examples]="basicExampleCode"></app-code-tabs>
+    </section>
+
+    <!-- Seção 2: Com validação required -->
+    <section class="comparison-section mb-2">
+      <h2 class="section-title">2️⃣ Campo Obrigatório</h2>
+      <p class="section-description">Validação de campo obrigatório com Validators.required</p>
+
+      <div class="row no-spacings">
+        <div class="col-md-12">
+          <div class="example-box old-component">
+            <h3 class="component-label">🔴 Componente Antigo</h3>
+            <sq-input-number
+              [id]="'old-required'"
+              [name]="'old-required'"
+              [label]="'Quantidade * (Antigo)'"
+              [(value)]="oldRequiredValue"
+              [required]="true"
+            ></sq-input-number>
+            <div class="value-display mt-2">
+              <small><strong>Valor:</strong> {{ oldRequiredValue || 0 }}</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12">
+          <div class="example-box new-component">
+            <h3 class="component-label">🟢 Componente Novo</h3>
+            <sq-input-number-form-control
+              [id]="'new-required'"
+              [name]="'new-required'"
+              [label]="'Quantidade * (Novo)'"
+              [formControl]="newRequiredControl"
+            ></sq-input-number-form-control>
+            <sq-validation-message
+              [control]="newRequiredControl"
+              [fieldName]="'Quantidade'"
+              [showWhenTouched]="true"
+            ></sq-validation-message>
+            <div class="value-display mt-2">
+              <small><strong>Valor:</strong> {{ newRequiredControl.value ?? '(vazio)' }}</small>
+              <small class="ms-3"><strong>Status:</strong> {{ newRequiredControl.status }}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <app-code-tabs [title]="'Exemplo Obrigatório'" [examples]="requiredExampleCode"></app-code-tabs>
+    </section>
+
+    <!-- Seção 3: Com valor mínimo -->
+    <section class="comparison-section mb-2">
+      <h2 class="section-title">3️⃣ Valor Mínimo</h2>
+      <p class="section-description">Validação de valor mínimo com InputValidators.minValue(10)</p>
+
+      <div class="row no-spacings">
+        <div class="col-md-12">
+          <div class="example-box old-component">
+            <h3 class="component-label">🔴 Componente Antigo</h3>
+            <sq-input-number
+              [id]="'old-min'"
+              [name]="'old-min'"
+              [label]="'Mínimo 10 (Antigo)'"
+              [(value)]="oldMinValue"
+              [minValue]="10"
+            ></sq-input-number>
+            <div class="value-display mt-2">
+              <small><strong>Valor:</strong> {{ oldMinValue || 0 }}</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12">
+          <div class="example-box new-component">
+            <h3 class="component-label">🟢 Componente Novo</h3>
+            <sq-input-number-form-control
+              [id]="'new-min'"
+              [name]="'new-min'"
+              [label]="'Mínimo 10 (Novo)'"
+              [formControl]="newMinControl"
+              sqValidation
+              [fieldName]="'Quantidade'"
+            ></sq-input-number-form-control>
+            <div class="value-display mt-2">
+              <small><strong>Valor:</strong> {{ newMinControl.value ?? '(vazio)' }}</small>
+              <small class="ms-3"><strong>Status:</strong> {{ newMinControl.status }}</small>
+              <small class="ms-3"><strong>Errors:</strong> {{ newMinControl.errors | json }}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <app-code-tabs [title]="'Exemplo Mínimo'" [examples]="minExampleCode"></app-code-tabs>
+    </section>
+
+    <!-- Seção 4: Números negativos -->
+    <section class="comparison-section mb-2">
+      <h2 class="section-title">4️⃣ Números Negativos</h2>
+      <p class="section-description">Permitir entrada de números negativos</p>
+
+      <div class="row no-spacings">
+        <div class="col-md-12">
+          <div class="example-box old-component">
+            <h3 class="component-label">🔴 Componente Antigo</h3>
+            <sq-input-number
+              [id]="'old-negative'"
+              [name]="'old-negative'"
+              [label]="'Saldo (Antigo)'"
+              [(value)]="oldNegativeValue"
+              [allowNegativeNumbers]="true"
+            ></sq-input-number>
+            <div class="value-display mt-2">
+              <small><strong>Valor:</strong> {{ oldNegativeValue || 0 }}</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12">
+          <div class="example-box new-component">
+            <h3 class="component-label">🟢 Componente Novo</h3>
+            <sq-input-number-form-control
+              [id]="'new-negative'"
+              [name]="'new-negative'"
+              [label]="'Saldo (Novo)'"
+              [formControl]="newNegativeControl"
+              [allowNegativeNumbers]="true"
+            ></sq-input-number-form-control>
+            <div class="value-display mt-2">
+              <small><strong>Valor:</strong> {{ newNegativeControl.value ?? '(vazio)' }}</small>
+              <small class="ms-3"><strong>Status:</strong> {{ newNegativeControl.status }}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <app-code-tabs [title]="'Exemplo Negativo'" [examples]="negativeExampleCode"></app-code-tabs>
+    </section>
+
+    <!-- Seção 5: Incremento customizado -->
+    <section class="comparison-section mb-2">
+      <h2 class="section-title">5️⃣ Incremento com Setas do Teclado</h2>
+      <p class="section-description">Use Arrow Up (↑) e Arrow Down (↓) para incrementar/decrementar o valor</p>
+
+      <div class="row no-spacings">
+        <div class="col-md-12">
+          <div class="example-box new-component">
+            <h3 class="component-label">🟢 Componente Novo com Incremento de 10</h3>
+            <sq-input-number-form-control
+              [id]="'new-increment'"
+              [name]="'new-increment'"
+              [label]="'Quantidade (use ↑ e ↓ para incrementar de 10 em 10)'"
+              [formControl]="newIncrementControl"
+              [incrementValue]="10"
+            ></sq-input-number-form-control>
+            <div class="value-display mt-2">
+              <small><strong>Valor:</strong> {{ newIncrementControl.value ?? '(vazio)' }}</small>
+              <small class="ms-3"><strong>Incremento:</strong> 10</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <app-code-tabs [title]="'Exemplo Incremento'" [examples]="incrementExampleCode"></app-code-tabs>
+    </section>
+
+    <!-- Seção de Benefícios -->
+    <section class="benefits-section mt-5 mb-2">
+      <h2 class="section-title">✨ Benefícios do sq-input-number-form-control</h2>
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <div class="benefit-card">
+            <h4>🔗 Reactive Forms</h4>
+            <p>Integração nativa com FormControl e validators do Angular.</p>
+          </div>
+        </div>
+        <div class="col-md-6 mb-3">
+          <div class="benefit-card">
+            <h4>✅ Validators Customizados</h4>
+            <p>Use InputValidators.minValue(), notZero() para valores formatados.</p>
+          </div>
+        </div>
+        <div class="col-md-6 mb-3">
+          <div class="benefit-card">
+            <h4>📱 Mobile-Friendly</h4>
+            <p>Input mode numérico para teclado otimizado em dispositivos móveis.</p>
+          </div>
+        </div>
+        <div class="col-md-6 mb-3">
+          <div class="benefit-card">
+            <h4>🚀 Performance</h4>
+            <p>OnPush ChangeDetection para melhor performance.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+

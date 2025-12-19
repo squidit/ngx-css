@@ -1,0 +1,35 @@
+:host {
+  display: block;
+}
+
+section {
+  .card {
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .card-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+
+    h3 {
+      margin-bottom: 0.5rem;
+      font-size: 1.25rem;
+    }
+
+    p {
+      color: #6c757d;
+      font-size: 0.875rem;
+    }
+  }
+}
+
+.progress {
+  border-radius: 4px;
+  background-color: #e9ecef;
+}
+
+.progress-bar {
+  transition: width 0.3s ease, background-color 0.3s ease;
+}
+

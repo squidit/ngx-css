@@ -1,0 +1,254 @@
+<div class="example-page">
+  <app-breadcrumb [items]="breadcrumbItems"></app-breadcrumb>
+
+  <header class="page-header">
+    <h1>Input Range Form Control</h1>
+    <p class="lead">
+      Comparativo entre o componente legado <code>sq-input-range</code> e o novo
+      <code>sq-input-range-form-control</code> baseado em Reactive Forms.
+    </p>
+  </header>
+
+  <div class="content">
+    <!-- Seção 1: Volume básico -->
+    <section class="comparison-section mb-2">
+      <h2 class="section-title">1️⃣ Slider Básico (Volume)</h2>
+
+      <div class="row no-spacings">
+        <div class="col-md-6">
+          <div class="example-box legacy-component">
+            <h3 class="component-label">🔴 Componente Legado</h3>
+            <sq-input-range
+              [id]="'old-volume'"
+              [name]="'old-volume'"
+              [label]="'Volume'"
+              [(value)]="oldVolumeValue"
+            ></sq-input-range>
+            <div class="value-display mt-2">
+              <small><strong>Valor:</strong> {{ oldVolumeValue }}</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="example-box new-component">
+            <h3 class="component-label">🟢 Componente Novo</h3>
+            <sq-input-range-form-control
+              [id]="'new-volume'"
+              [name]="'new-volume'"
+              [label]="'Volume'"
+              [formControl]="newVolumeControl"
+            ></sq-input-range-form-control>
+            <div class="value-display mt-2">
+              <small><strong>Valor:</strong> {{ newVolumeControl.value }}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <app-code-tabs [title]="'Exemplo Básico'" [examples]="basicExampleCode"></app-code-tabs>
+    </section>
+
+    <!-- Seção 2: Range customizado -->
+    <section class="comparison-section mb-2">
+      <h2 class="section-title">2️⃣ Range Customizado (Temperatura)</h2>
+
+      <div class="row no-spacings">
+        <div class="col-md-6">
+          <div class="example-box legacy-component">
+            <h3 class="component-label">🔴 Componente Legado</h3>
+            <sq-input-range
+              [id]="'old-temp'"
+              [name]="'old-temp'"
+              [label]="'Temperatura (°C)'"
+              [(value)]="oldTempValue"
+              [minNumber]="-10"
+              [maxNumber]="40"
+            ></sq-input-range>
+            <div class="value-display mt-2">
+              <small><strong>Valor:</strong> {{ oldTempValue }}°C</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="example-box new-component">
+            <h3 class="component-label">🟢 Componente Novo</h3>
+            <sq-input-range-form-control
+              [id]="'new-temp'"
+              [name]="'new-temp'"
+              [label]="'Temperatura (°C)'"
+              [formControl]="newTempControl"
+              [minNumber]="-10"
+              [maxNumber]="40"
+            ></sq-input-range-form-control>
+            <div class="value-display mt-2">
+              <small><strong>Valor:</strong> {{ newTempControl.value }}°C</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <app-code-tabs [title]="'Exemplo Range'" [examples]="rangeExampleCode"></app-code-tabs>
+    </section>
+
+    <!-- Seção 3: Step customizado -->
+    <section class="comparison-section mb-2">
+      <h2 class="section-title">3️⃣ Step Customizado (Desconto)</h2>
+
+      <div class="row no-spacings">
+        <div class="col-md-6">
+          <div class="example-box legacy-component">
+            <h3 class="component-label">🔴 Componente Legado</h3>
+            <sq-input-range
+              [id]="'old-step'"
+              [name]="'old-step'"
+              [label]="'Desconto (%) - Step de 5'"
+              [(value)]="oldStepValue"
+              [minNumber]="0"
+              [maxNumber]="100"
+              [step]="5"
+            ></sq-input-range>
+            <div class="value-display mt-2">
+              <small><strong>Valor:</strong> {{ oldStepValue }}%</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="example-box new-component">
+            <h3 class="component-label">🟢 Componente Novo</h3>
+            <sq-input-range-form-control
+              [id]="'new-step'"
+              [name]="'new-step'"
+              [label]="'Desconto (%) - Step de 5'"
+              [formControl]="newStepControl"
+              [minNumber]="0"
+              [maxNumber]="100"
+              [step]="5"
+            ></sq-input-range-form-control>
+            <div class="value-display mt-2">
+              <small><strong>Valor:</strong> {{ newStepControl.value }}%</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <app-code-tabs [title]="'Exemplo Step'" [examples]="stepExampleCode"></app-code-tabs>
+    </section>
+
+    <!-- Seção 4: Cor customizada (thumb) -->
+    <section class="comparison-section mb-2">
+      <h2 class="section-title">4️⃣ Cor Customizada (Thumb Verde)</h2>
+
+      <div class="row no-spacings">
+        <div class="col-md-12">
+          <div class="example-box new-component">
+            <h3 class="component-label">🟢 Componente Novo com Cor do Thumb</h3>
+            <sq-input-range-form-control
+              [id]="'new-color'"
+              [name]="'new-color'"
+              [label]="'Progresso'"
+              [formControl]="newColorControl"
+              [color]="'#28a745'"
+            ></sq-input-range-form-control>
+            <div class="value-display mt-2">
+              <small><strong>Valor:</strong> {{ newColorControl.value }}%</small>
+              <small class="ms-3"><strong>Cor:</strong> #28a745 (Verde)</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <app-code-tabs [title]="'Exemplo Cor'" [examples]="colorExampleCode"></app-code-tabs>
+    </section>
+
+    <!-- Seção 5: Cor da track -->
+    <section class="comparison-section mb-2">
+      <h2 class="section-title">5️⃣ Cor da Track (Linha)</h2>
+
+      <div class="row no-spacings">
+        <div class="col-md-12">
+          <div class="example-box new-component">
+            <h3 class="component-label">🟢 Componente Novo com Track Colorida</h3>
+            <sq-input-range-form-control
+              [id]="'new-track'"
+              [name]="'new-track'"
+              [label]="'Brilho'"
+              [formControl]="newTrackColorControl"
+              [color]="'#ff6b35'"
+              [trackColor]="'#ffe0d3'"
+            ></sq-input-range-form-control>
+            <div class="value-display mt-2">
+              <small><strong>Valor:</strong> {{ newTrackColorControl.value }}%</small>
+              <small class="ms-3"><strong>Thumb:</strong> #ff6b35 (Laranja)</small>
+              <small class="ms-3"><strong>Track:</strong> #ffe0d3 (Rosa claro)</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <app-code-tabs [title]="'Exemplo Track'" [examples]="trackColorExampleCode"></app-code-tabs>
+    </section>
+
+    <!-- Seção 6: Dual Range -->
+    <section class="comparison-section mb-2">
+      <h2 class="section-title">6️⃣ Dual Range (Intervalo de Valores)</h2>
+      <p class="section-description">
+        Selecione um intervalo de valores usando dois thumbs. Ideal para filtros de preço, idade, etc.
+      </p>
+
+      <div class="row no-spacings">
+        <div class="col-md-12">
+          <div class="example-box new-component">
+            <h3 class="component-label">🟢 Componente Novo com Dual Range</h3>
+            <sq-input-range-form-control
+              [id]="'new-dual'"
+              [name]="'new-dual'"
+              [label]="'Faixa de valores (selecione entre 5 e 35, por exemplo)'"
+              [formControl]="newDualRangeControl"
+              [minNumber]="0"
+              [maxNumber]="100"
+              [dualRange]="true"
+              [color]="'var(--primary_color)'"
+              [trackColor]="'#e0e0e0'"
+            ></sq-input-range-form-control>
+            <div class="value-display mt-2">
+              <small><strong>Mínimo:</strong> {{ newDualRangeControl.value?.min }}</small>
+              <small class="ms-3"><strong>Máximo:</strong> {{ newDualRangeControl.value?.max }}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <app-code-tabs [title]="'Exemplo Dual Range'" [examples]="dualRangeExampleCode"></app-code-tabs>
+    </section>
+
+    <!-- Seção de Benefícios -->
+    <section class="benefits-section">
+      <h2 class="section-title">✨ Benefícios do Novo Componente</h2>
+      <div class="benefits-grid">
+        <div class="benefit-card">
+          <i class="fas fa-code"></i>
+          <h4>Reactive Forms</h4>
+          <p>Integração nativa com FormControl para validação e gerenciamento de estado.</p>
+        </div>
+        <div class="benefit-card">
+          <i class="fas fa-paint-brush"></i>
+          <h4>Customização</h4>
+          <p>Suporte a cores customizadas para thumb e track.</p>
+        </div>
+        <div class="benefit-card">
+          <i class="fas fa-sliders-h"></i>
+          <h4>Dual Range</h4>
+          <p>Seleção de intervalos com dois thumbs (min/max).</p>
+        </div>
+        <div class="benefit-card">
+          <i class="fas fa-check-circle"></i>
+          <h4>Validação</h4>
+          <p>Validação automática através de Validators do Angular.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

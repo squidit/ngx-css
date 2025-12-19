@@ -1,0 +1,9 @@
+// Importa os estilos do componente pai (mask-form-control)
+@use '../sq-input-mask-form-control/sq-input-mask-form-control.component';
+
+// Estilo específico para placeholder do input monetário
+input::placeholder {
+  color: var(--color_text-icon_neutral_tertiary, #999);
+  opacity: 0.7;
+}
+

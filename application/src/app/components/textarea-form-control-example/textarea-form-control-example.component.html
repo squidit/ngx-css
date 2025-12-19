@@ -1,0 +1,315 @@
+<div class="container py-5">
+  <div class="row">
+    <div class="col-12">
+      <h1 class="mb-4">SqTextareaFormControl - Exemplos de Uso</h1>
+      <p class="lead mb-5">Componente de textarea com Reactive Forms, ControlValueAccessor e validações nativas</p>
+    </div>
+  </div>
+
+  <!-- 1️⃣ Reactive Forms com Validações -->
+  <section class="mb-5">
+    <div class="card">
+      <div class="card-header">
+        <h3>1️⃣ Reactive Forms com Validações</h3>
+        <p class="mb-0">Formulário de feedback usando FormGroup com validações</p>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="feedbackForm" (ngSubmit)="onSubmit()">
+          <div class="row">
+            <div class="col-12 mb-3">
+              <sq-textarea-form-control
+                formControlName="title"
+                [label]="'Título do Feedback *'"
+                [placeholder]="'Ex: Sugestão de Melhoria'"
+                [required]="true"
+                [rows]="2"
+                [maxLength]="100"
+                [tooltipMessage]="'Dê um título curto e descritivo'"
+                [tooltipIcon]="'fa-solid fa-circle-info'"
+                sqValidation
+              ></sq-textarea-form-control>
+            </div>
+
+            <div class="col-12 mb-3">
+              <sq-textarea-form-control
+                formControlName="description"
+                [label]="'Descrição Detalhada *'"
+                [placeholder]="'Descreva seu feedback em detalhes (mínimo 20 caracteres)...'"
+                [required]="true"
+                [rows]="5"
+                [maxLength]="1000"
+                sqValidation
+              ></sq-textarea-form-control>
+            </div>
+
+            <div class="col-12 mb-3">
+              <sq-textarea-form-control
+                formControlName="suggestions"
+                [label]="'Sugestões Adicionais (opcional)'"
+                [placeholder]="'Alguma sugestão adicional?'"
+                [rows]="3"
+              ></sq-textarea-form-control>
+            </div>
+          </div>
+
+          <div class="d-flex gap-2 mt-4">
+            <button type="submit" class="btn btn-primary">
+              <i class="fa-solid fa-paper-plane mr-2"></i>
+              Enviar Feedback
+            </button>
+            <button type="button" class="btn btn-secondary" (click)="onReset()">
+              <i class="fa-solid fa-rotate-left mr-2"></i>
+              Limpar
+            </button>
+            <button type="button" class="btn btn-info" (click)="fillWithExample()">
+              <i class="fa-solid fa-fill mr-2"></i>
+              Preencher Exemplo
+            </button>
+          </div>
+        </form>
+
+        <div class="mt-4 p-3 bg-light rounded">
+          <h6>Estado do Formulário:</h6>
+          <div class="row">
+            <div class="col-md-4">
+              <strong>Válido:</strong>
+              <span [class]="feedbackForm.valid ? 'text-success' : 'text-danger'">
+                {{ feedbackForm.valid ? '✓ Sim' : '✗ Não' }}
+              </span>
+            </div>
+            <div class="col-md-4">
+              <strong>Tocado:</strong>
+              <span [class]="feedbackForm.touched ? 'text-info' : 'text-muted'">
+                {{ feedbackForm.touched ? 'Sim' : 'Não' }}
+              </span>
+            </div>
+            <div class="col-md-4">
+              <strong>Modificado:</strong>
+              <span [class]="feedbackForm.dirty ? 'text-warning' : 'text-muted'">
+                {{ feedbackForm.dirty ? 'Sim' : 'Não' }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <app-code-tabs [examples]="[{label: 'HTML', language: 'html', code: basicCode}]"></app-code-tabs>
+  </section>
+
+  <!-- 2️⃣ MaxLength com Contador -->
+  <section class="mb-5">
+    <div class="card">
+      <div class="card-header">
+        <h3>2️⃣ MaxLength com Contador</h3>
+        <p class="mb-0">Textarea com limite de caracteres e contador visual</p>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-8">
+            <sq-textarea-form-control
+              [label]="'Bio (máximo 500 caracteres)'"
+              [placeholder]="'Conte um pouco sobre você...'"
+              [formControl]="bioControl"
+              [maxLength]="500"
+              [rows]="4"
+            ></sq-textarea-form-control>
+          </div>
+          <div class="col-md-4">
+            <div class="alert alert-info">
+              <strong>Caracteres:</strong> {{ bioControl.value?.length || 0 }} / 500
+              <div class="progress mt-2" style="height: 8px;">
+                <div
+                  class="progress-bar"
+                  [class.bg-success]="(bioControl.value?.length || 0) < 400"
+                  [class.bg-warning]="(bioControl.value?.length || 0) >= 400 && (bioControl.value?.length || 0) < 480"
+                  [class.bg-danger]="(bioControl.value?.length || 0) >= 480"
+                  [style.width.%]="((bioControl.value?.length || 0) / 500) * 100"
+                ></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <app-code-tabs [examples]="[{label: 'HTML', language: 'html', code: maxLengthCode}]"></app-code-tabs>
+  </section>
+
+  <!-- 3️⃣ Auto-Resize -->
+  <section class="mb-5">
+    <div class="card">
+      <div class="card-header">
+        <h3>3️⃣ Auto-Resize</h3>
+        <p class="mb-0">Textarea que cresce automaticamente conforme o conteúdo</p>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-8">
+            <sq-textarea-form-control
+              [label]="'Notas (auto-resize)'"
+              [placeholder]="'Digite suas notas... O campo vai crescer automaticamente!'"
+              [formControl]="notesControl"
+              [autoResize]="true"
+              [minHeight]="'80px'"
+              [maxHeight]="'400px'"
+            ></sq-textarea-form-control>
+          </div>
+          <div class="col-md-4">
+            <div class="alert alert-secondary">
+              <i class="fa-solid fa-lightbulb mr-2"></i>
+              <strong>Dica:</strong> O campo se ajusta automaticamente ao conteúdo, respeitando a altura mínima de 80px e máxima de 400px.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <app-code-tabs [examples]="[{label: 'HTML', language: 'html', code: autoResizeCode}]"></app-code-tabs>
+  </section>
+
+  <!-- 4️⃣ Estilos Customizados -->
+  <section class="mb-5">
+    <div class="card">
+      <div class="card-header">
+        <h3>4️⃣ Estilos Customizados</h3>
+        <p class="mb-0">Personalizando cores e aparência</p>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-4 mb-3">
+            <sq-textarea-form-control
+              [label]="'Campo Azul'"
+              [placeholder]="'Fundo azul claro'"
+              [backgroundColor]="'#e3f2fd'"
+              [borderColor]="'#2196f3'"
+              [labelColor]="'#1976d2'"
+              [rows]="3"
+            ></sq-textarea-form-control>
+          </div>
+          <div class="col-md-4 mb-3">
+            <sq-textarea-form-control
+              [label]="'Campo Verde'"
+              [placeholder]="'Fundo verde claro'"
+              [backgroundColor]="'#e8f5e9'"
+              [borderColor]="'#4caf50'"
+              [labelColor]="'#388e3c'"
+              [rows]="3"
+            ></sq-textarea-form-control>
+          </div>
+          <div class="col-md-4 mb-3">
+            <sq-textarea-form-control
+              [label]="'Campo Roxo'"
+              [placeholder]="'Fundo roxo claro'"
+              [backgroundColor]="'#f3e5f5'"
+              [borderColor]="'#9c27b0'"
+              [labelColor]="'#7b1fa2'"
+              [rows]="3"
+            ></sq-textarea-form-control>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <app-code-tabs [examples]="[{label: 'HTML', language: 'html', code: stylesCode}]"></app-code-tabs>
+  </section>
+
+  <!-- 5️⃣ Estados -->
+  <section class="mb-5">
+    <div class="card">
+      <div class="card-header">
+        <h3>5️⃣ Estados do Componente</h3>
+        <p class="mb-0">Demonstração de diferentes estados</p>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-4 mb-3">
+            <sq-textarea-form-control
+              [label]="'Campo Normal'"
+              [placeholder]="'Pode digitar normalmente'"
+              [rows]="3"
+            ></sq-textarea-form-control>
+          </div>
+          <div class="col-md-4 mb-3">
+            <sq-textarea-form-control
+              [label]="'Campo Desabilitado'"
+              [placeholder]="'Não pode digitar'"
+              [disabled]="true"
+              [rows]="3"
+            ></sq-textarea-form-control>
+          </div>
+          <div class="col-md-4 mb-3">
+            <sq-textarea-form-control
+              [label]="'Campo Somente Leitura'"
+              [formControl]="readonlyControl"
+              [readonly]="true"
+              [rows]="3"
+            ></sq-textarea-form-control>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <app-code-tabs [examples]="[{label: 'HTML', language: 'html', code: statesCode}]"></app-code-tabs>
+  </section>
+
+  <!-- 6️⃣ Eventos -->
+  <section class="mb-5">
+    <div class="card">
+      <div class="card-header">
+        <h3>6️⃣ Eventos e Callbacks</h3>
+        <p class="mb-0">Demonstração dos eventos disponíveis</p>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-6">
+            <sq-textarea-form-control
+              [label]="'Campo com Eventos'"
+              [placeholder]="'Digite algo para ver os eventos...'"
+              [rows]="4"
+              (keyPressDown)="onKeyDown($event)"
+              (keyPressUp)="onKeyUp($event)"
+              (focused)="onFocus($event)"
+              (blurred)="onBlur($event)"
+            ></sq-textarea-form-control>
+          </div>
+          <div class="col-md-6">
+            <div class="alert alert-secondary">
+              <h6>Status dos Eventos:</h6>
+              <ul class="mb-0">
+                <li><strong>Última tecla:</strong> {{ lastKeyPressed || 'Nenhuma' }}</li>
+                <li>
+                  <strong>Em foco:</strong>
+                  <span [class]="isFocused ? 'text-success' : 'text-muted'">
+                    {{ isFocused ? 'Sim' : 'Não' }}
+                  </span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <app-code-tabs [examples]="[{label: 'HTML', language: 'html', code: eventsCode}]"></app-code-tabs>
+  </section>
+
+  <!-- Informações Adicionais -->
+  <div class="row">
+    <div class="col-12">
+      <div class="alert alert-info">
+        <h5><i class="fa-solid fa-circle-info mr-2"></i>Informações do Componente</h5>
+        <ul class="mb-0">
+          <li>Implementa <strong>ControlValueAccessor</strong> para integração completa com Angular Forms</li>
+          <li>Implementa <strong>Validator</strong> para validações síncronas (required, minLength, maxLength)</li>
+          <li>Suporta <strong>auto-resize</strong> para ajuste automático da altura</li>
+          <li>Contador de caracteres visual quando <code>maxLength</code> é definido</li>
+          <li>Compatível com a diretiva <strong>sqValidation</strong> para mensagens de erro</li>
+          <li>É um componente <strong>standalone</strong>, não requer módulos</li>
+          <li>Suporta templates customizados: <code>leftLabel</code>, <code>rightLabel</code>, <code>labelTemplate</code></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
