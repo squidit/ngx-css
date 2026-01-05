@@ -140,19 +140,65 @@ export class SqValidationDirective implements OnInit, AfterViewInit, OnDestroy {
    */
   @Input() validationTemplate?: TemplateRef<ValidationTemplateContext>;
 
+  /**
+   * Subject para gerenciar subscriptions e cleanup.
+   */
   private destroy$ = new Subject<void>();
+
+  /**
+   * Elemento HTML que exibe a mensagem de erro padrão.
+   */
   private errorElement: HTMLElement | null = null;
+
+  /**
+   * View do template customizado de erro, se fornecido.
+   */
   private templateView: EmbeddedViewRef<ValidationTemplateContext> | null = null;
+
+  /**
+   * Controle do formulário associado à diretiva.
+   */
   private control: AbstractControl | null = null;
+
+  /**
+   * Referência ao método markAsTouched original do controle.
+   */
   private originalMarkAsTouched: (() => void) | null = null;
+
+  /**
+   * Referência ao método markAsUntouched original do controle.
+   */
   private originalMarkAsUntouched: (() => void) | null = null;
 
+  /**
+   * Referência ao elemento host da diretiva.
+   */
   private el = inject(ElementRef);
+
+  /**
+   * Renderer para manipulação segura do DOM.
+   */
   private renderer = inject(Renderer2);
+
+  /**
+   * ViewContainerRef para criar views de template.
+   */
   private viewContainerRef = inject(ViewContainerRef);
+
+  /**
+   * FormControlName injetado opcionalmente (se usado com formControlName).
+   */
   private formControlName = inject(FormControlName, { optional: true, host: true });
+
+  /**
+   * NgControl injetado opcionalmente (se usado com NgControl diretamente).
+   */
   private ngControl = inject(NgControl, { optional: true, self: true });
 
+  /**
+   * Inicializa a diretiva.
+   * Obtém o controle do formulário, intercepta métodos de marcação e configura subscriptions.
+   */
   ngOnInit(): void {
     this.control = this.getControl();
 
@@ -175,6 +221,9 @@ export class SqValidationDirective implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  /**
+   * Após a view ser inicializada, configura listeners de blur no input interno.
+   */
   ngAfterViewInit(): void {
     if (this.control) {
       // Encontra o input interno dentro do componente após a view ser inicializada
@@ -194,6 +243,10 @@ export class SqValidationDirective implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  /**
+   * Cleanup ao destruir a diretiva.
+   * Restaura métodos originais, completa subscriptions e remove elementos de erro.
+   */
   ngOnDestroy(): void {
     // Restaura os métodos originais antes de destruir
     this.restoreMarkAsTouched();
