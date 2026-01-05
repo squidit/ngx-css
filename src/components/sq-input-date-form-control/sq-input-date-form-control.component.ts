@@ -1,15 +1,14 @@
 import { Component, Input, forwardRef, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { NG_VALUE_ACCESSOR, NG_VALIDATORS, ReactiveFormsModule } from '@angular/forms';
-import { NgClass, NgStyle, NgTemplateOutlet } from '@angular/common';
+import { NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
+import { NgClass, NgTemplateOutlet } from '@angular/common';
 import { SqInputFormControlComponent } from '../sq-input-form-control/sq-input-form-control.component';
 import { SqTooltipComponent } from '../sq-tooltip/sq-tooltip.component';
 import { UniversalSafePipe } from '../../pipes/universal-safe/universal-safe.pipe';
-import { DateValidators } from '../../validators/date.validators';
 
 /**
  * Componente de input de data que estende SqInputFormControlComponent.
- * Implementa ControlValueAccessor e Validator para integração com Reactive Forms.
- * Adiciona automaticamente validators de data baseados nos inputs minDate/maxDate.
+ * Implementa ControlValueAccessor para integração com Reactive Forms.
+ * Validators devem ser gerenciados externamente pelo FormControl.
  *
  * @example
  * ```html
@@ -26,16 +25,11 @@ import { DateValidators } from '../../validators/date.validators';
   templateUrl: './sq-input-date-form-control.component.html',
   styleUrls: ['./sq-input-date-form-control.component.scss'],
   standalone: true,
-  imports: [NgClass, NgStyle, NgTemplateOutlet, ReactiveFormsModule, SqTooltipComponent, UniversalSafePipe],
+  imports: [NgClass, NgTemplateOutlet, ReactiveFormsModule, SqTooltipComponent, UniversalSafePipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => SqInputDateFormControlComponent),
-      multi: true,
-    },
-    {
-      provide: NG_VALIDATORS,
       useExisting: forwardRef(() => SqInputDateFormControlComponent),
       multi: true,
     },
@@ -44,13 +38,15 @@ import { DateValidators } from '../../validators/date.validators';
 export class SqInputDateFormControlComponent extends SqInputFormControlComponent implements OnInit {
   /**
    * Data mínima permitida no formato 'yyyy-mm-dd'
-   * Se fornecido, adiciona automaticamente o validator DateValidators.minDate()
+   * Usado apenas para o atributo HTML `min` do input.
+   * Para validação, use validators externos no FormControl.
    */
   @Input() minDate?: string;
 
   /**
    * Data máxima permitida no formato 'yyyy-mm-dd'
-   * Se fornecido, adiciona automaticamente o validator DateValidators.maxDate()
+   * Usado apenas para o atributo HTML `max` do input.
+   * Para validação, use validators externos no FormControl.
    */
   @Input() maxDate?: string;
 
@@ -61,42 +57,14 @@ export class SqInputDateFormControlComponent extends SqInputFormControlComponent
 
   /**
    * Lifecycle hook executado após a inicialização do componente.
-   * Define o tipo como 'date' e atualiza os validators automáticos.
+   * Define o tipo como 'date'.
    */
-  ngOnInit(): void {
+  override ngOnInit(): void {
     // Força o tipo para 'date'
     this.type = 'date' as any;
 
-    // Adiciona validators automáticos baseados em minDate/maxDate
-    this.updateDateValidators();
-  }
-
-  /**
-   * Atualiza os validators do FormControl com base nos inputs de data.
-   * Preserva os validators existentes e adiciona os novos automaticamente.
-   */
-  private updateDateValidators(): void {
-    if (!this.control) return;
-
-    // Coleta os validators existentes
-    const existingValidators = this.control.validator ? [this.control.validator] : [];
-
-    // Adiciona validator de data válida (sempre)
-    const newValidators = [DateValidators.date()];
-
-    // Adiciona validator de data mínima se o @Input foi fornecido
-    if (this.minDate) {
-      newValidators.push(DateValidators.minDate(this.minDate));
-    }
-
-    // Adiciona validator de data máxima se o @Input foi fornecido
-    if (this.maxDate) {
-      newValidators.push(DateValidators.maxDate(this.maxDate));
-    }
-
-    // Combina validators existentes + novos automáticos
-    this.control.setValidators([...existingValidators, ...newValidators]);
-    this.control.updateValueAndValidity({ emitEvent: false });
+    // Chama o ngOnInit da classe base
+    super.ngOnInit();
   }
 
   /**

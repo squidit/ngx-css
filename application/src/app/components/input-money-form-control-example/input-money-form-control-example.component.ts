@@ -4,7 +4,6 @@ import { RouterModule } from '@angular/router';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SqInputMoneyComponent } from '../../../../../src/components/sq-input-money/sq-input-money.component';
 import { SqInputMoneyFormControlComponent } from '../../../../../src/components/sq-input-money-form-control/sq-input-money-form-control.component';
-import { SqValidationMessageComponent } from '../../../../../src/components/sq-validation-message/sq-validation-message.component';
 import { SqValidationDirective } from '../../../../../src/directives/sq-validation.directive';
 import { CodeTabsComponent, CodeExample } from '../code-tabs/code-tabs.component';
 import { BreadcrumbComponent, BreadcrumbItem } from '../breadcrumb/breadcrumb.component';
@@ -18,7 +17,6 @@ import { BreadcrumbComponent, BreadcrumbItem } from '../breadcrumb/breadcrumb.co
     ReactiveFormsModule,
     SqInputMoneyComponent,
     SqInputMoneyFormControlComponent,
-    SqValidationMessageComponent,
     SqValidationDirective,
     CodeTabsComponent,
     BreadcrumbComponent,

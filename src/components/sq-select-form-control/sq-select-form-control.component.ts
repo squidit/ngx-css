@@ -12,16 +12,20 @@ import {
   ElementRef,
   inject,
   TrackByFunction,
+  OnInit,
+  AfterViewInit,
+  Injector,
+  InjectFlags,
 } from '@angular/core';
-import { NgClass, NgStyle, NgTemplateOutlet, AsyncPipe } from '@angular/common';
+import { NgClass, NgStyle, NgTemplateOutlet } from '@angular/common';
 import {
   ControlValueAccessor,
   FormControl,
   ReactiveFormsModule,
   NG_VALUE_ACCESSOR,
-  NG_VALIDATORS,
-  Validator,
-  ValidationErrors,
+  FormControlName,
+  FormControlDirective,
+  NgControl,
 } from '@angular/forms';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { Subject, takeUntil, debounceTime, distinctUntilChanged } from 'rxjs';
@@ -98,7 +102,6 @@ export interface OptionGroup {
     NgClass,
     NgStyle,
     NgTemplateOutlet,
-    AsyncPipe,
     ReactiveFormsModule,
     ScrollingModule,
     SqTooltipComponent,
@@ -114,14 +117,9 @@ export interface OptionGroup {
       useExisting: forwardRef(() => SqSelectFormControlComponent),
       multi: true,
     },
-    {
-      provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => SqSelectFormControlComponent),
-      multi: true,
-    },
   ],
 })
-export class SqSelectFormControlComponent implements ControlValueAccessor, Validator, OnDestroy {
+export class SqSelectFormControlComponent implements ControlValueAccessor, OnInit, AfterViewInit, OnDestroy {
   // ============================================================
   // Identificação
   // ============================================================
@@ -219,6 +217,12 @@ export class SqSelectFormControlComponent implements ControlValueAccessor, Valid
    * Se o campo é somente leitura.
    */
   @Input() readonly = false;
+
+  /**
+   * Se true, retorna o objeto Option completo como value.
+   * Se false (padrão), retorna apenas o value da Option selecionada.
+   */
+  @Input() fullOptionAsValue = false;
 
   // ============================================================
   // Aparência
@@ -396,19 +400,13 @@ export class SqSelectFormControlComponent implements ControlValueAccessor, Valid
    * Callback do ControlValueAccessor.
    */
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  private onChange: (value: Option | null) => void = () => {};
+  private onChange: (value: Option | string | number | null) => void = () => {};
 
   /**
    * Callback do ControlValueAccessor.
    */
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   private onTouched: () => void = () => {};
-
-  /**
-   * Callback do Validator.
-   */
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  private onValidationChange: () => void = () => {};
 
   /**
    * ChangeDetectorRef injetado.
@@ -421,12 +419,23 @@ export class SqSelectFormControlComponent implements ControlValueAccessor, Valid
   private elementRef = inject(ElementRef);
 
   /**
+   * Injector injetado para obter FormControlName de forma lazy e evitar dependência circular.
+   */
+  private injector = inject(Injector);
+
+  /**
    * Construtor.
    */
   constructor() {
     // Subscription para controle interno
     this.control.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(value => {
-      this.onChange(value);
+      // Se fullOptionAsValue for true, retorna o objeto completo
+      // Caso contrário, retorna apenas o value da Option
+      if (this.fullOptionAsValue) {
+        this.onChange(value);
+      } else {
+        this.onChange(value ? value.value : null);
+      }
     });
 
     // Subscription para busca com debounce
@@ -438,6 +447,24 @@ export class SqSelectFormControlComponent implements ControlValueAccessor, Valid
         }
         this.cdr.markForCheck();
       });
+  }
+
+  /**
+   * Lifecycle hook executado após a inicialização.
+   */
+  ngOnInit(): void {
+    // O Angular já aplica as classes .ng-touched, .ng-invalid, etc. automaticamente
+    // através do NgControlStatus quando o componente está vinculado a um FormControl.
+    // Não precisamos aplicar manualmente, apenas garantir que o CSS esteja correto.
+    void 0; // Evita erro de lint para método vazio
+  }
+
+  /**
+   * Lifecycle hook executado após a view ser inicializada.
+   */
+  ngAfterViewInit(): void {
+    // O Angular já aplica as classes automaticamente através do NgControlStatus
+    void 0; // Evita erro de lint para método vazio
   }
 
   /**
@@ -454,16 +481,20 @@ export class SqSelectFormControlComponent implements ControlValueAccessor, Valid
 
   /**
    * Escreve o valor.
+   * Aceita Option | null, string ou number (converte para Option automaticamente).
+   * O value será correspondente ao value do objeto na lista.
    */
-  writeValue(value: Option | null): void {
-    this.control.setValue(value, { emitEvent: false });
+  writeValue(value: Option | string | number | null): void {
+    const optionValue = value && typeof value === 'object' ? value.value : value;
+    const option = this.allOptions.find(opt => opt.value === optionValue) || null;
+    this.control.setValue(option, { emitEvent: false });
     this.cdr.markForCheck();
   }
 
   /**
    * Registra callback onChange.
    */
-  registerOnChange(fn: (value: Option | null) => void): void {
+  registerOnChange(fn: (value: Option | string | number | null) => void): void {
     this.onChange = fn;
   }
 
@@ -484,24 +515,6 @@ export class SqSelectFormControlComponent implements ControlValueAccessor, Valid
       this.control.enable({ emitEvent: false });
     }
     this.cdr.markForCheck();
-  }
-
-  // ============================================================
-  // Validator
-  // ============================================================
-
-  /**
-   * Valida o controle.
-   */
-  validate(): ValidationErrors | null {
-    return this.control.errors;
-  }
-
-  /**
-   * Registra callback de validação.
-   */
-  registerOnValidatorChange(fn: () => void): void {
-    this.onValidationChange = fn;
   }
 
   // ============================================================
@@ -708,10 +721,6 @@ export class SqSelectFormControlComponent implements ControlValueAccessor, Valid
   onFocus(event: FocusEvent): void {
     this.focused.emit(event);
   }
-
-  // ============================================================
-  // Métodos privados
-  // ============================================================
 
   /**
    * Filtra opções localmente.

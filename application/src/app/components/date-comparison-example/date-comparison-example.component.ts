@@ -4,7 +4,6 @@ import { RouterModule } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SqInputDateComponent } from '../../../../../src/components/sq-input-date/sq-input-date.component';
 import { SqInputDateFormControlComponent } from '../../../../../src/components/sq-input-date-form-control/sq-input-date-form-control.component';
-import { SqValidationMessageComponent } from '../../../../../src/components/sq-validation-message/sq-validation-message.component';
 import { SqValidationDirective } from '../../../../../src/directives/sq-validation.directive';
 import { DateValidators } from '../../../../../src/validators/date.validators';
 import { CodeTabsComponent, CodeExample } from '../code-tabs/code-tabs.component';
@@ -19,7 +18,6 @@ import { BreadcrumbComponent, BreadcrumbItem } from '../breadcrumb/breadcrumb.co
     ReactiveFormsModule,
     SqInputDateComponent,
     SqInputDateFormControlComponent,
-    SqValidationMessageComponent,
     SqValidationDirective,
     CodeTabsComponent,
     BreadcrumbComponent,

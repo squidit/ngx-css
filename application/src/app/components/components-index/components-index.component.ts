@@ -25,7 +25,7 @@ export class ComponentsIndexComponent {
       description: 'Componente moderno de input baseado em Reactive Forms com ControlValueAccessor',
       icon: '📝',
       status: 'new',
-      route: '/input-comparison',
+      route: '/input-demonstration',
       features: [
         'Reactive Forms nativo',
         'Validators reutilizáveis',
@@ -183,7 +183,7 @@ export class ComponentsIndexComponent {
       description: 'Componente reutilizável para exibir mensagens de validação de formulários',
       icon: '⚠️',
       status: 'new',
-      route: '/input-comparison',
+      route: '/input-demonstration',
       features: [
         'Suporte a i18n',
         'Mensagens customizáveis',
@@ -197,7 +197,7 @@ export class ComponentsIndexComponent {
       description: 'Diretiva que anexa automaticamente validações aos campos de formulário',
       icon: '🎯',
       status: 'new',
-      route: '/input-comparison',
+      route: '/input-demonstration',
       features: [
         'Anexa sq-validation-message automaticamente',
         'Mensagens customizadas por erro',
@@ -211,7 +211,7 @@ export class ComponentsIndexComponent {
       description: 'Componente legado de input - use sq-input-form-control em novos projetos',
       icon: '🔴',
       status: 'legacy',
-      route: '/input-comparison',
+      route: '/input-demonstration',
       features: ['Two-way binding', 'Validações internas', 'Mantido para compatibilidade'],
     },
     {

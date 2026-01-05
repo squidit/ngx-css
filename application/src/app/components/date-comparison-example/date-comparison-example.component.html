@@ -78,8 +78,10 @@
               [name]="'new-required'"
               [label]="'Data Obrigatória (Novo)'"
               [formControl]="newRequiredControl"
+              [validations]="{
+                required: 'Data é obrigatória'
+              }"
             ></sq-input-date-form-control>
-            <sq-validation-message [control]="newRequiredControl" [fieldName]="'Data'"></sq-validation-message>
           </div>
         </div>
       </div>
@@ -119,8 +121,10 @@
               [formControl]="newRangeControl"
               [minDate]="'2024-01-01'"
               [maxDate]="'2024-12-31'"
+              [validations]="{
+                required: 'Data é obrigatória'
+              }"
             ></sq-input-date-form-control>
-            <sq-validation-message [control]="newRangeControl" [fieldName]="'Data'"></sq-validation-message>
             <small class="text-success">✓ DateValidators.minDate() e maxDate() + atributos HTML aplicados</small>
           </div>
         </div>
@@ -157,14 +161,11 @@
               [name]="'new-birthdate'"
               [label]="'Data de Nascimento (Novo)'"
               [formControl]="newBirthdateControl"
+              [validations]="{
+                required: 'Data de nascimento é obrigatória',
+                ageRange: 'Idade deve estar entre 18 e 100 anos'
+              }"
             ></sq-input-date-form-control>
-            <sq-validation-message
-              [control]="newBirthdateControl"
-              [fieldName]="'Data de Nascimento'"
-              [showWhenTouched]="true"
-              [showWhenDirty]="true"
-            >
-            </sq-validation-message>
             <small class="text-success">✓ Valida idade entre 18 e 100 anos automaticamente</small>
           </div>
         </div>
@@ -201,14 +202,11 @@
               [name]="'new-past'"
               [label]="'Data no Passado (Novo)'"
               [formControl]="newPastControl"
+              [validations]="{
+                required: 'Data é obrigatória',
+                pastDate: 'Data deve estar no passado'
+              }"
             ></sq-input-date-form-control>
-            <sq-validation-message
-              [control]="newPastControl"
-              [fieldName]="'Data'"
-              [showWhenTouched]="true"
-              [showWhenDirty]="true"
-            >
-            </sq-validation-message>
             <small class="text-success">✓ DateValidators.pastDate() aplicado</small>
           </div>
         </div>
@@ -245,14 +243,11 @@
               [name]="'new-future'"
               [label]="'Data no Futuro (Novo)'"
               [formControl]="newFutureControl"
+              [validations]="{
+                required: 'Data é obrigatória',
+                futureDate: 'Data deve estar no futuro'
+              }"
             ></sq-input-date-form-control>
-            <sq-validation-message
-              [control]="newFutureControl"
-              [fieldName]="'Data'"
-              [showWhenTouched]="true"
-              [showWhenDirty]="true"
-            >
-            </sq-validation-message>
             <small class="text-success">✓ DateValidators.futureDate() aplicado</small>
           </div>
         </div>
@@ -270,30 +265,33 @@
         <form [formGroup]="dateForm" (ngSubmit)="submitDateForm()">
           <div class="row no-spacings">
             <div class="col-md-12">
-              <sq-input-date-form-control [label]="'Data de Início'" formControlName="startDate">
-              </sq-input-date-form-control>
-              <sq-validation-message
-                [control]="dateForm.get('startDate')"
-                [fieldName]="'Data de Início'"
-              ></sq-validation-message>
+              <sq-input-date-form-control 
+                [label]="'Data de Início'" 
+                formControlName="startDate"
+                [validations]="{
+                  required: 'Data de início é obrigatória'
+                }"
+              ></sq-input-date-form-control>
             </div>
 
             <div class="col-md-12">
-              <sq-input-date-form-control [label]="'Data de Término'" formControlName="endDate">
-              </sq-input-date-form-control>
-              <sq-validation-message
-                [control]="dateForm.get('endDate')"
-                [fieldName]="'Data de Término'"
-              ></sq-validation-message>
+              <sq-input-date-form-control 
+                [label]="'Data de Término'" 
+                formControlName="endDate"
+                [validations]="{
+                  required: 'Data de término é obrigatória'
+                }"
+              ></sq-input-date-form-control>
             </div>
           </div>
 
-          <sq-input-date-form-control [label]="'Data de Nascimento'" formControlName="birthdate">
-          </sq-input-date-form-control>
-          <sq-validation-message
-            [control]="dateForm.get('birthdate')"
-            [fieldName]="'Data de Nascimento'"
-          ></sq-validation-message>
+          <sq-input-date-form-control 
+            [label]="'Data de Nascimento'" 
+            formControlName="birthdate"
+            [validations]="{
+              required: 'Data de nascimento é obrigatória'
+            }"
+          ></sq-input-date-form-control>
 
           <button type="submit" class="btn btn-primary mt-3" [disabled]="dateForm.invalid">Enviar Formulário</button>
 
@@ -321,9 +319,9 @@
         <sq-input-date-form-control
           [formControl]="directiveRequiredControl"
           [label]="'Data com Diretiva'"
-          sqValidation
-          [fieldName]="'Data'"
-          [showWhen]="'touchedOrDirty'"
+          [validations]="{
+            required: 'Data é obrigatória'
+          }"
         ></sq-input-date-form-control>
         <small class="text-muted"
           >💡 A validação aparece automaticamente quando o campo é tocado ou alterado (showWhen='touchedOrDirty')</small
@@ -335,10 +333,7 @@
         <sq-input-date-form-control
           [formControl]="directiveBirthdateControl"
           [label]="'Data de Nascimento com Mensagens Customizadas'"
-          sqValidation
-          [fieldName]="'Data de Nascimento'"
-          [customErrorMessages]="customMessages"
-          [showWhen]="'touchedOrDirty'"
+          [validations]="customMessages"
         ></sq-input-date-form-control>
         <small class="text-success">✓ Mensagens de erro personalizadas</small>
       </div>
@@ -350,14 +345,11 @@
           [label]="'Data de Evento 2024 (com diretiva)'"
           [minDate]="'2024-01-01'"
           [maxDate]="'2024-12-31'"
-          sqValidation
-          [fieldName]="'Data do Evento'"
-          [customErrorMessages]="{
+          [validations]="{
             required: 'Selecione a data do evento',
             minDate: 'Evento deve ser em 2024',
-            maxDate: 'Evento deve ser em 2024',
+            maxDate: 'Evento deve ser em 2024'
           }"
-          [showWhen]="'touchedOrDirty'"
         ></sq-input-date-form-control>
         <small class="text-success">✓ Validação de range com mensagens específicas + limites no seletor</small>
       </div>

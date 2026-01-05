@@ -123,8 +123,9 @@
               [formControl]="newRequiredControl"
               [displayMode]="'tags'"
               [searchable]="'local'"
-              sqValidation
-              [fieldName]="'Cidades'"
+              [validations]="{
+                required: 'Selecione ao menos uma cidade'
+              }"
             ></sq-select-multi-form-control>
             <div class="value-display mt-2">
               <small><strong>Selecionados:</strong> {{ newRequiredControl.value?.length || 0 }}</small>

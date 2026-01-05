@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { InputComparisonExampleComponent } from './components/input-comparison-example/input-comparison-example.component';
+import { InputDemonstrationExampleComponent } from './components/input-demonstration-example/input-demonstration-example.component';
 import { DateComparisonExampleComponent } from './components/date-comparison-example/date-comparison-example.component';
 import { SelectorComparisonExampleComponent } from './components/selector-comparison-example/selector-comparison-example.component';
 import { InputMaskFormControlExampleComponent } from './components/input-mask-form-control-example/input-mask-form-control-example.component';
@@ -27,9 +27,9 @@ export const routes: Routes = [
     title: 'Novos Componentes de Formulário - @squidit/ngx-css',
   },
   {
-    path: 'input-comparison',
-    component: InputComparisonExampleComponent,
-    title: 'Comparação: sq-input vs sq-input-form-control',
+    path: 'input-demonstration',
+    component: InputDemonstrationExampleComponent,
+    title: 'Demonstração: sq-input-form-control',
   },
   {
     path: 'date-comparison',

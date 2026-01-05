@@ -1,6 +1,6 @@
 import { Component, Input, forwardRef, OnInit, OnChanges, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
-import { NG_VALUE_ACCESSOR, NG_VALIDATORS, ReactiveFormsModule } from '@angular/forms';
-import { NgClass, NgStyle, NgTemplateOutlet } from '@angular/common';
+import { NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
+import { NgClass, NgTemplateOutlet } from '@angular/common';
 import { NgxMaskDirective } from 'ngx-mask';
 import { SqInputMaskFormControlComponent } from '../sq-input-mask-form-control/sq-input-mask-form-control.component';
 import { SqTooltipComponent } from '../sq-tooltip/sq-tooltip.component';
@@ -25,24 +25,11 @@ import { UniversalSafePipe } from '../../pipes/universal-safe/universal-safe.pip
   templateUrl: './sq-input-money-form-control.component.html',
   styleUrls: ['./sq-input-money-form-control.component.scss'],
   standalone: true,
-  imports: [
-    NgClass,
-    NgStyle,
-    NgTemplateOutlet,
-    ReactiveFormsModule,
-    NgxMaskDirective,
-    SqTooltipComponent,
-    UniversalSafePipe,
-  ],
+  imports: [NgClass, NgTemplateOutlet, ReactiveFormsModule, NgxMaskDirective, SqTooltipComponent, UniversalSafePipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => SqInputMoneyFormControlComponent),
-      multi: true,
-    },
-    {
-      provide: NG_VALIDATORS,
       useExisting: forwardRef(() => SqInputMoneyFormControlComponent),
       multi: true,
     },
@@ -82,19 +69,23 @@ export class SqInputMoneyFormControlComponent extends SqInputMaskFormControlComp
     // Prefixo exibido em span separado (não na máscara)
     this.currencyPrefix = this.getCurrencySymbol();
 
+    // Chama o ngOnInit da classe base primeiro
+    super.ngOnInit();
+
     // Valor inicial 0 se não definido (pode ser sobrescrito pelo form pai)
-    if (this.control.value === null || this.control.value === undefined || this.control.value === '') {
+    // Executado após super.ngOnInit() para garantir que o control está inicializado
+    if (
+      this.control &&
+      (this.control.value === null || this.control.value === undefined || this.control.value === '')
+    ) {
       this.control.setValue('0', { emitEvent: false });
     }
-
-    super.ngOnInit();
   }
 
   /**
    * Atualiza o prefixo quando a moeda muda.
    */
-  override ngOnChanges(changes: SimpleChanges): void {
-    super.ngOnChanges(changes);
+  ngOnChanges(changes: SimpleChanges): void {
     if (changes['currency'] && !changes['currency'].firstChange) {
       this.currencyPrefix = this.getCurrencySymbol();
     }

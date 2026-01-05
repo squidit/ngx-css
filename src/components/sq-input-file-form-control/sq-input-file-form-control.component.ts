@@ -21,26 +21,23 @@ import {
   FormControl,
   ReactiveFormsModule,
   NG_VALUE_ACCESSOR,
-  NG_VALIDATORS,
-  Validator,
-  ValidationErrors,
 } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { SqLoaderComponent } from '../sq-loader/sq-loader.component';
 import { UniversalSafePipe } from '../../pipes/universal-safe/universal-safe.pipe';
-import { FileValidators } from '../../validators/file.validators';
 import { Subject, takeUntil } from 'rxjs';
 
 /**
- * Componente de input file moderno que implementa ControlValueAccessor e Validator.
+ * Componente de input file moderno que implementa ControlValueAccessor.
  * Versão melhorada do sq-input-file com suporte completo a Reactive Forms.
  *
  * Usa um FormControl interno para gerenciar o valor e estado.
- * Suporta upload de arquivos únicos ou múltiplos, validação de tamanho e tipos de arquivo.
+ * Suporta upload de arquivos únicos ou múltiplos.
  * Permite customização de estilos, loading state, e templates customizados.
+ * Validators devem ser gerenciados externamente pelo FormControl.
  *
  * Mantém compatibilidade visual e comportamental com o componente legado sq-input-file,
- * mas adiciona suporte completo a Reactive Forms e validações mais robustas.
+ * mas adiciona suporte completo a Reactive Forms.
  *
  * @example
  * ```html
@@ -66,14 +63,9 @@ import { Subject, takeUntil } from 'rxjs';
       useExisting: forwardRef(() => SqInputFileFormControlComponent),
       multi: true,
     },
-    {
-      provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => SqInputFileFormControlComponent),
-      multi: true,
-    },
   ],
 })
-export class SqInputFileFormControlComponent implements ControlValueAccessor, Validator, OnChanges, OnDestroy {
+export class SqInputFileFormControlComponent implements ControlValueAccessor, OnChanges, OnDestroy {
   /**
    * The name attribute for the input element.
    *
@@ -222,11 +214,6 @@ export class SqInputFileFormControlComponent implements ControlValueAccessor, Va
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   private onTouched: () => void = () => {};
 
-  /**
-   * External validator function (propagated from parent control).
-   */
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  private onValidationChange: () => void = () => {};
 
   /**
    * Indicates whether the control is disabled.
@@ -319,10 +306,8 @@ export class SqInputFileFormControlComponent implements ControlValueAccessor, Va
       }
     }
 
-    // Update validators when maxSize or fileType changes (including first change)
-    if (changes['maxSize'] || changes['fileType']) {
-      this.updateFileValidators();
-    }
+    // maxSize and fileType are now only used for HTML attributes
+    // Validators should be managed externally by the FormControl
   }
 
   /**
@@ -392,87 +377,6 @@ export class SqInputFileFormControlComponent implements ControlValueAccessor, Va
   // Validator Implementation
   // ============================================
 
-  /**
-   * Atualiza os validators do FormControl com base nos inputs.
-   * Preserva os validators existentes e adiciona os novos automaticamente.
-   * Segue o mesmo padrão do sq-input-date-form-control.
-   */
-  private updateFileValidators(): void {
-    if (!this.control) return;
-
-    // Coleta os validators existentes
-    const existingValidators = this.control.validator ? [this.control.validator] : [];
-
-    // Adiciona novos validators baseados nos inputs
-    const newValidators = [];
-
-    // Adiciona validator de tamanho máximo se o @Input foi fornecido
-    if (this.maxSize) {
-      newValidators.push(FileValidators.maxFileSize(this.maxSize));
-    }
-
-    // Adiciona validator de tipo de arquivo se o @Input foi fornecido
-    // Converte o formato do accept (ex: '.pdf,.doc,.docx' ou 'image/*') para array
-    if (this.fileType && this.fileType !== '*.*') {
-      const allowedTypes = this.parseFileTypes(this.fileType);
-      if (allowedTypes.length > 0) {
-        newValidators.push(FileValidators.fileType(allowedTypes));
-      }
-    }
-
-    // Combina validators existentes + novos automáticos
-    this.control.setValidators([...existingValidators, ...newValidators]);
-    this.control.updateValueAndValidity({ emitEvent: false });
-
-    // Notify parent control that validators changed
-    this.onValidationChange();
-  }
-
-  /**
-   * Converte o formato de fileType (accept attribute) para array de extensões.
-   * @param fileType - String no formato '.pdf,.doc' ou 'image/*'
-   * @returns Array de extensões permitidas
-   */
-  private parseFileTypes(fileType: string): string[] {
-    // Se for wildcard como 'image/*', não valida por extensão
-    if (fileType.includes('/*')) {
-      return [];
-    }
-
-    // Split por vírgula e limpa espaços
-    return fileType
-      .split(',')
-      .map(type => type.trim().toLowerCase())
-      .filter(type => type.startsWith('.'));
-  }
-
-  /**
-   * Performs validation on the control.
-   * Implements Validator interface.
-   * Apenas propaga os erros do control interno (padrão dos form-control components).
-   *
-   * @returns Validation errors or null if valid
-   */
-  validate(): ValidationErrors | null {
-    // Emite evento de erro se houver erro de tamanho
-    if (this.control.errors?.['maxSize']) {
-      this.validationError.emit(this.control.errors['maxSize'].message);
-    }
-
-    // The component doesn't have custom validation logic
-    // It propagates the internal control's validation state
-    return this.control.errors;
-  }
-
-  /**
-   * Registers a callback to be called when validation status changes.
-   * Implements Validator interface.
-   *
-   * @param fn - The callback function
-   */
-  registerOnValidatorChange(fn: () => void): void {
-    this.onValidationChange = fn;
-  }
 
   // ============================================
   // Event Handlers

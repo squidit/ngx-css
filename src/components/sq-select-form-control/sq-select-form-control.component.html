@@ -38,7 +38,7 @@
     class="select-container"
     [ngStyle]="{
       'background-color': backgroundColor,
-      'border-color': borderColor,
+      'border-color': borderColor || '',
     }"
     [ngClass]="{
       'no-label': !label?.length && !labelTemplate,

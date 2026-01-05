@@ -20,8 +20,6 @@ import { SqInputDateFormControlComponent } from './components/sq-input-date-form
 import { SqInputMaskFormControlComponent } from './components/sq-input-mask-form-control/sq-input-mask-form-control.component';
 import { SqInputMoneyFormControlComponent } from './components/sq-input-money-form-control/sq-input-money-form-control.component';
 import { SqInputNumberFormControlComponent } from './components/sq-input-number-form-control/sq-input-number-form-control.component';
-import { SqValidationMessageComponent } from './components/sq-validation-message/sq-validation-message.component';
-import { SqValidationDirective } from './directives/sq-validation.directive';
 import { SqLoaderComponent } from './components/sq-loader/sq-loader.component';
 import { SqModalComponent } from './components/sq-modal/sq-modal.component';
 import { SqOverlayComponent } from './components/sq-overlay/sq-overlay.component';
@@ -91,8 +89,6 @@ const standaloneComponents = [
   SqInputMaskFormControlComponent,
   SqInputMoneyFormControlComponent,
   SqInputNumberFormControlComponent,
-  SqValidationMessageComponent,
-  SqValidationDirective,
   SqInputFileComponent,
   SqInputDateComponent,
   SqInputMaskComponent,

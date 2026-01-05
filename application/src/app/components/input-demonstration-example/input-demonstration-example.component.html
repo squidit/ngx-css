@@ -1,0 +1,240 @@
+<div class="container-fluid py-4">
+  <app-breadcrumb [items]="breadcrumbItems"></app-breadcrumb>
+
+  <div class="row mb-4">
+    <div class="col-24">
+      <h1 class="display-4 fw-bold mb-3">📝 SqInputFormControl - Demonstração</h1>
+      <p class="lead text-muted">Exemplos práticos de uso do componente moderno de input baseado em Reactive Forms</p>
+    </div>
+  </div>
+
+  <!-- SEÇÃO 1: Validações Básicas -->
+  <div class="row mb-4">
+    <div class="col-24">
+      <div class="card">
+        <div class="card-header">
+          <h2>1️⃣ Validações Básicas</h2>
+          <p class="mb-0">Validações comuns: Email, Telefone e URL</p>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-8 mb-3">
+              <sq-input-form-control
+                [formControl]="emailControl"
+                [label]="'Email'"
+                [type]="'email'"
+                [placeholder]="'seu@email.com'"
+                [validations]="emailValidations"
+              ></sq-input-form-control>
+            </div>
+            <div class="col-md-8 mb-3">
+              <sq-input-form-control
+                [formControl]="phoneControl"
+                [label]="'Telefone'"
+                [type]="'tel'"
+                [placeholder]="'(00) 00000-0000'"
+                [validations]="phoneValidations"
+              ></sq-input-form-control>
+            </div>
+            <div class="col-md-8 mb-3">
+              <sq-input-form-control
+                [formControl]="urlControl"
+                [label]="'URL'"
+                [type]="'url'"
+                [placeholder]="'https://exemplo.com'"
+                [validations]="urlValidations"
+              ></sq-input-form-control>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEÇÃO 2: Validações Brasileiras -->
+  <div class="row mb-4">
+    <div class="col-24">
+      <div class="card">
+        <div class="card-header">
+          <h2>2️⃣ Validações Brasileiras</h2>
+          <p class="mb-0">CPF e CNPJ com validadores customizados</p>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <sq-input-form-control
+                [formControl]="cpfControl"
+                [label]="'CPF'"
+                [placeholder]="'000.000.000-00'"
+                [validations]="cpfValidations"
+              ></sq-input-form-control>
+            </div>
+            <div class="col-md-6 mb-3">
+              <sq-input-form-control
+                [formControl]="cnpjControl"
+                [label]="'CNPJ'"
+                [placeholder]="'00.000.000/0000-00'"
+                [validations]="cnpjValidations"
+              ></sq-input-form-control>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEÇÃO 3: Formulário Completo -->
+  <div class="row mb-4">
+    <div class="col-24">
+      <div class="card">
+        <div class="card-header">
+          <h2>3️⃣ Formulário Completo</h2>
+          <p class="mb-0">Exemplo de formulário completo com múltiplos campos</p>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <sq-input-form-control
+                  formControlName="name"
+                  [label]="'Nome Completo'"
+                  [placeholder]="'Digite seu nome'"
+                  [validations]="nameValidations"
+                ></sq-input-form-control>
+              </div>
+              <div class="col-md-6 mb-3">
+                <sq-input-form-control
+                  formControlName="email"
+                  [label]="'Email'"
+                  [type]="'email'"
+                  [placeholder]="'seu@email.com'"
+                  [validations]="userFormEmailValidations"
+                ></sq-input-form-control>
+              </div>
+              <div class="col-md-6 mb-3">
+                <sq-input-form-control
+                  formControlName="phone"
+                  [label]="'Telefone'"
+                  [type]="'tel'"
+                  [placeholder]="'(00) 00000-0000'"
+                  [validations]="userFormPhoneValidations"
+                ></sq-input-form-control>
+              </div>
+              <div class="col-md-6 mb-3">
+                <sq-input-form-control
+                  formControlName="message"
+                  [label]="'Mensagem'"
+                  [placeholder]="'Digite sua mensagem'"
+                  [validations]="messageValidations"
+                ></sq-input-form-control>
+              </div>
+            </div>
+            <div class="d-flex gap-2 mt-3">
+              <button type="submit" class="btn btn-primary" [disabled]="userForm.invalid">Enviar</button>
+              <button type="button" class="btn btn-secondary" (click)="resetForm()">Limpar</button>
+              <button type="button" class="btn btn-info" (click)="fillForm()">Preencher Exemplo</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEÇÃO 4: Estados e Customizações -->
+  <div class="row mb-4">
+    <div class="col-24">
+      <div class="card">
+        <div class="card-header">
+          <h2>4️⃣ Estados do Componente</h2>
+          <p class="mb-0">Normal, desabilitado e somente leitura</p>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-4 mb-3">
+              <sq-input-form-control [label]="'Campo Normal'" [placeholder]="'Pode digitar'"></sq-input-form-control>
+            </div>
+            <div class="col-md-4 mb-3">
+              <sq-input-form-control
+                [formControl]="disabledControl"
+                [label]="'Campo Desabilitado'"
+                [placeholder]="'Não pode digitar'"
+              ></sq-input-form-control>
+            </div>
+            <div class="col-md-4 mb-3">
+              <sq-input-form-control
+                [formControl]="readonlyControl"
+                [label]="'Campo Somente Leitura'"
+                [placeholder]="'Somente leitura'"
+                [readonly]="true"
+              ></sq-input-form-control>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEÇÃO 5: Busca com Debounce -->
+  <div class="row mb-4">
+    <div class="col-24">
+      <div class="card">
+        <div class="card-header">
+          <h2>5️⃣ Busca com Debounce</h2>
+          <p class="mb-0">Campo de busca com delay usando timeToChange</p>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6">
+              <sq-input-form-control
+                [formControl]="searchControl"
+                [placeholder]="'Digite para buscar...'"
+                [label]="'Busca'"
+                [timeToChange]="500"
+              ></sq-input-form-control>
+            </div>
+            <div class="col-md-6">
+              <div class="alert alert-info">
+                <strong>Valor atual:</strong> {{ searchControl.value || '(vazio)' }}
+                <br />
+                <small>Este campo tem um delay de 500ms antes de emitir mudanças</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEÇÃO 6: Validações Customizadas -->
+  <div class="row mb-4">
+    <div class="col-24">
+      <div class="card">
+        <div class="card-header">
+          <h2>6️⃣ Validações Customizadas</h2>
+          <p class="mb-0">Validadores customizados para username e força de senha</p>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <sq-input-form-control
+                [formControl]="usernameControl"
+                [label]="'Username'"
+                [placeholder]="'Digite seu username'"
+                [validations]="usernameValidations"
+              ></sq-input-form-control>
+            </div>
+            <div class="col-md-6 mb-3">
+              <sq-input-form-control
+                [formControl]="passwordControl"
+                [label]="'Senha'"
+                [type]="'password'"
+                [placeholder]="'Digite sua senha'"
+                [validations]="passwordValidations"
+              ></sq-input-form-control>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -4,29 +4,22 @@ import {
   Component,
   ContentChild,
   ElementRef,
-  EventEmitter,
   forwardRef,
   inject,
   Input,
   OnDestroy,
   OnInit,
-  Output,
   TemplateRef,
 } from '@angular/core';
 import { NgClass, NgStyle, NgTemplateOutlet } from '@angular/common';
 import {
-  ControlValueAccessor,
-  FormControl,
-  NG_VALIDATORS,
   NG_VALUE_ACCESSOR,
   ReactiveFormsModule,
-  ValidationErrors,
-  Validator,
-  Validators,
 } from '@angular/forms';
-import { Subject, debounceTime, distinctUntilChanged, takeUntil } from 'rxjs';
+import { debounceTime, takeUntil } from 'rxjs/operators';
 import { SqTooltipComponent } from '../sq-tooltip/sq-tooltip.component';
 import { UniversalSafePipe } from '../../pipes/universal-safe/universal-safe.pipe';
+import { SqFormControlBaseDirective } from '../../directives/sq-form-control-base';
 
 /**
  * Componente de textarea com Reactive Forms.
@@ -40,7 +33,6 @@ import { UniversalSafePipe } from '../../pipes/universal-safe/universal-safe.pip
  *   [label]="'Descrição'"
  *   [placeholder]="'Digite uma descrição...'"
  *   [formControl]="descriptionControl"
- *   [maxLength]="500"
  * ></sq-textarea-form-control>
  * ```
  *
@@ -68,61 +60,12 @@ import { UniversalSafePipe } from '../../pipes/universal-safe/universal-safe.pip
       useExisting: forwardRef(() => SqTextareaFormControlComponent),
       multi: true,
     },
-    {
-      provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => SqTextareaFormControlComponent),
-      multi: true,
-    },
   ],
 })
-export class SqTextareaFormControlComponent implements ControlValueAccessor, Validator, OnInit, OnDestroy {
-  // ============================================================
-  // Inputs - Identificação
-  // ============================================================
-
-  /**
-   * ID do elemento textarea.
-   */
-  @Input() id = `textarea-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-
-  /**
-   * Nome do campo.
-   */
-  @Input() name = '';
-
+export class SqTextareaFormControlComponent extends SqFormControlBaseDirective implements OnInit, OnDestroy {
   // ============================================================
   // Inputs - Aparência
   // ============================================================
-
-  /**
-   * Label do campo.
-   */
-  @Input() label = '';
-
-  /**
-   * Placeholder do textarea.
-   */
-  @Input() placeholder = '';
-
-  /**
-   * Classe CSS customizada.
-   */
-  @Input() customClass = '';
-
-  /**
-   * Cor de fundo do textarea.
-   */
-  @Input() backgroundColor = '';
-
-  /**
-   * Cor da borda do textarea.
-   */
-  @Input() borderColor = '';
-
-  /**
-   * Cor da label.
-   */
-  @Input() labelColor = '';
 
   /**
    * Número de linhas do textarea.
@@ -149,97 +92,10 @@ export class SqTextareaFormControlComponent implements ControlValueAccessor, Val
   // ============================================================
 
   /**
-   * Desabilita o textarea.
-   */
-  @Input() disabled = false;
-
-  /**
-   * Modo somente leitura.
-   */
-  @Input() readonly = false;
-
-  /**
-   * Campo obrigatório (adiciona validação required).
-   */
-  @Input() required = false;
-
-  /**
-   * Comprimento máximo do texto.
-   */
-  @Input() maxLength: number | null = null;
-
-  /**
-   * Comprimento mínimo do texto.
-   */
-  @Input() minLength: number | null = null;
-
-  /**
    * Debounce do valueChange em ms.
    */
   @Input() debounceTime = 0;
 
-  /**
-   * Exibe o span de erro.
-   */
-  @Input() errorSpan = true;
-
-  /**
-   * Erro externo para exibição.
-   */
-  @Input() externalError = '';
-
-  /**
-   * Ícone externo.
-   */
-  @Input() externalIcon = '';
-
-  // ============================================================
-  // Inputs - Tooltip
-  // ============================================================
-
-  /**
-   * Mensagem do tooltip.
-   */
-  @Input() tooltipMessage = '';
-
-  /**
-   * Posição do tooltip.
-   */
-  @Input() tooltipPlacement: 'center top' | 'center bottom' | 'left center' | 'right center' = 'right center';
-
-  /**
-   * Cor do tooltip.
-   */
-  @Input() tooltipColor = 'inherit';
-
-  /**
-   * Ícone do tooltip.
-   */
-  @Input() tooltipIcon = '';
-
-  // ============================================================
-  // Outputs
-  // ============================================================
-
-  /**
-   * Evento de tecla pressionada.
-   */
-  @Output() keyPressDown = new EventEmitter<KeyboardEvent>();
-
-  /**
-   * Evento de tecla solta.
-   */
-  @Output() keyPressUp = new EventEmitter<KeyboardEvent>();
-
-  /**
-   * Evento de foco.
-   */
-  @Output() focused = new EventEmitter<FocusEvent>();
-
-  /**
-   * Evento de blur.
-   */
-  @Output() blurred = new EventEmitter<FocusEvent>();
 
   // ============================================================
   // Templates
@@ -265,39 +121,6 @@ export class SqTextareaFormControlComponent implements ControlValueAccessor, Val
   // ============================================================
 
   /**
-   * FormControl interno.
-   */
-  control = new FormControl<string>('');
-
-  /**
-   * Subject para debounce.
-   */
-  private valueSubject = new Subject<string>();
-
-  /**
-   * Subject para cleanup.
-   */
-  private destroy$ = new Subject<void>();
-
-  /**
-   * Callback de mudança de valor.
-   */
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  private onChange: (value: string) => void = () => {};
-
-  /**
-   * Callback de touched.
-   */
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  private onTouched: () => void = () => {};
-
-  /**
-   * Callback de mudança de validação.
-   */
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  private onValidationChange: () => void = () => {};
-
-  /**
    * Referência ao ChangeDetectorRef.
    */
   private cdr = inject(ChangeDetectorRef);
@@ -308,180 +131,25 @@ export class SqTextareaFormControlComponent implements ControlValueAccessor, Val
   private elementRef = inject(ElementRef);
 
   /**
-   * Construtor do componente.
+   * Override do watchValueChanges para adicionar debounce.
    */
-  constructor() {
-    // Subscription para mudança de valor com debounce opcional
-    this.valueSubject
-      .pipe(
-        debounceTime(this.debounceTime),
-        distinctUntilChanged(),
-        takeUntil(this.destroy$)
-      )
-      .subscribe(value => {
-        this.onChange(value);
-      });
-  }
-
-  /**
-   * Inicialização do componente.
-   */
-  ngOnInit(): void {
-    this.setupValidators();
-
-    // Subscription para mudanças do controle interno
-    this.control.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(value => {
-      if (this.debounceTime > 0) {
-        this.valueSubject.next(value || '');
-      } else {
-        this.onChange(value || '');
-      }
-    });
-  }
-
-  /**
-   * Cleanup do componente.
-   */
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
-
-  // ============================================================
-  // ControlValueAccessor
-  // ============================================================
-
-  /**
-   * Escreve o valor no controle.
-   *
-   * @param value - Valor a ser escrito.
-   */
-  writeValue(value: string | null): void {
-    this.control.setValue(value || '', { emitEvent: false });
-    this.cdr.markForCheck();
-  }
-
-  /**
-   * Registra callback de mudança de valor.
-   *
-   * @param fn - Callback.
-   */
-  registerOnChange(fn: (value: string) => void): void {
-    this.onChange = fn;
-  }
-
-  /**
-   * Registra callback de touched.
-   *
-   * @param fn - Callback.
-   */
-  registerOnTouched(fn: () => void): void {
-    this.onTouched = fn;
-  }
-
-  /**
-   * Define estado disabled.
-   *
-   * @param isDisabled - Se está desabilitado.
-   */
-  setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
-    if (isDisabled) {
-      this.control.disable({ emitEvent: false });
+  override watchValueChanges(): void {
+    if (this.debounceTime > 0) {
+      this.control.valueChanges
+        .pipe(debounceTime(this.debounceTime), takeUntil(this.destroy$))
+        .subscribe(value => {
+          this.onChange(value);
+          this.valueChange.emit(value);
+        });
     } else {
-      this.control.enable({ emitEvent: false });
+      super.watchValueChanges();
     }
-    this.cdr.markForCheck();
-  }
-
-  // ============================================================
-  // Validator
-  // ============================================================
-
-  /**
-   * Valida o controle.
-   *
-   * @returns Erros de validação ou null.
-   */
-  validate(): ValidationErrors | null {
-    return this.control.errors;
-  }
-
-  /**
-   * Registra callback para mudança de validação.
-   *
-   * @param fn - Callback.
-   */
-  registerOnValidatorChange(fn: () => void): void {
-    this.onValidationChange = fn;
-  }
-
-  // ============================================================
-  // Getters
-  // ============================================================
-
-  /**
-   * Retorna o valor atual.
-   */
-  get value(): string {
-    return this.control.value || '';
-  }
-
-  /**
-   * Retorna o número de caracteres restantes.
-   */
-  get remainingChars(): number {
-    if (!this.maxLength) return 0;
-    return this.maxLength - (this.value?.length || 0);
-  }
-
-  /**
-   * Verifica se há erro.
-   */
-  get hasError(): boolean {
-    return !!(this.externalError || (this.control.invalid && this.control.touched));
   }
 
   // ============================================================
   // Métodos públicos - Eventos
   // ============================================================
 
-  /**
-   * Handler de blur.
-   *
-   * @param event - Evento de blur.
-   */
-  onBlur(event: FocusEvent): void {
-    this.onTouched();
-    this.blurred.emit(event);
-  }
-
-  /**
-   * Handler de focus.
-   *
-   * @param event - Evento de focus.
-   */
-  onFocus(event: FocusEvent): void {
-    this.focused.emit(event);
-  }
-
-  /**
-   * Handler de keydown.
-   *
-   * @param event - Evento de teclado.
-   */
-  onKeyDown(event: KeyboardEvent): void {
-    this.keyPressDown.emit(event);
-  }
-
-  /**
-   * Handler de keyup.
-   *
-   * @param event - Evento de teclado.
-   */
-  onKeyUp(event: KeyboardEvent): void {
-    this.keyPressUp.emit(event);
-  }
 
   /**
    * Handler para auto-resize.
@@ -499,29 +167,5 @@ export class SqTextareaFormControlComponent implements ControlValueAccessor, Val
   // ============================================================
   // Métodos privados
   // ============================================================
-
-  /**
-   * Configura os validadores baseado nos inputs.
-   */
-  private setupValidators(): void {
-    const validators = [];
-
-    if (this.required) {
-      validators.push(Validators.required);
-    }
-
-    if (this.maxLength) {
-      validators.push(Validators.maxLength(this.maxLength));
-    }
-
-    if (this.minLength) {
-      validators.push(Validators.minLength(this.minLength));
-    }
-
-    if (validators.length > 0) {
-      this.control.setValidators(validators);
-      this.control.updateValueAndValidity({ emitEvent: false });
-    }
-  }
 }
 

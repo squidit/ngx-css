@@ -145,11 +145,6 @@
                     [formControl]="newRequiredControl"
                   ></sq-selector-form-control>
 
-                  <sq-validation-message
-                    [control]="newRequiredControl"
-                    [fieldName]="'Política de Privacidade'"
-                    [showWhenTouched]="true"
-                  ></sq-validation-message>
 
                   <div class="mt-3">
                     <small class="text-info">💡 Clique e depois desmarque para ver a validação</small>
@@ -172,10 +167,8 @@
                   [label]="'Aceito a política de privacidade * (com directive)'"
                   [type]="'checkbox'"
                   [formControl]="directiveRequiredControl"
-                  sqValidation
-                  [fieldName]="'Política de Privacidade'"
-                  [customErrorMessages]="{
-                    required: 'Você deve aceitar a política para continuar',
+                  [validations]="{
+                    required: 'Você deve aceitar a política para continuar'
                   }"
                 ></sq-selector-form-control>
               </div>
@@ -369,11 +362,6 @@
                     ></sq-selector-form-control>
                   </div>
 
-                  <sq-validation-message
-                    [control]="newRadioControl"
-                    [fieldName]="'Forma de Pagamento'"
-                    [showWhenTouched]="true"
-                  ></sq-validation-message>
 
                   <div class="mt-3">
                     <small class="text-muted">
@@ -410,8 +398,9 @@
                     [name]="'payment-directive'"
                     [value]="'boleto'"
                     [formControl]="directiveRadioControl"
-                    sqValidation
-                    [fieldName]="'Forma de Pagamento'"
+                    [validations]="{
+                      required: 'Selecione uma forma de pagamento'
+                    }"
                   ></sq-selector-form-control>
 
                   <sq-selector-form-control

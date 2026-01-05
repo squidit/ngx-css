@@ -29,7 +29,6 @@ export * from './components/sq-input-money/sq-input-money.component';
 export * from './components/sq-input-number/sq-input-number.component';
 export * from './components/sq-input-range/sq-input-range.component';
 export * from './components/sq-input/sq-input.component';
-export * from './components/sq-validation-message/sq-validation-message.component';
 export * from './components/sq-select-multi-tags/sq-select-multi-tags.component';
 export * from './components/sq-select-multi/sq-select-multi.component';
 export * from './components/sq-select-search/sq-select-search.component';
@@ -57,7 +56,9 @@ export * from './directives/sq-dropdown/sq-dropdown.directive';
 export * from './directives/sq-tooltip/sq-tooltip.directive';
 export * from './directives/sq-skeleton/sq-skeleton.directive';
 export * from './directives/sq-data-test/sq-data-test.directive';
+export * from './directives/sq-form-control-base';
 export * from './directives/sq-validation.directive';
+export type { ValidationTemplateContext } from './directives/sq-validation.directive';
 
 export * from './pipes/birthdate/birthdate.pipe';
 export * from './pipes/remove-html-tags/remove-html-tags.pipe';

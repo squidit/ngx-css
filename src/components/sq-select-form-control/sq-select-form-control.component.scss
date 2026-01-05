@@ -1,5 +1,11 @@
 :host {
   display: block;
+
+  &.ng-invalid.ng-touched {
+    .select-container .select-handle {
+      border-color: var(--red-50, #dc3545);
+    }
+  }
 }
 
 .wrapper-select-form-control {
@@ -42,6 +48,12 @@
       pointer-events: none;
     }
   }
+
+  &.error {
+    .select-handle {
+      border-color: var(--red-50, #dc3545);
+    }
+  }
 }
 
 .select-handle {
@@ -76,7 +88,6 @@
     overflow: hidden;
     text-overflow: ellipsis;
     flex: 1;
-    font-weight: 700;
   }
 
   .icon-chevron {

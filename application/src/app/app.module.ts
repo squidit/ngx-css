@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { SquidCSSModule } from '../../../src/main.module';
+// SquidCSSModule removed - all components are now standalone and should be imported individually
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -19,7 +19,8 @@ export function createTranslateLoader(http: HttpClient) {
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    SquidCSSModule,
+    // SquidCSSModule removed to avoid component ID collisions
+    // All components are standalone and should be imported individually where needed
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
