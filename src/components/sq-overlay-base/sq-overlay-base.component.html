@@ -7,31 +7,32 @@
   >
     <div [dataTest]="dataTest + '-content'" class="modal-content scrollbar">
       <!-- Header -->
-      <div
-        [dataTest]="dataTest + '-header'"
-        class="modal-header"
-        [ngClass]="{
-          'without-header': !showHeader,
-          borderless: borderless,
-        }"
-      >
-        <!-- String header (title) -->
-        @if (headerTitle) {
-          <h3 class="modal-title">{{ headerTitle }}</h3>
-        }
+      @if (showHeader) {
+        <div
+          [dataTest]="dataTest + '-header'"
+          class="modal-header"
+          [ngClass]="{
+            borderless: borderless,
+          }"
+        >
+          <!-- String header (title) -->
+          @if (headerTitle) {
+            <h3 class="modal-title">{{ headerTitle }}</h3>
+          }
 
-        <!-- Template header (from content projection, input, or body component) -->
-        @if (effectiveHeaderTemplate) {
-          <ng-container *ngTemplateOutlet="effectiveHeaderTemplate; context: templateContext"></ng-container>
-        }
+          <!-- Template header (from content projection, input, or body component) -->
+          @if (effectiveHeaderTemplate) {
+            <ng-container *ngTemplateOutlet="effectiveHeaderTemplate; context: templateContext"></ng-container>
+          }
 
-        <!-- Close button -->
-        @if (showCloseButton) {
-          <button type="button" class="close button-close" aria-label="Close" (click)="dialogClose.emit()">
-            <i class="fa-solid fa-xmark"></i>
-          </button>
-        }
-      </div>
+          <!-- Close button -->
+          @if (showCloseButton) {
+            <button type="button" class="close button-close" aria-label="Close" (click)="dialogClose.emit()">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          }
+        </div>
+      }
 
       <!-- Body -->
       <div [dataTest]="dataTest + '-body'" class="modal-body scrollbar" [ngClass]="{ 'without-footer': !showFooter }">

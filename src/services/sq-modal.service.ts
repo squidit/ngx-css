@@ -264,6 +264,12 @@ export class SqModalService {
     if (instance.config.showCloseButton !== undefined) {
       componentInstance.showCloseButton = instance.config.showCloseButton;
     }
+    if (instance.config.showHeader !== undefined) {
+      componentInstance.showHeaderInput = instance.config.showHeader;
+    }
+    if (instance.config.showFooter !== undefined) {
+      componentInstance.showFooterInput = instance.config.showFooter;
+    }
     if (instance.config.customClass) {
       componentInstance.customClass = instance.config.customClass;
     }

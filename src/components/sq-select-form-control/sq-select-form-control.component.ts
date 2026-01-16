@@ -15,17 +15,13 @@ import {
   OnInit,
   AfterViewInit,
   Injector,
-  InjectFlags,
 } from '@angular/core';
-import { NgClass, NgStyle, NgTemplateOutlet } from '@angular/common';
+import { NgClass, NgIf, NgStyle, NgTemplateOutlet } from '@angular/common';
 import {
   ControlValueAccessor,
   FormControl,
   ReactiveFormsModule,
   NG_VALUE_ACCESSOR,
-  FormControlName,
-  FormControlDirective,
-  NgControl,
 } from '@angular/forms';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { Subject, takeUntil, debounceTime, distinctUntilChanged } from 'rxjs';
@@ -36,6 +32,7 @@ import { UniversalSafePipe } from '../../pipes/universal-safe/universal-safe.pip
 import { SqClickOutsideDirective } from '../../directives/sq-click-outside/sq-click-outside.directive';
 import { SqDataTestDirective } from '../../directives/sq-data-test/sq-data-test.directive';
 import { useMemo } from '../../helpers/memo.helper';
+import { TranslateModule } from '@ngx-translate/core';
 
 /**
  * Modo de busca do select.
@@ -100,6 +97,7 @@ export interface OptionGroup {
   standalone: true,
   imports: [
     NgClass,
+    NgIf,
     NgStyle,
     NgTemplateOutlet,
     ReactiveFormsModule,
@@ -109,6 +107,7 @@ export interface OptionGroup {
     UniversalSafePipe,
     SqClickOutsideDirective,
     SqDataTestDirective,
+    TranslateModule,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
@@ -424,7 +423,9 @@ export class SqSelectFormControlComponent implements ControlValueAccessor, OnIni
   private injector = inject(Injector);
 
   /**
-   * Construtor.
+   * Creates an instance of SqSelectFormControlComponent.
+   * @constructor
+   * Configura as subscriptions para controle interno e busca com debounce.
    */
   constructor() {
     // Subscription para controle interno
@@ -451,24 +452,25 @@ export class SqSelectFormControlComponent implements ControlValueAccessor, OnIni
 
   /**
    * Lifecycle hook executado após a inicialização.
+   * O Angular já aplica as classes .ng-touched, .ng-invalid, etc. automaticamente
+   * através do NgControlStatus quando o componente está vinculado a um FormControl.
+   * Não precisamos aplicar manualmente, apenas garantir que o CSS esteja correto.
    */
   ngOnInit(): void {
-    // O Angular já aplica as classes .ng-touched, .ng-invalid, etc. automaticamente
-    // através do NgControlStatus quando o componente está vinculado a um FormControl.
-    // Não precisamos aplicar manualmente, apenas garantir que o CSS esteja correto.
     void 0; // Evita erro de lint para método vazio
   }
 
   /**
    * Lifecycle hook executado após a view ser inicializada.
+   * O Angular já aplica as classes automaticamente através do NgControlStatus.
    */
   ngAfterViewInit(): void {
-    // O Angular já aplica as classes automaticamente através do NgControlStatus
     void 0; // Evita erro de lint para método vazio
   }
 
   /**
-   * Cleanup.
+   * Lifecycle hook executado quando o componente é destruído.
+   * Limpa todas as subscriptions para evitar memory leaks.
    */
   ngOnDestroy(): void {
     this.destroy$.next();
@@ -483,6 +485,8 @@ export class SqSelectFormControlComponent implements ControlValueAccessor, OnIni
    * Escreve o valor.
    * Aceita Option | null, string ou number (converte para Option automaticamente).
    * O value será correspondente ao value do objeto na lista.
+   *
+   * @param value - O valor a ser escrito (Option, string, number ou null).
    */
   writeValue(value: Option | string | number | null): void {
     const optionValue = value && typeof value === 'object' ? value.value : value;
@@ -493,6 +497,8 @@ export class SqSelectFormControlComponent implements ControlValueAccessor, OnIni
 
   /**
    * Registra callback onChange.
+   *
+   * @param fn - Função callback chamada quando o valor muda.
    */
   registerOnChange(fn: (value: Option | string | number | null) => void): void {
     this.onChange = fn;
@@ -500,6 +506,8 @@ export class SqSelectFormControlComponent implements ControlValueAccessor, OnIni
 
   /**
    * Registra callback onTouched.
+   *
+   * @param fn - Função callback chamada quando o campo é tocado.
    */
   registerOnTouched(fn: () => void): void {
     this.onTouched = fn;
@@ -507,6 +515,8 @@ export class SqSelectFormControlComponent implements ControlValueAccessor, OnIni
 
   /**
    * Define estado disabled.
+   *
+   * @param isDisabled - Se true, desabilita o campo; se false, habilita.
    */
   setDisabledState(isDisabled: boolean): void {
     if (isDisabled) {
@@ -523,6 +533,8 @@ export class SqSelectFormControlComponent implements ControlValueAccessor, OnIni
 
   /**
    * Valor atual selecionado.
+   *
+   * @returns A opção selecionada ou null se nenhuma estiver selecionada.
    */
   get value(): Option | null {
     return this.control.value;
@@ -530,6 +542,8 @@ export class SqSelectFormControlComponent implements ControlValueAccessor, OnIni
 
   /**
    * Se está desabilitado.
+   *
+   * @returns true se o campo está desabilitado, false caso contrário.
    */
   get disabled(): boolean {
     return this.control.disabled;
@@ -537,9 +551,11 @@ export class SqSelectFormControlComponent implements ControlValueAccessor, OnIni
 
   /**
    * Opções a serem exibidas (considerando busca local).
+   *
+   * @returns Lista de opções filtradas se busca local estiver ativa, senão retorna todas as opções.
    */
   get displayOptions(): Option[] {
-    if (this.searchable === 'local' && this.searchText) {
+    if (this.searchable === 'local' && this.canSearch(this.searchText)) {
       return this.filterOptionsLocally(this.searchText);
     }
     return this.options;
@@ -547,6 +563,8 @@ export class SqSelectFormControlComponent implements ControlValueAccessor, OnIni
 
   /**
    * Todas as opções (incluindo grupos).
+   *
+   * @returns Lista completa de opções, incluindo opções de grupos e opções simples.
    */
   get allOptions(): Option[] {
     const groupedOptions = this.optionsWithGroups.flatMap(g => g.options);
@@ -559,11 +577,18 @@ export class SqSelectFormControlComponent implements ControlValueAccessor, OnIni
 
   /**
    * TrackBy para ngFor.
+   *
+   * @param _index - Índice da opção (não utilizado).
+   * @param option - A opção.
+   * @returns O valor da opção como identificador único.
    */
   trackByOption: TrackByFunction<Option> = useMemo((_index, option) => option.value);
 
   /**
    * Abre/fecha o dropdown.
+   * Não faz nada se o campo estiver desabilitado, somente leitura ou em loading.
+   *
+   * @returns Promise que resolve quando a operação for concluída.
    */
   async toggleDropdown(): Promise<void> {
     if (this.disabled || this.readonly || this.loading) {
@@ -579,6 +604,10 @@ export class SqSelectFormControlComponent implements ControlValueAccessor, OnIni
 
   /**
    * Abre o dropdown.
+   * Se o modo for 'remote' e a lista estiver vazia, emite busca inicial.
+   * Inclui delay para animação de abertura.
+   *
+   * @returns Promise que resolve após a animação de abertura.
    */
   async openDropdown(): Promise<void> {
     this.renderDropdown = true;
@@ -598,6 +627,7 @@ export class SqSelectFormControlComponent implements ControlValueAccessor, OnIni
 
   /**
    * Fecha o dropdown.
+   * Limpa o texto de busca e inclui delay para animação de fechamento.
    */
   closeDropdown(): void {
     this.isOpen = false;
@@ -613,6 +643,8 @@ export class SqSelectFormControlComponent implements ControlValueAccessor, OnIni
 
   /**
    * Seleciona uma opção.
+   *
+   * @param option - A opção a ser selecionada.
    */
   selectOption(option: Option): void {
     if (option.disabled) {
@@ -626,13 +658,15 @@ export class SqSelectFormControlComponent implements ControlValueAccessor, OnIni
 
   /**
    * Handler de busca.
+   *
+   * @param event - Evento do input de busca.
    */
   onSearchInput(event: Event): void {
     const input = event.target as HTMLInputElement;
     const term = input.value;
     this.searchText = term;
 
-    if (term.length >= this.minSearchLength || term.length === 0) {
+    if (this.canSearch(term)) {
       if (this.searchable === 'local') {
         this.filteredOptions = this.filterOptionsLocally(term);
         this.cdr.detectChanges();
@@ -643,7 +677,19 @@ export class SqSelectFormControlComponent implements ControlValueAccessor, OnIni
   }
 
   /**
+   * Verifica se pode realizar a busca baseado no tamanho do termo.
+   *
+   * @param term - Termo de busca.
+   * @returns true se pode buscar, false caso contrário.
+   */
+  private canSearch(term: string): boolean {
+    return term.length >= this.minSearchLength || term.length === 0;
+  }
+
+  /**
    * Handler de scroll (infinity scroll) - para lista simples.
+   *
+   * @param event - Evento de scroll.
    */
   onScroll(event: Event): void {
     if (!this.infiniteScroll || !this.hasMore || this.loading) {
@@ -659,6 +705,7 @@ export class SqSelectFormControlComponent implements ControlValueAccessor, OnIni
 
   /**
    * Handler de scroll virtual (cdk-virtual-scroll-viewport).
+   * Emite evento loadMore quando o usuário chega perto do fim da lista.
    */
   onVirtualScroll(): void {
     if (!this.infiniteScroll || !this.hasMore || this.loading) {
@@ -678,6 +725,10 @@ export class SqSelectFormControlComponent implements ControlValueAccessor, OnIni
   /**
    * TrackBy function para virtual scroll.
    * Usa trackByFn customizado se fornecido, senão usa fakeId.
+   *
+   * @param index - Índice da opção.
+   * @param option - A opção.
+   * @returns O identificador único para a opção.
    */
   trackByValue = (index: number, option: Option): unknown => {
     // Se há função customizada, usa ela
@@ -691,6 +742,10 @@ export class SqSelectFormControlComponent implements ControlValueAccessor, OnIni
 
   /**
    * Obtém ou gera um fakeId para a opção.
+   * Usado no trackBy quando não há trackByFn customizado.
+   *
+   * @param option - A opção para a qual gerar/obter o fakeId.
+   * @returns O fakeId da opção.
    */
   private getOptionFakeId(option: Option): string {
     let fakeId = this.optionFakeIdMap.get(option);
@@ -703,6 +758,8 @@ export class SqSelectFormControlComponent implements ControlValueAccessor, OnIni
 
   /**
    * Handler de blur.
+   *
+   * @param event - Evento de blur.
    */
   onBlur(event: FocusEvent): void {
     // Verifica se o foco foi para dentro do dropdown
@@ -717,13 +774,18 @@ export class SqSelectFormControlComponent implements ControlValueAccessor, OnIni
 
   /**
    * Handler de focus.
+   *
+   * @param event - Evento de focus.
    */
   onFocus(event: FocusEvent): void {
     this.focused.emit(event);
   }
 
   /**
-   * Filtra opções localmente.
+   * Filtra opções localmente baseado no termo de busca.
+   *
+   * @param term - Termo de busca.
+   * @returns Lista de opções filtradas.
    */
   private filterOptionsLocally(term: string): Option[] {
     if (!term) {

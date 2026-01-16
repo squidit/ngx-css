@@ -47,6 +47,20 @@ export interface SqDialogConfig<T = any> {
   showCloseButton?: boolean;
 
   /**
+   * Whether to show the header section.
+   *
+   * @default true
+   */
+  showHeader?: boolean;
+
+  /**
+   * Whether to show the footer section.
+   *
+   * @default true
+   */
+  showFooter?: boolean;
+
+  /**
    * Additional CSS class(es) to apply to the dialog container.
    */
   customClass?: string;
