@@ -455,16 +455,18 @@ export class SqSelectSearchComponent implements OnChanges, AfterViewInit, OnDest
    * Isso resolve problemas de overflow em modais e outros containers.
    */
   private attachDropdownToBody(): void {
-    if (!this.dropdownWindow || !this.inputFakeContent || this.isAttachedToBody) {
-      // Tenta inicializar novamente se os elementos não foram encontrados
-      if (!this.dropdownWindow || !this.inputFakeContent) {
-        this.initializeDropdownElements();
-        if (!this.dropdownWindow || !this.inputFakeContent) {
-          return;
-        }
-      } else {
-        return;
-      }
+    // Sempre inicializa os elementos para garantir que estão atualizados
+    this.initializeDropdownElements();
+
+    if (!this.dropdownWindow || !this.inputFakeContent) {
+      return;
+    }
+
+    // Se já está anexado, não faz nada
+    if (this.isAttachedToBody) {
+      // Mas atualiza a posição caso tenha mudado
+      this.updateDropdownPosition();
+      return;
     }
 
     // Obtém a posição do input
@@ -477,10 +479,8 @@ export class SqSelectSearchComponent implements OnChanges, AfterViewInit, OnDest
     const left = inputRect.left;
     const width = inputRect.width;
 
-    // Guarda a referência do pai original se ainda não foi guardada
-    if (!this.originalParent) {
-      this.originalParent = this.dropdownWindow.parentNode;
-    }
+    // Sempre guarda a referência do pai original (pode ter mudado)
+    this.originalParent = this.dropdownWindow.parentNode;
 
     // Cria um wrapper no body com a classe wrapper-select-search para manter o contexto CSS
     this.bodyWrapper = this.document.createElement('div');
@@ -511,7 +511,7 @@ export class SqSelectSearchComponent implements OnChanges, AfterViewInit, OnDest
    * Remove o dropdown do body e retorna ao local original.
    */
   private detachDropdownFromBody(): void {
-    if (!this.dropdownWindow || !this.originalParent || !this.isAttachedToBody || !this.bodyWrapper) {
+    if (!this.isAttachedToBody || !this.bodyWrapper) {
       return;
     }
 
@@ -519,11 +519,29 @@ export class SqSelectSearchComponent implements OnChanges, AfterViewInit, OnDest
     window.removeEventListener('scroll', this.updateDropdownPosition, true);
     window.removeEventListener('resize', this.updateDropdownPosition);
 
-    // Remove estilos inline do dropdown
-    this.dropdownWindow.style.pointerEvents = '';
+    // Reencontra o dropdown (pode estar dentro do wrapper)
+    if (!this.dropdownWindow) {
+      this.initializeDropdownElements();
+    }
 
-    // Move o dropdown de volta para o local original
-    this.originalParent.appendChild(this.dropdownWindow);
+    if (this.dropdownWindow) {
+      // Remove estilos inline do dropdown
+      this.dropdownWindow.style.pointerEvents = '';
+
+      // Move o dropdown de volta para o local original
+      // Se originalParent não existe mais, tenta encontrar o local correto
+      if (this.originalParent && this.originalParent.parentNode) {
+        this.originalParent.appendChild(this.dropdownWindow);
+      } else {
+        // Se originalParent não é mais válido, encontra o local correto
+        const nativeElement = this.element.nativeElement as HTMLElement;
+        const inputFake = nativeElement.querySelector('.input-fake');
+        if (inputFake) {
+          inputFake.appendChild(this.dropdownWindow);
+          this.originalParent = inputFake;
+        }
+      }
+    }
 
     // Remove o wrapper do body
     if (this.bodyWrapper.parentNode) {
