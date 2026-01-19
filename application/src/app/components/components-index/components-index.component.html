@@ -77,8 +77,10 @@
             <pre><code>&lt;sq-input-form-control
   [label]="'Email'"
   [formControl]="emailControl"
-  sqValidation
-  [fieldName]="'Email'"
+  [validations]="&#123;
+    required: 'Email é obrigatório',
+    email: 'Email inválido'
+  &#125;"
 &gt;&lt;/sq-input-form-control&gt;
 
 // TypeScript
@@ -122,7 +124,7 @@ emailControl = new FormControl('', [
   <section class="quick-links mt-5">
     <h2 class="text-center mb-4">🔗 Links Rápidos</h2>
     <div class="links-grid">
-      <a routerLink="/input-comparison" class="link-card">
+      <a routerLink="/input-demonstration" class="link-card">
         <span class="link-icon">📝</span>
         <h3>Input Comparison</h3>
         <p>Exemplos completos de sq-input vs sq-input-form-control</p>

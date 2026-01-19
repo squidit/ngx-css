@@ -8,7 +8,6 @@ import {
   SqSelectFormControlComponent,
   OptionGroup,
 } from '../../../../../src/components/sq-select-form-control/sq-select-form-control.component';
-import { SqValidationMessageComponent } from '../../../../../src/components/sq-validation-message/sq-validation-message.component';
 import { SqValidationDirective } from '../../../../../src/directives/sq-validation.directive';
 import { Option } from '../../../../../src/interfaces/option.interface';
 import { CodeTabsComponent, CodeExample } from '../code-tabs/code-tabs.component';
@@ -24,7 +23,6 @@ import { BreadcrumbComponent, BreadcrumbItem } from '../breadcrumb/breadcrumb.co
     SqSelectComponent,
     SqSelectSearchComponent,
     SqSelectFormControlComponent,
-    SqValidationMessageComponent,
     SqValidationDirective,
     CodeTabsComponent,
     BreadcrumbComponent,

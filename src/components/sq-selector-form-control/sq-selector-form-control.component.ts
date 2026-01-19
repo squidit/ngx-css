@@ -239,8 +239,11 @@ export class SqSelectorFormControlComponent implements ControlValueAccessor, Val
    */
   constructor() {
     // Propaga mudanças do FormControl interno para o FormControl pai
+    // Usa setTimeout para garantir que onChange esteja registrado antes de propagar mudanças
     this.control.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(value => {
-      this.onChange(value);
+      if (this.onChange && typeof this.onChange === 'function') {
+        this.onChange(value);
+      }
       this.cdr.markForCheck();
     });
   }
@@ -318,7 +321,9 @@ export class SqSelectorFormControlComponent implements ControlValueAccessor, Val
    * @param fn - The callback function
    */
   registerOnChange(fn: any): void {
-    this.onChange = fn;
+    if (fn && typeof fn === 'function') {
+      this.onChange = fn;
+    }
   }
 
   /**
@@ -390,11 +395,17 @@ export class SqSelectorFormControlComponent implements ControlValueAccessor, Val
     }
 
     const checked = event?.target?.checked ?? false;
-    const newValue = this.type === 'radio' ? (checked ? this.value : null) : checked;
+    // Para radio buttons, quando checked, usa o value, quando não checked, mantém o valor atual
+    // Isso evita definir null quando não está checked, o que pode causar problemas com valores booleanos
+    const newValue = this.type === 'radio' ? (checked ? this.value : this.control.value) : checked;
 
     // Atualiza o FormControl interno
     // A subscription no constructor vai propagar para o FormControl pai via onChange()
     this.control.setValue(newValue);
+    // Para radio buttons, chama onChange diretamente para garantir que o valor seja propagado
+    if (this.type === 'radio' && checked && this.onChange && typeof this.onChange === 'function') {
+      this.onChange(this.value);
+    }
     this.onTouched();
   }
 }

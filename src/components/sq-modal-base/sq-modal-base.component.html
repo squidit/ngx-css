@@ -7,24 +7,26 @@
   >
     <div [dataTest]="dataTest + '-content'" class="modal-content modal-sq">
       <!-- Header -->
-      <div [dataTest]="dataTest + '-header'" class="modal-header" [ngClass]="{ 'without-header': !showHeader }">
-        <!-- String header (title) -->
-        @if (headerTitle) {
-          <h5 class="modal-title">{{ headerTitle }}</h5>
-        }
+      @if (showHeader) {
+        <div [dataTest]="dataTest + '-header'" class="modal-header">
+          <!-- String header (title) -->
+          @if (headerTitle) {
+            <h5 class="modal-title">{{ headerTitle }}</h5>
+          }
 
-        <!-- Template header (from content projection, input, or body component) -->
-        @if (effectiveHeaderTemplate) {
-          <ng-container *ngTemplateOutlet="effectiveHeaderTemplate; context: templateContext"></ng-container>
-        }
+          <!-- Template header (from content projection, input, or body component) -->
+          @if (effectiveHeaderTemplate) {
+            <ng-container *ngTemplateOutlet="effectiveHeaderTemplate; context: templateContext"></ng-container>
+          }
 
-        <!-- Close button -->
-        @if (showCloseButton) {
-          <button type="button" class="close button-close" aria-label="Close" (click)="dialogClose.emit()">
-            <i class="fa-solid fa-xmark fa-lg"></i>
-          </button>
-        }
-      </div>
+          <!-- Close button -->
+          @if (showCloseButton) {
+            <button type="button" class="close button-close" aria-label="Close" (click)="dialogClose.emit()">
+              <i class="fa-solid fa-xmark fa-lg"></i>
+            </button>
+          }
+        </div>
+      }
 
       <!-- Body -->
       <div [dataTest]="dataTest + '-body'" class="modal-body scrollbar">

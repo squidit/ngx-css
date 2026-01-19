@@ -87,12 +87,11 @@
               [mask]="'000.000.000-00'"
               [formControl]="newCpfControl"
               [placeholder]="'000.000.000-00'"
+              [validations]="{
+                required: 'CPF é obrigatório',
+                cpf: 'CPF inválido'
+              }"
             ></sq-input-mask-form-control>
-            <sq-validation-message
-              [control]="newCpfControl"
-              [fieldName]="'CPF'"
-              [showWhenTouched]="true"
-            ></sq-validation-message>
             <div class="value-display mt-2">
               <small><strong>Valor:</strong> {{ newCpfControl.value || '(vazio)' }}</small>
               <small class="ms-3"><strong>Status:</strong> {{ newCpfControl.status }}</small>
@@ -274,8 +273,10 @@
               [mask]="'00.000.000/0000-00'"
               [formControl]="newCnpjControl"
               [placeholder]="'00.000.000/0000-00'"
-              sqValidation
-              [fieldName]="'CNPJ'"
+              [validations]="{
+                required: 'CNPJ é obrigatório',
+                cnpj: 'CNPJ inválido'
+              }"
             ></sq-input-mask-form-control>
             <div class="value-display mt-2">
               <small><strong>Valor:</strong> {{ newCnpjControl.value || '(vazio)' }}</small>

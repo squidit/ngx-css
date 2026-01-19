@@ -14,16 +14,8 @@ import {
   SimpleChanges,
   TemplateRef,
 } from '@angular/core';
-import { NgClass, NgStyle, NgTemplateOutlet, AsyncPipe } from '@angular/common';
-import {
-  ControlValueAccessor,
-  FormControl,
-  NG_VALIDATORS,
-  NG_VALUE_ACCESSOR,
-  ReactiveFormsModule,
-  ValidationErrors,
-  Validator,
-} from '@angular/forms';
+import { NgClass, NgStyle, NgTemplateOutlet } from '@angular/common';
+import { NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { Subject, debounceTime, distinctUntilChanged, takeUntil } from 'rxjs';
 import { OptionMulti } from '../../interfaces/option.interface';
@@ -32,6 +24,8 @@ import { SqTooltipComponent } from '../sq-tooltip/sq-tooltip.component';
 import { SqSelectorComponent } from '../sq-selector/sq-selector.component';
 import { SqClickOutsideDirective } from '../../directives/sq-click-outside/sq-click-outside.directive';
 import { SqDataTestDirective } from '../../directives/sq-data-test/sq-data-test.directive';
+import { UniversalSafePipe } from '../../pipes/universal-safe/universal-safe.pipe';
+import { SqFormControlBaseDirective } from '../../directives/sq-form-control-base';
 
 /**
  * Componente de select múltiplo com Reactive Forms.
@@ -64,7 +58,6 @@ import { SqDataTestDirective } from '../../directives/sq-data-test/sq-data-test.
     NgClass,
     NgStyle,
     NgTemplateOutlet,
-    AsyncPipe,
     ReactiveFormsModule,
     ScrollingModule,
     SqLoaderComponent,
@@ -72,6 +65,7 @@ import { SqDataTestDirective } from '../../directives/sq-data-test/sq-data-test.
     SqSelectorComponent,
     SqClickOutsideDirective,
     SqDataTestDirective,
+    UniversalSafePipe,
   ],
   providers: [
     {
@@ -79,28 +73,12 @@ import { SqDataTestDirective } from '../../directives/sq-data-test/sq-data-test.
       useExisting: SqSelectMultiFormControlComponent,
       multi: true,
     },
-    {
-      provide: NG_VALIDATORS,
-      useExisting: SqSelectMultiFormControlComponent,
-      multi: true,
-    },
   ],
 })
-export class SqSelectMultiFormControlComponent implements ControlValueAccessor, Validator, OnInit, OnChanges, OnDestroy {
-  // ============================================================
-  // Inputs - Identificação
-  // ============================================================
-
-  /**
-   * ID do elemento.
-   */
-  @Input() id = `select-multi-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-
-  /**
-   * Nome do campo.
-   */
-  @Input() name = '';
-
+export class SqSelectMultiFormControlComponent
+  extends SqFormControlBaseDirective
+  implements OnInit, OnDestroy, OnChanges
+{
   // ============================================================
   // Inputs - Aparência
   // ============================================================
@@ -113,24 +91,9 @@ export class SqSelectMultiFormControlComponent implements ControlValueAccessor, 
   @Input() displayMode: 'default' | 'tags' = 'default';
 
   /**
-   * Label do campo.
-   */
-  @Input() label = '';
-
-  /**
-   * Placeholder quando nenhum item selecionado.
-   */
-  @Input() placeholder = '';
-
-  /**
    * Placeholder do campo de busca.
    */
   @Input() searchPlaceholder = 'Buscar...';
-
-  /**
-   * Classe CSS customizada.
-   */
-  @Input() customClass = '';
 
   /**
    * Cor de fundo.
@@ -172,16 +135,6 @@ export class SqSelectMultiFormControlComponent implements ControlValueAccessor, 
   // ============================================================
 
   /**
-   * Desabilita o componente.
-   */
-  @Input() disabled = false;
-
-  /**
-   * Modo somente leitura.
-   */
-  @Input() readonly = false;
-
-  /**
    * Mostra itens selecionados dentro do input.
    */
   @Input() showInside = true;
@@ -192,14 +145,9 @@ export class SqSelectMultiFormControlComponent implements ControlValueAccessor, 
   @Input() hideSearch = false;
 
   /**
-   * Número máximo de seleções.
+   * Número máximo de seleções (apenas para controle visual, não valida).
    */
   @Input() maxSelections?: number;
-
-  /**
-   * Número mínimo de seleções.
-   */
-  @Input() minSelections?: number;
 
   /**
    * Caracteres mínimos para busca.
@@ -241,29 +189,11 @@ export class SqSelectMultiFormControlComponent implements ControlValueAccessor, 
    */
   @Input() trackByFn?: (index: number, option: OptionMulti) => unknown;
 
-  // ============================================================
-  // Inputs - Tooltip
-  // ============================================================
-
   /**
-   * Mensagem do tooltip.
+   * Se true, retorna o array de objetos OptionMulti completos como value.
+   * Se false (padrão), retorna apenas um array com os values das Options selecionadas.
    */
-  @Input() tooltipMessage = '';
-
-  /**
-   * Posição do tooltip.
-   */
-  @Input() tooltipPlacement: 'center top' | 'center bottom' | 'left center' | 'right center' = 'right center';
-
-  /**
-   * Cor do tooltip.
-   */
-  @Input() tooltipColor = 'inherit';
-
-  /**
-   * Ícone do tooltip.
-   */
-  @Input() tooltipIcon = '';
+  @Input() fullOptionAsValue = false;
 
   // ============================================================
   // Inputs - Data Test
@@ -308,16 +238,6 @@ export class SqSelectMultiFormControlComponent implements ControlValueAccessor, 
    */
   @Output() removeTag = new EventEmitter<OptionMulti>();
 
-  /**
-   * Evento de foco.
-   */
-  @Output() focused = new EventEmitter<FocusEvent>();
-
-  /**
-   * Evento de blur.
-   */
-  @Output() blurred = new EventEmitter<FocusEvent>();
-
   // ============================================================
   // Templates
   // ============================================================
@@ -350,11 +270,6 @@ export class SqSelectMultiFormControlComponent implements ControlValueAccessor, 
   // ============================================================
   // Estado interno
   // ============================================================
-
-  /**
-   * FormControl interno.
-   */
-  control = new FormControl<OptionMulti[]>([]);
 
   /**
    * Dropdown aberto.
@@ -392,11 +307,6 @@ export class SqSelectMultiFormControlComponent implements ControlValueAccessor, 
   private searchSubject = new Subject<string>();
 
   /**
-   * Subject para cleanup.
-   */
-  private destroy$ = new Subject<void>();
-
-  /**
    * Mapa de fakeIds para trackBy.
    */
   private optionFakeIdMap = new WeakMap<OptionMulti, string>();
@@ -405,24 +315,6 @@ export class SqSelectMultiFormControlComponent implements ControlValueAccessor, 
    * Contador para gerar fakeIds únicos.
    */
   private fakeIdCounter = 0;
-
-  /**
-   * Callback de mudança de valor.
-   */
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  private onChange: (value: OptionMulti[]) => void = () => {};
-
-  /**
-   * Callback de touched.
-   */
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  private onTouched: () => void = () => {};
-
-  /**
-   * Callback de mudança de validação.
-   */
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  private onValidationChange: () => void = () => {};
 
   /**
    * Referência ao ChangeDetectorRef.
@@ -438,25 +330,38 @@ export class SqSelectMultiFormControlComponent implements ControlValueAccessor, 
    * Construtor do componente.
    */
   constructor() {
+    super();
+    // Inicializa o control com array vazio em vez de string vazia
+    this.control.setValue([] as any, { emitEvent: false });
     // Subscription para controle interno
-    this.control.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(value => {
-      this.onChange(value || []);
+    this.control.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((value: any) => {
+      const options = (value as OptionMulti[]) || [];
+      // Se fullOptionAsValue for true, retorna o array de objetos completos
+      // Caso contrário, retorna apenas um array com os values das Options
+      if (this.fullOptionAsValue) {
+        this.onChange(options);
+      } else {
+        this.onChange(options.map(opt => opt.value));
+      }
       this.checkMaxSelections();
     });
 
     // Subscription para busca com debounce
-    this.searchSubject.pipe(debounceTime(this.searchDebounce), distinctUntilChanged(), takeUntil(this.destroy$)).subscribe(term => {
-      if (this.searchable === 'remote') {
-        this.searchChange.emit(term);
-      }
-      this.cdr.markForCheck();
-    });
+    this.searchSubject
+      .pipe(debounceTime(this.searchDebounce), distinctUntilChanged(), takeUntil(this.destroy$))
+      .subscribe(term => {
+        if (this.searchable === 'remote') {
+          this.searchChange.emit(term);
+        }
+        this.cdr.markForCheck();
+      });
   }
 
   /**
    * Inicialização do componente.
    */
-  ngOnInit(): void {
+  override ngOnInit(): void {
+    super.ngOnInit();
     // Inicializa filteredOptions com options
     this.filteredOptions = this.options;
   }
@@ -477,22 +382,41 @@ export class SqSelectMultiFormControlComponent implements ControlValueAccessor, 
   /**
    * Cleanup do componente.
    */
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
+  override ngOnDestroy(): void {
+    super.ngOnDestroy();
   }
 
   // ============================================================
-  // ControlValueAccessor
+  // ControlValueAccessor (sobrescreve métodos do base class)
   // ============================================================
 
   /**
    * Escreve o valor no controle.
    *
-   * @param value - Valor a ser escrito.
+   * @param value - Valor a ser escrito (pode ser array de OptionMulti ou array de values).
    */
-  writeValue(value: OptionMulti[] | null): void {
-    this.control.setValue(value || [], { emitEvent: false });
+  override writeValue(value: OptionMulti[] | any[] | null): void {
+    if (!value || value.length === 0) {
+      this.control.setValue([] as any, { emitEvent: false });
+      this.checkMaxSelections();
+      this.cdr.markForCheck();
+      return;
+    }
+
+    // Verifica se é um array de objetos OptionMulti (tem propriedade 'value' e 'label')
+    const isOptionMultiArray =
+      typeof value[0] === 'object' && value[0] !== null && 'value' in value[0] && 'label' in value[0];
+
+    // Se fullOptionAsValue for false e o valor for um array de primitivos,
+    // precisa converter para array de OptionMulti procurando nas options
+    if (!this.fullOptionAsValue && !isOptionMultiArray) {
+      const options = this.options.filter(opt => (value as any[]).includes(opt.value));
+      this.control.setValue(options as any, { emitEvent: false });
+    } else {
+      // Se fullOptionAsValue for true ou já for array de objetos OptionMulti
+      this.control.setValue(value as OptionMulti[] as any, { emitEvent: false });
+    }
+
     this.checkMaxSelections();
     this.cdr.markForCheck();
   }
@@ -502,17 +426,8 @@ export class SqSelectMultiFormControlComponent implements ControlValueAccessor, 
    *
    * @param fn - Callback.
    */
-  registerOnChange(fn: (value: OptionMulti[]) => void): void {
+  override registerOnChange(fn: (value: any) => void): void {
     this.onChange = fn;
-  }
-
-  /**
-   * Registra callback de touched.
-   *
-   * @param fn - Callback.
-   */
-  registerOnTouched(fn: () => void): void {
-    this.onTouched = fn;
   }
 
   /**
@@ -520,45 +435,9 @@ export class SqSelectMultiFormControlComponent implements ControlValueAccessor, 
    *
    * @param isDisabled - Se está desabilitado.
    */
-  setDisabledState(isDisabled: boolean): void {
-    if (isDisabled) {
-      this.control.disable({ emitEvent: false });
-    } else {
-      this.control.enable({ emitEvent: false });
-    }
+  override setDisabledState(isDisabled: boolean): void {
+    super.setDisabledState(isDisabled);
     this.cdr.markForCheck();
-  }
-
-  // ============================================================
-  // Validator
-  // ============================================================
-
-  /**
-   * Valida o controle.
-   *
-   * @returns Erros de validação ou null.
-   */
-  validate(): ValidationErrors | null {
-    const value = this.control.value || [];
-
-    if (this.minSelections && value.length < this.minSelections) {
-      return { minSelections: { required: this.minSelections, actual: value.length } };
-    }
-
-    if (this.maxSelections && value.length > this.maxSelections) {
-      return { maxSelections: { allowed: this.maxSelections, actual: value.length } };
-    }
-
-    return null;
-  }
-
-  /**
-   * Registra callback para mudança de validação.
-   *
-   * @param fn - Callback.
-   */
-  registerOnValidatorChange(fn: () => void): void {
-    this.onValidationChange = fn;
   }
 
   // ============================================================
@@ -568,8 +447,8 @@ export class SqSelectMultiFormControlComponent implements ControlValueAccessor, 
   /**
    * Retorna o valor atual do controle.
    */
-  get value(): OptionMulti[] {
-    return this.control.value || [];
+  override get value(): OptionMulti[] {
+    return (this.control.value as unknown as OptionMulti[]) || [];
   }
 
   /**
@@ -697,7 +576,7 @@ export class SqSelectMultiFormControlComponent implements ControlValueAccessor, 
       }
     }
 
-    this.control.setValue(newValue);
+    this.control.setValue(newValue as any);
     this.valueChanged = true;
     this.cdr.markForCheck();
   }
@@ -717,7 +596,7 @@ export class SqSelectMultiFormControlComponent implements ControlValueAccessor, 
       newValue = newValue.filter(v => !childValues.includes(v.value));
     }
 
-    this.control.setValue(newValue);
+    this.control.setValue(newValue as any);
     this.removeTag.emit(option);
   }
 
@@ -819,13 +698,12 @@ export class SqSelectMultiFormControlComponent implements ControlValueAccessor, 
    *
    * @param event - Evento de blur.
    */
-  onBlur(event: FocusEvent): void {
+  override onBlur(event: FocusEvent): void {
     const relatedTarget = event.relatedTarget as HTMLElement;
     if (relatedTarget && this.elementRef.nativeElement.contains(relatedTarget)) {
       return;
     }
-    this.onTouched();
-    this.blurred.emit(event);
+    super.onBlur(event);
   }
 
   /**
@@ -833,8 +711,8 @@ export class SqSelectMultiFormControlComponent implements ControlValueAccessor, 
    *
    * @param event - Evento de focus.
    */
-  onFocus(event: FocusEvent): void {
-    this.focused.emit(event);
+  override onFocus(event: FocusEvent): void {
+    super.onFocus(event);
   }
 
   // ============================================================
@@ -887,4 +765,3 @@ export class SqSelectMultiFormControlComponent implements ControlValueAccessor, 
     return fakeId;
   }
 }
-

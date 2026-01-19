@@ -1,6 +1,6 @@
 import { TemplateRef, Type } from '@angular/core';
 import { Observable, Subject, from, of, isObservable, OperatorFunction } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { take, map } from 'rxjs/operators';
 
 /**
  * Type for the beforeClose guard function.
@@ -45,6 +45,20 @@ export interface SqDialogConfig<T = any> {
    * @default true
    */
   showCloseButton?: boolean;
+
+  /**
+   * Whether to show the header section.
+   *
+   * @default true
+   */
+  showHeader?: boolean;
+
+  /**
+   * Whether to show the footer section.
+   *
+   * @default true
+   */
+  showFooter?: boolean;
 
   /**
    * Additional CSS class(es) to apply to the dialog container.
@@ -266,6 +280,46 @@ export class SqDialogRef<T = any, R = any> extends Observable<R | undefined> {
    */
   updateData(data: Partial<T>): void {
     this._updateDataHandler(data);
+  }
+
+  /**
+   * Map the result when the dialog closes.
+   * Returns a new Observable with the mapped result.
+   *
+   * @example
+   * ```typescript
+   * const ref = this.modalService.openModal({...});
+   * ref.mapResult(result => result?.id || 0)
+   *   .subscribe(id => console.log('ID:', id));
+   * ```
+   *
+   * @template M - Type of the mapped result
+   * @param mapper - Function to transform the result
+   * @returns Observable with the mapped result
+   */
+  mapResult<M>(mapper: (result: R | undefined) => M): Observable<M> {
+    return this._resultSubject.asObservable().pipe(map(mapper));
+  }
+
+  /**
+   * Execute an action when the dialog closes.
+   * Returns the same SqDialogRef instance for method chaining.
+   *
+   * @example
+   * ```typescript
+   * const ref = this.modalService.openModal({...});
+   * ref.then(result => {
+   *   console.log('Dialog closed with:', result);
+   *   this.handleResult(result);
+   * });
+   * ```
+   *
+   * @param callback - Function to execute when dialog closes
+   * @returns The same SqDialogRef instance for chaining
+   */
+  then(callback: (result: R | undefined) => void): SqDialogRef<T, R> {
+    this._resultSubject.asObservable().pipe(take(1)).subscribe(callback);
+    return this;
   }
 }
 

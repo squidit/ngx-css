@@ -1,7 +1,9 @@
+import { SqValidationDirective } from './../../../../../src/directives/sq-validation.directive';
+import { SqTextareaFormControlComponent } from './../../../../../src/components/sq-textarea-form-control/sq-textarea-form-control.component';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { SqTextareaFormControlComponent, SqValidationDirective } from '@squidit/ngx-css';
+// import { SqTextareaFormControlComponent, SqValidationDirective } from '@squidit/ngx-css';
 import { CodeTabsComponent } from '../code-tabs/code-tabs.component';
 
 @Component({
@@ -33,9 +35,9 @@ export class TextareaFormControlExampleComponent {
 
   // 4️⃣ FormControl desabilitado
   readonlyControl = new FormControl('Este conteúdo não pode ser editado. É apenas para visualização.');
+  disabledControl = new FormControl({ value: 'Este campo está desabilitado', disabled: true });
 
   // Estado de eventos
-  lastKeyPressed = '';
   isFocused = false;
   lastValue = '';
 
@@ -59,14 +61,18 @@ export class TextareaFormControlExampleComponent {
   ></sq-textarea-form-control>
 </form>`;
 
+  // maxLength removido - validação deve ser feita via validators no FormControl
+  // Exemplo: new FormControl('', [Validators.maxLength(500)])
   maxLengthCode = `
-<!-- Com contador de caracteres -->
+<!-- Validação de maxLength deve ser feita via validators no FormControl -->
 <sq-textarea-form-control
   [label]="'Bio (máximo 500 caracteres)'"
   [placeholder]="'Conte um pouco sobre você...'"
   [formControl]="bioControl"
-  [maxLength]="500"
-></sq-textarea-form-control>`;
+></sq-textarea-form-control>
+
+<!-- No TypeScript: -->
+<!-- bioControl = new FormControl('', [Validators.maxLength(500)]); -->`;
 
   autoResizeCode = `
 <!-- Com auto-resize -->
@@ -116,8 +122,6 @@ export class TextareaFormControlExampleComponent {
 <sq-textarea-form-control
   [label]="'Campo com Eventos'"
   [placeholder]="'Digite algo...'"
-  (keyPressDown)="onKeyDown($event)"
-  (keyPressUp)="onKeyUp($event)"
   (focused)="onFocus($event)"
   (blurred)="onBlur($event)"
 ></sq-textarea-form-control>`;
@@ -144,14 +148,6 @@ export class TextareaFormControlExampleComponent {
     this.feedbackForm.reset();
     this.bioControl.reset();
     this.notesControl.reset();
-  }
-
-  onKeyDown(event: KeyboardEvent) {
-    this.lastKeyPressed = `KeyDown: ${event.key}`;
-  }
-
-  onKeyUp(event: KeyboardEvent) {
-    this.lastKeyPressed = `KeyUp: ${event.key}`;
   }
 
   onFocus(_event: FocusEvent) {

@@ -85,12 +85,10 @@
               [label]="'Upload de Arquivo * (Novo)'"
               [placeholder]="'Escolher arquivo'"
               [formControl]="newFileRequiredControl"
+              [validations]="{
+                required: 'Arquivo é obrigatório'
+              }"
             ></sq-input-file-form-control>
-            <sq-validation-message
-              [control]="newFileRequiredControl"
-              [fieldName]="'Arquivo'"
-              [showWhenTouched]="true"
-            ></sq-validation-message>
             <div class="value-display mt-2">
               <small><strong>Arquivos:</strong> {{ newFileRequiredControl.value?.length || 0 }}</small>
               <small class="ms-3"><strong>Status:</strong> {{ newFileRequiredControl.status }}</small>
@@ -282,8 +280,9 @@
               [formControl]="newDocumentControl"
               [fileType]="'.pdf,.doc,.docx'"
               [maxSize]="maxFileSize"
-              sqValidation
-              [fieldName]="'Documento'"
+              [validations]="{
+                required: 'Documento é obrigatório'
+              }"
             ></sq-input-file-form-control>
             <div class="value-display mt-2">
               <small><strong>Arquivos:</strong> {{ newDocumentControl.value?.length || 0 }}</small>
@@ -408,8 +407,9 @@
                 [placeholder]="'Escolher arquivo PDF'"
                 [fileType]="'.pdf'"
                 [maxSize]="maxFileSize"
-                sqValidation
-                [fieldName]="'Currículo'"
+                [validations]="{
+                  required: 'Currículo é obrigatório'
+                }"
               ></sq-input-file-form-control>
             </div>
           </div>

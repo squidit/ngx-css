@@ -1,20 +1,23 @@
 import { SqDataTestDirective } from './../../directives/sq-data-test/sq-data-test.directive';
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ContentChild,
   ElementRef,
   EventEmitter,
+  Inject,
   Input,
   OnChanges,
+  OnDestroy,
   Optional,
   Output,
   SimpleChanges,
   TemplateRef,
   TrackByFunction,
 } from '@angular/core';
-import { NgClass, NgStyle, NgTemplateOutlet, AsyncPipe } from '@angular/common';
+import { DOCUMENT, NgClass, NgStyle, NgTemplateOutlet, AsyncPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { TranslateService } from '@ngx-translate/core';
@@ -63,7 +66,7 @@ import { SqClickOutsideDirective } from '../../directives/sq-click-outside/sq-cl
   ],
   providers: [],
 })
-export class SqSelectSearchComponent implements OnChanges {
+export class SqSelectSearchComponent implements OnChanges, AfterViewInit, OnDestroy {
   /**
    * The name attribute for the search-based select input.
    */
@@ -137,6 +140,13 @@ export class SqSelectSearchComponent implements OnChanges {
    * Indicates whether to display an error span.
    */
   @Input() errorSpan = true;
+
+  /**
+   * Indicates whether to append the dropdown to the body when opened.
+   * Useful for modals and containers with overflow restrictions.
+   * @default false
+   */
+  @Input() appendOnBody = false;
 
   /**
    * Minimum number of characters to perform the searchChange.
@@ -277,18 +287,93 @@ export class SqSelectSearchComponent implements OnChanges {
   cdkVirtualScrollViewportHeight = '305px';
 
   /**
+   * Reference to the input fake content element (used for positioning).
+   */
+  private inputFakeContent?: HTMLElement;
+
+  /**
+   * Reference to the dropdown window element.
+   */
+  private dropdownWindow?: HTMLElement;
+
+  /**
+   * Original parent node of the dropdown (to restore when closing).
+   */
+  private originalParent: Node | null = null;
+
+  /**
+   * Wrapper element created in body to maintain CSS context.
+   */
+  private bodyWrapper?: HTMLElement;
+
+  /**
+   * Indicates if the dropdown is currently attached to body.
+   */
+  private isAttachedToBody = false;
+
+  /**
    * Constructs a new SqSelectSearchComponent.
    *
    * @param {ElementRef} element - The element reference.
    * @param {TranslateService} translate - The optional TranslateService for internationalization.
    * @param {ChangeDetectorRef} changeDetector - Base class that provides change detection functionality.
+   * @param {Document} document - The document object for DOM manipulation.
    */
   constructor(
     public element: ElementRef,
     @Optional() private translate: TranslateService,
-    private changeDetector: ChangeDetectorRef
+    private changeDetector: ChangeDetectorRef,
+    @Inject(DOCUMENT) private document: Document
   ) {
     this.nativeElement = element.nativeElement;
+  }
+
+  /**
+   * Lifecycle hook called after the view is initialized.
+   */
+  ngAfterViewInit(): void {
+    // Inicializa elementos apenas se appendOnBody estiver ativado
+    if (this.appendOnBody) {
+      setTimeout(() => {
+        this.initializeDropdownElements();
+      }, 100);
+    }
+  }
+
+  /**
+   * Lifecycle hook called when the component is destroyed.
+   */
+  ngOnDestroy(): void {
+    this.cleanupDropdownAttachment();
+  }
+
+  /**
+   * Initializes references to dropdown elements.
+   */
+  private initializeDropdownElements(): void {
+    const nativeElement = this.element.nativeElement as HTMLElement;
+
+    // Se o dropdown está anexado ao body, procura primeiro no bodyWrapper
+    if (this.isAttachedToBody && this.bodyWrapper) {
+      this.dropdownWindow = this.bodyWrapper.querySelector('.input-window') as HTMLElement;
+    } else {
+      // Caso contrário, procura no elemento nativo
+      this.dropdownWindow = nativeElement.querySelector('.input-window') as HTMLElement;
+    }
+
+    this.inputFakeContent = nativeElement.querySelector('.input-fake-content') as HTMLElement;
+
+    // Sempre atualiza o originalParent para o local correto (dentro do .input-fake)
+    if (this.dropdownWindow && !this.isAttachedToBody) {
+      const inputFake = nativeElement.querySelector('.input-fake');
+      if (inputFake) {
+        // Se o dropdown não está dentro do input-fake, não atualiza originalParent ainda
+        // (pode estar no bodyWrapper)
+        if (inputFake.contains(this.dropdownWindow) || this.dropdownWindow.parentNode === inputFake) {
+          this.originalParent = inputFake;
+        }
+      }
+    }
   }
 
   /**
@@ -299,6 +384,13 @@ export class SqSelectSearchComponent implements OnChanges {
   async ngOnChanges(changes: SimpleChanges) {
     if (this.open && changes.hasOwnProperty('options')) {
       this.verifyNewOptions();
+    }
+
+    // Se appendOnBody mudou e o dropdown está aberto, reanexa ao body
+    if (changes.hasOwnProperty('appendOnBody') && this.open && this.appendOnBody) {
+      setTimeout(() => {
+        this.attachDropdownToBody();
+      }, 50);
     }
   }
 
@@ -350,6 +442,13 @@ export class SqSelectSearchComponent implements OnChanges {
         }, 100)
       );
       this.changeDetector.detectChanges();
+
+      // Anexa o dropdown ao body após abrir apenas se appendOnBody estiver ativado
+      if (this.appendOnBody) {
+        setTimeout(() => {
+          this.attachDropdownToBody();
+        }, 150);
+      }
     }
   }
 
@@ -360,6 +459,158 @@ export class SqSelectSearchComponent implements OnChanges {
     this.open = false;
     this._options = [];
     this.searchText = '';
+
+    // Remove o dropdown do body e retorna ao local original apenas se appendOnBody estiver ativado
+    if (this.appendOnBody) {
+      this.detachDropdownFromBody();
+    }
+  }
+
+  /**
+   * Anexa o dropdown ao body quando aberto (como um portal/overlay).
+   * Isso resolve problemas de overflow em modais e outros containers.
+   */
+  private attachDropdownToBody(): void {
+    // Sempre inicializa os elementos para garantir que estão atualizados
+    this.initializeDropdownElements();
+
+    if (!this.dropdownWindow || !this.inputFakeContent) {
+      return;
+    }
+
+    // Se já está anexado, apenas atualiza a posição
+    if (this.isAttachedToBody && this.bodyWrapper) {
+      this.updateDropdownPosition();
+      return;
+    }
+
+    // Garante que o originalParent está correto antes de mover
+    if (!this.originalParent) {
+      const nativeElement = this.element.nativeElement as HTMLElement;
+      const inputFake = nativeElement.querySelector('.input-fake');
+      if (inputFake) {
+        this.originalParent = inputFake;
+      } else {
+        this.originalParent = this.dropdownWindow.parentNode;
+      }
+    }
+
+    // Obtém a posição do input
+    const inputRect = this.inputFakeContent.getBoundingClientRect();
+    const scrollPos =
+      window.pageYOffset || this.document.documentElement.scrollTop || this.document.body.scrollTop || 0;
+
+    // Calcula a posição baseada no input
+    const top = inputRect.bottom + scrollPos;
+    const left = inputRect.left;
+    const width = inputRect.width;
+
+    // Remove wrapper antigo se existir (limpeza)
+    if (this.bodyWrapper && this.bodyWrapper.parentNode) {
+      this.bodyWrapper.parentNode.removeChild(this.bodyWrapper);
+    }
+
+    // Cria um wrapper no body com a classe wrapper-select-search para manter o contexto CSS
+    this.bodyWrapper = this.document.createElement('div');
+    this.bodyWrapper.className = 'wrapper-select-search';
+    this.bodyWrapper.style.position = 'fixed';
+    this.bodyWrapper.style.top = `${top}px`;
+    this.bodyWrapper.style.left = `${left}px`;
+    this.bodyWrapper.style.width = `${width}px`;
+    this.bodyWrapper.style.zIndex = '1100';
+    this.bodyWrapper.style.pointerEvents = 'none';
+
+    // Move o dropdown para dentro do wrapper
+    this.bodyWrapper.appendChild(this.dropdownWindow);
+
+    // Anexa o wrapper ao body
+    this.document.body.appendChild(this.bodyWrapper);
+    this.isAttachedToBody = true;
+
+    // Habilita pointer events no dropdown (mas não no wrapper)
+    this.dropdownWindow.style.pointerEvents = 'auto';
+
+    // Adiciona listener para atualizar posição em scroll/resize
+    window.addEventListener('scroll', this.updateDropdownPosition, true);
+    window.addEventListener('resize', this.updateDropdownPosition);
+  }
+
+  /**
+   * Remove o dropdown do body e retorna ao local original.
+   */
+  private detachDropdownFromBody(): void {
+    if (!this.isAttachedToBody || !this.bodyWrapper) {
+      return;
+    }
+
+    // Remove listeners
+    window.removeEventListener('scroll', this.updateDropdownPosition, true);
+    window.removeEventListener('resize', this.updateDropdownPosition);
+
+    // O dropdown deve estar dentro do bodyWrapper
+    if (this.dropdownWindow && this.bodyWrapper.contains(this.dropdownWindow)) {
+      // Remove estilos inline do dropdown
+      this.dropdownWindow.style.pointerEvents = '';
+
+      // Encontra o local correto para retornar o dropdown
+      const nativeElement = this.element.nativeElement as HTMLElement;
+      const inputFake = nativeElement.querySelector('.input-fake');
+
+      if (inputFake) {
+        // Retorna para o input-fake (local original)
+        inputFake.appendChild(this.dropdownWindow);
+        this.originalParent = inputFake;
+      } else if (this.originalParent && this.originalParent.parentNode) {
+        // Se input-fake não existe, tenta usar originalParent
+        this.originalParent.appendChild(this.dropdownWindow);
+      }
+    }
+
+    // Remove o wrapper do body
+    if (this.bodyWrapper.parentNode) {
+      this.bodyWrapper.parentNode.removeChild(this.bodyWrapper);
+    }
+    this.bodyWrapper = undefined;
+    this.isAttachedToBody = false;
+  }
+
+  /**
+   * Atualiza a posição do dropdown quando há scroll ou resize.
+   * Usado como callback, por isso precisa ser arrow function.
+   */
+  private updateDropdownPosition = (): void => {
+    if (!this.dropdownWindow || !this.inputFakeContent || !this.isAttachedToBody || !this.bodyWrapper) {
+      return;
+    }
+
+    const inputRect = this.inputFakeContent.getBoundingClientRect();
+    const scrollPos =
+      window.pageYOffset || this.document.documentElement.scrollTop || this.document.body.scrollTop || 0;
+
+    // Atualiza a posição do wrapper
+    this.bodyWrapper.style.top = `${inputRect.bottom + scrollPos}px`;
+    this.bodyWrapper.style.left = `${inputRect.left}px`;
+    this.bodyWrapper.style.width = `${inputRect.width}px`;
+  };
+
+  /**
+   * Limpa os event listeners quando o componente é destruído.
+   */
+  private cleanupDropdownAttachment(): void {
+    // Remove listeners de scroll/resize
+    window.removeEventListener('scroll', this.updateDropdownPosition, true);
+    window.removeEventListener('resize', this.updateDropdownPosition);
+
+    // Retorna dropdown ao local original se ainda estiver anexado ao body
+    if (this.isAttachedToBody) {
+      this.detachDropdownFromBody();
+    }
+
+    // Limpa o wrapper se ainda existir
+    if (this.bodyWrapper && this.bodyWrapper.parentNode) {
+      this.bodyWrapper.parentNode.removeChild(this.bodyWrapper);
+      this.bodyWrapper = undefined;
+    }
   }
 
   /**

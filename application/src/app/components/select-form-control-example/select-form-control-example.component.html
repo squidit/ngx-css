@@ -68,8 +68,9 @@
               [options]="cities"
               [placeholder]="'Selecione uma cidade'"
               [formControl]="newRequiredControl"
-              sqValidation
-              [fieldName]="'Cidade'"
+              [validations]="{
+                required: 'Cidade é obrigatória'
+              }"
             ></sq-select-form-control>
             <div class="value-display mt-2">
               <small><strong>Valor:</strong> {{ newRequiredControl.value?.label || '(vazio)' }}</small>

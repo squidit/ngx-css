@@ -1,5 +1,5 @@
-import { Component, Input, forwardRef, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { NG_VALUE_ACCESSOR, NG_VALIDATORS, ReactiveFormsModule } from '@angular/forms';
+import { Component, Input, forwardRef, OnInit, ChangeDetectionStrategy, HostListener } from '@angular/core';
+import { NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { NgClass, NgStyle, NgTemplateOutlet } from '@angular/common';
 import { NgxMaskDirective } from 'ngx-mask';
 import { SqInputMaskFormControlComponent } from '../sq-input-mask-form-control/sq-input-mask-form-control.component';
@@ -47,11 +47,6 @@ import { UniversalSafePipe } from '../../pipes/universal-safe/universal-safe.pip
       useExisting: forwardRef(() => SqInputNumberFormControlComponent),
       multi: true,
     },
-    {
-      provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => SqInputNumberFormControlComponent),
-      multi: true,
-    },
   ],
 })
 export class SqInputNumberFormControlComponent extends SqInputMaskFormControlComponent implements OnInit {
@@ -86,8 +81,10 @@ export class SqInputNumberFormControlComponent extends SqInputMaskFormControlCom
 
   /**
    * Trata eventos de teclado para incrementar/decrementar valor.
+   * Usa HostListener para interceptar eventos de teclado no input.
    */
-  override onKeyDown(event: KeyboardEvent): void {
+  @HostListener('keydown', ['$event'])
+  onKeyDown(event: KeyboardEvent): void {
     if (event.key === 'ArrowUp') {
       event.preventDefault();
       this.incrementNumber();
@@ -95,7 +92,6 @@ export class SqInputNumberFormControlComponent extends SqInputMaskFormControlCom
       event.preventDefault();
       this.decrementNumber();
     }
-    super.onKeyDown(event);
   }
 
   /**

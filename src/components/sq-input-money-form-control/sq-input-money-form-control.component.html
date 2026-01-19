@@ -8,7 +8,7 @@
       [for]="id"
     >
       @if (label && !labelTemplate) {
-        <div [ngStyle]="{ color: labelColor }" [innerHtml]="label | universalSafe"></div>
+        <div [innerHtml]="label | universalSafe"></div>
       }
       @if (labelTemplate) {
         <div>
@@ -45,18 +45,12 @@
         disabled: disabled,
         readonly: readonly,
       }"
-      [ngStyle]="{
-        'background-color': backgroundColor,
-        'border-color': borderColor,
-      }"
       [id]="id"
       type="text"
       [name]="name"
       [placeholder]="placeholder || '0,00'"
       [readonly]="readonly"
       [formControl]="control"
-      (keydown)="onKeyDown($event)"
-      (keyup)="onKeyUp($event)"
       (blur)="onBlur($event)"
       (focus)="onFocus($event)"
       [attr.inputmode]="inputMode"

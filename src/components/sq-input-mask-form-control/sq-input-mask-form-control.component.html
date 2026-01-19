@@ -8,7 +8,7 @@
       [for]="id"
     >
       @if (label && !labelTemplate) {
-        <div [ngStyle]="{ color: labelColor }" [innerHtml]="label | universalSafe"></div>
+        <div [innerHtml]="label | universalSafe"></div>
       }
       @if (labelTemplate) {
         <div>
@@ -43,23 +43,14 @@
         disabled: disabled,
         readonly: readonly,
       }"
-      [ngStyle]="{
-        'background-color': backgroundColor,
-        'border-color': borderColor,
-      }"
       [id]="id"
       type="text"
       [name]="name"
       [placeholder]="placeholder || ''"
       [readonly]="readonly"
       [formControl]="control"
-      [maxlength]="maxLength"
-      (input)="onChangeEvent($event)"
-      (keydown)="onKeyDown($event)"
-      (keyup)="onKeyUp($event)"
       (blur)="onBlur($event)"
       (focus)="onFocus($event)"
-      [pattern]="pattern"
       [attr.inputmode]="inputMode"
       mask="{{ mask }}"
       [thousandSeparator]="thousandSeparator"
@@ -77,10 +68,5 @@
       </span>
     }
   </div>
-  @if (maxLength) {
-    <div class="d-flex justify-content-end mt-1">
-      <small class="text-muted"> {{ maxLength - (control.value?.length || 0) }} caracteres restantes </small>
-    </div>
-  }
 </div>
 

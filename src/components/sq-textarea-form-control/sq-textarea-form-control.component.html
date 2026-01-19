@@ -4,7 +4,6 @@
     <div
       class="display-flex align-items-center wrapper-label-input"
       [ngClass]="{ disabled: disabled, readonly: readonly }"
-      [ngStyle]="{ color: labelColor }"
     >
       @if (label && !labelTemplate) {
         <label class="label-input mr-1" [for]="id" [innerHtml]="label | universalSafe"></label>
@@ -27,7 +26,6 @@
   <div
     class="textarea-container"
     [ngClass]="{
-      error: hasError,
       disabled: disabled,
       readonly: readonly,
     }"
@@ -43,16 +41,12 @@
     <textarea
       class="textarea scrollbar"
       [ngStyle]="{
-        'background-color': backgroundColor,
-        'border-color': borderColor,
         'min-height': autoResize ? minHeight : null,
         'max-height': autoResize ? maxHeight : null,
       }"
       [ngClass]="{
-        error: hasError,
         disabled: disabled,
         readonly: readonly,
-        'has-icon-external': externalIcon,
         'auto-resize': autoResize,
       }"
       [id]="id"
@@ -61,12 +55,9 @@
       [rows]="rows"
       [disabled]="disabled"
       [readonly]="readonly"
-      [maxlength]="maxLength"
       [formControl]="control"
       (blur)="onBlur($event)"
       (focus)="onFocus($event)"
-      (keydown)="onKeyDown($event)"
-      (keyup)="onKeyUp($event)"
       (input)="onInput($event)"
     ></textarea>
 
@@ -77,41 +68,6 @@
       </span>
     }
 
-    <!-- External icon -->
-    @if (externalIcon) {
-      <span
-        class="icon-external"
-        [ngClass]="{ 'no-label': !label?.length }"
-        [innerHtml]="externalIcon | universalSafe"
-      ></span>
-    }
   </div>
-
-  <!-- Error span e contador -->
-  @if (errorSpan) {
-    <div
-      class="box-validation box-invalid show"
-      [ngClass]="{ 'has-max-length': maxLength }"
-    >
-      @if (hasError) {
-        <i class="fa-solid fa-triangle-exclamation"></i>
-      }
-      <span class="error-text">
-        {{ externalError }}
-      </span>
-      @if (maxLength) {
-        <span
-          class="max-length-counter"
-          [ngClass]="{
-            'visibility-hidden-force': disabled || readonly,
-            warning: remainingChars < 20 && remainingChars > 0,
-            danger: remainingChars <= 0,
-          }"
-        >
-          {{ remainingChars }}
-        </span>
-      }
-    </div>
-  }
 </div>
 

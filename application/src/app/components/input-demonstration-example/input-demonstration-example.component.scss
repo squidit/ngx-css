@@ -1,0 +1,9 @@
+// Estilos para o componente de demonstração
+
+::ng-deep {
+  .ng-invalid.ng-touched {
+    input {
+      border-color: red;
+    }
+  }
+}

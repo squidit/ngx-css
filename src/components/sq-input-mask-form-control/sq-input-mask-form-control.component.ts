@@ -1,5 +1,5 @@
 import { Component, Input, forwardRef, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { NG_VALUE_ACCESSOR, NG_VALIDATORS, ReactiveFormsModule } from '@angular/forms';
+import { NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { NgClass, NgStyle, NgTemplateOutlet } from '@angular/common';
 import { NgxMaskDirective } from 'ngx-mask';
 import { SqInputFormControlComponent } from '../sq-input-form-control/sq-input-form-control.component';
@@ -8,7 +8,8 @@ import { UniversalSafePipe } from '../../pipes/universal-safe/universal-safe.pip
 
 /**
  * Componente de input com máscara que estende SqInputFormControlComponent.
- * Implementa ControlValueAccessor e Validator para integração com Reactive Forms.
+ * Implementa ControlValueAccessor para integração com Reactive Forms.
+ * Validators devem ser gerenciados externamente pelo FormControl.
  * Usa a biblioteca ngx-mask para aplicar máscaras de formatação no input.
  *
  * @see {@link https://github.com/JsDaddy/ngx-mask}
@@ -57,11 +58,6 @@ import { UniversalSafePipe } from '../../pipes/universal-safe/universal-safe.pip
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => SqInputMaskFormControlComponent),
-      multi: true,
-    },
-    {
-      provide: NG_VALIDATORS,
       useExisting: forwardRef(() => SqInputMaskFormControlComponent),
       multi: true,
     },
@@ -147,9 +143,10 @@ export class SqInputMaskFormControlComponent extends SqInputFormControlComponent
    * Lifecycle hook executado após a inicialização do componente.
    * Força o tipo como 'text' para compatibilidade com máscaras.
    */
-  ngOnInit(): void {
+  override ngOnInit(): void {
     // Força o tipo para 'text' (máscaras não funcionam bem com outros tipos)
     this.type = 'text';
+    super.ngOnInit();
   }
 }
 

@@ -176,12 +176,10 @@
               [label]="'Valor Obrigatório * (Novo)'"
               [formControl]="newRequiredControl"
               [placeholder]="'0,00'"
+              [validations]="{
+                required: 'Valor é obrigatório'
+              }"
             ></sq-input-money-form-control>
-            <sq-validation-message
-              [control]="newRequiredControl"
-              [fieldName]="'Valor'"
-              [showWhenTouched]="true"
-            ></sq-validation-message>
             <div class="value-display mt-2">
               <small><strong>Valor:</strong> {{ newRequiredControl.value ?? '(vazio)' }}</small>
               <small class="ms-3"><strong>Status:</strong> {{ newRequiredControl.status }}</small>
@@ -225,8 +223,10 @@
               [label]="'Valor Mínimo R$ 100,00 (Novo)'"
               [formControl]="newMinControl"
               [placeholder]="'0,00'"
-              sqValidation
-              [fieldName]="'Valor'"
+              [validations]="{
+                required: 'Valor é obrigatório',
+                min: 'Valor mínimo é R$ 100,00'
+              }"
             ></sq-input-money-form-control>
             <div class="value-display mt-2">
               <small><strong>Valor:</strong> {{ newMinControl.value ?? '(vazio)' }}</small>

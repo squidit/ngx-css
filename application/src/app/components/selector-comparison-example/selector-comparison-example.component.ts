@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SqSelectorComponent } from '../../../../../src/components/sq-selector/sq-selector.component';
 import { SqSelectorFormControlComponent } from '../../../../../src/components/sq-selector-form-control/sq-selector-form-control.component';
-import { SqValidationMessageComponent } from '../../../../../src/components/sq-validation-message/sq-validation-message.component';
 import { SqValidationDirective } from '../../../../../src/directives/sq-validation.directive';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -20,7 +19,6 @@ import { CodeTabsComponent, CodeExample } from '../code-tabs/code-tabs.component
     RouterModule,
     SqSelectorComponent,
     SqSelectorFormControlComponent,
-    SqValidationMessageComponent,
     SqValidationDirective,
     BreadcrumbComponent,
     CodeTabsComponent,

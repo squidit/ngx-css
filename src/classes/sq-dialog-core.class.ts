@@ -76,6 +76,16 @@ export abstract class SqDialogCore implements OnChanges, OnDestroy {
   @Input() showCloseButton = true;
 
   /**
+   * Whether to show the header section.
+   */
+  @Input() showHeaderInput = true;
+
+  /**
+   * Whether to show the footer section.
+   */
+  @Input() showFooterInput = true;
+
+  /**
    * Additional CSS class(es) to apply to the dialog container.
    */
   @Input() customClass = '';
@@ -672,6 +682,9 @@ export abstract class SqDialogCore implements OnChanges, OnDestroy {
    * @returns True if header should be displayed
    */
   get showHeader(): boolean {
+    if (this.showHeaderInput === false) {
+      return false;
+    }
     return !!this.effectiveHeaderTemplate || !!this.headerContent || this.showCloseButton;
   }
 
@@ -681,6 +694,9 @@ export abstract class SqDialogCore implements OnChanges, OnDestroy {
    * @returns True if footer should be displayed
    */
   get showFooter(): boolean {
+    if (this.showFooterInput === false) {
+      return false;
+    }
     return !!this.effectiveFooterTemplate || !!this.footerContent || this.shouldShowDefaultFooter;
   }
 

@@ -81,12 +81,10 @@
               [name]="'new-required'"
               [label]="'Quantidade * (Novo)'"
               [formControl]="newRequiredControl"
+              [validations]="{
+                required: 'Quantidade é obrigatória'
+              }"
             ></sq-input-number-form-control>
-            <sq-validation-message
-              [control]="newRequiredControl"
-              [fieldName]="'Quantidade'"
-              [showWhenTouched]="true"
-            ></sq-validation-message>
             <div class="value-display mt-2">
               <small><strong>Valor:</strong> {{ newRequiredControl.value ?? '(vazio)' }}</small>
               <small class="ms-3"><strong>Status:</strong> {{ newRequiredControl.status }}</small>
@@ -128,8 +126,10 @@
               [name]="'new-min'"
               [label]="'Mínimo 10 (Novo)'"
               [formControl]="newMinControl"
-              sqValidation
-              [fieldName]="'Quantidade'"
+              [validations]="{
+                required: 'Quantidade é obrigatória',
+                min: 'Quantidade mínima é 10'
+              }"
             ></sq-input-number-form-control>
             <div class="value-display mt-2">
               <small><strong>Valor:</strong> {{ newMinControl.value ?? '(vazio)' }}</small>
