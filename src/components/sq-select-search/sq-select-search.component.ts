@@ -352,11 +352,27 @@ export class SqSelectSearchComponent implements OnChanges, AfterViewInit, OnDest
    */
   private initializeDropdownElements(): void {
     const nativeElement = this.element.nativeElement as HTMLElement;
-    this.dropdownWindow = nativeElement.querySelector('.input-window') as HTMLElement;
+
+    // Se o dropdown está anexado ao body, procura primeiro no bodyWrapper
+    if (this.isAttachedToBody && this.bodyWrapper) {
+      this.dropdownWindow = this.bodyWrapper.querySelector('.input-window') as HTMLElement;
+    } else {
+      // Caso contrário, procura no elemento nativo
+      this.dropdownWindow = nativeElement.querySelector('.input-window') as HTMLElement;
+    }
+
     this.inputFakeContent = nativeElement.querySelector('.input-fake-content') as HTMLElement;
 
-    if (this.dropdownWindow) {
-      this.originalParent = this.dropdownWindow.parentNode;
+    // Sempre atualiza o originalParent para o local correto (dentro do .input-fake)
+    if (this.dropdownWindow && !this.isAttachedToBody) {
+      const inputFake = nativeElement.querySelector('.input-fake');
+      if (inputFake) {
+        // Se o dropdown não está dentro do input-fake, não atualiza originalParent ainda
+        // (pode estar no bodyWrapper)
+        if (inputFake.contains(this.dropdownWindow) || this.dropdownWindow.parentNode === inputFake) {
+          this.originalParent = inputFake;
+        }
+      }
     }
   }
 
@@ -462,11 +478,21 @@ export class SqSelectSearchComponent implements OnChanges, AfterViewInit, OnDest
       return;
     }
 
-    // Se já está anexado, não faz nada
-    if (this.isAttachedToBody) {
-      // Mas atualiza a posição caso tenha mudado
+    // Se já está anexado, apenas atualiza a posição
+    if (this.isAttachedToBody && this.bodyWrapper) {
       this.updateDropdownPosition();
       return;
+    }
+
+    // Garante que o originalParent está correto antes de mover
+    if (!this.originalParent) {
+      const nativeElement = this.element.nativeElement as HTMLElement;
+      const inputFake = nativeElement.querySelector('.input-fake');
+      if (inputFake) {
+        this.originalParent = inputFake;
+      } else {
+        this.originalParent = this.dropdownWindow.parentNode;
+      }
     }
 
     // Obtém a posição do input
@@ -479,8 +505,10 @@ export class SqSelectSearchComponent implements OnChanges, AfterViewInit, OnDest
     const left = inputRect.left;
     const width = inputRect.width;
 
-    // Sempre guarda a referência do pai original (pode ter mudado)
-    this.originalParent = this.dropdownWindow.parentNode;
+    // Remove wrapper antigo se existir (limpeza)
+    if (this.bodyWrapper && this.bodyWrapper.parentNode) {
+      this.bodyWrapper.parentNode.removeChild(this.bodyWrapper);
+    }
 
     // Cria um wrapper no body com a classe wrapper-select-search para manter o contexto CSS
     this.bodyWrapper = this.document.createElement('div');
@@ -519,27 +547,22 @@ export class SqSelectSearchComponent implements OnChanges, AfterViewInit, OnDest
     window.removeEventListener('scroll', this.updateDropdownPosition, true);
     window.removeEventListener('resize', this.updateDropdownPosition);
 
-    // Reencontra o dropdown (pode estar dentro do wrapper)
-    if (!this.dropdownWindow) {
-      this.initializeDropdownElements();
-    }
-
-    if (this.dropdownWindow) {
+    // O dropdown deve estar dentro do bodyWrapper
+    if (this.dropdownWindow && this.bodyWrapper.contains(this.dropdownWindow)) {
       // Remove estilos inline do dropdown
       this.dropdownWindow.style.pointerEvents = '';
 
-      // Move o dropdown de volta para o local original
-      // Se originalParent não existe mais, tenta encontrar o local correto
-      if (this.originalParent && this.originalParent.parentNode) {
+      // Encontra o local correto para retornar o dropdown
+      const nativeElement = this.element.nativeElement as HTMLElement;
+      const inputFake = nativeElement.querySelector('.input-fake');
+
+      if (inputFake) {
+        // Retorna para o input-fake (local original)
+        inputFake.appendChild(this.dropdownWindow);
+        this.originalParent = inputFake;
+      } else if (this.originalParent && this.originalParent.parentNode) {
+        // Se input-fake não existe, tenta usar originalParent
         this.originalParent.appendChild(this.dropdownWindow);
-      } else {
-        // Se originalParent não é mais válido, encontra o local correto
-        const nativeElement = this.element.nativeElement as HTMLElement;
-        const inputFake = nativeElement.querySelector('.input-fake');
-        if (inputFake) {
-          inputFake.appendChild(this.dropdownWindow);
-          this.originalParent = inputFake;
-        }
       }
     }
 
