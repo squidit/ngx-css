@@ -20,8 +20,24 @@ import { SqOverlayBaseComponent } from '../components/sq-overlay-base/sq-overlay
  *     data: { title: 'Hello', items: [...] }
  *   });
  *
+ *   // Using afterClosed (deprecated, use direct subscription)
  *   ref.afterClosed().subscribe(result => {
  *     console.log('Modal closed with:', result);
+ *   });
+ *
+ *   // Using direct subscription (recommended)
+ *   ref.subscribe(result => {
+ *     console.log('Modal closed with:', result);
+ *   });
+ *
+ *   // Using mapResult to transform the result
+ *   ref.mapResult(result => result?.id || 0)
+ *     .subscribe(id => console.log('ID:', id));
+ *
+ *   // Using then for fluent API
+ *   ref.then(result => {
+ *     console.log('Dialog closed:', result);
+ *     this.handleResult(result);
  *   });
  * }
  *
