@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { SqToastService, SqToastRef, SqToastPosition, ToastHelper } from '@squidit/ngx-css';
+import { SqToastService, SqToastRef, SqToastPosition, ToastHelper } from '@squidlib/ngx-css';
 
 @Component({
   selector: 'app-toast-service-example',
