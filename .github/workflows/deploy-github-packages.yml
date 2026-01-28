@@ -8,8 +8,6 @@ jobs:
       contents: read
       packages: write
     runs-on: ubuntu-latest
-    env:
-      NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -17,15 +15,31 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '18'
-      - name: Configure npm auth for GitHub Packages
+      # PAT (read:packages) para ler @squidit/css do repo css. Secret: GH_PACKAGES_READ_TOKEN
+      - name: Configure npm auth for GitHub Packages (install)
         uses: actions/setup-node@v4
         with:
           node-version: '18'
           registry-url: 'https://npm.pkg.github.com'
           scope: '@squidit'
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GH_PACKAGES_READ_TOKEN }}
       - name: Install dependencies and build 🔧
         run: npm install && npm run build:prod
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GH_PACKAGES_READ_TOKEN }}
       - name: Organize Files 📁
         run: cp -r dist/@squidit/ngx-css src/dist && cp README.md src/dist/README.md && cp src/package.json src/dist/package.json
+      # Publicar usa GITHUB_TOKEN (pacote do repo atual)
+      - name: Configure npm auth for GitHub Packages (publish)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@squidit'
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Publish package on GitHub Packages 📦
         run: cd src/dist && npm publish --no-git-checks
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
