@@ -15,12 +15,15 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '18'
-          registry-url: 'https://npm.pkg.github.com'
-          scope: '@squidit'
+      # @squidit/css está no npm público; só publicamos ngx-css no GitHub Packages
+      - name: Use npm registry for install
+        run: sed -i '/@squidit:registry/d' .npmrc || true
       - name: Install dependencies and build 🔧
         run: npm install && npm run build:prod
       - name: Organize Files 📁
         run: cp -r dist/@squidit/ngx-css src/dist && cp README.md src/dist/README.md && cp src/package.json src/dist/package.json
+      - name: Configure auth for GitHub Packages
+        run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" >> .npmrc
       - name: Publish package on GitHub Packages 📦
         run: cd src/dist && npm publish --no-git-checks
         env:
