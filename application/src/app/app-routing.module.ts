@@ -24,7 +24,7 @@ export const routes: Routes = [
   {
     path: 'components-index',
     component: ComponentsIndexComponent,
-    title: 'Novos Componentes de Formulário - @squidlib/ngx-css',
+    title: 'Novos Componentes de Formulário - @squidit/ngx-css',
   },
   {
     path: 'input-demonstration',

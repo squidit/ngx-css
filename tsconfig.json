@@ -15,7 +15,7 @@
     "sourceMap": true,
     "paths": {
       "application": ["dist/application"],
-      "@squidlib/ngx-css": ["dist/@squidlib/ngx-css"]
+      "@squidit/ngx-css": ["dist/@squidit/ngx-css"]
     },
     "declaration": false,
     "downlevelIteration": true,

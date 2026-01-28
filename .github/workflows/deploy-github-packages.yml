@@ -1,10 +1,12 @@
-name: Publish to NPM
+name: Publish to GitHub Packages
 on:
   release:
     types: [created]
 jobs:
   build:
-    permissions: write-all
+    permissions:
+      contents: read
+      packages: write
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -13,12 +15,13 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '18'
-          registry-url: 'https://registry.npmjs.org'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@squidit'
       - name: Install dependencies and build 🔧
         run: npm install && npm run build:prod
       - name: Organize Files 📁
         run: cp -r dist/@squidit/ngx-css src/dist && cp README.md src/dist/README.md && cp src/package.json src/dist/package.json
-      - name: Publish package on NPM 📦
-        run: cd src/dist && npm publish --access public
+      - name: Publish package on GitHub Packages 📦
+        run: cd src/dist && npm publish --no-git-checks
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

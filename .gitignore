@@ -38,6 +38,11 @@ yarn-error.log
 testem.log
 /typings
 
+# Tokens / secrets (nunca commitar)
+toekn-remove
+*-token*
+*.token
+
 # System files
 .DS_Store
 Thumbs.db

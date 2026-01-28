@@ -196,7 +196,7 @@ newRequiredControl = new FormControl('', [Validators.required]);`,
       label: 'TypeScript',
       language: 'typescript',
       code: `import { FormControl, Validators } from '@angular/forms';
-import { DateValidators } from '@squidlib/ngx-css';
+import { DateValidators } from '@squidit/ngx-css';
 
 // Antigo: minDate e maxDate como @Input
 oldRangeDate = '';
@@ -251,7 +251,7 @@ newRangeControl = new FormControl('', [Validators.required]);
       label: 'TypeScript',
       language: 'typescript',
       code: `import { FormControl, Validators } from '@angular/forms';
-import { DateValidators } from '@squidlib/ngx-css';
+import { DateValidators } from '@squidit/ngx-css';
 
 // Antigo: sem validação de idade
 oldBirthdateDate = '';
@@ -287,7 +287,7 @@ newBirthdateControl = new FormControl('', [
       label: 'TypeScript',
       language: 'typescript',
       code: `import { FormControl, Validators } from '@angular/forms';
-import { DateValidators } from '@squidlib/ngx-css';
+import { DateValidators } from '@squidit/ngx-css';
 
 newPastControl = new FormControl('', [
   Validators.required,
@@ -319,7 +319,7 @@ newPastControl = new FormControl('', [
       label: 'TypeScript',
       language: 'typescript',
       code: `import { FormControl, Validators } from '@angular/forms';
-import { DateValidators } from '@squidlib/ngx-css';
+import { DateValidators } from '@squidit/ngx-css';
 
 newFutureControl = new FormControl('', [
   Validators.required,
@@ -379,7 +379,7 @@ newFutureControl = new FormControl('', [
       label: 'TypeScript',
       language: 'typescript',
       code: `import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { DateValidators } from '@squidlib/ngx-css';
+import { DateValidators } from '@squidit/ngx-css';
 
 dateForm = new FormGroup({
   startDate: new FormControl('', [Validators.required]),
@@ -448,7 +448,7 @@ submitDateForm() {
       label: 'TypeScript',
       language: 'typescript',
       code: `import { FormControl, Validators } from '@angular/forms';
-import { DateValidators } from '@squidlib/ngx-css';
+import { DateValidators } from '@squidit/ngx-css';
 
 // Controle simples com required
 directiveRequiredControl = new FormControl('', [Validators.required]);

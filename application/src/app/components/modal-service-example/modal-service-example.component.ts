@@ -1,6 +1,6 @@
 import { Component, Input, TemplateRef, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SqModalService, SqDialogRef, confirmBeforeClose, SqButtonComponent } from '@squidlib/ngx-css';
+import { SqModalService, SqDialogRef, confirmBeforeClose, SqButtonComponent } from '@squidit/ngx-css';
 import { filter } from 'rxjs';
 
 /**

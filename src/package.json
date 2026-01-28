@@ -1,6 +1,6 @@
 {
-  "name": "@squidlib/ngx-css",
-  "version": "2.0.1",
+  "name": "@squidit/ngx-css",
+  "version": "2.0.2",
   "peerDependencies": {
     "@angular/common": ">=15.0.0",
     "@angular/cdk": ">=15.0.0",
@@ -33,14 +33,17 @@
     "type": "git",
     "url": "git+https://github.com/squidit/ngx-css"
   },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "description": "Squid CSS Styleguide for Angular",
   "bugs": {
     "url": "https://github.com/squidit/ngx-css/issues"
   },
-  "main": "fesm2022/squidlib-ngx-css.mjs",
-  "module": "fesm2022/squidlib-ngx-css.mjs",
-  "es2022": "fesm2022/squidlib-ngx-css.mjs",
-  "esm2022": "esm2022/squidlib-ngx-css.mjs",
-  "fesm2022": "fesm2022/squidlib-ngx-css.mjs",
+  "main": "fesm2022/squidit-ngx-css.mjs",
+  "module": "fesm2022/squidit-ngx-css.mjs",
+  "es2022": "fesm2022/squidit-ngx-css.mjs",
+  "esm2022": "esm2022/squidit-ngx-css.mjs",
+  "fesm2022": "fesm2022/squidit-ngx-css.mjs",
   "typings": "index.d.ts"
 }

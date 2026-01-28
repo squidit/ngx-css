@@ -1,0 +1,30 @@
+{
+	"folders": [
+		{
+			"path": "../ironman/web-ironman"
+		},
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"js/ts.implicitProjectConfig.experimentalDecorators": true,
+		"angular.enable-strict-mode-prompt": false,
+		"typescript.tsdk": "node_modules/typescript/lib",
+		"workbench.colorCustomizations": {},
+		"i18n-ally.namespace": false,
+		"i18n-ally.enabledParsers": [
+			"json"
+		],
+		"i18n-ally.keystyle": "nested",
+		"i18n-ally.pathMatcher": "{locale}.json",
+		"i18n-ally.enabledFrameworks": [
+			"ngx-translate"
+		],
+		"i18n-ally.sourceLanguage": "pt",
+		"i18n-ally.displayLanguage": "pt",
+		"i18n-ally.localesPaths": [
+			"src/assets/locale"
+		]
+	}
+}

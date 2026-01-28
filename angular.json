@@ -186,7 +186,7 @@
         }
       }
     },
-    "@squidlib/ngx-css": {
+    "@squidit/ngx-css": {
       "projectType": "library",
       "root": "src",
       "sourceRoot": "src",

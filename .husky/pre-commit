@@ -2,5 +2,5 @@
 . "$(dirname "$0")/_/husky.sh"
 
 npx ng lint application --fix
-npx ng lint @squidlib/ngx-css --fix
+npx ng lint @squidit/ngx-css --fix
 npm run lint:docs

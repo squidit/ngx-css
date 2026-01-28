@@ -3,7 +3,7 @@ import { SqTextareaFormControlComponent } from './../../../../../src/components/
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-// import { SqTextareaFormControlComponent, SqValidationDirective } from '@squidlib/ngx-css';
+// import { SqTextareaFormControlComponent, SqValidationDirective } from '@squidit/ngx-css';
 import { CodeTabsComponent } from '../code-tabs/code-tabs.component';
 
 @Component({

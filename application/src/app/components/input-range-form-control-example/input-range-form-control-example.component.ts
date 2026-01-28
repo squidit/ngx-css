@@ -167,7 +167,7 @@ export class InputRangeFormControlExampleComponent {
     {
       label: 'TypeScript',
       language: 'typescript',
-      code: `import { RangeValue } from '@squidlib/ngx-css';
+      code: `import { RangeValue } from '@squidit/ngx-css';
 
 // O valor é um objeto { min: number, max: number }
 priceRangeControl = new FormControl<RangeValue>({ min: 20, max: 80 });

@@ -111,7 +111,7 @@ export class InputNumberFormControlExampleComponent {
     {
       label: 'TypeScript',
       language: 'typescript',
-      code: `import { InputValidators } from '@squidlib/ngx-css';
+      code: `import { InputValidators } from '@squidit/ngx-css';
 
 minControl = new FormControl<number | null>(null, [InputValidators.minValue(10)]);`,
     },

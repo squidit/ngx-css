@@ -28,7 +28,7 @@ See an exemple of all components [here](https://css.squidit.com.br/styleguide)
 1. Install
 
 ```bash
-npm install @squidit/css @squidlib/ngx-css --save
+npm install @squidit/css @squidit/ngx-css --save
 ```
 
 2. Add `css` and `toast js` files to your `angular.json`
@@ -65,7 +65,7 @@ $fontsFolderPath: '/assets/fonts'; // Overwrite default font path
 4. Import `SquidCSSModule` in your `*.module.ts`
 
 ```ts
-import { SquidCSSModule } from '@squidlib/ngx-css'
+import { SquidCSSModule } from '@squidit/ngx-css'
 
 @NgModule({
   // ...
@@ -116,7 +116,7 @@ Service for programmatically opening Modal and Overlay dialogs. Fully testable, 
 
 ```typescript
 import { Component, inject } from '@angular/core';
-import { SqModalService } from '@squidlib/ngx-css';
+import { SqModalService } from '@squidit/ngx-css';
 
 @Component({...})
 export class MyComponent {
@@ -251,7 +251,7 @@ openSidePanel() {
 Use the `confirmBeforeClose` operator to prompt user before closing without saving:
 
 ```typescript
-import { confirmBeforeClose } from '@squidlib/ngx-css';
+import { confirmBeforeClose } from '@squidit/ngx-css';
 
 this.modalService.openModal({
   body: MyFormComponent,
@@ -297,7 +297,7 @@ Service for displaying toast notifications. Observable-based, fully testable, wi
 
 ```typescript
 import { Component, inject } from '@angular/core';
-import { SqToastService } from '@squidlib/ngx-css';
+import { SqToastService } from '@squidit/ngx-css';
 
 @Component({...})
 export class MyComponent {
