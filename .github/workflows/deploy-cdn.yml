@@ -16,6 +16,10 @@ jobs:
         with:
           node-version: '18'
 
+      # @squidit/css está no npm público; evita 404 no GitHub Packages
+      - name: Use npm registry for install
+        run: sed -i '/@squidit:registry/d' .npmrc || true
+
       - name: Auth GCloud
         uses: 'google-github-actions/auth@v2'
         with:
