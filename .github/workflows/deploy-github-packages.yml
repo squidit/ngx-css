@@ -17,27 +17,15 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '18'
-      - name: Configure npm auth for GitHub Packages (install)
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-          registry-url: 'https://npm.pkg.github.com'
-          scope: '@squidit'
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Install dependencies and build 🔧
-        run: npm install && npm run build:prod
-      - name: Organize Files 📁
-        run: cp -r dist/@squidit/ngx-css src/dist && cp README.md src/dist/README.md && cp src/package.json src/dist/package.json
       - name: Configure npm auth for GitHub Packages
         uses: actions/setup-node@v4
         with:
           node-version: '18'
           registry-url: 'https://npm.pkg.github.com'
           scope: '@squidit'
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Install dependencies and build 🔧
+        run: npm install && npm run build:prod
+      - name: Organize Files 📁
+        run: cp -r dist/@squidit/ngx-css src/dist && cp README.md src/dist/README.md && cp src/package.json src/dist/package.json
       - name: Publish package on GitHub Packages 📦
         run: cd src/dist && npm publish --no-git-checks
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
