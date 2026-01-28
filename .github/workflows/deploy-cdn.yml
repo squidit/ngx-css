@@ -1,7 +1,7 @@
 name: Deploy to CSS CDN
 on:
   workflow_run:
-    workflows: ['Publish to NPM']
+    workflows: ['Publish to GitHub Packages']
     types:
       - completed
   workflow_dispatch:
@@ -10,16 +10,21 @@ jobs:
   build:
     permissions: write-all
     runs-on: ubuntu-latest
+    env:
+      NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '18'
-
-      # @squidit/css está no npm público; evita 404 no GitHub Packages
-      - name: Use npm registry for install
-        run: sed -i '/@squidit:registry/d' .npmrc || true
-
+      - name: Configure npm auth for GitHub Packages
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@squidit'
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Auth GCloud
         uses: 'google-github-actions/auth@v2'
         with:

@@ -1,7 +1,7 @@
 name: Deploy Docs
 on:
   workflow_run:
-    workflows: ['Publish to NPM']
+    workflows: ['Publish to GitHub Packages']
     types:
       - completed
   workflow_dispatch:
@@ -17,6 +17,8 @@ concurrency:
 
 jobs:
   deploy:
+    env:
+      NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -27,9 +29,14 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '18'
-      # @squidit/css está no npm público; evita 404 no GitHub Packages
-      - name: Use npm registry for install
-        run: sed -i '/@squidit:registry/d' .npmrc || true
+      - name: Configure npm auth for GitHub Packages
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@squidit'
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/configure-pages@v4
       - name: Build
         run: |

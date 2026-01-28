@@ -8,6 +8,8 @@ jobs:
       contents: read
       packages: write
     runs-on: ubuntu-latest
+    env:
+      NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -15,9 +17,14 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '18'
-      # @squidit/css está no npm público; só publicamos ngx-css no GitHub Packages
-      - name: Use npm registry for install
-        run: sed -i '/@squidit:registry/d' .npmrc || true
+      - name: Configure npm auth for GitHub Packages (install)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@squidit'
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Install dependencies and build 🔧
         run: npm install && npm run build:prod
       - name: Organize Files 📁

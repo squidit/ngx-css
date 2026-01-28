@@ -44,7 +44,7 @@
     "@nguniversal/express-engine": "^7.0.2",
     "@ngx-translate/core": "^15.0.0",
     "@ngx-translate/http-loader": "^8.0.0",
-    "@squidit/css": "2.1.42",
+    "@squidit/css": "2.2.0",
     "express": "^4.15.2",
     "lodash.isequal": ">=4.0.0",
     "ngx-countdown": "^16.0.0",
