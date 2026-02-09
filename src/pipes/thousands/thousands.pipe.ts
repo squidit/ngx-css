@@ -20,8 +20,8 @@ export class ThousandSuffixesPipe implements PipeTransform {
    * Transforms a number into a formatted string with thousand suffixes (e.g., K, M, G).
    *
    * @param {number} input - The number to format.
-   * @param {string} round - Optional. Specify 'round' to round the number to the nearest whole number if below 1000 and no suffix is applied. Use 'floor' to always round down.
    * @param {number} toFixedArgs - Optional. The number of decimal places to round to.
+   * @param {string} round - Optional. Specify 'round' to round the number to the nearest whole number if below 1000 and no suffix is applied. Use 'floor' to always round down.
    * @returns {string} - The formatted number with suffix.
    */
   transform(input: any, toFixedArgs = 0, round?:'round' | 'floor'): string {
