@@ -606,6 +606,23 @@ export abstract class SqDialogCore implements OnChanges, OnDestroy {
   }
 
   /**
+   * Re-applies contentData to the body component's inputs.
+   * Call this when contentData is updated (e.g. via dialogRef.updateData()) so the body reflects the new values.
+   */
+  applyContentDataToBody(): void {
+    const bodyRef = this.contentComponentRefs.body;
+    if (!bodyRef || !this.contentData) {
+      return;
+    }
+    Object.keys(this.contentData).forEach(key => {
+      if (key in bodyRef.instance) {
+        (bodyRef.instance as any)[key] = this.contentData[key];
+      }
+    });
+    bodyRef.changeDetectorRef.detectChanges();
+  }
+
+  /**
    * Destroy all dynamically created content components.
    */
   protected destroyContentComponents(): void {

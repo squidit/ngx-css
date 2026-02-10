@@ -374,6 +374,8 @@ export class SqModalService {
         ...data,
       };
       instance.componentRef.changeDetectorRef.detectChanges();
+      // Re-apply contentData to body component inputs so the modal reflects the update
+      componentInstance.applyContentDataToBody();
     }
   }
 
