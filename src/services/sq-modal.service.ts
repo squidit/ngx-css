@@ -12,12 +12,16 @@ import { SqOverlayBaseComponent } from '../components/sq-overlay-base/sq-overlay
  * // Inject the service
  * constructor(private modalService: SqModalService) {}
  *
- * // Open a modal with a component as body
+ * // Open a modal with a component as body and outputs
  * openModal() {
  *   const ref = this.modalService.openModal({
  *     size: 'lg',
  *     body: MyContentComponent,
- *     data: { title: 'Hello', items: [...] }
+ *     data: { title: 'Hello', items: [...] },
+ *     outputs: {
+ *       save: (value) => this.onSave(value),
+ *       cancel: () => ref.close(),
+ *     },
  *   });
  *
  *   // Using afterClosed (deprecated, use direct subscription)
@@ -305,6 +309,9 @@ export class SqModalService {
     }
     if (instance.config.data) {
       componentInstance.contentData = instance.config.data;
+    }
+    if (instance.config.outputs) {
+      componentInstance.contentOutputs = instance.config.outputs;
     }
 
     // Apply footer button texts

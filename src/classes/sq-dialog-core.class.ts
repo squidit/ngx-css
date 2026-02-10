@@ -130,6 +130,12 @@ export abstract class SqDialogCore implements OnChanges, OnDestroy {
   @Input() contentData?: any;
 
   /**
+   * Output handlers for the body component (when body is a Component).
+   * Keys must match the body component's @Output() EventEmitter names.
+   */
+  @Input() contentOutputs?: { [outputName: string]: (value?: any) => void };
+
+  /**
    * Text for the cancel button in the default footer.
    */
   @Input() cancelText = 'Cancelar';
@@ -237,6 +243,11 @@ export abstract class SqDialogCore implements OnChanges, OnDestroy {
     body?: ComponentRef<any>;
     footer?: ComponentRef<any>;
   } = {};
+
+  /**
+   * Subscriptions to body component outputs (for cleanup on destroy).
+   */
+  protected contentOutputSubscriptions: Subscription[] = [];
 
   // ============================================
   // Content Projection Templates (set by subclasses)
@@ -559,6 +570,17 @@ export abstract class SqDialogCore implements OnChanges, OnDestroy {
       componentRef.changeDetectorRef.detectChanges();
       this.contentComponentRefs[slot] = componentRef;
 
+      // Subscribe to body component outputs if provided
+      if (slot === 'body' && this.contentOutputs) {
+        Object.keys(this.contentOutputs).forEach(outputName => {
+          const emitter = (componentRef.instance as any)[outputName];
+          const handler = this.contentOutputs![outputName];
+          if (emitter && typeof emitter?.subscribe === 'function' && typeof handler === 'function') {
+            this.contentOutputSubscriptions.push(emitter.subscribe((value: any) => handler(value)));
+          }
+        });
+      }
+
       // Extract header/footer templates from body component if available
       if (slot === 'body') {
         this.extractTemplatesFromBodyComponent(componentRef.instance);
@@ -587,6 +609,8 @@ export abstract class SqDialogCore implements OnChanges, OnDestroy {
    * Destroy all dynamically created content components.
    */
   protected destroyContentComponents(): void {
+    this.contentOutputSubscriptions.forEach(sub => sub.unsubscribe());
+    this.contentOutputSubscriptions = [];
     Object.values(this.contentComponentRefs).forEach(ref => {
       ref?.destroy();
     });

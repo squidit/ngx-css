@@ -72,6 +72,24 @@ export interface SqDialogConfig<T = any> {
   data?: T;
 
   /**
+   * Output handlers for the body component.
+   * Keys must match the names of the body component's @Output() EventEmitters.
+   *
+   * @example
+   * ```typescript
+   * openModal({
+   *   body: MyFormComponent,
+   *   data: { id: 1 },
+   *   outputs: {
+   *     save: (value) => this.onSave(value),
+   *     cancel: () => this.close(),
+   *   }
+   * });
+   * ```
+   */
+  outputs?: { [outputName: string]: (value?: any) => void };
+
+  /**
    * Custom header content.
    * Can be a string (used as title) or TemplateRef.
    * If body is a Component with headerTemplate property, it will be used automatically.

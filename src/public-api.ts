@@ -12,6 +12,7 @@ export * from './components/sq-overlay/sq-overlay.component';
 export * from './components/sq-modal-base/sq-modal-base.component';
 export * from './components/sq-overlay-base/sq-overlay-base.component';
 export * from './services/sq-modal.service';
+export * from './services/examples/modal-example-body.component';
 export * from './classes/sq-dialog-core.class';
 export * from './components/sq-pagination/sq-pagination.component';
 export * from './components/sq-progress-bar/sq-progress-bar.component';

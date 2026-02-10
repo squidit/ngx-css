@@ -13,6 +13,22 @@
   }
 
   <section class="example-section">
+    <h2>Modal com outputs (body com &#64;Output)</h2>
+    <p>
+      Abrir modal/overlay com componente cujos <code>&#64;Output()</code> são conectados via
+      <code>config.outputs</code> ao abrir.
+    </p>
+    <div class="buttons-group">
+      <button class="button background-primary" (click)="openModalWithOutputsExample()">
+        Modal com outputs (save/cancel)
+      </button>
+      <button class="button background-secondary" (click)="openOverlayWithOutputsExample()">
+        Overlay com outputs (save/cancel)
+      </button>
+    </div>
+  </section>
+
+  <section class="example-section">
     <h2>Modal</h2>
     <p>Abrir modais usando <code>SqModalService</code></p>
 
