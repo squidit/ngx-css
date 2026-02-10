@@ -1,6 +1,12 @@
 import { Component, Input, TemplateRef, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SqModalService, SqDialogRef, confirmBeforeClose, SqButtonComponent } from '@squidit/ngx-css';
+import {
+  SqModalService,
+  SqDialogRef,
+  confirmBeforeClose,
+  SqButtonComponent,
+  ModalExampleBodyComponent,
+} from '@squidit/ngx-css';
 import { filter } from 'rxjs';
 
 /**
@@ -292,5 +298,50 @@ export class ModalServiceExampleComponent {
       .subscribe(result => {
         this.lastResult = result;
       });
+  }
+
+  /**
+   * Abre modal com componente de exemplo que usa config.outputs (save/cancel).
+   * Demonstra a conexão de @Output() do body com handlers passados na abertura.
+   */
+  openModalWithOutputsExample() {
+    const ref: SqDialogRef<{ title: string }, { action: string; value?: unknown }> = this.modalService.openModal({
+      size: 'md',
+      header: 'Exemplo: outputs do body',
+      body: ModalExampleBodyComponent,
+      data: { title: 'Salvar ou cancelar?' },
+      outputs: {
+        save: value => {
+          this.lastResult = { action: 'save', value };
+        },
+        cancel: () => ref.close({ action: 'cancel' }),
+      },
+    });
+    ref.subscribe((result: { action: string; value?: unknown } | undefined) => {
+      this.lastResult = result;
+    });
+  }
+
+  /**
+   * Abre overlay com o mesmo componente de exemplo e config.outputs.
+   */
+  openOverlayWithOutputsExample() {
+    const ref: SqDialogRef<{ title: string }, { action: string; value?: unknown }> = this.modalService.openOverlay({
+      direction: 'right',
+      width: '400px',
+      header: 'Overlay com outputs',
+      body: ModalExampleBodyComponent,
+      data: { title: 'Overlay com save/cancel' },
+      outputs: {
+        save: value => {
+          this.lastResult = { action: 'save', value };
+          ref.close(this.lastResult);
+        },
+        cancel: () => ref.close({ action: 'cancel' }),
+      },
+    });
+    ref.subscribe((result: { action: string; value?: unknown } | undefined) => {
+      this.lastResult = result;
+    });
   }
 }
