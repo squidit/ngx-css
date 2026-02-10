@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { SqDialogRef } from '../../interfaces/modal.interface';
 
 /**
@@ -26,20 +26,8 @@ import { SqDialogRef } from '../../interfaces/modal.interface';
         <p class="modal-example-body__title">{{ title }}</p>
       }
       <div class="modal-example-body__actions">
-        <button
-          type="button"
-          data-testid="modal-example-save"
-          (click)="save.emit(payload)"
-        >
-          Salvar
-        </button>
-        <button
-          type="button"
-          data-testid="modal-example-cancel"
-          (click)="cancel.emit()"
-        >
-          Cancelar
-        </button>
+        <button type="button" data-testid="modal-example-save" (click)="save.emit(payload)">Salvar</button>
+        <button type="button" data-testid="modal-example-cancel" (click)="cancel.emit()">Cancelar</button>
       </div>
     </div>
   `,
@@ -53,7 +41,7 @@ import { SqDialogRef } from '../../interfaces/modal.interface';
     `,
   ],
 })
-export class ModalExampleBodyComponent {
+export class ModalExampleBodyComponent implements OnChanges {
   /** Título exibido no body (passado via data no config). */
   @Input() title = '';
 
@@ -68,4 +56,14 @@ export class ModalExampleBodyComponent {
 
   /** Payload de exemplo enviado no save. */
   readonly payload = { id: 1, label: 'exemplo' };
+
+  /**
+   * Ciclo de vida Angular: chamado quando um ou mais inputs mudam.
+   * Disparado ao usar ref.updateData() e setInput no body.
+   *
+   * @param changes - Objeto com as mudanças dos inputs (currentValue, previousValue, firstChange)
+   */
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log(changes);
+  }
 }

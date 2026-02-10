@@ -553,10 +553,12 @@ export abstract class SqDialogCore implements OnChanges, OnDestroy {
       // Render Component
       const componentRef = container.createComponent(content);
 
-      // Pass data to component inputs
+      // Pass data to component inputs (setInput dispara ngOnChanges no body)
       if (this.contentData) {
         Object.keys(this.contentData).forEach(key => {
-          if (key in componentRef.instance) {
+          if (key in componentRef.instance && typeof componentRef.setInput === 'function') {
+            componentRef.setInput(key, this.contentData[key]);
+          } else if (key in componentRef.instance) {
             (componentRef.instance as any)[key] = this.contentData[key];
           }
         });
@@ -572,9 +574,10 @@ export abstract class SqDialogCore implements OnChanges, OnDestroy {
 
       // Subscribe to body component outputs if provided
       if (slot === 'body' && this.contentOutputs) {
-        Object.keys(this.contentOutputs).forEach(outputName => {
+        const outputs = this.contentOutputs;
+        Object.keys(outputs).forEach(outputName => {
           const emitter = (componentRef.instance as any)[outputName];
-          const handler = this.contentOutputs![outputName];
+          const handler = outputs[outputName];
           if (emitter && typeof emitter?.subscribe === 'function' && typeof handler === 'function') {
             this.contentOutputSubscriptions.push(emitter.subscribe((value: any) => handler(value)));
           }
@@ -607,7 +610,7 @@ export abstract class SqDialogCore implements OnChanges, OnDestroy {
 
   /**
    * Re-applies contentData to the body component's inputs.
-   * Call this when contentData is updated (e.g. via dialogRef.updateData()) so the body reflects the new values.
+   * Usa setInput para que ngOnChanges seja disparado no body.
    */
   applyContentDataToBody(): void {
     const bodyRef = this.contentComponentRefs.body;
@@ -615,7 +618,9 @@ export abstract class SqDialogCore implements OnChanges, OnDestroy {
       return;
     }
     Object.keys(this.contentData).forEach(key => {
-      if (key in bodyRef.instance) {
+      if (key in bodyRef.instance && typeof bodyRef.setInput === 'function') {
+        bodyRef.setInput(key, this.contentData[key]);
+      } else if (key in bodyRef.instance) {
         (bodyRef.instance as any)[key] = this.contentData[key];
       }
     });

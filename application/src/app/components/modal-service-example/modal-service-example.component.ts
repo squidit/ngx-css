@@ -145,6 +145,7 @@ export class ModalContentComponent {
 export class ModalServiceExampleComponent {
   // Para exibir resultados
   lastResult: any = null;
+  modalTitle = 'Exemplo: outputs do body';
 
   // Template refs para exemplos com template
   @ViewChild('customHeader') customHeader!: TemplateRef<any>;
@@ -305,14 +306,18 @@ export class ModalServiceExampleComponent {
    * Demonstra a conexão de @Output() do body com handlers passados na abertura.
    */
   openModalWithOutputsExample() {
+    let cont = 0;
     const ref: SqDialogRef<{ title: string }, { action: string; value?: unknown }> = this.modalService.openModal({
       size: 'md',
       header: 'Exemplo: outputs do body',
       body: ModalExampleBodyComponent,
-      data: { title: 'Salvar ou cancelar?' },
+      data: { title: this.modalTitle },
       outputs: {
         save: value => {
           this.lastResult = { action: 'save', value };
+          cont++;
+          this.modalTitle = `${this.modalTitle} ${cont}`;
+          ref.updateData({ title: this.modalTitle }); // atualiza o input do body e dispara ngOnChanges
         },
         cancel: () => ref.close({ action: 'cancel' }),
       },
