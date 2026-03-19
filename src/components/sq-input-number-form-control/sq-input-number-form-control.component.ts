@@ -10,6 +10,9 @@ import { UniversalSafePipe } from '../../pipes/universal-safe/universal-safe.pip
  * Componente de input numérico que estende SqInputMaskFormControlComponent.
  * Configura automaticamente a máscara para valores numéricos inteiros com separador de milhares.
  *
+ * O valor exibido segue o FormControl reativo: `null`, `undefined` ou string vazia permanecem vazios
+ * (não há preenchimento automático com zero). Quem precisar de `0` inicial deve definir no formulário.
+ *
  * @example
  * ```html
  * <sq-input-number-form-control
@@ -70,11 +73,6 @@ export class SqInputNumberFormControlComponent extends SqInputMaskFormControlCom
 
     // Input mode numérico para dispositivos móveis
     this.inputMode = 'numeric';
-
-    // Valor inicial 0 se não definido (pode ser sobrescrito pelo form pai)
-    if (this.control.value === null || this.control.value === undefined || this.control.value === '') {
-      this.control.setValue('0', { emitEvent: false });
-    }
 
     super.ngOnInit();
   }
