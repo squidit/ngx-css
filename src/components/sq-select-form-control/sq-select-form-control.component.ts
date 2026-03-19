@@ -7,6 +7,8 @@ import {
   TemplateRef,
   forwardRef,
   OnDestroy,
+  OnChanges,
+  SimpleChanges,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   ElementRef,
@@ -118,7 +120,7 @@ export interface OptionGroup {
     },
   ],
 })
-export class SqSelectFormControlComponent implements ControlValueAccessor, OnInit, AfterViewInit, OnDestroy {
+export class SqSelectFormControlComponent implements ControlValueAccessor, OnInit, AfterViewInit, OnChanges, OnDestroy {
   // ============================================================
   // Identificação
   // ============================================================
@@ -408,6 +410,11 @@ export class SqSelectFormControlComponent implements ControlValueAccessor, OnIni
   private onTouched: () => void = () => {};
 
   /**
+   * Último valor recebido por writeValue (para reaplicar quando options carregarem depois).
+   */
+  private lastWrittenValue: Option | string | number | null = null;
+
+  /**
    * ChangeDetectorRef injetado.
    */
   private cdr = inject(ChangeDetectorRef);
@@ -469,6 +476,17 @@ export class SqSelectFormControlComponent implements ControlValueAccessor, OnIni
   }
 
   /**
+   * Quando options ou optionsWithGroups mudam, reaplica o último valor escrito
+   * (resolve quando o valor foi definido antes das opções carregarem).
+   */
+  ngOnChanges(changes: SimpleChanges): void {
+    const optionsChange = changes['options'] || changes['optionsWithGroups'];
+    if (optionsChange && this.allOptions.length > 0 && this.lastWrittenValue != null) {
+      this.applyWrittenValue(this.lastWrittenValue);
+    }
+  }
+
+  /**
    * Lifecycle hook executado quando o componente é destruído.
    * Limpa todas as subscriptions para evitar memory leaks.
    */
@@ -485,10 +503,20 @@ export class SqSelectFormControlComponent implements ControlValueAccessor, OnIni
    * Escreve o valor.
    * Aceita Option | null, string ou number (converte para Option automaticamente).
    * O value será correspondente ao value do objeto na lista.
+   * Se as opções ainda não carregaram, o valor é guardado e reaplicado em ngOnChanges.
    *
    * @param value - O valor a ser escrito (Option, string, number ou null).
    */
   writeValue(value: Option | string | number | null): void {
+    this.lastWrittenValue = value;
+    this.applyWrittenValue(value);
+  }
+
+  /**
+   * Aplica o valor escrito na lista de opções e atualiza o controle interno.
+   * Se a opção não existir ainda (opções carregando), não altera o controle.
+   */
+  private applyWrittenValue(value: Option | string | number | null): void {
     const optionValue = value && typeof value === 'object' ? value.value : value;
     const option = this.allOptions.find(opt => opt.value === optionValue) || null;
     this.control.setValue(option, { emitEvent: false });
