@@ -195,6 +195,16 @@ export class SqSelectMultiFormControlComponent
    */
   @Input() fullOptionAsValue = false;
 
+  /**
+   * Cascata de seleção pai → filhos diretos.
+   * - `true` (padrão): marcar o pai também marca os filhos diretos; desmarcar remove-os.
+   * - `false`: só o nó clicado entra/sai da seleção. A UI usa igualdade **por referência** para o checkbox,
+   *   evitando que filhos pareçam marcados só porque compartilham o mesmo `value` que o pai.
+   *
+   * No template do consumidor: `[cascadeSelectionToChildren]="false"` para desligar a cascata.
+   */
+  @Input() cascadeSelectionToChildren: boolean | string = true;
+
   // ============================================================
   // Inputs - Data Test
   // ============================================================
@@ -533,7 +543,11 @@ export class SqSelectMultiFormControlComponent
    * @returns true se a opção está selecionada.
    */
   isSelected(option: OptionMulti): boolean {
-    return this.value.some(v => v.value === option.value);
+    const selected = this.value;
+    if (!this.shouldCascadeSelectionToChildren()) {
+      return selected.some(v => v === option);
+    }
+    return selected.some(v => v.value === option.value);
   }
 
   /**
@@ -554,13 +568,14 @@ export class SqSelectMultiFormControlComponent
     }
 
     let newValue = [...this.value];
+    const cascade = this.shouldCascadeSelectionToChildren();
 
     if (checked) {
       if (!this.isSelected(option)) {
         newValue.push(option);
       }
-      // Adiciona filhos se existirem
-      if (option.children?.length) {
+      // Adiciona filhos (todos os níveis) se cascata estiver ativa
+      if (cascade && option.children?.length) {
         option.children.forEach(child => {
           if (!newValue.some(v => v.value === child.value)) {
             newValue.push(child);
@@ -568,11 +583,15 @@ export class SqSelectMultiFormControlComponent
         });
       }
     } else {
-      newValue = newValue.filter(v => v.value !== option.value);
-      // Remove filhos se existirem
-      if (option.children?.length) {
-        const childValues = option.children.map(c => c.value);
-        newValue = newValue.filter(v => !childValues.includes(v.value));
+      if (!cascade) {
+        newValue = newValue.filter(v => v !== option);
+      } else {
+        newValue = newValue.filter(v => v.value !== option.value);
+        // Remove todos os descendentes se cascata estiver ativa
+        if (option.children?.length) {
+          const desc = this.descendantValueKeys(option);
+          newValue = newValue.filter(v => !desc.has(this.valueKey(v.value)));
+        }
       }
     }
 
@@ -588,12 +607,15 @@ export class SqSelectMultiFormControlComponent
     event?.stopPropagation();
     if (this.readonly || this.disabled) return;
 
-    let newValue = this.value.filter(v => v.value !== option.value);
+    const cascade = this.shouldCascadeSelectionToChildren();
+    let newValue = cascade
+      ? this.value.filter(v => v.value !== option.value)
+      : this.value.filter(v => v !== option);
 
-    // Remove filhos também
-    if (option.children?.length) {
-      const childValues = option.children.map(c => c.value);
-      newValue = newValue.filter(v => !childValues.includes(v.value));
+    // Remove filhos também (todos os níveis)
+    if (cascade && option.children?.length) {
+      const desc = this.descendantValueKeys(option);
+      newValue = newValue.filter(v => !desc.has(this.valueKey(v.value)));
     }
 
     this.control.setValue(newValue as any);
@@ -763,5 +785,37 @@ export class SqSelectMultiFormControlComponent
       this.optionFakeIdMap.set(option, fakeId);
     }
     return fakeId;
+  }
+
+  /**
+   * Chave estável para comparar `value` de opções (id numérico ou string).
+   */
+  private valueKey(value: unknown): string {
+    return String(value);
+  }
+
+  /**
+   * Valores de todos os descendentes do nó (não inclui o próprio nó).
+   */
+  private descendantValueKeys(option: OptionMulti): Set<string> {
+    const set = new Set<string>();
+    const walk = (node: OptionMulti) => {
+      node.children?.forEach(c => {
+        set.add(this.valueKey(c.value));
+        walk(c);
+      });
+    };
+    walk(option);
+    return set;
+  }
+
+  /**
+   * Cascata pai → filhos: `false` explícito ou string `"false"` desligam (string é truthy em `if (input)`).
+   */
+  private shouldCascadeSelectionToChildren(): boolean {
+    const v = this.cascadeSelectionToChildren as unknown;
+    if (v === false) return false;
+    if (typeof v === 'string' && v.trim().toLowerCase() === 'false') return false;
+    return true;
   }
 }
