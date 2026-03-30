@@ -317,9 +317,9 @@ export class SqSelectMultiFormControlComponent
   private searchSubject = new Subject<string>();
 
   /**
-   * Mapa de fakeIds para trackBy.
+   * Mapa de fakeIds para trackBy (apenas referências de objeto; primitivos não podem ser chave de WeakMap).
    */
-  private optionFakeIdMap = new WeakMap<OptionMulti, string>();
+  private optionFakeIdMap = new WeakMap<object, string>();
 
   /**
    * Contador para gerar fakeIds únicos.
@@ -708,7 +708,7 @@ export class SqSelectMultiFormControlComponent
     if (this.trackByFn) {
       return this.trackByFn(index, option);
     }
-    return this.getOptionFakeId(option);
+    return this.getTrackKeyForOption(option);
   };
 
   // ============================================================
@@ -773,12 +773,20 @@ export class SqSelectMultiFormControlComponent
   }
 
   /**
-   * Obtém ou gera um fakeId para a opção (para trackBy).
-   *
-   * @param option - Opção.
-   * @returns FakeId da opção.
+   * Chave estável para `@for` / `trackBy` quando o item é `OptionMulti` ou valor primitivo
+   * (ex.: `fullOptionAsValue` ainda não aplicado e o model traz só ids).
    */
-  private getOptionFakeId(option: OptionMulti): string {
+  private getTrackKeyForOption(option: OptionMulti | unknown): string {
+    if (option !== null && typeof option === 'object') {
+      return this.getOptionFakeIdForObject(option as OptionMulti);
+    }
+    return `prim:${typeof option}:${String(option)}`;
+  }
+
+  /**
+   * Obtém ou gera um fakeId para a opção (para trackBy); só para referências de objeto.
+   */
+  private getOptionFakeIdForObject(option: OptionMulti): string {
     let fakeId = this.optionFakeIdMap.get(option);
     if (!fakeId) {
       fakeId = `option-${++this.fakeIdCounter}`;
