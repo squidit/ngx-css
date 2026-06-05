@@ -64,14 +64,13 @@ import { UniversalSafePipe } from '../../pipes/universal-safe/universal-safe.pip
   ],
 })
 export class SqInputMaskFormControlComponent extends SqInputFormControlComponent implements OnInit {
-  get resolvedMaskPatterns(): IConfig['patterns'] {
-    return this.patterns ? this.patterns : initialConfig.patterns;
-  }
+  resolvedMaskPatterns: IConfig['patterns'] = initialConfig.patterns;
   /**
    * Custom regex patterns for mask tokens (ngx-mask `patterns` API).
    */
-  @Input() patterns?: IConfig['patterns'];
-
+  @Input() set patterns(value: IConfig['patterns'] | undefined) {
+    this.resolvedMaskPatterns = value ?? initialConfig.patterns;
+  }
   /**
    * The mask pattern for input validation and formatting.
    * @example '(00) 00000-0000' para telefone

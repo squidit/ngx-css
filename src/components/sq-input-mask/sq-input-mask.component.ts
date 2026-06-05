@@ -27,10 +27,7 @@ import { UniversalSafePipe } from '../../pipes/universal-safe/universal-safe.pip
   imports: [NgClass, NgStyle, NgTemplateOutlet, FormsModule, NgxMaskDirective, SqTooltipComponent, UniversalSafePipe],
 })
 export class SqInputMaskComponent extends SqInputComponent {
-  get resolvedMaskPatterns(): IConfig['patterns'] {
-    return this.patterns ? this.patterns : initialConfig.patterns;
-  }
-
+  resolvedMaskPatterns: IConfig['patterns'] = initialConfig.patterns;
   /**
    * The mask pattern for input validation and formatting.
    */
@@ -39,8 +36,9 @@ export class SqInputMaskComponent extends SqInputComponent {
   /**
    * Custom regex patterns for mask tokens (ngx-mask `patterns` API).
    */
-  @Input() patterns?: IConfig['patterns'];
-
+  @Input() set patterns(value: IConfig['patterns'] | undefined) {
+    this.resolvedMaskPatterns = value ?? initialConfig.patterns;
+  }
   /**
    * The character used as a thousand separator in numeric input.
    */
