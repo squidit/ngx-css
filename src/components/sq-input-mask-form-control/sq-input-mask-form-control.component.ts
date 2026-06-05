@@ -1,7 +1,7 @@
 import { Component, Input, forwardRef, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { NgClass, NgStyle, NgTemplateOutlet } from '@angular/common';
-import { NgxMaskDirective } from 'ngx-mask';
+import { IConfig, initialConfig, NgxMaskDirective } from 'ngx-mask';
 import { SqInputFormControlComponent } from '../sq-input-form-control/sq-input-form-control.component';
 import { SqTooltipComponent } from '../sq-tooltip/sq-tooltip.component';
 import { UniversalSafePipe } from '../../pipes/universal-safe/universal-safe.pipe';
@@ -64,6 +64,13 @@ import { UniversalSafePipe } from '../../pipes/universal-safe/universal-safe.pip
   ],
 })
 export class SqInputMaskFormControlComponent extends SqInputFormControlComponent implements OnInit {
+  resolvedMaskPatterns: IConfig['patterns'] = initialConfig.patterns;
+  /**
+   * Custom regex patterns for mask tokens (ngx-mask `patterns` API).
+   */
+  @Input() set patterns(value: IConfig['patterns'] | undefined) {
+    this.resolvedMaskPatterns = value ?? initialConfig.patterns;
+  }
   /**
    * The mask pattern for input validation and formatting.
    * @example '(00) 00000-0000' para telefone

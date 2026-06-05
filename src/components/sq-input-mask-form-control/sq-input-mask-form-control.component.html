@@ -52,6 +52,7 @@
       (blur)="onBlur($event)"
       (focus)="onFocus($event)"
       [attr.inputmode]="inputMode"
+      [patterns]="resolvedMaskPatterns"
       mask="{{ mask }}"
       [thousandSeparator]="thousandSeparator"
       [suffix]="suffix"
