@@ -64,6 +64,9 @@ import { UniversalSafePipe } from '../../pipes/universal-safe/universal-safe.pip
   ],
 })
 export class SqInputMaskFormControlComponent extends SqInputFormControlComponent implements OnInit {
+  /**
+   * Resolved ngx-mask token patterns used by the directive after applying the `patterns` input.
+   */
   resolvedMaskPatterns: IConfig['patterns'] = initialConfig.patterns;
   /**
    * Custom regex patterns for mask tokens (ngx-mask `patterns` API).

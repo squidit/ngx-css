@@ -27,6 +27,9 @@ import { UniversalSafePipe } from '../../pipes/universal-safe/universal-safe.pip
   imports: [NgClass, NgStyle, NgTemplateOutlet, FormsModule, NgxMaskDirective, SqTooltipComponent, UniversalSafePipe],
 })
 export class SqInputMaskComponent extends SqInputComponent {
+  /**
+   * Resolved ngx-mask token patterns used by the directive after applying the `patterns` input.
+   */
   resolvedMaskPatterns: IConfig['patterns'] = initialConfig.patterns;
   /**
    * The mask pattern for input validation and formatting.
