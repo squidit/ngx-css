@@ -1,7 +1,7 @@
 import { Component, ContentChild, ElementRef, Input, Optional, TemplateRef } from '@angular/core';
 import { NgClass, NgStyle, NgTemplateOutlet } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { NgxMaskDirective } from 'ngx-mask';
+import { IConfig, initialConfig, NgxMaskDirective } from 'ngx-mask';
 import { ValidatorHelper } from '../../helpers/validator.helper';
 import { TranslateService } from '@ngx-translate/core';
 import { SqInputComponent } from '../sq-input/sq-input.component';
@@ -27,10 +27,19 @@ import { UniversalSafePipe } from '../../pipes/universal-safe/universal-safe.pip
   imports: [NgClass, NgStyle, NgTemplateOutlet, FormsModule, NgxMaskDirective, SqTooltipComponent, UniversalSafePipe],
 })
 export class SqInputMaskComponent extends SqInputComponent {
+  get resolvedMaskPatterns(): IConfig['patterns'] {
+    return this.patterns ? this.patterns : initialConfig.patterns;
+  }
+
   /**
    * The mask pattern for input validation and formatting.
    */
   @Input() mask = '';
+  
+  /**
+   * Custom regex patterns for mask tokens (ngx-mask `patterns` API).
+   */
+  @Input() patterns?: IConfig['patterns'];
 
   /**
    * The character used as a thousand separator in numeric input.
