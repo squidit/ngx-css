@@ -1,6 +1,6 @@
 {
   "name": "@squidit/ngx-css",
-  "version": "2.3.0",
+  "version": "2.2.0",
   "peerDependencies": {
     "@angular/common": ">=15.0.0",
     "@angular/cdk": ">=15.0.0",
