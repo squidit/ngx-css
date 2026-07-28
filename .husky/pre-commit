@@ -1,6 +1,27 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
+# Git/IDE costumam não herdar o PATH do shell (nvm, fnm, etc.).
+export NVM_DIR="${NVM_DIR:-$HOME/.nvm}"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+
+if [ -f "$NVM_DIR/alias/default" ]; then
+  nvm use default >/dev/null 2>&1
+fi
+
+if ! command -v npx >/dev/null 2>&1 && [ -d "$HOME/.fnm" ]; then
+  if command -v fnm >/dev/null 2>&1; then
+    eval "$(fnm env)"
+  elif [ -x "$HOME/.local/share/fnm/fnm" ]; then
+    eval "$("$HOME/.local/share/fnm/fnm" env)"
+  fi
+fi
+
+if ! command -v npx >/dev/null 2>&1; then
+  echo "husky - npx não encontrado no PATH."
+  exit 127
+fi
+
 npx ng lint application --fix
 npx ng lint @squidit/ngx-css --fix
 npm run lint:docs
