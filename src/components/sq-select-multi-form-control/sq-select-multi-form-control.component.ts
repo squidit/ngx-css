@@ -13,10 +13,11 @@ import {
   Output,
   SimpleChanges,
   TemplateRef,
+  ViewChild,
 } from '@angular/core';
 import { NgClass, NgStyle, NgTemplateOutlet } from '@angular/common';
 import { NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
-import { ScrollingModule } from '@angular/cdk/scrolling';
+import { ScrollingModule, CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { Subject, debounceTime, distinctUntilChanged, takeUntil } from 'rxjs';
 import { OptionMulti } from '../../interfaces/option.interface';
 import { SqLoaderComponent } from '../sq-loader/sq-loader.component';
@@ -276,6 +277,11 @@ export class SqSelectMultiFormControlComponent
    * Template customizado para cada tag (modo tags).
    */
   @ContentChild('tagTemplate') tagTemplate: TemplateRef<unknown> | null = null;
+
+  /**
+   * ViewChild para o virtual scroll viewport.
+   */
+  @ViewChild(CdkVirtualScrollViewport) virtualScroll?: CdkVirtualScrollViewport;
 
   // ============================================================
   // Estado interno
@@ -686,14 +692,12 @@ export class SqSelectMultiFormControlComponent
    * Handler de scroll para infinity scroll (virtual scroll).
    */
   onVirtualScroll(): void {
-    if (!this.infiniteScroll || !this.hasMore || this.loading) return;
+    if (!this.infiniteScroll || !this.hasMore || this.loading || !this.virtualScroll) return;
 
-    const viewport = this.elementRef.nativeElement.querySelector('cdk-virtual-scroll-viewport');
-    if (viewport) {
-      const scrollBottom = viewport.scrollHeight - viewport.scrollTop - viewport.clientHeight;
-      if (scrollBottom < 100) {
-        this.loadMore.emit();
-      }
+    const range = this.virtualScroll.getRenderedRange();
+    const total = this.virtualScroll.getDataLength();
+    if (range.end >= total - 3 && total > 0) {
+      this.loadMore.emit();
     }
   }
 

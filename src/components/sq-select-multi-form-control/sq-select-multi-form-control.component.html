@@ -110,12 +110,12 @@
         }
       </div>
 
-      @if (!loading && !disabled && !readonly && !isMaxSelections && renderDropdown) {
+      @if (!disabled && !readonly && !isMaxSelections && renderDropdown) {
         <div
           id="sq-select-multi-tags-scroll"
           class="input-window scrollbar"
           [ngClass]="{
-            open: !loading && !disabled && !isMaxSelections && renderDropdown && isOpen,
+            open: !disabled && !isMaxSelections && renderDropdown && isOpen,
           }"
         >
           <div class="input-search">
@@ -147,6 +147,11 @@
               <ng-template *ngTemplateOutlet="option; context: { opt: opt, i: index }"></ng-template>
             </ng-container>
           </cdk-virtual-scroll-viewport>
+          @if (loading) {
+            <div class="loading-wrapper-dropdown">
+              <sq-loader></sq-loader>
+            </div>
+          }
           @if (!displayOptions?.length) {
             @if (!emptyTemplate) {
               <p class="mb-0 mt-3">

@@ -74,6 +74,13 @@
     bottom: 10px;
   }
 
+  .loading-wrapper-dropdown {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0;
+  }
+
   .badge {
     position: absolute;
     bottom: 15px;
