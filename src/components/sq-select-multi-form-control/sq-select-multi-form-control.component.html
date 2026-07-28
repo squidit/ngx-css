@@ -139,6 +139,7 @@
             [itemSize]="32"
             [ngStyle]="{ height: '305px' }"
             class="list scrollbar"
+            (scrolledIndexChange)="onVirtualScroll()"
           >
             <ng-container
               *cdkVirtualFor="let opt of displayOptions; i as index; trackBy: trackByValue"
